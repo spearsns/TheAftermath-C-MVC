@@ -1,0 +1,784 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AftermathV1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Abilities">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Description" Type="text" />
+    <Property Name="Effects" Type="text" />
+    <Property Name="Requirements" Type="varchar" MaxLength="500" />
+    <Property Name="Cost" Type="smallint" />
+    <Property Name="Disabled" Type="bit" Nullable="false" />
+    <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AccountRelationships">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="FirstAccountID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="SecondAccountID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Type" Type="varchar" MaxLength="50" />
+    <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Accounts">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="PictureLoc" Type="varchar" MaxLength="50" />
+    <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Affiliations">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Class" Type="varchar" MaxLength="50" />
+    <Property Name="Type" Type="varchar" MaxLength="50" />
+    <Property Name="Description" Type="text" />
+    <Property Name="Formula" Type="varchar" MaxLength="50" />
+    <Property Name="Requirements" Type="varchar" MaxLength="50" />
+    <Property Name="Disabled" Type="bit" Nullable="false" />
+    <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Attributes">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Type" Type="varchar" MaxLength="50" />
+    <Property Name="Description" Type="text" />
+    <Property Name="Formula" Type="varchar" MaxLength="50" />
+    <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Background">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Training" Type="text" />
+    <Property Name="Skills" Type="text" />
+    <Property Name="Combat" Type="tinyint" />
+    <Property Name="Construction" Type="tinyint" />
+    <Property Name="Covert" Type="tinyint" />
+    <Property Name="Craftsman" Type="tinyint" />
+    <Property Name="Social" Type="tinyint" />
+    <Property Name="Survival" Type="tinyint" />
+    <Property Name="Technology" Type="tinyint" />
+    <Property Name="Transportation" Type="tinyint" />
+    <Property Name="Disabled" Type="bit" Nullable="false" />
+    <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Campaigns">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Description" Type="text" Nullable="false" />
+    <Property Name="AdminPassword" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="PlayerPassword" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Locked" Type="bit" Nullable="false" />
+    <Property Name="Closed" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CharacterAbilities">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="CharacterID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="AbilityID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CharacterAttributes">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="CharacterID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="AttributeID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Value" Type="tinyint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CharacterExps">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="CharacterID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="TotalExp" Type="nchar" MaxLength="100" Nullable="false" />
+    <Property Name="AvailableExp" Type="nchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CharacterNotes">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="CharacterID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Notes" Type="text" />
+    <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Characters">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="AccountID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Deceased" Type="bit" Nullable="false" />
+    <Property Name="Birthdate" Type="date" Nullable="false" />
+    <Property Name="Sex" Type="varchar" MaxLength="6" Nullable="false" />
+    <Property Name="Height" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Ethnicity" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="HairColor" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="HairStyle" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="FacialHair" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="EyeColor" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Lifestyle" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Region" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="History" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Background" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="PictureLoc" Type="varchar" MaxLength="100" />
+    <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CharacterSkills">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="CharacterID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="MasterID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Value" Type="tinyint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CombatSkills">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Type" Type="varchar" MaxLength="50" />
+    <Property Name="Description" Type="text" />
+    <Property Name="Formula" Type="varchar" MaxLength="50" />
+    <Property Name="Requirements" Type="varchar" MaxLength="50" />
+    <Property Name="Disabled" Type="bit" Nullable="false" />
+    <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ConstructionSkills">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Type" Type="varchar" MaxLength="50" />
+    <Property Name="Description" Type="text" />
+    <Property Name="Formula" Type="varchar" MaxLength="50" />
+    <Property Name="Requirements" Type="varchar" MaxLength="50" />
+    <Property Name="Disabled" Type="bit" Nullable="false" />
+    <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CovertSkills">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Type" Type="varchar" MaxLength="50" />
+    <Property Name="Description" Type="text" />
+    <Property Name="Formula" Type="varchar" MaxLength="50" />
+    <Property Name="Requirements" Type="varchar" MaxLength="50" />
+    <Property Name="Disabled" Type="bit" Nullable="false" />
+    <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CraftsmanSkills">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Type" Type="varchar" MaxLength="50" />
+    <Property Name="Description" Type="text" />
+    <Property Name="Formula" Type="varchar" MaxLength="50" />
+    <Property Name="Requirements" Type="varchar" MaxLength="50" />
+    <Property Name="Disabled" Type="bit" Nullable="false" />
+    <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="History">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Training" Type="text" />
+    <Property Name="Skills" Type="text" />
+    <Property Name="Disabled" Type="bit" Nullable="false" />
+    <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="IDMarks">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="CharacterID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Head" Type="text" />
+    <Property Name="Face" Type="text" />
+    <Property Name="Neck" Type="text" />
+    <Property Name="LeftShoulder" Type="text" />
+    <Property Name="RightShoulder" Type="text" />
+    <Property Name="LeftRibs" Type="text" />
+    <Property Name="RightRibs" Type="text" />
+    <Property Name="LeftBicep" Type="text" />
+    <Property Name="RightBicep" Type="text" />
+    <Property Name="LowerBack" Type="text" />
+    <Property Name="Stomach" Type="text" />
+    <Property Name="LeftForearm" Type="text" />
+    <Property Name="RightForearm" Type="text" />
+    <Property Name="Rear" Type="text" />
+    <Property Name="Groin" Type="text" />
+    <Property Name="LeftHand" Type="text" />
+    <Property Name="RightHand" Type="text" />
+    <Property Name="LeftThigh" Type="text" />
+    <Property Name="RightThigh" Type="text" />
+    <Property Name="LeftCalf" Type="text" />
+    <Property Name="RightCalf" Type="text" />
+    <Property Name="LeftFoot" Type="text" />
+    <Property Name="RightFoot" Type="text" />
+  </EntityType>
+  <EntityType Name="Languages">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Type" Type="varchar" MaxLength="50" />
+    <Property Name="Description" Type="text" />
+    <Property Name="Formula" Type="varchar" MaxLength="50" />
+    <Property Name="Requirements" Type="varchar" MaxLength="50" />
+    <Property Name="Disabled" Type="bit" Nullable="false" />
+    <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MedicalSkills">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Type" Type="varchar" MaxLength="50" />
+    <Property Name="Description" Type="text" />
+    <Property Name="Formula" Type="varchar" MaxLength="50" />
+    <Property Name="Requirements" Type="varchar" MaxLength="50" />
+    <Property Name="Disabled" Type="bit" Nullable="false" />
+    <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ScienceSkills">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Type" Type="varchar" MaxLength="50" />
+    <Property Name="Description" Type="text" />
+    <Property Name="Formula" Type="varchar" MaxLength="50" />
+    <Property Name="Requirements" Type="varchar" MaxLength="50" />
+    <Property Name="Disabled" Type="bit" Nullable="false" />
+    <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SocialSkills">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Type" Type="varchar" MaxLength="50" />
+    <Property Name="Description" Type="text" />
+    <Property Name="Formula" Type="varchar" MaxLength="50" />
+    <Property Name="Requirements" Type="varchar" MaxLength="50" />
+    <Property Name="Disabled" Type="bit" Nullable="false" />
+    <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SurvivalSkills">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Type" Type="varchar" MaxLength="50" />
+    <Property Name="Description" Type="text" />
+    <Property Name="Formula" Type="varchar" MaxLength="50" />
+    <Property Name="Requirements" Type="varchar" MaxLength="50" />
+    <Property Name="Disabled" Type="bit" Nullable="false" />
+    <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="TechnologySkills">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Type" Type="varchar" MaxLength="50" />
+    <Property Name="Description" Type="text" />
+    <Property Name="Formula" Type="varchar" MaxLength="50" />
+    <Property Name="Requirements" Type="varchar" MaxLength="50" />
+    <Property Name="Disabled" Type="bit" Nullable="false" />
+    <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TransportationSkills">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Type" Type="varchar" MaxLength="50" />
+    <Property Name="Description" Type="text" />
+    <Property Name="Formula" Type="varchar" MaxLength="50" />
+    <Property Name="Requirements" Type="varchar" MaxLength="50" />
+    <Property Name="Disabled" Type="bit" Nullable="false" />
+    <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_AccountRelationships_First">
+    <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
+    <End Role="AccountRelationships" Type="Self.AccountRelationships" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Accounts">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="AccountRelationships">
+        <PropertyRef Name="FirstAccountID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AccountRelationships_Second">
+    <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
+    <End Role="AccountRelationships" Type="Self.AccountRelationships" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Accounts">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="AccountRelationships">
+        <PropertyRef Name="SecondAccountID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CharacterAbilities_Abilities">
+    <End Role="Abilities" Type="Self.Abilities" Multiplicity="1" />
+    <End Role="CharacterAbilities" Type="Self.CharacterAbilities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Abilities">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="CharacterAbilities">
+        <PropertyRef Name="AbilityID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CharacterAbilities_Characters">
+    <End Role="Characters" Type="Self.Characters" Multiplicity="1" />
+    <End Role="CharacterAbilities" Type="Self.CharacterAbilities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Characters">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="CharacterAbilities">
+        <PropertyRef Name="CharacterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CharacterAttributes_Attributes">
+    <End Role="Attributes" Type="Self.Attributes" Multiplicity="1" />
+    <End Role="CharacterAttributes" Type="Self.CharacterAttributes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Attributes">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="CharacterAttributes">
+        <PropertyRef Name="AttributeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CharacterAttributes_Characters">
+    <End Role="Characters" Type="Self.Characters" Multiplicity="1" />
+    <End Role="CharacterAttributes" Type="Self.CharacterAttributes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Characters">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="CharacterAttributes">
+        <PropertyRef Name="CharacterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CharacterExps_Characters">
+    <End Role="Characters" Type="Self.Characters" Multiplicity="1" />
+    <End Role="CharacterExps" Type="Self.CharacterExps" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Characters">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="CharacterExps">
+        <PropertyRef Name="CharacterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CharacterNotes_Characters">
+    <End Role="Characters" Type="Self.Characters" Multiplicity="1" />
+    <End Role="CharacterNotes" Type="Self.CharacterNotes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Characters">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="CharacterNotes">
+        <PropertyRef Name="CharacterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Characters_Accounts">
+    <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
+    <End Role="Characters" Type="Self.Characters" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Accounts">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Characters">
+        <PropertyRef Name="AccountID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Characters_Background">
+    <End Role="Background" Type="Self.Background" Multiplicity="1" />
+    <End Role="Characters" Type="Self.Characters" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Background">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Characters">
+        <PropertyRef Name="Background" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Characters_History">
+    <End Role="History" Type="Self.History" Multiplicity="1" />
+    <End Role="Characters" Type="Self.Characters" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="History">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Characters">
+        <PropertyRef Name="History" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CharacterSkills_Affiliations">
+    <End Role="Affiliations" Type="Self.Affiliations" Multiplicity="1" />
+    <End Role="CharacterSkills" Type="Self.CharacterSkills" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Affiliations">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="CharacterSkills">
+        <PropertyRef Name="MasterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CharacterSkills_Characters">
+    <End Role="Characters" Type="Self.Characters" Multiplicity="1" />
+    <End Role="CharacterSkills" Type="Self.CharacterSkills" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Characters">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="CharacterSkills">
+        <PropertyRef Name="CharacterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CharacterSkills_CombatSkills">
+    <End Role="CombatSkills" Type="Self.CombatSkills" Multiplicity="1" />
+    <End Role="CharacterSkills" Type="Self.CharacterSkills" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CombatSkills">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="CharacterSkills">
+        <PropertyRef Name="MasterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CharacterSkills_ConstructionSkills">
+    <End Role="ConstructionSkills" Type="Self.ConstructionSkills" Multiplicity="1" />
+    <End Role="CharacterSkills" Type="Self.CharacterSkills" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ConstructionSkills">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="CharacterSkills">
+        <PropertyRef Name="MasterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CharacterSkills_CovertSkills">
+    <End Role="CovertSkills" Type="Self.CovertSkills" Multiplicity="1" />
+    <End Role="CharacterSkills" Type="Self.CharacterSkills" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CovertSkills">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="CharacterSkills">
+        <PropertyRef Name="MasterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CharacterSkills_CraftsmanSkills">
+    <End Role="CraftsmanSkills" Type="Self.CraftsmanSkills" Multiplicity="1" />
+    <End Role="CharacterSkills" Type="Self.CharacterSkills" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CraftsmanSkills">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="CharacterSkills">
+        <PropertyRef Name="MasterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CharacterSkills_Languages">
+    <End Role="Languages" Type="Self.Languages" Multiplicity="1" />
+    <End Role="CharacterSkills" Type="Self.CharacterSkills" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Languages">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="CharacterSkills">
+        <PropertyRef Name="MasterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CharacterSkills_MedicalSkills">
+    <End Role="MedicalSkills" Type="Self.MedicalSkills" Multiplicity="1" />
+    <End Role="CharacterSkills" Type="Self.CharacterSkills" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MedicalSkills">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="CharacterSkills">
+        <PropertyRef Name="MasterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CharacterSkills_ScienceSkills">
+    <End Role="ScienceSkills" Type="Self.ScienceSkills" Multiplicity="1" />
+    <End Role="CharacterSkills" Type="Self.CharacterSkills" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ScienceSkills">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="CharacterSkills">
+        <PropertyRef Name="MasterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CharacterSkills_SocialSkills">
+    <End Role="SocialSkills" Type="Self.SocialSkills" Multiplicity="1" />
+    <End Role="CharacterSkills" Type="Self.CharacterSkills" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SocialSkills">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="CharacterSkills">
+        <PropertyRef Name="MasterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CharacterSkills_SurvivalSkills">
+    <End Role="SurvivalSkills" Type="Self.SurvivalSkills" Multiplicity="1" />
+    <End Role="CharacterSkills" Type="Self.CharacterSkills" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SurvivalSkills">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="CharacterSkills">
+        <PropertyRef Name="MasterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CharacterSkills_TechnologySkills">
+    <End Role="TechnologySkills" Type="Self.TechnologySkills" Multiplicity="1" />
+    <End Role="CharacterSkills" Type="Self.CharacterSkills" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TechnologySkills">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="CharacterSkills">
+        <PropertyRef Name="MasterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CharacterSkills_TransportationSkills">
+    <End Role="TransportationSkills" Type="Self.TransportationSkills" Multiplicity="1" />
+    <End Role="CharacterSkills" Type="Self.CharacterSkills" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TransportationSkills">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="CharacterSkills">
+        <PropertyRef Name="MasterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_IDMarks_Characters">
+    <End Role="Characters" Type="Self.Characters" Multiplicity="1" />
+    <End Role="IDMarks" Type="Self.IDMarks" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Characters">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="IDMarks">
+        <PropertyRef Name="CharacterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="AftermathV1ModelStoreContainer">
+    <EntitySet Name="Abilities" EntityType="Self.Abilities" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AccountRelationships" EntityType="Self.AccountRelationships" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Accounts" EntityType="Self.Accounts" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Affiliations" EntityType="Self.Affiliations" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Attributes" EntityType="Self.Attributes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Background" EntityType="Self.Background" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Campaigns" EntityType="Self.Campaigns" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CharacterAbilities" EntityType="Self.CharacterAbilities" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CharacterAttributes" EntityType="Self.CharacterAttributes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CharacterExps" EntityType="Self.CharacterExps" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CharacterNotes" EntityType="Self.CharacterNotes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Characters" EntityType="Self.Characters" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CharacterSkills" EntityType="Self.CharacterSkills" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CombatSkills" EntityType="Self.CombatSkills" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ConstructionSkills" EntityType="Self.ConstructionSkills" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CovertSkills" EntityType="Self.CovertSkills" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CraftsmanSkills" EntityType="Self.CraftsmanSkills" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="History" EntityType="Self.History" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IDMarks" EntityType="Self.IDMarks" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Languages" EntityType="Self.Languages" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MedicalSkills" EntityType="Self.MedicalSkills" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ScienceSkills" EntityType="Self.ScienceSkills" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SocialSkills" EntityType="Self.SocialSkills" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SurvivalSkills" EntityType="Self.SurvivalSkills" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TechnologySkills" EntityType="Self.TechnologySkills" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TransportationSkills" EntityType="Self.TransportationSkills" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_AccountRelationships_First" Association="Self.FK_AccountRelationships_First">
+      <End Role="Accounts" EntitySet="Accounts" />
+      <End Role="AccountRelationships" EntitySet="AccountRelationships" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AccountRelationships_Second" Association="Self.FK_AccountRelationships_Second">
+      <End Role="Accounts" EntitySet="Accounts" />
+      <End Role="AccountRelationships" EntitySet="AccountRelationships" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CharacterAbilities_Abilities" Association="Self.FK_CharacterAbilities_Abilities">
+      <End Role="Abilities" EntitySet="Abilities" />
+      <End Role="CharacterAbilities" EntitySet="CharacterAbilities" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CharacterAbilities_Characters" Association="Self.FK_CharacterAbilities_Characters">
+      <End Role="Characters" EntitySet="Characters" />
+      <End Role="CharacterAbilities" EntitySet="CharacterAbilities" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CharacterAttributes_Attributes" Association="Self.FK_CharacterAttributes_Attributes">
+      <End Role="Attributes" EntitySet="Attributes" />
+      <End Role="CharacterAttributes" EntitySet="CharacterAttributes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CharacterAttributes_Characters" Association="Self.FK_CharacterAttributes_Characters">
+      <End Role="Characters" EntitySet="Characters" />
+      <End Role="CharacterAttributes" EntitySet="CharacterAttributes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CharacterExps_Characters" Association="Self.FK_CharacterExps_Characters">
+      <End Role="Characters" EntitySet="Characters" />
+      <End Role="CharacterExps" EntitySet="CharacterExps" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CharacterNotes_Characters" Association="Self.FK_CharacterNotes_Characters">
+      <End Role="Characters" EntitySet="Characters" />
+      <End Role="CharacterNotes" EntitySet="CharacterNotes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Characters_Accounts" Association="Self.FK_Characters_Accounts">
+      <End Role="Accounts" EntitySet="Accounts" />
+      <End Role="Characters" EntitySet="Characters" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Characters_Background" Association="Self.FK_Characters_Background">
+      <End Role="Background" EntitySet="Background" />
+      <End Role="Characters" EntitySet="Characters" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Characters_History" Association="Self.FK_Characters_History">
+      <End Role="History" EntitySet="History" />
+      <End Role="Characters" EntitySet="Characters" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CharacterSkills_Affiliations" Association="Self.FK_CharacterSkills_Affiliations">
+      <End Role="Affiliations" EntitySet="Affiliations" />
+      <End Role="CharacterSkills" EntitySet="CharacterSkills" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CharacterSkills_Characters" Association="Self.FK_CharacterSkills_Characters">
+      <End Role="Characters" EntitySet="Characters" />
+      <End Role="CharacterSkills" EntitySet="CharacterSkills" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CharacterSkills_CombatSkills" Association="Self.FK_CharacterSkills_CombatSkills">
+      <End Role="CombatSkills" EntitySet="CombatSkills" />
+      <End Role="CharacterSkills" EntitySet="CharacterSkills" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CharacterSkills_ConstructionSkills" Association="Self.FK_CharacterSkills_ConstructionSkills">
+      <End Role="ConstructionSkills" EntitySet="ConstructionSkills" />
+      <End Role="CharacterSkills" EntitySet="CharacterSkills" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CharacterSkills_CovertSkills" Association="Self.FK_CharacterSkills_CovertSkills">
+      <End Role="CovertSkills" EntitySet="CovertSkills" />
+      <End Role="CharacterSkills" EntitySet="CharacterSkills" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CharacterSkills_CraftsmanSkills" Association="Self.FK_CharacterSkills_CraftsmanSkills">
+      <End Role="CraftsmanSkills" EntitySet="CraftsmanSkills" />
+      <End Role="CharacterSkills" EntitySet="CharacterSkills" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CharacterSkills_Languages" Association="Self.FK_CharacterSkills_Languages">
+      <End Role="Languages" EntitySet="Languages" />
+      <End Role="CharacterSkills" EntitySet="CharacterSkills" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CharacterSkills_MedicalSkills" Association="Self.FK_CharacterSkills_MedicalSkills">
+      <End Role="MedicalSkills" EntitySet="MedicalSkills" />
+      <End Role="CharacterSkills" EntitySet="CharacterSkills" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CharacterSkills_ScienceSkills" Association="Self.FK_CharacterSkills_ScienceSkills">
+      <End Role="ScienceSkills" EntitySet="ScienceSkills" />
+      <End Role="CharacterSkills" EntitySet="CharacterSkills" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CharacterSkills_SocialSkills" Association="Self.FK_CharacterSkills_SocialSkills">
+      <End Role="SocialSkills" EntitySet="SocialSkills" />
+      <End Role="CharacterSkills" EntitySet="CharacterSkills" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CharacterSkills_SurvivalSkills" Association="Self.FK_CharacterSkills_SurvivalSkills">
+      <End Role="SurvivalSkills" EntitySet="SurvivalSkills" />
+      <End Role="CharacterSkills" EntitySet="CharacterSkills" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CharacterSkills_TechnologySkills" Association="Self.FK_CharacterSkills_TechnologySkills">
+      <End Role="TechnologySkills" EntitySet="TechnologySkills" />
+      <End Role="CharacterSkills" EntitySet="CharacterSkills" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CharacterSkills_TransportationSkills" Association="Self.FK_CharacterSkills_TransportationSkills">
+      <End Role="TransportationSkills" EntitySet="TransportationSkills" />
+      <End Role="CharacterSkills" EntitySet="CharacterSkills" />
+    </AssociationSet>
+    <AssociationSet Name="FK_IDMarks_Characters" Association="Self.FK_IDMarks_Characters">
+      <End Role="Characters" EntitySet="Characters" />
+      <End Role="IDMarks" EntitySet="IDMarks" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

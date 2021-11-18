@@ -1,0 +1,1432 @@
+﻿@{
+    ViewBag.Title = "New Character";
+}
+
+@model TheAftermath_V2.Models.NewCharModel
+
+@section Scripts
+{
+    <script src="@Url.Content("~/Scripts/Custom/NewCharacter.js")" type="text/javascript"></script>
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('body').css('background-image', 'url("../Content/Images/Textures/darkScratch.jpg")');
+        $('#bodyContainer').removeClass("container").addClass("container-fluid");
+
+        if ($("#sex").val() == "Female") $(".facialHairDiv").html("");
+        $('#instructionModal').modal('show');
+
+        $(".trainGenBtn").prop("disabled", true);
+        $(".trainAdvBtn").prop("disabled", true);
+        $(".addSkillBtn").prop("disabled", true);
+    });
+</script>
+<!-- TASKBAR -->
+<div class="row bg-dark sticky-top border-0 border-white">
+    <div class="col-8 px-0">
+        <h5 class="font-weight-bold my-3 text-center text-white attrPtsLbl">ATTRIBUTE POINTS:</h5>
+    </div>
+    <div class="col-4 px-0">
+        <div class="input-group my-2 text-center">
+            <input class="form-control text-center px-0 py-0 attrPtsVal" type="text" value="" readonly />
+        </div>
+    </div>
+    <div class="col-8 px-0">
+        <h5 id="skillPtsLbl" class="font-weight-bold my-3 text-center text-white">SKILL POINTS:</h5>
+    </div>
+    <div id="skillPtsVal" class="col-4 px-0">
+        <div class="input-group my-2 text-center">
+            <input class="form-control text-center px-0 py-0" type="text" id="skillPts" value="" readonly />
+        </div>
+    </div>
+    <div id="combatChoiceLbl" class="col-8 px-0 d-none">
+        <h5 class="font-weight-bold my-3 text-center text-black">COMBAT CHOICES:</h5>
+    </div>
+    <div id="combatChoiceVal" class="col-4 px-0 d-none">
+        <div class="input-group my-2 text-center">
+            <input class="form-control text-center px-0 py-0" type="text" id="combatChoices" value="" readonly />
+        </div>
+    </div>
+    <div id="covertChoiceLbl" class="col-8 px-0 d-none">
+        <h5 class="font-weight-bold my-3 text-center text-black">COVERT CHOICES:</h5>
+    </div>
+    <div id="covertChoiceVal" class="col-4 px-0 d-none">
+        <div class="input-group my-2 text-center">
+            <input class="form-control text-center px-0 py-0" type="text" id="covertChoices" value="" readonly />
+        </div>
+    </div>
+    <div id="craftsmanChoiceLbl" class="col-8 px-0 d-none">
+        <h5 class="font-weight-bold my-3 text-center text-black">CRAFTSMAN CHOICES:</h5>
+    </div>
+    <div id="craftsmanChoiceVal" class="col-4 px-0 d-none">
+        <div class="input-group my-2 text-center">
+            <input class="form-control text-center px-0 py-0" type="text" id="craftsmanChoices" value="" readonly />
+        </div>
+    </div>
+    <div id="constructionChoiceLbl" class="col-8 px-0 d-none">
+        <h5 class="font-weight-bold my-3 text-center text-black">CONSTRUCTION CHOICES:</h5>
+    </div>
+    <div id="constructionChoiceVal" class="col-4 px-0 d-none">
+        <div class="input-group my-2 text-center">
+            <input class="form-control text-center px-0 py-0" type="text" id="constructionChoices" value="" readonly />
+        </div>
+    </div>
+    <div id="socialChoiceLbl" class="col-8 px-0 d-none">
+        <h5 class="font-weight-bold my-3 text-center text-black">SOCIAL CHOICES:</h5>
+    </div>
+    <div id="socialChoiceVal" class="col-4 px-0 d-none">
+        <div class="input-group my-2 text-center">
+            <input class="form-control text-center px-0 py-0" type="text" id="socialChoices" value="" readonly />
+        </div>
+    </div>
+    <div id="survivalChoiceLbl" class="col-8 px-0 d-none">
+        <h5 class="font-weight-bold my-3 text-center text-black">SURVIVAL CHOICES:</h5>
+    </div>
+    <div id="survivalChoiceVal" class="col-4 px-0 d-none">
+        <div class="input-group my-2 text-center">
+            <input class="form-control text-center px-0 py-0" type="text" id="survivalChoices" value="" readonly />
+        </div>
+    </div>
+    <div id="scienceChoiceLbl" class="col-8 px-0 d-none">
+        <h5 class="font-weight-bold my-3 text-center text-black">SCIENCE CHOICES:</h5>
+    </div>
+    <div id="scienceChoiceVal" class="col-4 px-0 d-none">
+        <div class="input-group my-2 text-center">
+            <input class="form-control text-center px-0 py-0" type="text" id="scienceChoices" value="" readonly />
+        </div>
+    </div>
+    <div id="technologyChoiceLbl" class="col-8 px-0 d-none">
+        <h5 class="font-weight-bold my-3 text-center text-black">TECHNOLOGY CHOICES:</h5>
+    </div>
+    <div id="technologyChoiceVal" class="col-4 px-0 d-none">
+        <div class="input-group my-2 text-center">
+            <input class="form-control text-center px-0 py-0" type="text" id="technologyChoices" value="" readonly />
+        </div>
+    </div>
+    <div id="transportationChoiceLbl" class="col-8 px-0 d-none">
+        <h5 class="font-weight-bold my-3 text-center text-black">TRANSPORTATION CHOICES:</h5>
+    </div>
+    <div id="transportationChoiceVal" class="col-4 px-0 d-none">
+        <div class="input-group my-2 text-center">
+            <input class="form-control text-center px-0 py-0" type="text" id="transportationChoices" value="" readonly />
+        </div>
+    </div>
+    <div class="col-4 col-md-5"></div>
+        <div class="col-4 col-md-2">
+            <a href="@Url.Action("NewCharacter", "Characters")" class="btn btn-block btn-red font-weight-bold border border-light rounded mx-auto my-3" type="button">RE-ROLL</a>
+        </div>
+    <div class="col-4 col-md-5"></div>
+</div>
+
+<!-- INSTRUCTION MODAL -->
+<div class="modal fade" id="instructionModal" tabindex="-1" aria-labelledby="instructionModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-header bg-black">
+            <h4 class="modal-title font-weight-bold text-white mx-auto">CHARACTER CREATION</h4>
+        </div>
+        <div class="modal-content">
+            <div class="modal-body">
+
+                <h6 class="text-center font-weight-bold"><strong>STEP I:</strong> ADJUST ATTRIBUTES, SEX, OR STRATEGY (GREEN BORDERS)</h6>
+                <ul>
+                    <li>Attribute Points are determined by the Character's initial WILLPOWER Roll divided by TWO</li>
+                    <li>An Attribute can only be increased, there is no reducing it below the original value to gain extra Attribute Points</li>
+                    <li>Attribute Maximum is 20</li>
+                    <li>If a Character's WILLPOWER is greater than 12 you may change their STRATEGY which will generate a new BACKGROUND</li>
+                    <li>BACKGROUND determines initial skillset and additional Skill Choices</li>
+                    <li>WILLPOWER determines the base number of Skill Choices, regardless of BACKGROUND</li>
+                    <li>All initial SKILLS are directly determined by the Character's ATTRIBUTES.  Choose Wisely</li>
+                </ul>
+                <h6 class="text-center font-weight-bold"><strong>STEP II:</strong> SELECT THE CHARACTERS SKILLS</h6>
+                <ul>
+                    <li>Spend Skill Points to IMPROVE existing skills (Colored Borders) or ADD NEW skills (Blue Buttons)</li>
+                    <li>Yellow Buttons and Yellow Borders cost ONE Skill Point to Select or Improve (+2D10) respectively (Max = 150)</li>
+                    <li>Red Buttons and Red Borders cost TWO Skill Points to Select or Improve (+D10) respectively (Max = 150, Dodge Max = 50, Off Hand Max = 0 )</li>
+                    <li>Gray Buttons represent a Skill Focus and increase the Likelihood of Success for ALL other Skills related to the Focus (Max = 50)</li>
+                </ul>
+                    
+                <h6 class="text-center font-weight-bold">TIPS &amp; TRICKS</h6>
+                <ul>
+                    <li>The Taskbar (Top of Page) will display the Character's remaining Trait Points, Skill Points, and Free Skill Choices resulting from BACKGROUND</li>
+                    <li>If you are unhappy with your Character's original rolls feel free to REFRESH the page at any time</li>
+                    <li>Substantial NEGATIVE MODIFIERS apply to both SKILLS and ATTRIBUTES in a wide variety of scenarios, hence the 100+ Skill Rating Cap</li>
+                    <li>A "Jack-of-all-Trades" is infinitely more likely to survive than the "Master-of-One"</li>
+                    <li>This is just the beginning of your Character's story.  All aspects of your Character can be improved with sufficient EXPERIENCE gain</li>
+                    <li>Think of low valued Attributes as the effect of the "Traumas of the Apocalypse" rather than a genetic deficiency.  Coping mechanisms, anti-social behavior, malnutrition, atrophy, old injuries, anxiety, etc.
+                    are all very real aspects of the Human Experience</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-lg btn-success border border-dark mx-auto" data-dismiss="modal">READY</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- STRATEGY MODAL -->
+<div class="modal fade" id="strategyModal" tabindex="-2" aria-labelledby="strategyModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-header bg-black">
+            <h4 class="modal-title font-weight-bold text-white mx-auto" id="staticBackdropLabel">CHOOSE A STRATEGY</h4>
+        </div>
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-1"></div>
+                    <div class="col-4">
+                        <button type="button" class="btn btn-block btn-warning font-weight-bold border border-dark mx-auto my-2 strategyChoice" data-choice="Order" data-dismiss="modal">ORDER</button>
+                    </div>
+                    <div class="col-2"></div>
+                    <div class="col-4">
+                        <button type="button" class="btn btn-block btn-warning font-weight-bold border border-dark mx-auto my-2 strategyChoice" data-choice="Anarchy" data-dismiss="modal">ANARCHY</button>
+                    </div>
+                    <div class="col-1"></div>
+
+
+                    <div class="col-1"></div>
+                    <div class="col-4">
+                        <button type="button" class="btn btn-block btn-warning font-weight-bold border border-dark mx-auto my-2 strategyChoice" data-choice="Exchange" data-dismiss="modal">EXCHANGE</button>
+                    </div>
+                    <div class="col-2"></div>
+                    <div class="col-4">
+                        <button type="button" class="btn btn-block btn-warning font-weight-bold border border-dark mx-auto my-2 strategyChoice" data-choice="Independence" data-dismiss="modal">INDEPENDENCE</button>
+                    </div>
+                    <div class="col-1"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="cancelBtn" class="btn btn-lg btn-danger border border-dark mx-auto" data-dismiss="modal">CANCEL</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ATTRIBUTE MODAL -->
+<div class="modal fade" id="attributeModal" data-backdrop="static" tabindex="-3" aria-labelledby="attributeModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-header bg-black">
+            <h4 class="modal-title font-weight-bold text-white mx-auto" id="staticBackdropLabel">ADJUST ATTRIBUTE</h4>
+        </div>
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row bg-white">
+                    <div class="col">
+                        <h6 class="font-weight-bold text-center my-2">Can NOT reduce Attribute below original value</h6>
+                    </div>
+                </div>
+
+                <div class="row bg-secondary" id="attrPtsRow">
+                    <div class="col-3"></div>
+                    <div class="col-3">
+                        <h5 class="font-weight-bold text-center my-3 mx-auto attrPtsLbl" data-shortTxt="ATTR PTS:" data-longTxt="ATTRIBUTE POINTS:">ATTRIBUTE POINTS:</h5>
+                    </div>
+                    <div class="col-3">
+                        <div class="input-group my-2 text-center">
+                            <input class="form-control text-center px-0 py-0 attrPtsVal" type="number" name="" value="" readonly />
+                        </div>
+                    </div>
+                    <div class="col-3"></div>
+                </div>
+
+                <div class="row bg-white">
+                    <div class="col-1"></div>
+                    <div class="col-2">
+                        <button class="btn btn-block btn-dark text-center my-2 px-0" id="decAttrBtn">-</button>
+                    </div>
+                    <div class="col-3">
+                        <h5 class="font-weight-bold text-center text-uppercase my-3 mx-auto" id="currentAttr" data-shortTxt="" data-longTxt=""></h5>
+                    </div>
+                    <div class="col-3">
+                        <div class="input-group my-2 text-center">
+                            <input class="form-control text-center px-0 py-0" type="number" id="currentAttrVal" name="CurrentAttrVal" value="" readonly />
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <button class="btn btn-block btn-dark text-center my-2 px-0" id="incAttrBtn">+</button>
+                    </div>
+                    <div class="col-1"></div>
+                </div>
+
+                <div class="row bg-white">
+                    <div class="col-3"></div>
+                    <div class="col-3">
+                        <h5 class="font-weight-bold my-3 mx-auto text-center" id="originalAttr">ORIGINAL:</h5>
+                    </div>
+                    <div class="col-3">
+                        <div class="input-group my-2 text-center">
+                            <input class="form-control text-center px-0 py-0" type="number" id="originalAttrVal" name="OriginalAttrVal" value="" readonly />
+                        </div>
+                    </div>
+                    <div class="col-3"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="attrConfirmBtn" class="btn btn-lg btn-success border border-dark mx-auto" data-attr="">CONFIRM</button>
+                <button type="button" id="attrCancelBtn" class="btn btn-lg btn-danger border border-dark mx-auto" data-dismiss="modal">CANCEL</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- NEW SKILLS MODAL -->
+<div class="modal fade" id="newSkillsModal" data-backdrop="static" tabindex="-4" aria-labelledby="newSkillsModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-header bg-black">
+            <h4 class="modal-title font-weight-bold text-white mx-auto" id="staticBackdropLabel">LEARN NEW SKILL</h4>
+        </div>
+        <div class="modal-content">
+            <div class="modal-body" id="NSM-begin">
+                <div class="row bg-dark">
+                    <div class="col-4">
+                        <h6 class="font-weight-bold text-center text-white my-2">SKILL</h6>
+                    </div>
+                    <div class="col-8">
+                        <h6 class="font-weight-bold text-center text-white my-2">DSCRPT</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-lg btn-danger border border-dark mx-auto" id="NSM-cancelBtn" data-dismiss="modal">CANCEL</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SUB SKILLS MODAL -->
+<div class="modal fade" id="subSkillsModal" data-backdrop="static" tabindex="-5" aria-labelledby="subSkillsModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl">
+        <div class="modal-content">
+            <div class="modal-body" id="SSM-begin">
+                <div class="row bg-dark">
+                    <div class="col-4">
+                        <h6 class="font-weight-bold text-center text-white my-2">SKILL</h6>
+                    </div>
+                    <div class="col-8">
+                        <h6 class="font-weight-bold text-center text-white my-2">DSCRPT</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-lg btn-danger border border-dark mx-auto" id="SSM-cancelBtn" data-dismiss="modal">CANCEL</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- BEGIN FORM -->
+@using (Html.BeginForm("NewCharacter", "Characters", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+<div class="row bg-black">
+    <div class="col-12">
+        <h4 id="biographyLbl" class="font-weight-bold my-2 text-center text-white">CHARACTER BIOGRAPHY</h4>
+    </div>
+</div>
+
+<fieldset>
+    <!-- BACKGROUND / STRATEGY -->
+    <div class="row bg-white">
+        <div class="col-3 px-0">
+            <h6 id="backgroundLbl" class="font-weight-bold my-3 text-center">BACKGROUND:</h6>
+        </div>
+        <div class="col-3 px-0">
+            <div class="input-group my-2 text-center">
+                <input class="form-control text-center px-0 py-0" type="text" id="background" name="Background" value="" readonly />
+            </div>
+        </div>
+        <div class="col-3 px-0">
+            <div class="input-group my-0">
+                <button id="strategyBtn" class="btn btn-block btn-light border border-success bw-thick font-weight-bold my-1" data-shortTxt="STRATEGY:" data-longTxt="SURVIVAL STRATEGY:" type="button" disabled>STRATEGY:</button>
+            </div>
+        </div>
+        <div class="col-3 px-0">
+            <div class="input-group my-2 text-center">
+                <input class="form-control text-center px-0 py-0" type="text" id="strategy" name="Strategy" value="@Model.Strategy.ToString()" readonly />
+            </div>
+        </div>
+    </div>
+
+    <!-- HISTORY / HABITAT -->
+    <div class="row bg-white">
+        <div class="col-3 px-0">
+            <h6 id="historyLbl" class="font-weight-bold my-3 text-center">HISTORY:</h6>
+        </div>
+        <div class="col-3 px-0">
+            <div class="input-group my-2 text-center">
+                <input class="form-control text-center px-0 py-0" type="text" name="History" value="@Model.History.ToString()" readonly />
+            </div>
+        </div>
+        <div class="col-3 px-0">
+            <h6 id="habitatLbl" class="font-weight-bold my-3 text-center" data-shortTxt="HABITAT:" data-longTxt="ORIGINAL HABITAT:">HABITAT:</h6>
+        </div>
+        <div class="col-3 px-0">
+            <div class="input-group my-2 text-center">
+                <input class="form-control text-center px-0 py-0" type="text" name="Habitat" value="@Model.Habitat.ToString()" readonly />
+            </div>
+        </div>
+    </div>
+
+    <!-- DEMOGRAPHICS / ATTRIBUTES -->
+
+    <div class="row bg-white border-top border-dark">
+        <div class="col-6 border-right border-dark">
+            <h4 id="demographicsLbl" class="font-weight-bold my-2 text-center">DEMOGRAPHICS</h4>
+        </div>
+        <div class="col-6">
+            <h4 id="attributeLbl" class="font-weight-bold my-2 text-center">ATTRIBUTES</h4>
+        </div>
+    </div>
+
+    <!-- NAME / MEM / STR -->
+    <div class="row bg-white">
+        <div class="col-3 px-0">
+            <h6 id="nameLbl" class="font-weight-bold my-3 text-center">NAME:</h6>
+        </div>
+        <div class="col-3 border-right border-dark px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0 border border-primary" type="text" name="Name" placeholder="Enter Name..." required />
+            </div>
+        </div>
+
+        <div class="col-2 px-0">
+            <div class="input-group my-0">
+                <button class="btn btn-block btn-light border border-success bw-thick text-center font-weight-bold my-1 attributeBtn" data-attr="memory" data-shortTxt="MEM" data-longTxt="MEMORY" type="button">MEM</button>
+            </div>
+        </div>
+        <div class="col-1 px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0" type="number" id="memory" name="Memory" value="@Model.Memory" readonly />
+            </div>
+        </div>
+        <div class="col-2 px-0">
+            <div class="input-group my-0">
+                <button class="btn btn-block btn-light border border-success bw-thick text-center font-weight-bold my-1 attributeBtn" data-attr="strength" data-shortTxt="STR" data-longTxt="STRENGTH" type="button">STR</button>
+            </div>
+        </div>
+        <div class="col-1 px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0" type="number" id="strength" name="Strength" value="@Model.Strength" readonly />
+            </div>
+        </div>
+    </div>
+
+    <!-- DOB/ LOG / END -->
+    <div class="row bg-white">
+        <div class="col-3 px-0">
+            <h6 id="birthdateLbl" class="font-weight-bold my-3 text-center" data-shortTxt="D.O.B:" data-longTxt="BIRTHDATE">BIRTHDATE:</h6>
+        </div>
+        <div class="col-3 border-right border-dark px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0" type="text" name="Birthdate" value="@Model.Birthdate.ToString()" readonly />
+            </div>
+        </div>
+        <div class="col-2 px-0">
+            <div class="input-group my-0">
+                <button class="btn btn-block btn-light border border-success bw-thick text-center font-weight-bold my-1 attributeBtn" data-attr="logic" data-shortTxt="LOG" data-longTxt="LOGIC" type="button">LOG</button>
+            </div>
+        </div>
+        <div class="col-1 px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0" type="number" id="logic" name="Logic" value="@Model.Logic" readonly />
+            </div>
+        </div>
+        <div class="col-2 px-0">
+            <div class="input-group my-0">
+                <button class="btn btn-block btn-light border border-success bw-thick text-center font-weight-bold my-1 attributeBtn" data-attr="endurance" data-shortTxt="END" data-longTxt="ENDURANCE" type="button">END</button>
+            </div>
+        </div>
+        <div class="col-1 px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0" type="number" id="endurance" name="Endurance" value="@Model.Endurance" readonly />
+            </div>
+        </div>
+    </div>
+
+    <!-- SEX / PER / AGL -->
+    <div class="row bg-white">
+        <div class="col-3 px-0">
+            <div class="input-group my-0">
+                <button id="sexBtn" class="btn btn-block btn-light border border-success bw-thick font-weight-bold my-1" type="button">SEX:</button>
+            </div>
+        </div>
+        <div class="col-3 border-right border-dark px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0" type="text" id="sex" name="Sex" value="@Model.Sex.ToString()" readonly />
+            </div>
+        </div>
+
+        <div class="col-2 px-0">
+            <div class="input-group my-0">
+                <button class="btn btn-block btn-light border border-success bw-thick text-center font-weight-bold my-1 attributeBtn" data-attr="perception" data-shortTxt="PER" data-longTxt="PERCEPTION" type="button">PER</button>
+            </div>
+        </div>
+        <div class="col-1 px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0" type="number" id="perception" name="Perception" value="@Model.Perception" readonly />
+            </div>
+        </div>
+        <div class="col-2 px-0">
+            <div class="input-group my-0">
+                <button class="btn btn-block btn-light border border-success bw-thick text-center font-weight-bold my-1 attributeBtn" data-attr="agility" data-shortTxt="AGL" data-longTxt="AGILITY" type="button">AGL</button>
+            </div>
+        </div>
+        <div class="col-1 px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0" type="number" id="agility" name="Agility" value="@Model.Agility" readonly />
+            </div>
+        </div>
+    </div>
+
+    <!-- ETHNIC / WILL / SPD -->
+    <div class="row bg-white">
+        <div class="col-3 px-0">
+            <h6 id="ethnicityLbl" class="font-weight-bold my-3 text-center" data-shortTxt="ETHNIC:" data-longTxt="ETHNICITY:">ETHNIC:</h6>
+        </div>
+        <div class="col-3 border-right border-dark px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0" type="text" name="Ethnicity" value="@Model.Ethnicity.ToString()" readonly />
+            </div>
+        </div>
+
+        <div class="col-2 px-0">
+            <div class="input-group my-0">
+                <button class="btn btn-block btn-light border border-success bw-thick text-center font-weight-bold my-1 attributeBtn" data-attr="willpower" data-shortTxt="WILL" data-longTxt="WILLPOWER" type="button">WILL</button>
+            </div>
+        </div>
+        <div class="col-1 px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0" type="number" id="willpower" name="Willpower" value="@Model.Willpower" readonly />
+            </div>
+        </div>
+        <div class="col-2 px-0">
+            <div class="input-group my-0">
+                <button class="btn btn-block btn-light border border-success bw-thick text-center font-weight-bold my-1 attributeBtn" data-attr="speed" data-shortTxt="SPD" data-longTxt="SPEED" type="button">SPD</button>
+            </div>
+        </div>
+        <div class="col-1 px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0" type="number" id="speed" name="Speed" value="@Model.Speed" readonly />
+            </div>
+        </div>
+    </div>
+
+    <!-- HAIR / CHA / BTY -->
+    <div class="row bg-white">
+        <div class="col-3 px-0">
+            <h6 id="hairColorLbl" class="font-weight-bold my-3 text-center" data-shortTxt="HAIR:" data-longTxt="HAIR COLOR:">HAIR:</h6>
+        </div>
+        <div class="col-3 border-right border-dark px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0" type="text" id="hairColor" name="HairColor" value="" readonly />
+            </div>
+        </div>
+
+        <div class="col-2 px-0">
+            <div class="input-group my-0">
+                <button class="btn btn-block btn-light border border-success bw-thick text-center font-weight-bold my-1 attributeBtn" data-attr="charisma" data-shortTxt="CHA" data-longTxt="CHARISMA" type="button">CHA</button>
+            </div>
+        </div>
+        <div class="col-1 px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0" type="number" id="charisma" name="Charisma" value="@Model.Charisma" readonly />
+            </div>
+        </div>
+        <div class="col-2 px-0">
+            <h6 id="beautyLbl" class="font-weight-bold my-3 text-center" data-shortTxt="BTY" data-longTxt="BEAUTY">BTY</h6>
+        </div>
+        <div class="col-1 px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0" type="number" id="beauty" name="Beauty" value="@Model.Beauty" readonly />
+            </div>
+        </div>
+    </div>
+
+    <!-- EYE -->
+    <div class="row bg-white">
+        <div class="col-3 px-0">
+            <h6 id="eyeColorLbl" class="font-weight-bold my-3 text-center" data-shortTxt="EYES:" data-longTxt="EYE COLOR:">EYES:</h6>
+        </div>
+        <div class="col-3 border-right border-dark px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0" type="text" name="EyeColor" value="@Model.EyeColor.ToString()" readonly />
+            </div>
+        </div>
+
+        <div class="col-6 bg-secondary px-0">
+            <h4 id="derivedAttrLbl" class="font-weight-bold my-2 text-center" data-shortTxt="DERIVED" data-longTxt="DERIVED TRAITS">DERIVED</h4>
+        </div>
+    </div>
+
+    <!-- STYLE / SEQ / ACT -->
+    <div class="row bg-white">
+        <div class="col-3 px-0">
+            <h6 id="hairstyleLbl" class="font-weight-bold my-3 text-center">HAIRSTYLE:</h6>
+        </div>
+        <div class="col-3 border-right border-dark px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0 border border-primary" type="text" id="Hairstyle" name="Hairstyle" placeholder="Enter Hairstyle..." required />
+            </div>
+        </div>
+
+
+        <div class="col-2 bg-secondary px-0">
+            <h6 id="sequenceLbl" class="font-weight-bold my-3 text-center text-white" data-shortTxt="SEQ" data-longTxt="SEQUENCE">SEQ</h6>
+        </div>
+        <div class="col-1 bg-secondary px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0" type="number" id="sequence" name="Sequence" value="" readonly />
+            </div>
+        </div>
+        <div class="col-2 bg-secondary px-0">
+            <h6 id="actionsLbl" class="font-weight-bold my-3 text-center text-white" data-shortTxt="ACT" data-longTxt="ACTIONS">ACT</h6>
+        </div>
+        <div class="col-1 bg-secondary px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0" type="number" id="actions" name="Actions" value="" readonly />
+            </div>
+        </div>
+    </div>
+
+    <!-- FACIAL / OFF / DOD -->
+    <div class="row bg-white">
+        <div class="col-3 px-0 facialHairDiv">
+            <h6 id="facialHairLbl" class="font-weight-bold my-3 text-center">FACIAL HAIR:</h6>
+        </div>
+        <div class="col-3 border-right border-dark px-0 facialHairDiv">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0 border border-primary" type="text" id="facialHair" name="FacialHair" placeholder="Enter Facial Hair..." />
+            </div>
+        </div>
+
+        <div class="col-2 bg-secondary px-0">
+            <div class="input-group my-0">
+                <button class="btn btn-block btn-secondary border border-danger bw-thick text-center font-weight-bold my-1 trainAdvBtn" data-shortTxt="OFF" data-longTxt="OFF HAND" data-skill="OffHand" data-skillclass="Combat" type="button">OFF</button>
+            </div>
+        </div>
+        <div class="col-1 bg-secondary px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-OffHand" value="" readonly />
+            </div>
+        </div>
+        <div class="col-2 bg-secondary px-0">
+            <div class="input-group my-0">
+                <button class="btn btn-block btn-secondary border border-danger bw-thick text-center font-weight-bold my-1 px-0 trainAdvBtn" data-skill="Dodge" data-skillclass="Combat" type="button">DODGE</button>
+            </div>
+        </div>
+        <div class="col-1 bg-secondary px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Dodge" value="" readonly />
+            </div>
+        </div>
+    </div>
+
+    <div class="row bg-black">
+        <div class="col-12">
+            <h4 id="outlineLbl" class="font-weight-bold my-2 text-center text-white">CHARACTER SKILLSET</h4>
+        </div>
+    </div>
+
+    <!-- COMBAT / SOCIAL -->
+    <div class="row bg-white">
+        <div class="col-6 border-right border-dark">
+            <h4 id="combatSkillsLbl" class="font-weight-bold my-2 text-center" data-longTxt="COMBAT SKILLS" data-shortTxt="COMBAT">COMBAT</h4>
+        </div>
+        <div class="col-6">
+            <h4 id="socialSkillsLbl" class="font-weight-bold my-2 text-center" data-longTxt="SOCIAL SKILLS" data-shortTxt="SOCIAL">SOCIAL</h4>
+        </div>
+    </div>
+
+    <div class="row bg-white">
+        <div id="combat-1" class="col-2 px-0">
+            <div class="input-group my-0">
+                <button class="btn btn-block border border-warning bw-thick font-weight-bold my-1 px-0 trainGenBtn" data-shortTxt="UNARM" data-longTxt="UNARMED" data-skill="Unarmed" data-skillclass="Combat" type="button">UNARM</button>
+            </div>
+        </div>
+        <div id="combatVal-1" class="col-1 px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Unarmed" value="" readonly />
+            </div>
+        </div>
+        <div id="combat-2" class="col-2 px-0">
+            <div class="input-group my-0">
+                <button class="btn btn-block border border-warning bw-thick font-weight-bold my-1 px-0 trainGenBtn" data-shortTxt="THROWN" data-longTxt="THROWN WEAPONS" data-skill="Thrown" data-skillclass="Combat" type="button">THROWN</button>
+            </div>
+        </div>
+        <div id="combatVal-2" class="col-1 px-0 border-right border-dark">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Thrown" value="" readonly />
+            </div>
+        </div>
+
+        <div id="social-1" class="col-2 px-0">
+            <div class="input-group my-0">
+                <button class="btn btn-block border border-warning bw-thick font-weight-bold my-1 px-0 trainGenBtn" data-shortTxt="PERSUADE" data-longTxt="PERSUASION" data-skill="Persuasion" data-skillclass="social" type="button">PERSUADE</button>
+            </div>
+        </div>
+        <div id="socialVal-1" class="col-1 px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Persuasion" value="" readonly />
+            </div>
+        </div>
+        <div id="social-2" class="col-2 px-0">
+            <div class="input-group my-0">
+                <button class="btn btn-block border border-warning bw-thick font-weight-bold my-1 px-0 trainGenBtn" data-shortTxt="DECEIVE" data-longTxt="DECEPTION" data-skill="Deception" data-skillclass="Social" type="button">DECEIVE</button>
+            </div>
+        </div>
+        <div id="socialVal-2" class="col-1 px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Deception" value="" readonly />
+            </div>
+        </div>
+    </div>
+
+    <div class="row bg-white">
+        <div id="combat-3" class="col-2 px-0">
+            <div class="input-group my-0">
+                <button class="btn btn-block border border-warning bw-thick font-weight-bold my-1 px-0 trainGenBtn" data-shortTxt="GRAPPLE" data-longTxt="GRAPPLING" data-skill="Grapple" data-skillclass="Combat" type="button">GRAPPLE</button>
+            </div>
+        </div>
+        <div id="combatVal-3" class="col-1 px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Grapple" value="" readonly />
+            </div>
+        </div>
+        <div id="combat-4" class="col-2 px-0">
+            <div class="input-group my-0">
+                <button class="btn btn-block border border-warning bw-thick font-weight-bold my-1 px-0 trainGenBtn" data-skill="Archery" data-skillclass="Combat" type="button">ARCHERY</button>
+            </div>
+        </div>
+        <div id="combatVal-4" class="col-1 px-0 border-right border-dark">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Archery" value="" readonly />
+            </div>
+        </div>
+
+        <div id="social-3" class="col-2 px-0">
+            <div class="input-group my-0">
+                <button class="btn btn-block border border-danger bw-thick font-weight-bold my-1 px-0 trainAdvBtn" data-skill="Games" data-skillclass="Social" type="button">GAMES</button>
+            </div>
+        </div>
+        <div id="socialVal-3" class="col-1 px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Games" value="" readonly />
+            </div>
+        </div>
+        <div id="social-4" class="col-2 px-0">
+            <div class="input-group my-0">
+                <button class="btn btn-block border border-warning bw-thick font-weight-bold my-1 px-0 trainGenBtn" data-shortTxt="ANIMALS" data-longTxt="ANIMAL HANDLING" data-skill="AnimalHandling" data-skillclass="Social" type="button">ANIMALS</button>
+            </div>
+        </div>
+        <div id="socialVal-4" class="col-1 px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-AnimalHandling" value="" readonly />
+            </div>
+        </div>
+    </div>
+
+    <div class="row bg-white">
+        <div id="combat-5" class="col-2 px-0">
+            <div class="input-group my-0">
+                <button class="btn btn-block border border-warning bw-thick font-weight-bold my-1 px-0 trainGenBtn" data-shortTxt="SHORT" data-longTxt="SHORT WEAPONS" data-skill="Short" data-skillClass="Combat" type="button">SHORT</button>
+            </div>
+        </div>
+        <div id="combatVal-5" class="col-1 px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Short" value="" readonly />
+            </div>
+        </div>
+        <div id="combat-6" class="col-2 px-0">
+            <div class="input-group my-0">
+                <button class="btn btn-block border border-warning bw-thick font-weight-bold my-1 px-0 trainGenBtn" data-skill="Pistols" data-skillclass="Combat" type="button">PISTOLS</button>
+            </div>
+        </div>
+        <div id="combatVal-6" class="col-1 px-0 border-right border-dark">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Pistols" value="" readonly />
+            </div>
+        </div>
+
+
+        <div id="social-5" class="col-2 px-0">
+            <button class="btn btn-block btn-info border border-dark text-center font-weight-bold addSkillBtn my-2 mx-auto" data-target="SocialSkills" type="button">ADD</button>
+        </div>
+        <div id="socialVal-5" class="col-1 px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0" value="" readonly />
+            </div>
+        </div>
+        <div id="social-6" class="col-2 px-0"></div>
+        <div id="socialVal-6" class="col-1 px-0"></div>
+    </div>
+
+    <div class="row bg-white">
+        <div id="combat-7" class="col-2 px-0">
+            <div class="input-group my-0">
+                <button class="btn btn-block border border-warning bw-thick font-weight-bold my-1 px-0 trainGenBtn" data-shortTxt="LONG" data-longTxt="LONG WEAPONS" data-skill="Long" data-skillclass="Combat" type="button">LONG</button>
+            </div>
+        </div>
+        <div id="combatVal-7" class="col-1 px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Long" value="" readonly />
+            </div>
+        </div>
+        <div id="combat-8" class="col-2 px-0">
+            <div class="input-group my-0">
+                <button class="btn btn-block border border-warning bw-thick font-weight-bold my-1 px-0 trainGenBtn" data-skill="Rifles" data-skillclass="Combat" type="button">RIFLES</button>
+            </div>
+        </div>
+        <div id="combatVal-8" class="col-1 px-0 border-right border-dark">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Rifles" value="" readonly />
+            </div>
+        </div>
+
+        <div id="social-7" class="col-2 px-0"></div>
+        <div id="socialVal-7" class="col-1 px-0"></div>
+        <div id="social-8" class="col-2 px-0"></div>
+        <div id="socialVal-8" class="col-1 px-0"></div>
+    </div>
+
+    <div class="row bg-white">
+        <div id="combat-9" class="col-2 px-0">
+            <div class="input-group my-0">
+                <button class="btn btn-block border border-warning bw-thick font-weight-bold my-1 px-0 trainGenBtn" data-shortTxt="2 HAND" data-longTxt="2 HAND WEAPONS" data-skill="TwoHand" data-skillclass="Combat" type="button">2 HAND</button>
+            </div>
+        </div>
+        <div id="combatVal-9" class="col-1 px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-TwoHand" value="" readonly />
+            </div>
+        </div>
+        <div id="combat-10" class="col-2 px-0">
+            <button class="btn btn-block btn-info border border-dark text-center font-weight-bold addSkillBtn my-2 mx-auto" data-target="CombatSkills" type="button">ADD</button>
+        </div>
+        <div id="combatVal-10" class="col-1 px-0 border-right border-dark">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0" type="number" value="" readonly />
+            </div>
+        </div>
+
+        <div id="social-9" class="col-2 px-0"></div>
+        <div id="socialVal-9" class="col-1 px-0"></div>
+        <div id="social-10" class="col-2 px-0"></div>
+        <div id="socialVal-10" class="col-1 px-0"></div>
+    </div>
+
+    <div class="row bg-white">
+        <div id="combat-11" class="col-2 px-0">
+            <div class="input-group my-0">
+                <button class="btn btn-block border border-warning bw-thick font-weight-bold my-1 px-0 trainGenBtn" data-shortTxt="CHAIN" data-longTxt="CHAIN WEAPONS" data-skill="Chain" data-skillclass="Combat" type="button">CHAIN</button>
+            </div>
+        </div>
+        <div id="combatVal-11" class="col-1 px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Chain" value="" readonly />
+            </div>
+        </div>
+        <div id="combat-12" class="col-2 px-0"></div>
+        <div id="combatVal-12" class="col-1 px-0 border-right border-dark"></div>
+
+        <div id="social-11" class="col-2 px-0"></div>
+        <div id="socialVal-11" class="col-1 px-0"></div>
+        <div id="social-12" class="col-2 px-0"></div>
+        <div id="socialVal-12" class="col-1 px-0"></div>
+    </div>
+
+    <div class="row bg-white">
+        <div id="combat-13" class="col-2 px-0">
+            <div class="input-group my-0">
+                <button class="btn btn-block border border-warning bw-thick font-weight-bold my-1 px-0 trainGenBtn" data-skill="Shield" data-skillclass="Combat" type="button">SHIELDS</button>
+            </div>
+        </div>
+        <div id="combatVal-13" class="col-1 px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Shield" value="" readonly />
+            </div>
+        </div>
+        <div id="combat-14" class="col-2 px-0"></div>
+        <div id="combatVal-14" class="col-1 px-0 border-right border-dark"></div>
+
+        <div id="social-13" class="col-2 px-0"></div>
+        <div id="socialVal-13" class="col-1 px-0"></div>
+        <div id="social-14" class="col-2 px-0"></div>
+        <div id="socialVal-14" class="col-1 px-0"></div>
+    </div>
+    <!-- EMPTY BY DEFAULT-->
+    <div class="row bg-white">
+        <div id="combat-15" class="col-2 px-0"></div>
+        <div id="combatVal-15" class="col-1 px-0"></div>
+        <div id="combat-16" class="col-2 px-0"></div>
+        <div id="combatVal-16" class="col-1 px-0 border-right border-dark"></div>
+
+        <div id="social-15" class="col-2 px-0"></div>
+        <div id="socialVal-15" class="col-1 px-0"></div>
+        <div id="social-16" class="col-2 px-0"></div>
+        <div id="socialVal-16" class="col-1 px-0"></div>
+    </div>
+
+    <!-- COVERT / SURVIVAL -->
+    <div class="row bg-white border-top border-dark">
+        <div class="col-6 border-right border-dark">
+            <h4 id="covertSkillsLbl" class="font-weight-bold my-2 text-center" data-longTxt="COVERT SKILLS" data-shortTxt="COVERT">COVERT</h4>
+        </div>
+        <div class="col-6">
+            <h4 id="survivalSkillsLbl" class="font-weight-bold my-2 text-center" data-longTxt="SURVIVAL SKILLS" data-shortTxt="SURVIVAL">SURVIVAL</h4>
+        </div>
+    </div>
+
+    <div class="row bg-white">
+        <div id="covert-1" class="col-2 px-0">
+            <div class="input-group my-0">
+                <button class="btn btn-block border border-warning bw-thick font-weight-bold my-1 px-0 trainGenBtn" data-skill="Sneak" data-skillclass="Covert" type="button">SNEAK</button>
+            </div>
+        </div>
+        <div id="covertVal-1" class="col-1 px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Sneak" value="" readonly />
+            </div>
+        </div>
+        <div id="covert-2" class="col-2 px-0">
+            <div class="input-group my-0">
+                <button class="btn btn-block border border-warning bw-thick font-weight-bold my-1 px-0 trainGenBtn" data-shortTxt="CONCEAL" data-longTxt="CONCEALMENT" data-skill="Conceal" data-skillclass="Covert" type="button">CONCEAL</button>
+            </div>
+        </div>
+        <div id="covertVal-2" class="col-1 px-0 border-right border-dark">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Conceal" value="" readonly />
+            </div>
+        </div>
+
+        <div id="survival-1" class="col-2 px-0">
+            <div class="input-group my-0">
+                <button class="btn btn-block border border-warning bw-thick font-weight-bold my-1 px-0 trainGenBtn" data-skill="Scavenge" data-skillclass="Survival" type="button">SCAVENGE</button>
+            </div>
+        </div>
+        <div id="survivalVal-1" class="col-1 px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Scavenge" value="" readonly />
+            </div>
+        </div>
+        <div id="survival-2" class="col-2 px-0">
+            <div class="input-group my-0">
+                <button class="btn btn-block border border-warning bw-thick font-weight-bold my-1 px-0 trainGenBtn" data-skill="Forage" data-skillclass="Survival" type="button">FORAGE</button>
+            </div>
+        </div>
+        <div id="survivalVal-2" class="col-1 px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Forage" value="" readonly />
+            </div>
+        </div>
+    </div>
+
+    <div class="row bg-white">
+        <div id="covert-3" class="col-2 px-0">
+            <div class="input-group my-0">
+                <button class="btn btn-block border border-warning bw-thick font-weight-bold my-1 px-0 trainGenBtn" data-skill="Sleight" data-skillclass="Covert" type="button">SLEIGHT</button>
+            </div>
+        </div>
+        <div id="covertVal-3" class="col-1 px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Sleight" value="" readonly />
+            </div>
+        </div>
+        <div id="covert-4" class="col-2 px-0">
+            <button class="btn btn-block btn-info border border-dark text-center font-weight-bold addSkillBtn my-2 mx-auto" data-target="CovertSkills" type="button">ADD</button>
+        </div>
+        <div id="covertVal-4" class="col-1 px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0" value="" readonly />
+            </div>
+        </div>
+
+        <div id="survival-3" class="col-2 px-0">
+            <div class="input-group my-0">
+                <button class="btn btn-block border border-warning bw-thick font-weight-bold my-1 px-0 trainGenBtn" data-shortTxt="NAVIG" data-longTxt="NAVIGATION" data-skill="Navigation" data-skillclass="Survival" type="button">NAVIG</button>
+            </div>
+        </div>
+        <div id="survivalVal-3" class="col-1 px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Navigation" value="" readonly />
+            </div>
+        </div>
+        <div id="survival-4" class="col-2 px-0">
+            <button class="btn btn-block btn-info border border-dark text-center font-weight-bold addSkillBtn my-2 mx-auto" data-target="SurvivalSkills" type="button">ADD</button>
+        </div>
+        <div id="survivalVal-4" class="col-1 px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0" value="" readonly />
+            </div>
+        </div>
+    </div>
+    <!-- EMPTY BY DEFUALT-->
+    <div class="row bg-white">
+        <div id="covert-5" class="col-2 px-0"></div>
+        <div id="covertVal-5" class="col-1 px-0"></div>
+        <div id="covert-6" class="col-2 px-0"></div>
+        <div id="covertVal-6" class="col-1 px-0 border-right border-dark"></div>
+
+        <div id="survival-5" class="col-2 px-0"></div>
+        <div id="survivalVal-5" class="col-1 px-0"></div>
+        <div id="survival-6" class="col-2 px-0"></div>
+        <div id="survivalVal-6" class="col-1 px-0"></div>
+    </div>
+
+    <div class="row bg-white">
+        <div id="covert-7" class="col-2 px-0"></div>
+        <div id="covertVal-7" class="col-1 px-0"></div>
+        <div id="covert-8" class="col-2 px-0"></div>
+        <div id="covertVal-8" class="col-1 px-0 border-right border-dark"></div>
+
+        <div id="survival-7" class="col-2 px-0"></div>
+        <div id="survivalVal-7" class="col-1 px-0"></div>
+        <div id="survival-8" class="col-2 px-0"></div>
+        <div id="survivalVal-8" class="col-1 px-0"></div>
+    </div>
+
+    <div class="row bg-white">
+        <div id="covert-9" class="col-2 px-0"></div>
+        <div id="covertVal-9" class="col-1 px-0"></div>
+        <div id="covert-10" class="col-2 px-0"></div>
+        <div id="covertVal-10" class="col-1 px-0 border-right border-dark"></div>
+
+        <div id="survival-9" class="col-2 px-0"></div>
+        <div id="survivalVal-9" class="col-1 px-0"></div>
+        <div id="survival-10" class="col-2 px-0"></div>
+        <div id="survivalVal-10" class="col-1 px-0"></div>
+    </div>
+
+    <div class="row bg-white">
+        <div id="covert-11" class="col-2 px-0"></div>
+        <div id="covertVal-11" class="col-1 px-0"></div>
+        <div id="covert-12" class="col-2 px-0"></div>
+        <div id="covertVal-12" class="col-1 px-0 border-right border-dark"></div>
+
+        <div id="survival-11" class="col-2 px-0"></div>
+        <div id="survivalVal-11" class="col-1 px-0"></div>
+        <div id="survival-12" class="col-2 px-0"></div>
+        <div id="survivalVal-12" class="col-1 px-0"></div>
+    </div>
+
+    <div class="row bg-white">
+        <div id="covert-13" class="col-2 px-0"></div>
+        <div id="covertVal-13" class="col-1 px-0"></div>
+        <div id="covert-14" class="col-2 px-0"></div>
+        <div id="covertVal-14" class="col-1 px-0 border-right border-dark"></div>
+
+        <div id="survival-13" class="col-2 px-0"></div>
+        <div id="survivalVal-13" class="col-1 px-0"></div>
+        <div id="survival-14" class="col-2 px-0"></div>
+        <div id="survivalVal-14" class="col-1 px-0"></div>
+    </div>
+
+    <div class="row bg-white">
+        <div id="covert-15" class="col-2 px-0"></div>
+        <div id="covertVal-15" class="col-1 px-0"></div>
+        <div id="covert-16" class="col-2 px-0"></div>
+        <div id="covertVal-16" class="col-1 px-0 border-right border-dark"></div>
+
+        <div id="survival-15" class="col-2 px-0"></div>
+        <div id="survivalVal-15" class="col-1 px-0"></div>
+        <div id="survival-16" class="col-2 px-0"></div>
+        <div id="survivalVal-16" class="col-1 px-0"></div>
+    </div>
+
+    <!-- MEDICAL / SCIENCE -->
+    <div class="row bg-white border-top border-dark">
+        <div class="col-6 border-right border-dark">
+            <h4 id="medicalSkillsLbl" class="font-weight-bold my-2 text-center" data-longTxt="MEDICAL SKILLS" data-shortTxt="MEDICAL">MEDICAL</h4>
+        </div>
+        <div class="col-6">
+            <h4 id="scienceSkillsLbl" class="font-weight-bold my-2 text-center" data-longTxt="SCIENCE SKILLS" data-shortTxt="SCIENCE">SCIENCE</h4>
+        </div>
+    </div>
+
+    <div class="row bg-white">
+        <div id="medical-1" class="col-2 px-0">
+            <div class="input-group my-0">
+                <button class="btn btn-block border border-warning bw-thick font-weight-bold my-1 px-0 trainGenBtn" data-skill="Injury" data-skillclass="Medical" type="button">INJURY</button>
+            </div>
+        </div>
+        <div id="medicalVal-1" class="col-1 px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Injury" value="" readonly />
+            </div>
+        </div>
+        <div id="medical-2" class="col-2 px-0">
+            <div class="input-group my-0">
+                <button class="btn btn-block border border-warning bw-thick font-weight-bold my-1 px-0 trainGenBtn" data-skill="Illness" data-skillclass="Medical" type="button">ILLNESS</button>
+            </div>
+        </div>
+        <div id="medicalVal-2" class="col-1 px-0 border-right border-dark">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Illness" value="" readonly />
+            </div>
+        </div>
+
+        <div id="science-1" class="col-2 px-0">
+            <button class="btn btn-block btn-info border border-dark text-center font-weight-bold addSkillBtn my-2 mx-auto" data-target="ScienceSkills" type="button">ADD</button>
+        </div>
+        <div id="scienceVal-1" class="col-1 px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0" value="" readonly />
+            </div>
+        </div>
+        <div id="science-2" class="col-2 px-0"></div>
+        <div id="scienceVal-2" class="col-1 px-0"></div>
+    </div>
+
+    <div class="row bg-white">
+        <div id="medical-3" class="col-2 px-0">
+            <button class="btn btn-block btn-info border border-dark text-center font-weight-bold addSkillBtn my-2 mx-auto" data-target="MedicalSkills" type="button">ADD</button>
+        </div>
+        <div id="medicalVal-3" class="col-1 px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0" value="" readonly />
+            </div>
+        </div>
+        <div id="medical-4" class="col-2 px-0"></div>
+        <div id="medicalVal-4" class="col-1 px-0 border-right border-dark"></div>
+
+        <div id="science-3" class="col-2 px-0"></div>
+        <div id="scienceVal-3" class="col-1 px-0"></div>
+        <div id="science-4" class="col-2 px-0"></div>
+        <div id="scienceVal-4" class="col-1 px-0"></div>
+    </div>
+    <!-- EMPTY BY DEFAULT -->
+    <div class="row bg-white">
+        <div id="medical-5" class="col-2 px-0"></div>
+        <div id="medicalVal-5" class="col-1 px-0"></div>
+        <div id="medical-6" class="col-2 px-0"></div>
+        <div id="medicalVal-6" class="col-1 px-0 border-right border-dark"></div>
+
+        <div id="science-5" class="col-2 px-0"></div>
+        <div id="scienceVal-5" class="col-1 px-0"></div>
+        <div id="science-6" class="col-2 px-0"></div>
+        <div id="scienceVal-6" class="col-1 px-0"></div>
+    </div>
+
+    <div class="row bg-white">
+        <div id="medical-7" class="col-2 px-0"></div>
+        <div id="medicalVal-7" class="col-1 px-0"></div>
+        <div id="medical-8" class="col-2 px-0"></div>
+        <div id="medicalVal-8" class="col-1 px-0 border-right border-dark"></div>
+
+        <div id="science-7" class="col-2 px-0"></div>
+        <div id="scienceVal-7" class="col-1 px-0"></div>
+        <div id="science-8" class="col-2 px-0"></div>
+        <div id="scienceVal-8" class="col-1 px-0"></div>
+    </div>
+
+    <div class="row bg-white">
+        <div id="medical-9" class="col-2 px-0"></div>
+        <div id="medicalVal-9" class="col-1 px-0"></div>
+        <div id="medical-10" class="col-2 px-0"></div>
+        <div id="medicalVal-10" class="col-1 px-0 border-right border-dark"></div>
+
+        <div id="science-9" class="col-2 px-0"></div>
+        <div id="scienceVal-9" class="col-1 px-0"></div>
+        <div id="science-10" class="col-2 px-0"></div>
+        <div id="scienceVal-10" class="col-1 px-0"></div>
+    </div>
+
+    <div class="row bg-white">
+        <div id="medical-11" class="col-2 px-0"></div>
+        <div id="medicalVal-11" class="col-1 px-0"></div>
+        <div id="medical-12" class="col-2 px-0"></div>
+        <div id="medicalVal-12" class="col-1 px-0 border-right border-dark"></div>
+
+        <div id="science-11" class="col-2 px-0"></div>
+        <div id="scienceVal-11" class="col-1 px-0"></div>
+        <div id="science-12" class="col-2 px-0"></div>
+        <div id="scienceVal-12" class="col-1 px-0"></div>
+    </div>
+
+    <div class="row bg-white">
+        <div id="medical-13" class="col-2 px-0"></div>
+        <div id="medicalVal-13" class="col-1 px-0"></div>
+        <div id="medical-14" class="col-2 px-0"></div>
+        <div id="medicalVal-14" class="col-1 px-0 border-right border-dark"></div>
+
+        <div id="science-13" class="col-2 px-0"></div>
+        <div id="scienceVal-13" class="col-1 px-0"></div>
+        <div id="science-14" class="col-2 px-0"></div>
+        <div id="scienceVal-14" class="col-1 px-0"></div>
+    </div>
+
+    <div class="row bg-white">
+        <div id="medical-15" class="col-2 px-0"></div>
+        <div id="medicalVal-15" class="col-1 px-0"></div>
+        <div id="medical-16" class="col-2 px-0"></div>
+        <div id="medicalVal-16" class="col-1 px-0 border-right border-dark"></div>
+
+        <div id="science-15" class="col-2 px-0"></div>
+        <div id="scienceVal-15" class="col-1 px-0"></div>
+        <div id="science-16" class="col-2 px-0"></div>
+        <div id="scienceVal-16" class="col-1 px-0"></div>
+    </div>
+
+    <!-- CRAFTSMAN / CONSTRUCTION -->
+    <div class="row bg-white border-top border-dark">
+        <div class="col-6 border-right border-dark">
+            <h4 id="craftsmanSkillsLbl" class="font-weight-bold my-2 text-center" data-longTxt="CRAFTSMAN SKILLS" data-shortTxt="CRAFTSMAN">CRAFTSMAN</h4>
+        </div>
+        <div class="col-6">
+            <h4 id="constructionSkillsLbl" class="font-weight-bold my-2 text-center" data-longTxt="CONSTRUCTION SKILLS" data-shortTxt="CONSTRUCTION">CONSTRUCTION</h4>
+        </div>
+    </div>
+
+    <div class="row bg-white">
+        <div id="craftsman-1" class="col-2 px-0">
+            <div class="input-group my-0">
+                <button class="btn btn-block border border-warning bw-thick font-weight-bold my-1 px-0 trainGenBtn" data-shortTxt="CRAFT" data-longTxt="CRAFTSMAN" data-skill="Craftsman" data-skillclass="Craftsman" type="button">CRAFT</button>
+            </div>
+        </div>
+        <div id="craftsmanVal-1" class="col-1 px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Craftsman" value="" readonly />
+            </div>
+        </div>
+        <div id="craftsman-2" class="col-2 px-0">
+            <button class="btn btn-block btn-info border border-dark text-center font-weight-bold addSkillBtn my-2 mx-auto" data-target="CraftsmanSkills" type="button">ADD</button>
+        </div>
+        <div id="craftsmanVal-2" class="col-1 px-0 border-right border-dark">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0 standardSkill" value="" readonly />
+            </div>
+        </div>
+
+        <div id="construction-1" class="col-2 px-0">
+            <div class="input-group my-0">
+                <button class="btn btn-block border border-warning bw-thick font-weight-bold my-1 px-0 trainGenBtn" data-shortTxt="CONSTRCT" data-longTxt="CONSTRUCTION" data-skill="Construction" data-skillclass="Construction" type="button">CONSTRCT</button>
+            </div>
+        </div>
+        <div id="constructionVal-1" class="col-1 px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Construction" value="" readonly />
+            </div>
+        </div>
+        <div id="construction-2" class="col-2 px-0">
+            <button class="btn btn-block btn-info border border-dark text-center font-weight-bold addSkillBtn my-2 mx-auto" data-target="ConstructionSkills" type="button">ADD</button>
+        </div>
+        <div id="constructionVal-2" class="col-1 px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0" value="" readonly />
+            </div>
+        </div>
+    </div>
+
+    <!-- EMPTY BY DEFAULT -->
+    <div class="row bg-white">
+        <div id="craftsman-3" class="col-2 px-0"></div>
+        <div id="craftsmanVal-3" class="col-1 px-0"></div>
+        <div id="craftsman-4" class="col-2 px-0"></div>
+        <div id="craftsmanVal-4" class="col-1 px-0 border-right border-dark"></div>
+
+        <div id="construction-3" class="col-2 px-0"></div>
+        <div id="constructionVal-3" class="col-1 px-0"></div>
+        <div id="construction-4" class="col-2 px-0"></div>
+        <div id="constrValuction-4" class="col-1 px-0"></div>
+    </div>
+
+    <div class="row bg-white">
+        <div id="craftsman-5" class="col-2 px-0"></div>
+        <div id="craftsmanVal-5" class="col-1 px-0"></div>
+        <div id="craftsman-6" class="col-2 px-0"></div>
+        <div id="craftsmanVal-6" class="col-1 px-0 border-right border-dark"></div>
+
+        <div id="construction-5" class="col-2 px-0"></div>
+        <div id="constructionVal-5" class="col-1 px-0"></div>
+        <div id="construction-6" class="col-2 px-0"></div>
+        <div id="constructionVal-6" class="col-1 px-0"></div>
+    </div>
+
+    <div class="row bg-white">
+        <div id="craftsman-7" class="col-2 px-0"></div>
+        <div id="craftsmanVal-7" class="col-1 px-0"></div>
+        <div id="craftsman-8" class="col-2 px-0"></div>
+        <div id="craftsmanVal-8" class="col-1 px-0 border-right border-dark"></div>
+
+        <div id="construction-7" class="col-2 px-0"></div>
+        <div id="constructionVal-7" class="col-1 px-0"></div>
+        <div id="construction-8" class="col-2 px-0"></div>
+        <div id="constructionVal-8" class="col-1 px-0"></div>
+    </div>
+
+    <div class="row bg-white">
+        <div id="craftsman-9" class="col-2 px-0"></div>
+        <div id="craftsmanVal-9" class="col-1 px-0"></div>
+        <div id="craftsman-10" class="col-2 px-0"></div>
+        <div id="craftsmanVal-10" class="col-1 px-0 border-right border-dark"></div>
+
+        <div id="construction-9" class="col-2 px-0"></div>
+        <div id="constructionVal-9" class="col-1 px-0"></div>
+        <div id="construction-10" class="col-2 px-0"></div>
+        <div id="constructionVal-10" class="col-1 px-0"></div>
+    </div>
+
+    <div class="row bg-white">
+        <div id="craftsman-11" class="col-2 px-0"></div>
+        <div id="craftsmanVal-11" class="col-1 px-0"></div>
+        <div id="craftsman-12" class="col-2 px-0"></div>
+        <div id="craftsmanVal-12" class="col-1 px-0 border-right border-dark"></div>
+
+        <div id="construction-11" class="col-2 px-0"></div>
+        <div id="constructionVal-11" class="col-1 px-0"></div>
+        <div id="construction-12" class="col-2 px-0"></div>
+        <div id="constructionVal-12" class="col-1 px-0"></div>
+    </div>
+
+    <div class="row bg-white">
+        <div id="craftsman-13" class="col-2 px-0"></div>
+        <div id="craftsmanVal-13" class="col-1 px-0"></div>
+        <div id="craftsman-14" class="col-2 px-0"></div>
+        <div id="craftsmanVal-14" class="col-1 px-0 border-right border-dark"></div>
+
+        <div id="construction-13" class="col-2 px-0"></div>
+        <div id="constructionVal-13" class="col-1 px-0"></div>
+        <div id="construction-14" class="col-2 px-0"></div>
+        <div id="constructionVal-14" class="col-1 px-0"></div>
+    </div>
+
+    <div class="row bg-white">
+        <div id="craftsman-15" class="col-2 px-0"></div>
+        <div id="craftsmanVal-15" class="col-1 px-0"></div>
+        <div id="craftsman-16" class="col-2 px-0"></div>
+        <div id="craftsmanVal-16" class="col-1 px-0 border-right border-dark"></div>
+
+        <div id="construction-15" class="col-2 px-0"></div>
+        <div id="constructionVal-15" class="col-1 px-0"></div>
+        <div id="construction-16" class="col-2 px-0"></div>
+        <div id="constructionVal-16" class="col-1 px-0"></div>
+    </div>
+
+    <!-- TECHNOLOGY / TRANSPORTATION -->
+    <div class="row bg-white border-top border-dark">
+        <div class="col-6 border-right border-dark">
+            <h4 id="technologySkillsLbl" class="font-weight-bold my-2 text-center" data-longTxt="TECHNOLOGY SKILLS" data-shortTxt="TECHNOLOGY">TECHNOLOGY</h4>
+        </div>
+        <div class="col-6">
+            <h4 id="transportationSkillsLbl" class="font-weight-bold my-2 text-center" data-longTxt="TRANSPORTATION SKILLS" data-shortTxt="TRANSPORTATION">TRANSPORTATION</h4>
+        </div>
+    </div>
+
+    <div class="row bg-white">
+        <div id="technology-1" class="col-2 px-0">
+            <button class="btn btn-block btn-info border border-dark text-center font-weight-bold addSkillBtn my-2 mx-auto" data-target="TechnologySkills" type="button">ADD</button>
+        </div>
+        <div id="technologyVal-1" class="col-1 px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0" value="" readonly />
+            </div>
+        </div>
+        <div id="technology-2" class="col-2 px-0"></div>
+        <div id="technologyVal-2" class="col-1 px-0 border-right border-dark"></div>
+
+        <div id="transportation-1" class="col-2 px-0">
+            <button class="btn btn-block btn-info border border-dark text-center font-weight-bold addSkillBtn my-2 mx-auto" data-target="TransportationSkills" type="button">ADD</button>
+        </div>
+        <div id="transportationVal-1" class="col-1 px-0">
+            <div class="input-group my-2">
+                <input class="form-control text-center px-0 py-0" value="" readonly />
+            </div>
+        </div>
+        <div id="transportation-2" class="col-2 px-0"></div>
+        <div id="transportationVal-2" class="col-1 px-0"></div>
+    </div>
+    <!-- EMPTY BY DEFAULT -->
+    <div class="row bg-white">
+        <div id="technology-3" class="col-2 px-0"></div>
+        <div id="technologyVal-3" class="col-1 px-0"></div>
+        <div id="technology-4" class="col-2 px-0"></div>
+        <div id="technologyVal-4" class="col-1 px-0 border-right border-dark"></div>
+
+        <div id="transportation-3" class="col-2 px-0"></div>
+        <div id="transportationVal-3" class="col-1 px-0"></div>
+        <div id="transportation-4" class="col-2 px-0"></div>
+        <div id="transportationVal-4" class="col-1 px-0"></div>
+    </div>
+
+    <div class="row bg-white">
+        <div id="technology-5" class="col-2 px-0"></div>
+        <div id="technologyVal-5" class="col-1 px-0"></div>
+        <div id="technology-6" class="col-2 px-0"></div>
+        <div id="technologyVal-6" class="col-1 px-0 border-right border-dark"></div>
+
+        <div id="transportation-5" class="col-2 px-0"></div>
+        <div id="transportationVal-5" class="col-1 px-0"></div>
+        <div id="transportation-6" class="col-2 px-0"></div>
+        <div id="transportationVal-6" class="col-1 px-0"></div>
+    </div>
+
+    <div class="row bg-white">
+        <div id="technology-7" class="col-2 px-0"></div>
+        <div id="technologyVal-7" class="col-1 px-0"></div>
+        <div id="technology-8" class="col-2 px-0"></div>
+        <div id="technologyVal-8" class="col-1 px-0 border-right border-dark"></div>
+
+        <div id="transportation-7" class="col-2 px-0"></div>
+        <div id="transportationVal-7" class="col-1 px-0"></div>
+        <div id="transportation-8" class="col-2 px-0"></div>
+        <div id="transportationVal-8" class="col-1 px-0"></div>
+    </div>
+
+    <div class="row bg-white">
+        <div id="technology-9" class="col-2 px-0"></div>
+        <div id="technologyVal-9" class="col-1 px-0"></div>
+        <div id="technology-10" class="col-2 px-0"></div>
+        <div id="technologyVal-10" class="col-1 px-0 border-right border-dark"></div>
+
+        <div id="transportation-9" class="col-2 px-0"></div>
+        <div id="transportationVal-9" class="col-1 px-0"></div>
+        <div id="transportation-10" class="col-2 px-0"></div>
+        <div id="transportationVal-10" class="col-1 px-0"></div>
+    </div>
+
+    <div class="row bg-white">
+        <div id="technology-11" class="col-2 px-0"></div>
+        <div id="technologyVal-11" class="col-1 px-0"></div>
+        <div id="technology-12" class="col-2 px-0"></div>
+        <div id="technologyVal-12" class="col-1 px-0 border-right border-dark"></div>
+
+        <div id="transportation-11" class="col-2 px-0"></div>
+        <div id="transportationVal-11" class="col-1 px-0"></div>
+        <div id="transportation-12" class="col-2 px-0"></div>
+        <div id="transportationVal-12" class="col-1 px-0"></div>
+    </div>
+
+    <div class="row bg-white">
+        <div id="technology-13" class="col-2 px-0"></div>
+        <div id="technologyVal-13" class="col-1 px-0"></div>
+        <div id="technology-14" class="col-2 px-0"></div>
+        <div id="technologyVal-14" class="col-1 px-0 border-right border-dark"></div>
+
+        <div id="transportation-13" class="col-2 px-0"></div>
+        <div id="transportationVal-13" class="col-1 px-0"></div>
+        <div id="transportation-14" class="col-2 px-0"></div>
+        <div id="transportationVal-14" class="col-1 px-0"></div>
+    </div>
+
+    <div class="row bg-white">
+        <div id="technology-15" class="col-2 px-0"></div>
+        <div id="technologyVal-15" class="col-1 px-0"></div>
+        <div id="technology-16" class="col-2 px-0"></div>
+        <div id="technologyVal-16" class="col-1 px-0 border-right border-dark"></div>
+
+        <div id="transportation-15" class="col-2 px-0"></div>
+        <div id="transportationVal-15" class="col-1 px-0"></div>
+        <div id="transportation-16" class="col-2 px-0"></div>
+        <div id="transportationVal-16" class="col-1 px-0"></div>
+    </div>
+
+    <div id="submitSlot" class="row bg-secondary d-none">
+        <div class="col-md-4"></div>
+        <div class="col-12 col-md-4 my-3">
+            <input id="submitBtn" class="btn btn-lg btn-success border border-light mx-auto btn-block" type="submit" value="CONFIRM &amp; SAVE" />
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+
+</fieldset>
+}

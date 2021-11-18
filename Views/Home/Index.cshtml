@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "Lobby";
+}
+
+<div class="row">
+    <div class="col">
+        <img src="~/Content/Images/Graffiti/Welcome-900x150.png" class="img-fluid mx-auto d-block" />
+    </div>
+</div>
+
+<div class="row border border-dark rounded">
+    <div class="col-9 col-lg-10 border border-dark" id="indexChatLogArea">
+        <div id="chatLog"></div>
+    </div>
+
+    <div class="col-3 col-lg-2 border border-dark" id="indexUserListArea">
+        <div class="row bg-info">
+            <div class="col">
+                <img src="~/Content/Images/Graffiti/online-200x50.png" class="img-fluid mx-auto d-block" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col" id="userList"></div>
+        </div>
+    </div>
+</div>
+
+<div class="row border border-dark rounded mt-2">
+    <div class="col border border-dark" id="indexChatInput"></div>
+</div>
