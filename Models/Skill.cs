@@ -22,6 +22,8 @@ namespace TheAftermath_V2.Models
     
         public System.Guid ID { get; set; }
         public string Name { get; set; }
+        public string ShortTxt { get; set; }
+        public string LongTxt { get; set; }
         public string Class { get; set; }
         public string Type { get; set; }
         public string Description { get; set; }
@@ -29,8 +31,6 @@ namespace TheAftermath_V2.Models
         public string Requirements { get; set; }
         public bool Disabled { get; set; }
         public System.DateTime CreateDate { get; set; }
-        public string ShortTxt { get; set; }
-        public string LongTxt { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CharacterSkill> CharacterSkills { get; set; }

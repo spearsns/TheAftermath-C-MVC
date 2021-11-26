@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="AftermathV1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="AftermathV1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Abilities">
           <Key>
             <PropertyRef Name="ID" />
@@ -48,7 +48,7 @@
           <Property Name="Description" Type="text" />
           <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
         </EntityType>
-        <EntityType Name="Background">
+        <EntityType Name="Backgrounds">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -337,10 +337,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Characters_Background">
-          <End Role="Background" Type="Self.Background" Multiplicity="1" />
+          <End Role="Backgrounds" Type="Self.Backgrounds" Multiplicity="1" />
           <End Role="Characters" Type="Self.Characters" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Background">
+            <Principal Role="Backgrounds">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="Characters">
@@ -401,7 +401,7 @@
           <EntitySet Name="AccountRelationships" EntityType="Self.AccountRelationships" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Accounts" EntityType="Self.Accounts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Attributes" EntityType="Self.Attributes" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Background" EntityType="Self.Background" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Backgrounds" EntityType="Self.Backgrounds" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Campaigns" EntityType="Self.Campaigns" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CharacterAbilities" EntityType="Self.CharacterAbilities" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CharacterAttributes" EntityType="Self.CharacterAttributes" Schema="dbo" store:Type="Tables" />
@@ -454,7 +454,7 @@
             <End Role="Characters" EntitySet="Characters" />
           </AssociationSet>
           <AssociationSet Name="FK_Characters_Background" Association="Self.FK_Characters_Background">
-            <End Role="Background" EntitySet="Background" />
+            <End Role="Backgrounds" EntitySet="Backgrounds" />
             <End Role="Characters" EntitySet="Characters" />
           </AssociationSet>
           <AssociationSet Name="FK_Characters_History" Association="Self.FK_Characters_History">
@@ -474,7 +474,8 @@
             <End Role="IDMarks" EntitySet="IDMarks" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AftermathV1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -542,13 +543,13 @@
           <Property Name="Covert" Type="Byte" />
           <Property Name="Craftsman" Type="Byte" />
           <Property Name="Social" Type="Byte" />
+          <Property Name="Science" Type="Byte" />
           <Property Name="Survival" Type="Byte" />
           <Property Name="Technology" Type="Byte" />
           <Property Name="Transportation" Type="Byte" />
           <Property Name="Disabled" Type="Boolean" Nullable="false" />
           <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="Characters" Relationship="Self.FK_Characters_Background" FromRole="Background" ToRole="Characters" />
-          <Property Name="Science" Type="Byte" />
+          <NavigationProperty Name="Characters" Relationship="Self.FK_Characters_Background" FromRole="Backgrounds" ToRole="Characters" />
         </EntityType>
         <EntityType Name="Campaign">
           <Key>
@@ -613,7 +614,8 @@
           <Property Name="ID" Type="Guid" Nullable="false" />
           <Property Name="AccountID" Type="Guid" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Birthdate" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Birthdate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Sex" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Height" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Ethnicity" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
@@ -623,11 +625,12 @@
           <Property Name="EyeColor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Habitat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="History" Type="Guid" Nullable="false" />
+          <Property Name="Strategy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Background" Type="Guid" Nullable="false" />
           <Property Name="PictureLoc" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="Account" Relationship="Self.FK_Characters_Accounts" FromRole="Characters" ToRole="Accounts" />
-          <NavigationProperty Name="Background1" Relationship="Self.FK_Characters_Background" FromRole="Characters" ToRole="Background" />
+          <NavigationProperty Name="Background1" Relationship="Self.FK_Characters_Background" FromRole="Characters" ToRole="Backgrounds" />
           <NavigationProperty Name="CharacterAbilities" Relationship="Self.FK_CharacterAbilities_Characters" FromRole="Characters" ToRole="CharacterAbilities" />
           <NavigationProperty Name="CharacterAttributes" Relationship="Self.FK_CharacterAttributes_Characters" FromRole="Characters" ToRole="CharacterAttributes" />
           <NavigationProperty Name="CharacterExps" Relationship="Self.FK_CharacterExps_Characters" FromRole="Characters" ToRole="CharacterExps" />
@@ -635,8 +638,6 @@
           <NavigationProperty Name="History1" Relationship="Self.FK_Characters_History" FromRole="Characters" ToRole="History" />
           <NavigationProperty Name="CharacterSkills" Relationship="Self.FK_CharacterSkills_Characters" FromRole="Characters" ToRole="CharacterSkills" />
           <NavigationProperty Name="IDMarks" Relationship="Self.FK_IDMarks_Characters" FromRole="Characters" ToRole="IDMarks" />
-          <Property Name="Strategy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="CharacterSkill">
           <Key>
@@ -698,6 +699,8 @@
           </Key>
           <Property Name="ID" Type="Guid" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ShortTxt" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LongTxt" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Class" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
@@ -706,8 +709,6 @@
           <Property Name="Disabled" Type="Boolean" Nullable="false" />
           <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="CharacterSkills" Relationship="Self.FK_CharacterSkills_Skills" FromRole="Skills" ToRole="CharacterSkills" />
-          <Property Name="ShortTxt" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="LongTxt" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -792,10 +793,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Characters_Background">
-          <End Role="Background" Type="Self.Background" Multiplicity="1" />
+          <End Role="Backgrounds" Type="Self.Background" Multiplicity="1" />
           <End Role="Characters" Type="Self.Character" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Background">
+            <Principal Role="Backgrounds">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="Characters">
@@ -941,7 +942,7 @@
             <End Role="CharacterAttributes" EntitySet="CharacterAttributes" />
           </AssociationSet>
           <AssociationSet Name="FK_Characters_Background" Association="Self.FK_Characters_Background">
-            <End Role="Background" EntitySet="Backgrounds" />
+            <End Role="Backgrounds" EntitySet="Backgrounds" />
             <End Role="Characters" EntitySet="Characters" />
           </AssociationSet>
           <AssociationSet Name="FK_CharacterAbilities_Characters" Association="Self.FK_CharacterAbilities_Characters">
@@ -1032,8 +1033,7 @@
           </EntitySetMapping>
           <EntitySetMapping Name="Backgrounds">
             <EntityTypeMapping TypeName="AftermathV1Model.Background">
-              <MappingFragment StoreEntitySet="Background">
-                <ScalarProperty Name="Science" ColumnName="Science" />
+              <MappingFragment StoreEntitySet="Backgrounds">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Training" ColumnName="Training" />
@@ -1043,6 +1043,7 @@
                 <ScalarProperty Name="Covert" ColumnName="Covert" />
                 <ScalarProperty Name="Craftsman" ColumnName="Craftsman" />
                 <ScalarProperty Name="Social" ColumnName="Social" />
+                <ScalarProperty Name="Science" ColumnName="Science" />
                 <ScalarProperty Name="Survival" ColumnName="Survival" />
                 <ScalarProperty Name="Technology" ColumnName="Technology" />
                 <ScalarProperty Name="Transportation" ColumnName="Transportation" />
@@ -1108,11 +1109,10 @@
           <EntitySetMapping Name="Characters">
             <EntityTypeMapping TypeName="AftermathV1Model.Character">
               <MappingFragment StoreEntitySet="Characters">
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Strategy" ColumnName="Strategy" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="AccountID" ColumnName="AccountID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Birthdate" ColumnName="Birthdate" />
                 <ScalarProperty Name="Sex" ColumnName="Sex" />
                 <ScalarProperty Name="Height" ColumnName="Height" />
@@ -1123,6 +1123,7 @@
                 <ScalarProperty Name="EyeColor" ColumnName="EyeColor" />
                 <ScalarProperty Name="Habitat" ColumnName="Habitat" />
                 <ScalarProperty Name="History" ColumnName="History" />
+                <ScalarProperty Name="Strategy" ColumnName="Strategy" />
                 <ScalarProperty Name="Background" ColumnName="Background" />
                 <ScalarProperty Name="PictureLoc" ColumnName="PictureLoc" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
@@ -1185,10 +1186,10 @@
           <EntitySetMapping Name="Skills">
             <EntityTypeMapping TypeName="AftermathV1Model.Skill">
               <MappingFragment StoreEntitySet="Skills">
-                <ScalarProperty Name="LongTxt" ColumnName="LongTxt" />
-                <ScalarProperty Name="ShortTxt" ColumnName="ShortTxt" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ShortTxt" ColumnName="ShortTxt" />
+                <ScalarProperty Name="LongTxt" ColumnName="LongTxt" />
                 <ScalarProperty Name="Class" ColumnName="Class" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Description" ColumnName="Description" />

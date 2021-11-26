@@ -29,12 +29,12 @@ namespace TheAftermath_V2.Models
         public Nullable<byte> Covert { get; set; }
         public Nullable<byte> Craftsman { get; set; }
         public Nullable<byte> Social { get; set; }
+        public Nullable<byte> Science { get; set; }
         public Nullable<byte> Survival { get; set; }
         public Nullable<byte> Technology { get; set; }
         public Nullable<byte> Transportation { get; set; }
         public bool Disabled { get; set; }
         public System.DateTime CreateDate { get; set; }
-        public Nullable<byte> Science { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Character> Characters { get; set; }

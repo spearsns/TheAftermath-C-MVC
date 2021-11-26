@@ -28,6 +28,7 @@ namespace TheAftermath_V2.Models
         public System.Guid ID { get; set; }
         public System.Guid AccountID { get; set; }
         public string Name { get; set; }
+        public string Status { get; set; }
         public string Birthdate { get; set; }
         public string Sex { get; set; }
         public string Height { get; set; }
@@ -38,11 +39,10 @@ namespace TheAftermath_V2.Models
         public string EyeColor { get; set; }
         public string Habitat { get; set; }
         public System.Guid History { get; set; }
+        public string Strategy { get; set; }
         public System.Guid Background { get; set; }
         public string PictureLoc { get; set; }
         public System.DateTime CreateDate { get; set; }
-        public string Strategy { get; set; }
-        public string Status { get; set; }
     
         public virtual Account Account { get; set; }
         public virtual Background Background1 { get; set; }

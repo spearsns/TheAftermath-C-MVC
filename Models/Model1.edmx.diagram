@@ -4,22 +4,22 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="fe1352b942244826976216257c1b6eea" Name="Diagram1" ZoomLevel="65">
+      <Diagram DiagramId="618128a4a94d400f8abdba25a679c6ca" Name="Diagram1" ZoomLevel="52">
         <EntityTypeShape EntityType="AftermathV1Model.Ability" Width="1.5" PointX="6" PointY="8.25" IsExpanded="true" />
         <EntityTypeShape EntityType="AftermathV1Model.AccountRelationship" Width="1.5" PointX="3" PointY="12.625" IsExpanded="true" />
         <EntityTypeShape EntityType="AftermathV1Model.Account" Width="1.5" PointX="0.75" PointY="14.125" IsExpanded="true" />
         <EntityTypeShape EntityType="AftermathV1Model.Attribute" Width="1.5" PointX="9" PointY="4.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="AftermathV1Model.Background" Width="1.5" PointX="3.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AftermathV1Model.Background" Width="1.5" PointX="3.75" PointY="7" IsExpanded="true" />
         <EntityTypeShape EntityType="AftermathV1Model.Campaign" Width="1.5" PointX="3" PointY="15.75" IsExpanded="true" />
         <EntityTypeShape EntityType="AftermathV1Model.CharacterAbility" Width="1.5" PointX="8.25" PointY="12.5" IsExpanded="true" />
         <EntityTypeShape EntityType="AftermathV1Model.CharacterAttribute" Width="1.5" PointX="11.25" PointY="14.5" IsExpanded="true" />
         <EntityTypeShape EntityType="AftermathV1Model.CharacterExp" Width="1.5" PointX="8.25" PointY="15.75" IsExpanded="true" />
         <EntityTypeShape EntityType="AftermathV1Model.CharacterNote" Width="1.5" PointX="8.25" PointY="18.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="AftermathV1Model.Character" Width="1.5" PointX="6" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="AftermathV1Model.Character" Width="1.5" PointX="6" PointY="12.5" IsExpanded="true" />
         <EntityTypeShape EntityType="AftermathV1Model.CharacterSkill" Width="1.5" PointX="11.25" PointY="11.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="AftermathV1Model.History" Width="1.5" PointX="3.75" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AftermathV1Model.History" Width="1.5" PointX="3.75" PointY="19.875" IsExpanded="true" />
         <EntityTypeShape EntityType="AftermathV1Model.IDMark" Width="1.5" PointX="8.25" PointY="24.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="AftermathV1Model.Skill" Width="1.5" PointX="9" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AftermathV1Model.Skill" Width="1.5" PointX="9" PointY="7.875" IsExpanded="true" />
         <EntityTypeShape EntityType="AftermathV1Model.sysdiagram" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <AssociationConnector Association="AftermathV1Model.FK_CharacterAbilities_Abilities" ManuallyRouted="false" />
         <AssociationConnector Association="AftermathV1Model.FK_AccountRelationships_First" ManuallyRouted="false" />

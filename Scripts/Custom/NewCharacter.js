@@ -353,7 +353,6 @@
 	});
 
 	$("#attrCancelBtn").click(function () {
-		attrPts += attrClicks;
 		$(".attrPtsVal").val(attrPts);
 		$("#attributeModal").modal("toggle");
 	});
@@ -384,7 +383,7 @@
 	/* -- SKILL MANIPULATION -- */
 	// GET SKILLS
 	function getSkills() {
-		promise = getStandards().then(getBackgroundData).then(getBackgroundSkills);
+		promise = getStandards().then(getBackgroundData);
 	}
 	// GET STANDARD SKILLS
 	function getStandards() {
@@ -424,64 +423,77 @@
 	
 	// GET BACKGROUND DATA
 	function getBackgroundData() {
+		// LOCAL VARIABLES
+		var combatSlot = 10;
+		var socialSlot = 5;
+		var covertSlot = 4;
+		var survivalSlot = 4;
+		var medicalSlot = 3;
+		var scienceSlot = 1;
+		var craftsmanSlot = 2;
+		var constructionSlot = 2;
+		var technologySlot = 1;
+		var transportationSlot = 1;
+
 		d = new $.Deferred();
+
 		$.ajax({
 			type: 'POST',
 			url: '/Characters/GetBackgroundData',
-			data: '{Name: "' + background + '" }',
+			data: '{Background: "' + background + '" }',
 			dataType: 'json',
 			contentType: "application/json; charset=utf-8",
 			success:
 				function (results) {
-					if (results.Combat != null) {
+					if (results.Combat != 0) {
 						combatChoices = results.Combat;
 						$("#combatChoices").val(combatChoices);
 						$("#combatChoiceLbl").removeClass("d-none");
 						$("#combatChoiceVal").removeClass("d-none");
 					}
-					if (results.Covert != null) {
+					if (results.Covert != 0) {
 						covertChoices = results.Covert;
 						$("#covertChoices").val(covertChoices);
 						$("#covertChoiceLbl").removeClass("d-none");
 						$("#covertChoiceVal").removeClass("d-none");
 					}
-					if (results.Construction != null) {
+					if (results.Construction != 0) {
 						constructionChoices = results.Construction;
 						$("#constructionChoices").val(constructionChoices);
 						$("#constructionChoiceLbl").removeClass("d-none");
 						$("#constructionChoiceVal").removeClass("d-none");
 					}
-					if (results.Craftsman != null) {
+					if (results.Craftsman != 0) {
 						craftsmanChoices = results.Craftsman;
 						$("#craftsmanChoices").val(craftsmanChoices);
 						$("#craftsmanChoiceLbl").removeClass("d-none");
 						$("#craftsmanChoiceVal").removeClass("d-none");
 					}
-					if (results.Social != null) {
+					if (results.Social != 0) {
 						socialChoices = results.Social;
 						$("#socialChoices").val(socialChoices);
 						$("#socialChoiceLbl").removeClass("d-none");
 						$("#socialChoiceVal").removeClass("d-none");
 					}
-					if (results.Survival != null) {
+					if (results.Survival != 0) {
 						survivalChoices = results.Survival;
 						$("#survivalChoices").val(survivalChoices);
 						$("#survivalChoiceLbl").removeClass("d-none");
 						$("#survivalChoiceVal").removeClass("d-none");
 					}
-					if (results.Technology != null) {
+					if (results.Technology != 0) {
 						technologyChoices = results.Technology;
 						$("#technologyChoices").val(technologyChoices);
 						$("#technologyChoiceLbl").removeClass("d-none");
 						$("#technologyChoiceVal").removeClass("d-none");
 					}
-					if (results.Science != null) {
+					if (results.Science != 0) {
 						scienceChoices = results.Science;
 						$("#scienceChoices").val(scienceChoices);
 						$("#scienceChoiceLbl").removeClass("d-none");
 						$("#scienceChoiceVal").removeClass("d-none");
 					}
-					if (results.Transportation != null) {
+					if (results.Transportation != 0) {
 						transportationChoices = results.Transportation;
 						$("#transportChoices").val(transportationChoices);
 						$("#transportChoiceLbl").removeClass("d-none");
@@ -500,9 +512,72 @@
 					}
 					// BACKGROUND SKILLS
 					if (results.Skills != null) {
-						var bgSkillsArr = results.Skills.split(", ");
-						for (i = 0; i < bgSkillsArr.length; i++) skillsArr.push(bgSkillsArr[i]);
-						console.log(skillsArr);
+						console.log(results.Skills);
+						for (i = 0; i < results.Skills.length; i++) {
+							var skillName = results.Skills[i].Name;
+							var skillType = results.Skills[i].Type;
+							var skillClass = results.Skills[i].Class;
+							var shortTxt = results.Skills[i].ShortTxt;
+							var longTxt = results.Skills[i].LongTxt;
+							var skillFormula = results.Skills[i].Formula;
+
+							var slotNum;
+							if (skillClass == "Combat") slotNum = combatSlot;
+							else if (skillClass == "Affiliation") { skillClass = "Social"; slotNum = socialSlot; }
+							else if (skillClass == "Languages") { skillClass = "Social"; slotNum = socialSlot; }
+							else if (skillClass == "Social") slotNum = socialSlot;
+							else if (skillClass == "Covert") slotNum = covertSlot;
+							else if (skillClass == "Survival") slotNum = survivalSlot;
+							else if (skillClass == "Craftsman") slotNum = craftsmanSlot;
+							else if (skillClass == "Construction") slotNum = constructionSlot;
+							else if (skillClass == "Medical") slotNum = medicalSlot;
+							else if (skillClass == "Science") slotNum = scienceSlot;
+							else if (skillClass == "Technology") slotNum = technologySlot;
+							else if (skillClass == "Transportation") slotNum = transportationSlot;
+
+							var border;
+							var training;
+							if (skillType == "General") { border = "border-warning"; training = "trainGenBtn"; }
+							else if (skillType == "Advanced") { border = "border-danger"; training = "trainAdvBtn"; }
+							else { border = "border-secondary"; training = "trainGenBtn"; } // skillClass == "Focus"
+
+							var nextSlot
+							if (skillClass == "Combat") nextSlot = slotNum + 2;
+							else nextSlot = slotNum + 1;
+
+							var skillValue = eval(skillFormula) + roll(1, 10);
+
+							console.log("BG Skill: " + skillName + " => " + skillValue);
+							// RENDER HTML FOR NEW SKILL
+							$("#" + skillClass.toLowerCase() + "-" + slotNum).html(
+								'<div class="input-group my-0">' +
+								'<button class="btn btn-block border ' + border + ' bw-thick font-weight-bold my-1 px-0 ' + training + ' " data-skill="' + skillName + '" data-skillclass="' + skillClass + '" data-shortTxt="' + shortTxt + '" data-longTxt="' + longTxt + '" type="button">' + skillName + '</button>' +
+								'</div>'
+							);
+							$("#" + skillClass.toLowerCase() + "Val-" + slotNum).html(
+								'<div class="input-group my-2">' +
+								'<input class="form-control text-center px-0 py-0" type="number" name="Skill-' + skillName + '" value="' + skillValue + '" readonly />' +
+								'</div>'
+							);
+							// RENDER HTML FOR NEW ADD SKILL BTN
+							$("#" + skillClass.toLowerCase() + "-" + nextSlot).html(
+								'<button class="btn btn-block btn-info border border-dark text-center font-weight-bold addSkillBtn my-2 mx-auto" data-target="' + skillClass + "Skills" + '" type="button">ADD</button>'
+							);
+							$("#" + skillClass.toLowerCase() + "Val-" + nextSlot).html(
+								'<div class="input-group my-2">' +
+								'<input class="form-control text-center px-0 py-0" value="" readonly />' +
+								'</div>'
+							);
+							// INCREASE COUNT ON APPROPRIATE SLOT
+							if (skillClass == "Combat") combatSlot += 1;
+							else if (skillClass == "Social") socialSlot += 1;
+							else if (skillClass == "Covert") covertSlot += 1;
+							else if (skillClass == "Survival") survivalSlot += 1;
+							else if (skillClass == "Medical") medicalSlot += 1;
+							else if (skillClass == "Science") scienceSlot += 1;
+							else if (skillClass == "Technology") technologySlot += 1;
+							else if (skillClass == "Transportation") transportationSlot += 1;
+						}
 					}
 				}
 		});
@@ -510,7 +585,7 @@
 		d.resolve();
 		return d.promise()
 	}
-
+	/*
 	function getBackgroundSkills() {
 		d = new $.Deferred();
 		// HARD-CODED FOR STANDARD SKILLS
@@ -611,6 +686,7 @@
 		d.resolve();
 		return d.promise()
 	}
+	*/
 	// CLIENT SIDE SKILL SELECTIONS
 	// TRAIN GEN BUTTONS
 	$("body").on("click", ".trainGenBtn", function () {
@@ -756,7 +832,7 @@
 		// GET JSON RETURN & RENDER HTML
 		$.ajax({
 			type: 'POST',
-			url: '/Characters/GetNewSkills',
+			url: 'Characters/GetNewSkills',
 			data: '{SkillClass: "' + skillClass + '"}',
 			dataType: 'json',
 			contentType: "application/json; charset=utf-8",
@@ -812,7 +888,7 @@
 		// GET JSON RETURN & RENDER HTML
 		$.ajax({
 			type: 'POST',
-			url: '/Characters/GetNewSkills',
+			url: 'Characters/GetNewSkills',
 			data: '{SkillClass: "' + skillClass + '"}',
 			dataType: 'json',
 			contentType: "application/json; charset=utf-8",

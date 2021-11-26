@@ -110,31 +110,71 @@ namespace TheAftermath_V2.Controllers
         }
 
         [HttpPost]
-        public JsonResult GetBackgroundData(string name)
+        public JsonResult GetBackgroundData(string background)
         {
-            var bgData = db.Backgrounds.Where(x => x.Name == name && x.Disabled == false).FirstOrDefault();
-            return Json(bgData, JsonRequestBehavior.AllowGet);
-        }
+            var bgData = db.Backgrounds.Where(x => x.Name == background).FirstOrDefault();
 
-        [HttpPost]
-        public JsonResult GetBackgroundSkills(string[] skillsArr)
-        {
             List<Classes.SkillData> skillsList = new List<Classes.SkillData>();
-            foreach (string skill in skillsArr)
+            if (bgData.Skills != null)
             {
-                var data = db.Skills.Where(a => a.Name == skill).Single();
-                skillsList.Add(new Classes.SkillData
+                // bgData.Skills is varchar so split! 
+                string[] skillsArr;
+
+                if (bgData.Skills.Contains(",")) skillsArr = bgData.Skills.Replace(" ", String.Empty).Split(',');
+                else skillsArr = new string[] { bgData.Skills };
+
+                foreach (string skill in skillsArr)
                 {
-                    Name = data.Name,
-                    Type = data.Type,
-                    Class = data.Class,
-                    ShortTxt = data.ShortTxt,
-                    LongTxt = data.LongTxt,
-                    Formula = data.Formula
-                });
+                    Skill result = db.Skills.Where(x => x.Name == skill && x.Disabled == false).Single();
+                    skillsList.Add(new Classes.SkillData
+                    {
+                        Name = result.Name,
+                        ShortTxt = result.ShortTxt,
+                        LongTxt = result.LongTxt,
+                        Class = result.Class,
+                        Type = result.Type,
+                        Description = result.Description,
+                        Formula = result.Formula
+                    });
+                }
             }
 
-            return Json(skillsList, JsonRequestBehavior.AllowGet);
+            byte combatSkills = 0;
+            byte constructionSkills = 0;
+            byte covertSkills = 0;
+            byte craftsmanSkills = 0;
+            byte socialSkills = 0;
+            byte scienceSkills = 0;
+            byte survivalSkills = 0;
+            byte technologySkills = 0;
+            byte transportationSkills = 0;
+
+            if (bgData.Combat != null) combatSkills = (byte)bgData.Combat;
+            if (bgData.Construction != null) constructionSkills = (byte)bgData.Construction;
+            if (bgData.Covert != null) covertSkills = (byte)bgData.Covert;
+            if (bgData.Craftsman != null) craftsmanSkills = (byte)bgData.Craftsman;
+            if (bgData.Social != null) socialSkills = (byte)bgData.Social;
+            if (bgData.Science != null) scienceSkills = (byte)bgData.Science;
+            if (bgData.Survival != null) survivalSkills = (byte)bgData.Survival;
+            if (bgData.Technology != null) technologySkills = (byte)bgData.Technology;
+            if (bgData.Transportation != null) transportationSkills = (byte)bgData.Transportation;
+
+            Classes.BackgroundData json = new Classes.BackgroundData
+            {
+                Name = bgData.Name,
+                Training = bgData.Training,
+                Skills = skillsList,
+                Combat = combatSkills,
+                Construction = constructionSkills,
+                Covert = covertSkills,
+                Craftsman = craftsmanSkills,
+                Social = socialSkills,
+                Science = scienceSkills,
+                Survival = survivalSkills,
+                Technology = technologySkills,
+                Transportation = transportationSkills
+            };
+            return Json(json, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
