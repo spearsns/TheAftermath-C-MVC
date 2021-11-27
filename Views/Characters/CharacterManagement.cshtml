@@ -210,7 +210,7 @@
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-
+    <!-- BIOGRAPHY -->
     <div class="row bg-black">
         <div class="col-12">
             <h4 id="biographyLbl" class="font-weight-bold my-2 text-center text-white">CHARACTER BIOGRAPHY</h4>
@@ -218,7 +218,7 @@
     </div>
 
     <fieldset>
-        <!-- BACKGROUND / STRATEGY -->
+        <!-- BACKGROUND || STRATEGY -->
         <div class="row bg-white">
             <div class="col-3 px-0">
                 <h6 id="backgroundLbl" class="font-weight-bold my-3 text-center">BACKGROUND:</h6>
@@ -238,7 +238,7 @@
             </div>
         </div>
 
-        <!-- HISTORY / HABITAT -->
+        <!-- HISTORY || HABITAT -->
         <div class="row bg-white">
             <div class="col-3 px-0">
                 <h6 id="historyLbl" class="font-weight-bold my-3 text-center">HISTORY:</h6>
@@ -258,7 +258,7 @@
             </div>
         </div>
 
-        <!-- DEMOGRAPHICS / ATTRIBUTES -->
+        <!-- DEMOGRAPHICS || ATTRIBUTES -->
         <div class="row bg-white border-top border-dark">
             <div class="col-6 border-right border-dark">
                 <h4 id="demographicsLbl" class="font-weight-bold my-2 text-center">DEMOGRAPHICS</h4>
@@ -268,7 +268,7 @@
             </div>
         </div>
 
-        <!-- NAME / MEM / STR -->
+        <!-- NAME || MEM / STR -->
         <div class="row bg-white">
             <div class="col-3 px-0">
                 <h6 id="nameLbl" class="font-weight-bold my-3 text-center">NAME:</h6>
@@ -300,8 +300,7 @@
                 </div>
             </div>
         </div>
-
-        <!-- DOB / LOG / END -->
+        <!-- DOB || LOG / END -->
         <div class="row bg-white">
             <div class="col-3 px-0">
                 <h6 id="birthdateLbl" class="font-weight-bold my-3 text-center" data-shortTxt="D.O.B:" data-longTxt="BIRTHDATE">BIRTHDATE:</h6>
@@ -332,8 +331,7 @@
                 </div>
             </div>
         </div>
-
-        <!-- SEX / PER / AGL -->
+        <!-- SEX || PER / AGL -->
         <div class="row bg-white">
             <div class="col-3 px-0">
                 <h6 id="sexLbl" class="font-weight-bold my-3 text-center">SEX:</h6>
@@ -365,8 +363,7 @@
                 </div>
             </div>
         </div>
-
-        <!-- ETHNIC / WILL / SPD -->
+        <!-- ETHNIC || WILL / SPD -->
         <div class="row bg-white">
             <div class="col-3 px-0">
                 <h6 id="ethnicityLbl" class="font-weight-bold my-3 text-center" data-shortTxt="ETHNIC:" data-longTxt="ETHNICITY:">ETHNIC:</h6>
@@ -398,8 +395,7 @@
                 </div>
             </div>
         </div>
-
-        <!-- HAIR / CHA / BTY -->
+        <!-- HAIR || CHA / BTY -->
         <div class="row bg-white">
             <div class="col-3 px-0">
                 <h6 id="hairColorLbl" class="font-weight-bold my-3 text-center" data-shortTxt="HAIR:" data-longTxt="HAIR COLOR:">HAIR:</h6>
@@ -429,7 +425,6 @@
                 </div>
             </div>
         </div>
-
         <!-- EYE -->
         <div class="row bg-white">
             <div class="col-3 px-0">
@@ -445,8 +440,7 @@
                 <h4 id="derivedAttrLbl" class="font-weight-bold my-2 text-center" data-shortTxt="DERIVED" data-longTxt="DERIVED TRAITS">DERIVED</h4>
             </div>
         </div>
-
-        <!-- STYLE / SEQ / ACT -->
+        <!-- HAIRSTYLE || SEQ / ACT -->
         <div class="row bg-white">
             <div class="col-3 px-0">
                 <h6 id="hairstyleLbl" class="font-weight-bold my-3 text-center">HAIRSTYLE:</h6>
@@ -474,8 +468,7 @@
                 </div>
             </div>
         </div>
-
-        <!-- FACIAL / OFF / DOD -->
+        <!-- FACIAL || OFF / DOD -->
         <div class="row bg-white">
             <div class="col-3 px-0 facialHairDiv">
                 <h6 id="facialHairLbl" class="font-weight-bold my-3 text-center">FACIAL HAIR:</h6>
@@ -508,13 +501,14 @@
             </div>
         </div>
 
+        <!-- CHARACTER SKILLSET -->
         <div class="row bg-black">
             <div class="col-12">
                 <h4 id="outlineLbl" class="font-weight-bold my-2 text-center text-white">CHARACTER SKILLSET</h4>
             </div>
         </div>
 
-        <!-- COMBAT / SOCIAL -->
+        <!-- COMBAT || SOCIAL -->
         <div class="row bg-white">
             <div class="col-6 border-right border-dark">
                 <h4 id="combatSkillsLbl" class="font-weight-bold my-2 text-center" data-longTxt="COMBAT SKILLS" data-shortTxt="COMBAT">COMBAT</h4>
@@ -523,7 +517,7 @@
                 <h4 id="socialSkillsLbl" class="font-weight-bold my-2 text-center" data-longTxt="SOCIAL SKILLS" data-shortTxt="SOCIAL">SOCIAL</h4>
             </div>
         </div>
-
+        <!-- UNARM / THROW || PERSUADE / DECIEVE -->
         <div class="row bg-white">
             <div id="combat-1" class="col-2 px-0">
                 <div class="input-group my-0">
@@ -567,7 +561,7 @@
                 </div>
             </div>
         </div>
-
+        <!-- GRAPPLE / ARCHERY || GAMES / ANIMALS -->
         <div class="row bg-white">
             <div id="combat-3" class="col-2 px-0">
                 <div class="input-group my-0">
@@ -611,7 +605,7 @@
                 </div>
             </div>
         </div>
-
+        <!-- SHORT / PISTOLS || ADD -->
         <div class="row bg-white">
             <div id="combat-5" class="col-2 px-0">
                 <div class="input-group my-0">
@@ -646,7 +640,7 @@
             <div id="social-6" class="col-2 px-0"></div>
             <div id="socialVal-6" class="col-1 px-0"></div>
         </div>
-
+        <!-- LONG / RIFLES || EMPTY -->
         <div class="row bg-white">
             <div id="combat-7" class="col-2 px-0">
                 <div class="input-group my-0">
@@ -674,7 +668,7 @@
             <div id="social-8" class="col-2 px-0"></div>
             <div id="socialVal-8" class="col-1 px-0"></div>
         </div>
-
+        <!-- TWO / ADD || EMPTY-->
         <div class="row bg-white">
             <div id="combat-9" class="col-2 px-0">
                 <div class="input-group my-0">
@@ -700,7 +694,7 @@
             <div id="social-10" class="col-2 px-0"></div>
             <div id="socialVal-10" class="col-1 px-0"></div>
         </div>
-
+        <!-- CHAIN || EMPTY -->
         <div class="row bg-white">
             <div id="combat-11" class="col-2 px-0">
                 <div class="input-group my-0">
@@ -720,7 +714,7 @@
             <div id="social-12" class="col-2 px-0"></div>
             <div id="socialVal-12" class="col-1 px-0"></div>
         </div>
-
+        <!-- SHIELDS || EMPTY -->
         <div class="row bg-white">
             <div id="combat-13" class="col-2 px-0">
                 <div class="input-group my-0">
@@ -753,7 +747,7 @@
             <div id="socialVal-16" class="col-1 px-0"></div>
         </div>
 
-        <!-- COVERT / SURVIVAL -->
+        <!-- COVERT || SURVIVAL -->
         <div class="row bg-white border-top border-dark">
             <div class="col-6 border-right border-dark">
                 <h4 id="covertSkillsLbl" class="font-weight-bold my-2 text-center" data-longTxt="COVERT SKILLS" data-shortTxt="COVERT">COVERT</h4>
@@ -762,7 +756,7 @@
                 <h4 id="survivalSkillsLbl" class="font-weight-bold my-2 text-center" data-longTxt="SURVIVAL SKILLS" data-shortTxt="SURVIVAL">SURVIVAL</h4>
             </div>
         </div>
-
+        <!-- SNEAK / CONCEAL || SCAVENGE / FORAGE -->
         <div class="row bg-white">
             <div id="covert-1" class="col-2 px-0">
                 <div class="input-group my-0">
@@ -806,7 +800,7 @@
                 </div>
             </div>
         </div>
-
+        <!-- SLEIGHT / ADD || NAVIG / ADD -->
         <div class="row bg-white">
             <div id="covert-3" class="col-2 px-0">
                 <div class="input-group my-0">
@@ -919,7 +913,7 @@
             <div id="survivalVal-16" class="col-1 px-0"></div>
         </div>
 
-        <!-- MEDICAL / SCIENCE -->
+        <!-- MEDICAL || SCIENCE -->
         <div class="row bg-white border-top border-dark">
             <div class="col-6 border-right border-dark">
                 <h4 id="medicalSkillsLbl" class="font-weight-bold my-2 text-center" data-longTxt="MEDICAL SKILLS" data-shortTxt="MEDICAL">MEDICAL</h4>
@@ -928,7 +922,7 @@
                 <h4 id="scienceSkillsLbl" class="font-weight-bold my-2 text-center" data-longTxt="SCIENCE SKILLS" data-shortTxt="SCIENCE">SCIENCE</h4>
             </div>
         </div>
-
+        <!-- INJURY / ILLNESS || ADD -->
         <div class="row bg-white">
             <div id="medical-1" class="col-2 px-0">
                 <div class="input-group my-0">
@@ -962,7 +956,7 @@
             <div id="science-2" class="col-2 px-0"></div>
             <div id="scienceVal-2" class="col-1 px-0"></div>
         </div>
-
+        <!-- ADD || EMPTY-->
         <div class="row bg-white">
             <div id="medical-3" class="col-2 px-0">
                 <button class="btn btn-block btn-info border border-dark text-center font-weight-bold addSkillBtn my-2 mx-auto" data-target="MedicalSkills" type="button">ADD</button>
@@ -1053,7 +1047,7 @@
             <div id="scienceVal-16" class="col-1 px-0"></div>
         </div>
 
-        <!-- CRAFTSMAN / CONSTRUCTION -->
+        <!-- CRAFTSMAN || CONSTRUCTION -->
         <div class="row bg-white border-top border-dark">
             <div class="col-6 border-right border-dark">
                 <h4 id="craftsmanSkillsLbl" class="font-weight-bold my-2 text-center" data-longTxt="CRAFTSMAN SKILLS" data-shortTxt="CRAFTSMAN">CRAFTSMAN</h4>
@@ -1062,7 +1056,7 @@
                 <h4 id="constructionSkillsLbl" class="font-weight-bold my-2 text-center" data-longTxt="CONSTRUCTION SKILLS" data-shortTxt="CONSTRUCTION">CONSTRUCTION</h4>
             </div>
         </div>
-
+        <!-- CRAFTSMAN / ADD || CONSTRUCTION / ADD -->
         <div class="row bg-white">
             <div id="craftsman-1" class="col-2 px-0">
                 <div class="input-group my-0">
@@ -1188,7 +1182,7 @@
             <div id="constructionVal-16" class="col-1 px-0"></div>
         </div>
 
-        <!-- TECHNOLOGY / TRANSPORTATION -->
+        <!-- TECHNOLOGY || TRANSPORTATION -->
         <div class="row bg-white border-top border-dark">
             <div class="col-6 border-right border-dark">
                 <h4 id="technologySkillsLbl" class="font-weight-bold my-2 text-center" data-longTxt="TECHNOLOGY SKILLS" data-shortTxt="TECHNOLOGY">TECHNOLOGY</h4>
@@ -1197,7 +1191,7 @@
                 <h4 id="transportationSkillsLbl" class="font-weight-bold my-2 text-center" data-longTxt="TRANSPORTATION SKILLS" data-shortTxt="TRANSPORTATION">TRANSPORTATION</h4>
             </div>
         </div>
-
+        <!-- ADD || ADD -->
         <div class="row bg-white">
             <div id="technology-1" class="col-2 px-0">
                 <button class="btn btn-block btn-info border border-dark text-center font-weight-bold addSkillBtn my-2 mx-auto" data-target="TechnologySkills" type="button">ADD</button>
@@ -1306,6 +1300,44 @@
             <div id="transportationVal-16" class="col-1 px-0"></div>
         </div>
 
+        <!-- ABILITIES -->
+        <div class="row bg-black">
+            <div class="col-12">
+                <h4 id="abilitiesLbl" class="font-weight-bold my-2 text-center text-white">CHARACTER ABILITIES</h4>
+            </div>
+        </div>
+        <!-- ADD -->
+        <div class="row bg-white">
+            <div id="ability-1" class="col-3 px-0">
+                <button class="btn btn-block btn-info border border-dark text-center font-weight-bold addAbilityBtn my-2 mx-auto" data-target="Abilities" type="button">ADD</button>
+            </div>
+            <div id="ability-2" class="col-3 px-0"></div>
+            <div id="ability-3" class="col-3 px-0"></div>
+            <div id="ability-4" class="col-3 px-0"></div>
+        </div>
+
+        <div class="row bg-white">
+            <div id="ability-5" class="col-3 px-0"></div>
+            <div id="ability-6" class="col-3 px-0"></div>
+            <div id="ability-7" class="col-3 px-0"></div>
+            <div id="ability-8" class="col-3 px-0"></div>
+        </div>
+
+        <div class="row bg-white">
+            <div id="ability-9" class="col-3 px-0"></div>
+            <div id="ability-10" class="col-3 px-0"></div>
+            <div id="ability-11" class="col-3 px-0"></div>
+            <div id="ability-12" class="col-3 px-0"></div>
+        </div>
+
+        <div class="row bg-white">
+            <div id="ability-13" class="col-3 px-0"></div>
+            <div id="ability-14" class="col-3 px-0"></div>
+            <div id="ability-15" class="col-3 px-0"></div>
+            <div id="ability-16" class="col-3 px-0"></div>
+        </div>
+
+        <!-- SUBMIT -->
         <div id="submitSlot" class="row bg-secondary d-none">
             <div class="col-md-4"></div>
             <div class="col-12 col-md-4 my-3">
@@ -1313,6 +1345,5 @@
             </div>
             <div class="col-md-4"></div>
         </div>
-
     </fieldset>
 }
