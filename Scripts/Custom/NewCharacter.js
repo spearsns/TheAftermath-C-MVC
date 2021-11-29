@@ -753,7 +753,7 @@
 							"<div class='row bg-white'>" +
 								"<div class='col-4'>" +
 									"<div class='input-group my-1'>" +
-										"<button class='btn btn-block "+ button +" border border-dark font-weight-bold my-1 px-0 selectSkillBtn'" + "data-skillclass='"+ skillClass +"'" +
+										"<button class='btn btn-block "+ button +" border border-dark font-weight-bold my-1 px-0 text-uppercase selectSkillBtn' data-skillclass='"+ skillClass +"'" +
 								"data-number='" + number + "' data-type='" + obj.Type + "' data-skill='" + obj.Name + "' data-formula='" + obj.Formula + "' data-reqs='"+ obj.Requirements +"' data-shortTxt='"+ obj.ShortTxt +"' data-longTxt='"+ obj.LongTxt +"' type='button'>"+ obj.Name +"</button>" +
 									"</div>" +
 								"</div>" +
@@ -809,7 +809,7 @@
 								"<div class='row bg-white'>" +
 								"<div class='col-4'>" +
 								"<div class='input-group my-1'>" +
-								"<button class='btn btn-block " + button + " border border-dark font-weight-bold my-1 px-0 selectSkillBtn'" + "data-skillclass='" + skillClass + "'" +
+								"<button class='btn btn-block " + button + " border border-dark font-weight-bold my-1 px-0 selectSkillBtn text-uppercase' data-skillclass='" + skillClass + "'" +
 								"data-number='" + number + "' data-type='" + obj.Type + "' data-skill='" + obj.Name + "' data-formula='" + obj.Formula + "' data-reqs='" + obj.Requirements + "' data-shortTxt='"+ obj.ShortTxt +"' data-longTxt='"+ obj.LongTxt +"' type='button'>"+ obj.Name +"</button>" +
 								"</div>" +
 								"</div>" +
@@ -913,7 +913,7 @@
 		// RENDER HTML FOR NEW SKILL
 		$("#" + skillClass.toLowerCase() + "-" + slotNum).html(
 			'<div class="input-group my-0">' +
-			'<button class="btn btn-block border ' + border + ' bw-thick font-weight-bold my-1 px-0 ' + training + ' " data-skill="' + skill + '" data-skillclass="' + skillClass + '" data-shortTxt="' + shortTxt + '" data-longTxt="' + longTxt +'" type="button">' + skill + '</button>' +
+			'<button class="btn btn-block border ' + border + ' bw-thick font-weight-bold my-1 px-0 ' + training + ' text-uppercase" data-skill="' + skill + '" data-skillclass="' + skillClass + '" data-shortTxt="' + shortTxt + '" data-longTxt="' + longTxt +'" type="button">' + skill + '</button>' +
 			'</div>'
 		);
 		$("#" + skillClass.toLowerCase() + "Val-" + slotNum).html(

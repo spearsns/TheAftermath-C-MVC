@@ -52,7 +52,20 @@
                     </div>
                     <div class="col-3">
                         <div class="input-group my-2 text-center">
-                            <input class="form-control text-center px-0 py-0 attrPtsVal" type="number" name="expPool" value="" readonly />
+                            <input class="form-control text-center px-0 py-0 expPool" type="number" value="" readonly />
+                        </div>
+                    </div>
+                    <div class="col-3"></div>
+                </div>
+
+                <div class="row bg-secondary" id="costRow">
+                    <div class="col-3"></div>
+                    <div class="col-3">
+                        <h5 class="font-weight-bold text-center my-3 mx-auto costDefLbl" data-shortTxt="COST:" data-longTxt="COST TO INCREASE:">COST:</h5>
+                    </div>
+                    <div class="col-3">
+                        <div class="input-group my-2 text-center">
+                            <input class="form-control text-center px-0 py-0" id="attrCost" type="number" value="" readonly />
                         </div>
                     </div>
                     <div class="col-3"></div>
@@ -107,6 +120,8 @@
         <div class="modal-content">
             <div class="modal-body">
                 <input id="skillType" type="hidden" name="" value="" readonly />
+                <input id="skillName" type="hidden" name="" value="" readonly />
+
                 <div class="row bg-secondary" id="expPoolRow">
                     <div class="col-3"></div>
                     <div class="col-3">
@@ -114,7 +129,20 @@
                     </div>
                     <div class="col-3">
                         <div class="input-group my-2 text-center">
-                            <input class="form-control text-center px-0 py-0 attrPtsVal" type="number" name="expPool" value="" readonly />
+                            <input class="form-control text-center px-0 py-0 expPool" type="number" name="expPool" value="" readonly />
+                        </div>
+                    </div>
+                    <div class="col-3"></div>
+                </div>
+
+                <div class="row bg-secondary" id="costRow">
+                    <div class="col-3"></div>
+                    <div class="col-3">
+                        <h5 class="font-weight-bold text-center my-3 mx-auto costLbl" data-shortTxt="COST:" data-longTxt="COST TO INCREASE:">COST:</h5>
+                    </div>
+                    <div class="col-3">
+                        <div class="input-group my-2 text-center">
+                            <input class="form-control text-center px-0 py-0" id="skillCost" type="number" value="" readonly />
                         </div>
                     </div>
                     <div class="col-3"></div>
@@ -1308,8 +1336,8 @@
         </div>
         <!-- ADD -->
         <div class="row bg-white">
-            <div id="ability-1" class="col-3 px-0">
-                <button class="btn btn-block btn-info border border-dark text-center font-weight-bold addAbilityBtn my-2 mx-auto" data-target="Abilities" type="button">ADD</button>
+            <div id="ability-1" class="col-3 px-0 d-flex justify-content-center">
+                <button class="btn btn-info border border-dark text-center font-weight-bold addAbilityBtn my-2 mx-auto w-50" type="button">ADD</button>
             </div>
             <div id="ability-2" class="col-3 px-0"></div>
             <div id="ability-3" class="col-3 px-0"></div>

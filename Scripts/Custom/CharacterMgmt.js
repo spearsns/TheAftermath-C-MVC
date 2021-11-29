@@ -96,7 +96,7 @@
 						// RENDER HTML FOR NEXT SKILL SLOT
 						$("#" + skillClass.toLowerCase() + "-" + slotNum).html(
 							'<div class="input-group my-0">' +
-							'<button class="btn btn-block border ' + border + ' bw-thick font-weight-bold my-1 px-0" data-skill="' + skill + '" data-skillclass="' + skillClass + '" data-shortTxt="' + shortTxt + '" data-longTxt="' + longTxt + '" type="button">' + skill + '</button>' +
+							'<button class="btn btn-block border ' + border + ' bw-thick font-weight-bold my-1 px-0 text-uppercase adjSkillBtn" data-skill="' + skill + '" data-skillclass="' + skillClass + '" data-shortTxt="' + shortTxt + '" data-longTxt="' + longTxt + '" type="button">' + skill + '</button>' +
 							'</div>'
 						);
 						$("#" + skillClass.toLowerCase() + "Val-" + slotNum).html(
@@ -142,6 +142,17 @@
 	var ospeed = speed;
 
 	// POPULATE ATTR MODAL
+	function checkAttrCost() {
+		var value = parseInt($("#currentAttrVal").val());
+		
+		if (value <= 4) cost = 5000;
+		else if (value >= 5 && value <= 8) cost = 2500;
+		else if (value >= 9 && value <= 12) cost = 2000;
+		else if (value >= 13 && value <= 16) cost = 2500;
+		else cost = 5000; // value 17 to 20
+		$("#attrCost").val(cost);
+	}
+
 	$(".attributeBtn").click(function () {
 		var choice = $(this).data("attr");
 		// MOBILE VIEW ADJUSTMENTS
@@ -160,26 +171,24 @@
 		$("#currentAttr").html(String(choice) + ":");
 		$("#currentAttrVal").val(eval(choice));
 		$("#attrConfirmBtn").data("attr", choice);
+		$(".expPool").val(exp);
 
+		checkAttrCost();
 		$("#attributeModal").modal("toggle");
 		altText(lg);
 	});
 
 	$("#incAttrBtn").click(function () {
 		var value = parseInt($("#currentAttrVal").val());
-
-		if (value <= 4) cost = 5000;
-		else if (value >= 5 && value <= 8) cost = 2500;
-		else if (value >= 9 && value <= 12) cost = 2000;
-		else if (value >= 13 && value <= 16) cost = 2500;
-		else cost = 5000; // value 16 to 20
-
-		if (exp >= cost) {
+		checkAttrCost();
+		
+		if (exp >= cost && value < 20) {
 			value += 1;
 			exp -= cost;
 			expTransfer += cost;
 			$(".expPool").val(exp);
 			$("#currentAttrVal").val(value);
+			checkAttrCost();
 		}
 		else alert("Cannot Increase Further");
 	});
@@ -187,18 +196,19 @@
 	$("#decAttrBtn").click(function () {
 		var value = parseInt($("#currentAttrVal").val());
 
-		if (value <= 4) cost = 5000;
-		else if (value >= 5 && value <= 8) cost = 2500;
-		else if (value >= 9 && value <= 12) cost = 2000;
-		else if (value >= 13 && value <= 16) cost = 2500;
-		else cost = 5000; // value 16 to 20
+		if (value <= 5) cost = 5000;
+		else if (value >= 6 && value <= 9) cost = 2500;
+		else if (value >= 10 && value <= 13) cost = 2000;
+		else if (value >= 14 && value <= 17) cost = 2500;
+		else cost = 5000; // value 17 to 20
 
 		if (exp >= 0 && value > original) {
 			value -= 1;
-			expTrans -= cost;
+			expTransfer -= cost;
 			exp += cost;
 			$(".expPool").val(exp);
 			$("#currentAttrVal").val(value);
+			checkAttrCost();
 		}
 		else alert("Cannot Decrease Further");
 	});
@@ -207,14 +217,17 @@
 		var choice = $(this).data("attr");
 		var value = $("#currentAttrVal").val();
 		$("#" + choice).val(value);
-		setAttributes();
 		$(".expPool").val(exp);
+		setAttributes();
 		expTransfer = 0;
+		cost = 0;
 		$("#attributeModal").modal("toggle");
 	});
 
 	$("#attrCancelBtn").click(function () {
 		exp += expTransfer;
+		cost = 0;
+		expTransfer = 0;
 		$(".expPool").val(exp)
 		$("#attributeModal").modal("toggle");
 	});
@@ -240,42 +253,19 @@
 	}
 
 	/* SKILL ADJUSTMENT */
-	// POPULATE SKILL MODAL
-	$("body").on("click", ".adjSkillBtn", function () {
-		var skill = $(this).data("skill");
-		var value = parseInt($("input[name='Skill-" + skill + "']").val());
-		var shortTxt = $(this).data("shorttxt");
-		var longTxt = $(this).data("longtxt");
-		var type;
+	function checkSkillCost() {
+		var skill = $("#skillName").val();
+		var skillType = $("#skillType").val();
+		var value = $("#currentSkillVal").val();
 
-		if ($(this).hasClass("border-danger")) type = "Advanced";
-		else if ($(this).hasClass("border-warning")) type = "General";
-		else type = "Focus";
-
-		original = value;
-		$("#originalSkillVal").val(original);
-		$("#skillType").val(type);
-		$("#currentSkill").html(String(skill) + ":").attr( "data-shortTxt", shortTxt ).attr( "data-longTxt", longTxt );
-		$("#currentSkillVal").val(eval(skill));
-		$("#skillConfirmBtn").data("skill", skill);
-		$("#skillModal").modal("toggle");
-		altText(lg);
-	});
-
-	$("#incSkillBtn").click(function () {
-		var value = parseInt( $("#currentSkillVal").val() );
-		var type = parseInt( $("#skillType").val() );
-
-		if (type == "Advanced") {
+		if (skillType == "Advanced") {
 			if (skill == "OffHand") {
 				if (value <= -80) cost = 1500;
 				else if (value >= -79 && value <= -60) cost = 1000;
-				else if (value >= 59 && value <= -40) cost = 750;
-				else if (value >= 39 && value <= -20) cost = 500;
-				else if (value >= 19 && value <= -10) cost = 1000;
+				else if (value >= -59 && value <= -40) cost = 750;
+				else if (value >= -39 && value <= -20) cost = 500;
+				else if (value >= -19 && value <= -10) cost = 1000;
 				else cost = 1500; // value 9 - 0
-
-				skillMax = 0;
 			}
 			else if (skill == "Dodge") {
 				if (value <= -25) cost = 1000;
@@ -283,27 +273,100 @@
 				else if (value >= -9 && value <= 10) cost = 500;
 				else if (value >= 11 && value <= 25) cost = 750;
 				else cost = 1000; // value 26 - 50
-
-				skillMax = 50;
 			}
 			else {
 				if (value <= 25) cost = 500;
 				else if (value >= 26 && value <= 75) cost = 250;
 				else if (value >= 76 && value <= 100) cost = 500;
 				else if (value >= 101 && value <= 125) cost = 1000;
-				else cost = 1500; // value 126 - 150
-				skillMax = 150;
+				else cost = 1500; // value 125 to 150
 			}
 		}
-		else if (type == "General") {
+		else if (skillType == "General") {
 			if (value <= 25) cost = 250;
 			else if (value >= 26 && value <= 75) cost = 100;
 			else if (value >= 76 && value <= 100) cost = 250;
 			else if (value >= 101 && value <= 125) cost = 500;
-			else cost = 1000; // value 126 - 150
-			skillMax = 150;
+			else cost = 1000; // value 125 to 150
 		}
-		else { cost = 100; skillMax = 50 } // type == focus
+		// FOCUS NEEDS TWEAKING ON COSTS
+		else cost = 100; // FOCUS
+		$("#skillCost").val(cost);
+	}
+	// POPULATE SKILL MODAL
+	function popAdjSkillModal() {
+		var skill;
+		var skillType;
+		var skillClass;
+		var value;
+		var shortTxt;
+		var longTxt;
+
+		if (newSkill == true) {
+			skill = nsName;
+			skillType = nsType;
+			skillClass = nsClass;
+			value = 0;
+			shortTxt = nsShortTxt;
+			longTxt = nsLongTxt;
+		}
+		else { // NEW SKILL FALSE
+			skill = $(this).data("skill");
+			value = parseInt($("input[name='Skill-" + skill + "']").val());
+			shortTxt = $(this).data("shorttxt");
+			longTxt = $(this).data("longtxt");
+			// DETERMINE TYPE
+			if ($(this).hasClass("border-danger")) skillType = "Advanced";
+			else if ($(this).hasClass("border-warning")) skillType = "General";
+			else skillType = "Focus";
+        }
+		
+		$(".expPool").val(exp);
+		original = value;
+		$("#originalSkillVal").val(original);
+		$("#currentSkill").html(String(skill) + ":").attr("data-shortTxt", shortTxt).attr("data-longTxt", longTxt);
+		$("#currentSkillVal").val(value);
+		$("#skillConfirmBtn").data("skill", skill);
+		$("#skillName").val(skill);
+		$("#skillType").val(skillType);
+		checkSkillCost();
+		$("#skillModal").modal("toggle");
+		altText(lg);
+    }
+
+	$("body").on("click", ".adjSkillBtn", function () {
+		var skill = $(this).data("skill");
+		var value = parseInt($("input[name='Skill-" + skill + "']").val());
+		var shortTxt = $(this).data("shorttxt");
+		var longTxt = $(this).data("longtxt");
+		var skillType;
+
+		if ($(this).hasClass("border-danger")) skillType = "Advanced";
+		else if ($(this).hasClass("border-warning")) skillType = "General";
+		else skillType = "Focus";
+
+		$(".expPool").val(exp);
+		original = value;
+		$("#originalSkillVal").val(original);
+		$("#currentSkill").html(String(skill) + ":").attr( "data-shortTxt", shortTxt ).attr( "data-longTxt", longTxt );
+		$("#currentSkillVal").val(value);
+		$("#skillConfirmBtn").data("skill", skill);
+		$("#skillName").val(skill);
+		$("#skillType").val(skillType);
+		checkSkillCost();
+		$("#skillModal").modal("toggle");
+		altText(lg);
+	});
+
+	$("#incSkillBtn").click(function () {
+		var skill = $("#skillName").val();
+		var value = parseInt( $("#currentSkillVal").val() );
+		var type = $("#skillType").val();
+
+		if (type == "Focus") skillMax = 75;
+		else if (skill == "OffHand") skillMax = 0;
+		else if (skill == "Dodge") skillMax = 50;
+		else skillMax = 150;
 
 		if (exp >= cost && value < skillMax) {
 			value += 1;
@@ -311,72 +374,150 @@
 			expTransfer += cost;
 			$(".expPool").val(exp);
 			$("#currentSkillVal").val(value);
+			checkSkillCost();
 		}
 		else alert("Cannot Increase Further");
 	});
 
 	$("#decSkillBtn").click(function () {
+		var skill = $("#skillName").val();
 		var value = parseInt( $("#currentSkillVal").val() );
-		var type = parseInt( $("#skillType").val() );
+		var type = $("#skillType").val();
 		if (type == "Advanced") {
 			if (skill == "OffHand") {
-				if (value <= -80) cost = 1500;
-				else if (value >= -79 && value <= -60) cost = 1000;
-				else if (value >= 59 && value <= -40) cost = 750;
-				else if (value >= 39 && value <= -20) cost = 500;
-				else if (value >= 19 && value <= -10) cost = 1000;
-				else cost = 1500; // value 9 - 0
+				if (value <= -79) cost = 1500;
+				else if (value >= -78 && value <= -59) cost = 1000;
+				else if (value >= -58 && value <= -39) cost = 750;
+				else if (value >= -38 && value <= -19) cost = 500;
+				else if (value >= -18 && value <= -9) cost = 1000;
+				else cost = 1500; // value 8 - 0
 			}
 			else if (skill == "Dodge") {
-				if (value <= -25) cost = 1000;
-				else if (value >= -24 && value <= -10) cost = 750;
-				else if (value >= -9 && value <= 10) cost = 500;
-				else if (value >= 11 && value <= 25) cost = 750;
+				if (value <= -26) cost = 1000;
+				else if (value >= -25 && value <= -9) cost = 750;
+				else if (value >= -8 && value <= 11) cost = 500;
+				else if (value >= 12 && value <= 26) cost = 750;
 				else cost = 1000; // value 26 - 50
 			}
 			else {
-				if (value <= 25) cost = 500;
-				else if (value >= 26 && value <= 75) cost = 250;
-				else if (value >= 76 && value <= 100) cost = 500;
-				else if (value >= 101 && value <= 125) cost = 1000;
-				else cost = 1500; // value 126 - 150
+				if (value <= 26) cost = 500;
+				else if (value >= 26 && value <= 76) cost = 250;
+				else if (value >= 76 && value <= 101) cost = 500;
+				else if (value >= 102 && value <= 126) cost = 1000;
+				else cost = 1500; // value 127 - 150
 			}
 		}
 		else if (type == "General") {
-			if (value <= 25) cost = 250;
-			else if (value >= 26 && value <= 75) cost = 100;
-			else if (value >= 76 && value <= 100) cost = 250;
-			else if (value >= 101 && value <= 125) cost = 500;
+			if (value <= 26) cost = 250;
+			else if (value >= 27 && value <= 76) cost = 100;
+			else if (value >= 77 && value <= 101) cost = 250;
+			else if (value >= 102 && value <= 126) cost = 500;
 			else cost = 1000; // value 126 - 150
 		}
 		else cost = 100; // type == focus
+		$("#skillCost").val(cost);
 
 		if (exp >= 0 && value > original) {
 			value -= 1;
 			expTransfer -= cost;
 			exp += cost;
 			$(".expPool").val(exp);
-			$("#currentAttrVal").val(value);
+			$("#currentSkillVal").val(value);
 		}
 		else alert("Cannot Decrease Further");
 	});
 
 	$("#skillConfirmBtn").click(function () {
-		var choice = $(this).data("skill");
-		var value = $("#currentSkillVal").val();
-		$("input[name='Skill-" + choice + "']").val(value);
-		$(".expPool").val(exp);
+		if (newSkill == true) {
+			// HTML PREP FOR NEW SKILL
+			var skill = nsName;
+			var skillClass = nsClass;
+			var skillType = nsType;
+			var shortTxt = nsShortTxt;
+			var longTxt = nsLongTxt;
+			var slotNum = nsSlotNum;
+			var skillValue = $("#currentSkillVal").val();
+			var border;
+			if (skillType == "General") border = "border-warning";
+			else if (skillType == "Advanced") border = "border-danger";
+			else border = "border-secondary"; // skillClass == "Focus"
+
+			if (skillClass == "Affiliation" || skillClass == "Languages") skillClass = "Social";
+
+			var nextSlot;
+			if (skillClass == "Combat") nextSlot = slotNum + 2;
+			else nextSlot = slotNum + 1;
+			// RENDER HTML FOR NEW SKILL
+			$("#" + skillClass.toLowerCase() + "-" + slotNum).html(
+				'<div class="input-group my-0">' +
+				'<button class="btn btn-block border ' + border + ' bw-thick font-weight-bold my-1 px-0" data-skill="' + skill + '" data-skillclass="' + skillClass + '" data-shortTxt="' + shortTxt + '" data-longTxt="' + longTxt + '" type="button">' + skill + '</button>' +
+				'</div>'
+			);
+			$("#" + skillClass.toLowerCase() + "Val-" + slotNum).html(
+				'<div class="input-group my-2">' +
+				'<input class="form-control text-center px-0 py-0" type="number" name="Skill-' + skill + '" value="' + (skillValue) + '" readonly />' +
+				'</div>'
+			);
+			// RENDER HTML FOR NEW ADD SKILL BTN
+			$("#" + skillClass.toLowerCase() + "-" + nextSlot).html(
+				'<button class="btn btn-block btn-info border border-dark text-center font-weight-bold addSkillBtn my-2 mx-auto" data-target="' + skillClass + "Skills" + '" type="button">ADD</button>'
+			);
+			$("#" + skillClass.toLowerCase() + "Val-" + nextSlot).html(
+				'<div class="input-group my-2">' +
+				'<input class="form-control text-center px-0 py-0" value="" readonly />' +
+				'</div>'
+			);
+			// CLEAR MODALS & TRANSFER DATA
+			newSkill = false;
+			nsName = null;
+			nsClass = null;
+			nsType = null;
+			nsShortTxt = null;
+			nsLongTxt = null;
+			nsSlotNum = null;
+			clearNSModals();
+		}
+		else { // ADJ EXISTING SKILL
+			var choice = $(this).data("skill");
+			var value = $("#currentSkillVal").val();
+			$("input[name='Skill-" + choice + "']").val(value);
+        }
+
+		// CLEAR ADJ VARIABLES
 		expTransfer = 0;
+		cost = 0;
+		$(".expPool").val(exp);
 		$("#skillModal").modal("toggle");
 	});
 
 	$("#skillCancelBtn").click(function () {
 		exp += expTransfer;
-		$(".expPool").val(exp)
+		// CLEAR ADJ VARIABLES
+		expTransfer = 0;
+		cost = 0;
+		if (newSkill == true) {
+			newSkill = false;
+			nsName = null;
+			nsClass = null;
+			nsType = null;
+			nsShortTxt = null;
+			nsLongTxt = null;
+			nsSlotNum = null;
+			clearNSModals();
+		}
+
+		$(".expPool").val(exp);
 		$("#skillModal").modal("toggle");
 	});
 
 	/* ADD SKILL BUTTONS */
+	var newSkill = false;
+	var nsName;
+	var nsClass;
+	var nsType;
+	var nsShortTxt;
+	var nsLongTxt;
+	var nsSlotNum;
 	// POPULATE SELECTION MODAL
 	$("body").on("click", ".addSkillBtn", function () {
 		var parentID = $(this).parent().attr("id");
@@ -432,7 +573,7 @@
 								"<div class='col-4'>" +
 								"<div class='input-group my-1'>" +
 								"<button class='btn btn-block " + button + " border border-dark font-weight-bold my-1 px-0 selectSkillBtn'" + "data-skillclass='" + skillClass + "'" +
-								"data-number='" + number + "' data-type='" + obj.Type + "' data-skill='" + obj.Name + "' data-formula='" + obj.Formula + "' data-reqs='" + obj.Requirements + "' data-shortTxt='" + obj.ShortTxt + "' data-longTxt='" + obj.LongTxt + "' type='button'>" + obj.Name + "</button>" +
+								"data-number='" + number + "' data-type='" + obj.Type + "' data-skill='" + obj.Name + "'  data-reqs='" + obj.Requirements + "' data-shortTxt='" + obj.ShortTxt + "' data-longTxt='" + obj.LongTxt + "' type='button'>" + obj.Name + "</button>" +
 								"</div>" +
 								"</div>" +
 								"<div class='col-8'>" +
@@ -503,14 +644,13 @@
 
 	// SELECT SKILL BUTTON (CHOOSE NEW SKILL)
 	$("body").on("click", ".selectSkillBtn", function () {
-		var skill = $(this).data("skill");
-		var skillClass = $(this).data("skillclass");
-		var skillType = $(this).data("type");
+		nsName = $(this).data("skill");
+		nsClass = $(this).data("skillclass");
+		nsType = $(this).data("type");
 		var skillReqs = $(this).data("reqs");
-		var skillFormula = $(this).data("formula");
-		var slotNum = $(this).data("number");
-		var shortTxt = $(this).data("shorttxt");
-		var longTxt = $(this).data("longtxt");
+		nsSlotNum = $(this).data("number");
+		nsShortTxt = $(this).data("shorttxt");
+		nsLongTxt = $(this).data("longtxt");
 		// CHECK SKILL REQUIREMENTS
 		if (skillReqs != null) {
 			var reqs = $(this).data("reqs");
@@ -532,39 +672,18 @@
 				throw new Error("Minimum Requirements not met: " + reqs);
 			}
 		}
-		// HTML PREP
-		var border;
-		if (skillType == "General") border = "border-warning";
-		else if (skillType == "Advanced") border = "border-danger";
-		else border = "border-secondary"; // skillClass == "Focus"
+		// POPULATE SKILL ADJ MODAL
+		$("#newSkillsModal").modal("hide");
+		newSkill = true;
+		popAdjSkillModal();
+	});
 
-		if (skillClass == "Affiliation" || skillClass == "Languages") skillClass = "Social";
+	// CANCEL NEW SKILL BUTTON
+	$("#NSM-cancelBtn, #SSM-cancelBtn").click(function () {
+		clearNSModals();		
+	});
 
-		var nextSlot;
-		if (skillClass == "Combat") nextSlot = slotNum + 2;
-		else nextSlot = slotNum + 1;
-
-		var skillValue = eval(skillFormula) + roll(1, 10);
-		// RENDER HTML FOR NEW SKILL
-		$("#" + skillClass.toLowerCase() + "-" + slotNum).html(
-			'<div class="input-group my-0">' +
-			'<button class="btn btn-block border ' + border + ' bw-thick font-weight-bold my-1 px-0" data-skill="' + skill + '" data-skillclass="' + skillClass + '" data-shortTxt="' + shortTxt + '" data-longTxt="' + longTxt + '" type="button">' + skill + '</button>' +
-			'</div>'
-		);
-		$("#" + skillClass.toLowerCase() + "Val-" + slotNum).html(
-			'<div class="input-group my-2">' +
-			'<input class="form-control text-center px-0 py-0" type="number" name="Skill-' + skill + '" value="' + (skillValue) + '" readonly />' +
-			'</div>'
-		);
-		// RENDER HTML FOR NEW ADD SKILL BTN
-		$("#" + skillClass.toLowerCase() + "-" + nextSlot).html(
-			'<button class="btn btn-block btn-info border border-dark text-center font-weight-bold addSkillBtn my-2 mx-auto" data-target="' + skillClass + "Skills" + '" type="button">ADD</button>'
-		);
-		$("#" + skillClass.toLowerCase() + "Val-" + nextSlot).html(
-			'<div class="input-group my-2">' +
-			'<input class="form-control text-center px-0 py-0" value="" readonly />' +
-			'</div>'
-		);
+	function clearNSModals() {
 		// CLEAR NEW SKILL MODAL
 		$("#NSM-begin").html(
 			'<div class="row bg-dark">' +
@@ -576,7 +695,6 @@
 			'</div>' +
 			'</div>'
 		);
-		$("#newSkillsModal").modal("hide");
 		// CLEAR SUB SKILL MODAL
 		$("#SSM-begin").html(
 			'<div class="row bg-dark">' +
@@ -590,30 +708,7 @@
 		);
 		$("#subSkillsModal").modal("hide");
 		altText(lg);
-	});
-
-	// CANCEL NEW SKILL BUTTON
-	$("#NSM-cancelBtn, #SSM-cancelBtn").click(function () {
-		$("#NSM-begin").html(
-			'<div class="row bg-dark">' +
-			'<div class="col-4">' +
-			'<h6 class="font-weight-bold text-center text-white my-2">SKILL</h6>' +
-			'</div>' +
-			'<div class="col-8">' +
-			'<h6 class="font-weight-bold text-center text-white my-2">DSCRPT</h6>' +
-			'</div>' +
-			'</div>'
-		); $("#SSM-begin").html(
-			'<div class="row bg-dark">' +
-			'<div class="col-4">' +
-			'<h6 class="font-weight-bold text-center text-white my-2">SKILL</h6>' +
-			'</div>' +
-			'<div class="col-8">' +
-			'<h6 class="font-weight-bold text-center text-white my-2">DSCRPT</h6>' +
-			'</div>' +
-			'</div>'
-		);
-	});
+	}
 
 	/* ADD ABILITY BUTTONS */
 	// POPULATE ABILITY MODAL

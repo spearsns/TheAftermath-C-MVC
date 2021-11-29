@@ -94,6 +94,14 @@ textarea {
     background-repeat: no-repeat;
 }
 
+.w-50{
+    width: 50%;
+}
+
+.w-75{
+    width: 75%;
+}
+
 .text-black{
     color: black;
 }

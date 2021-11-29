@@ -259,12 +259,11 @@
     <Content Include="Content\Images\Graffiti\passwordWhite-500x150.png" />
     <Content Include="Content\Images\Graffiti\period-white-500x150.png" />
     <Content Include="Content\Images\Graffiti\playbookWhite-900x150.png" />
-    <Content Include="Content\Images\Graffiti\recTerminal-900x150.png" />
     <Content Include="Content\Images\Graffiti\status-green-500x150.png" />
     <Content Include="Content\Images\Graffiti\successGreen-900x150.png" />
     <Content Include="Content\Images\Graffiti\total-white-500x150.png" />
     <Content Include="Content\Images\Graffiti\usernameBlue-500x150.png" />
-    <Content Include="Content\Images\Graffiti\Welcome-900x150.png" />
+    <Content Include="Content\Images\Graffiti\WttA-green-900x150.png" />
     <Content Include="Content\Images\Icons\messageIcon-50x50.png" />
     <Content Include="Content\Images\Textures\darkRust.jpg" />
     <Content Include="Content\Images\Textures\darkScratch.jpg" />
