@@ -728,8 +728,63 @@
 	}
 
 	/* ADD ABILITY BUTTONS */
+	var abilityNumber;
 	$("body").on("click", ".addAbilityBtn", function () {
-
+		var parentID = $(this).parent().attr("id");
+		abilityNumber = parentID.split("-")[1];
+		$("#abilitiesModal").modal("toggle");
 	});
-	// POPULATE ABILITY MODAL
+	// POPULATE ABILITY TYPE MODAL
+	$("body").on("click", ".abilityTypeBtn", function () {
+		var target = $(this).data("target");
+		// GET EXISTING ABILITIES
+		var abilityArr = [];
+		for (i = 0; i < 16; i++) {
+			if ($("#ability" + i).children.length > 0) {
+				var ability = String($("#ability" + i).children().children().data("ability"));
+				if (ability != "Undefined") abilityArr.push(ability);
+			}
+		}
+		/*
+		// GET JSON RETURN & RENDER HTML
+		$.ajax({
+			type: 'POST',
+			url: 'GetNewAbilities',
+			data: '{Target: "' + target + '"}',
+			dataType: 'json',
+			contentType: "application/json; charset=utf-8",
+			success:
+				function (results) {
+					for (var i = 0; i < abilitiesList.length; i++) {
+						var obj = abilitiesList[i];
+						// COMPARE EXISTING TO RETURN AND OMIT RESULTS WHERE NECESSARY
+						if (abilityArr.includes(obj.Name)) continue;
+						else {
+							// HTML
+							$("#ATM-begin").append(
+								"<div class='row bg-white'>" +
+									"<div class='col-4'>" +
+										"<div class='input-group my-1'>" +
+											"<button class='btn btn-block btn-warning border border-dark font-weight-bold my-1 px-0 selectAbilityBtn' data-number='"+ number +"' data-ability='"+ obj.Name +"'" +
+											"data-effects='"+ obj.Effects +"' data-reqs='"+ obj.Requirements +"' data-cost='"+ obj.Cost +"' type = 'button' > " + obj.Name + "</button > " +
+										"</div>" +
+									"</div>" +
+									"<div class='col-8'>" +
+										"<p class='text-center my-2'>" + obj.Description + "</p>" +
+									"</div>" +
+								"</div>"
+							);
+						}
+					}
+					$("#abilityTypeModal").modal("toggle");
+				}
+		});
+		*/
+		console.log("Ability Number = " + abilityNumber + " : Target => " + target);
+		$("#abilityTypeModal").modal("toggle");
+	});
+
+	$("#abilityCancelBtn").click(function () {
+		$("#abilitiesModal").modal("toggle");
+	});
 });

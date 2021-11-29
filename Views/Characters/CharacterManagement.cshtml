@@ -36,8 +36,10 @@
     </div>
 </div>
 
+<!-- INSTRUCTION MODAL -->
+
 <!-- ATTRIBUTE ADJUSTMENT MODAL -->
-<div class="modal fade" id="attributeModal" data-backdrop="static" tabindex="-3" aria-labelledby="attributeModalLabel" aria-hidden="false">
+<div class="modal fade" id="attributeModal" data-backdrop="static" tabindex="-2" aria-labelledby="attributeModalLabel" aria-hidden="false">
     <div class="modal-dialog modal-xl">
         <div class="modal-header bg-black">
             <h4 class="modal-title font-weight-bold text-white mx-auto" id="staticBackdropLabel">ADJUST ATTRIBUTE</h4>
@@ -112,7 +114,7 @@
 </div>
 
 <!-- SKILL ADJUSTMENT MODAL -->
-<div class="modal fade" id="skillModal" data-backdrop="static" tabindex="-4" aria-labelledby="skillModalLabel" aria-hidden="false">
+<div class="modal fade" id="skillModal" data-backdrop="static" tabindex="-3" aria-labelledby="skillModalLabel" aria-hidden="false">
     <div class="modal-dialog modal-xl">
         <div class="modal-header bg-black">
             <h4 class="modal-title font-weight-bold text-white mx-auto" id="staticBackdropLabel">ADJUST SKILL</h4>
@@ -189,7 +191,7 @@
 </div>
 
 <!-- NEW SKILLS MODAL -->
-<div class="modal fade" id="newSkillsModal" data-backdrop="static" tabindex="-5" aria-labelledby="newSkillsModalLabel" aria-hidden="false">
+<div class="modal fade" id="newSkillsModal" data-backdrop="static" tabindex="-4" aria-labelledby="newSkillsModalLabel" aria-hidden="false">
     <div class="modal-dialog modal-xl">
         <div class="modal-header bg-black">
             <h4 class="modal-title font-weight-bold text-white mx-auto" id="staticBackdropLabel">LEARN NEW SKILL</h4>
@@ -213,7 +215,7 @@
 </div>
 
 <!-- SUB SKILLS MODAL -->
-<div class="modal fade" id="subSkillsModal" data-backdrop="static" tabindex="-6" aria-labelledby="subSkillsModalLabel" aria-hidden="false">
+<div class="modal fade" id="subSkillsModal" data-backdrop="static" tabindex="-5" aria-labelledby="subSkillsModalLabel" aria-hidden="false">
     <div class="modal-dialog modal-dialog-scrollable modal-xl">
         <div class="modal-content">
             <div class="modal-body" id="SSM-begin">
@@ -228,6 +230,106 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-lg btn-danger border border-dark mx-auto" id="SSM-cancelBtn" data-dismiss="modal">CANCEL</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ABILITIES MODAL-->
+<div class="modal fade" id="abilitiesModal" data-backdrop="static" tabindex="-6" aria-labelledby="newSkillsModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-header bg-black">
+            <h4 class="modal-title font-weight-bold text-white mx-auto" id="staticBackdropLabel">LEARN NEW ABILITY</h4>
+        </div>
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row bg-white">
+                    <div class="col-2"></div>
+                    <div class="col-8 my-2">
+                        <button type="button" class="btn btn-block btn-info font-weight-bold border-dark mx-auto abilityTypeBtn" data-target="Hand-to-Hand" data-shortTxt="H2H" data-longTxt="HAND TO HAND" data-dismiss="modal">H2H</button>
+                    </div>
+                    <div class="col-2"></div>
+
+                    <div class="col-2"></div>
+                    <div class="col-8 my-2">
+                        <button type="button" class="btn btn-block btn-info font-weight-bold border border-dark mx-auto abilityTypeBtn" data-target="Long" data-shortTxt="LONG" data-longTxt="LONG WEAPONS" data-dismiss="modal">LONG</button>
+                    </div>
+                    <div class="col-2"></div>
+
+                    <div class="col-2"></div>
+                    <div class="col-8 my-2">
+                        <button type="button" class="btn btn-block btn-info font-weight-bold border border-dark mx-auto abilityTypeBtn" data-target="TwoHand" data-shortTxt="2 HAND" data-longTxt="TWO HAND WEAPONS" data-dismiss="modal">2 HAND</button>
+                    </div>
+                    <div class="col-2"></div>
+
+                    <div class="col-2"></div>
+                    <div class="col-8 my-2">
+                        <button type="button" class="btn btn-block btn-info font-weight-bold border border-dark mx-auto abilityTypeBtn" data-target="Chain" data-shortTxt="CHAIN" data-longTxt="CHAIN WEAPONS" data-dismiss="modal">CHAIN</button>
+                    </div>
+                    <div class="col-2"></div>
+
+                    <div class="col-2"></div>
+                    <div class="col-8 my-2">
+                        <button type="button" class="btn btn-block btn-info font-weight-bold border border-dark mx-auto abilityTypeBtn" data-target="Shield" data-shortTxt="SHIELD" data-longTxt="SHIELDS" data-dismiss="modal">SHIELD</button>
+                    </div>
+                    <div class="col-2"></div>
+
+                    <div class="col-2"></div>
+                    <div class="col-8 my-2">
+                        <button type="button" class="btn btn-block btn-info font-weight-bold border border-dark mx-auto abilityTypeBtn" data-target="Thrown" data-shortTxt="THROWN" data-longTxt="THROWN WEAPONS" data-dismiss="modal">THROWN</button>
+                    </div>
+                    <div class="col-2"></div>
+
+                    <div class="col-2"></div>
+                    <div class="col-8 my-2">
+                        <button type="button" class="btn btn-block btn-info font-weight-bold border border-dark mx-auto abilityTypeBtn" data-target="Archery" data-shortTxt="ARCHERY" data-longTxt="ARCHERY" data-dismiss="modal">ARCHERY</button>
+                    </div>
+                    <div class="col-2"></div>
+
+                    <div class="col-2"></div>
+                    <div class="col-8 my-2">
+                        <button type="button" class="btn btn-block btn-info font-weight-bold border border-dark mx-auto abilityTypeBtn" data-target="Pistols" data-shortTxt="PISTOL" data-longTxt="PISTOLS" data-dismiss="modal">PISTOL</button>
+                    </div>
+                    <div class="col-2"></div>
+
+                    <div class="col-2"></div>
+                    <div class="col-8 my-2">
+                        <button type="button" class="btn btn-block btn-info font-weight-bold border border-dark mx-auto abilityTypeBtn" data-target="Rifles" data-shortTxt="RIFLE" data-longTxt="RIFLES" data-dismiss="modal">RIFLE</button>
+                    </div>
+                    <div class="col-2"></div>
+
+                    <div class="col-2"></div>
+                    <div class="col-8 my-2">
+                        <button type="button" class="btn btn-block btn-info font-weight-bold border border-dark mx-auto abilityTypeBtn" data-target="Other" data-shortTxt="OTHER" data-longTxt="OTHER" data-dismiss="modal">OTHER</button>
+                    </div>
+                    <div class="col-2"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-lg btn-danger border border-dark mx-auto" id="abilityCancelBtn" data-dismiss="modal">CANCEL</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ABILITY TYPE MODAL-->
+<div class="modal fade" id="abilityTypeModal" data-backdrop="static" tabindex="-7" aria-labelledby="newSkillsModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="modal-body" id="ATM-begin">
+                    <div class="row bg-dark">
+                        <div class="col-4">
+                            <h6 class="font-weight-bold text-center text-white my-2">ABILITY</h6>
+                        </div>
+                        <div class="col-8">
+                            <h6 class="font-weight-bold text-center text-white my-2">EFFECT</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-lg btn-danger border border-dark mx-auto" id="ATM-cancelBtn" data-dismiss="modal">CANCEL</button>
+                </div>
             </div>
         </div>
     </div>
@@ -1336,8 +1438,8 @@
         </div>
         <!-- ADD -->
         <div class="row bg-white">
-            <div id="ability-1" class="col-3 px-0 d-flex justify-content-center">
-                <button class="btn btn-info border border-dark text-center font-weight-bold addAbilityBtn my-2 mx-auto w-50" type="button">ADD</button>
+            <div id="ability-1" class="col-3 px-0">
+                <button class="btn btn-block btn-info border border-dark text-center font-weight-bold addAbilityBtn my-2 mx-auto w-50" type="button">ADD</button>
             </div>
             <div id="ability-2" class="col-3 px-0"></div>
             <div id="ability-3" class="col-3 px-0"></div>
