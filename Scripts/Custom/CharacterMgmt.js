@@ -225,11 +225,14 @@
 	});
 
 	$("#attrCancelBtn").click(function () {
-		exp += expTransfer;
-		cost = 0;
-		expTransfer = 0;
-		$(".expPool").val(exp)
-		$("#attributeModal").modal("toggle");
+		if (expTransfer == 0) $("#attributeModal").modal("toggle");
+		else {
+			exp += Number(expTransfer);
+			cost = 0;
+			expTransfer = 0;
+			$(".expPool").val(exp)
+			$("#attributeModal").modal("toggle");
+        }
 	});
 
 	function setAttributes() {
@@ -324,7 +327,10 @@
 		$(".expPool").val(exp);
 		original = value;
 		$("#originalSkillVal").val(original);
-		$("#currentSkill").html(String(skill) + ":").attr("data-shortTxt", shortTxt).attr("data-longTxt", longTxt);
+		$("#currentSkill").attr("data-shortTxt", shortTxt);
+		$("#currentSkill").attr("data-longTxt", longTxt);
+		$("#currentSkill").html(skill);
+		
 		$("#currentSkillVal").val(value);
 		$("#skillConfirmBtn").data("skill", skill);
 		$("#skillName").val(skill);
@@ -337,9 +343,9 @@
 	$("body").on("click", ".adjSkillBtn", function () {
 		var skill = $(this).data("skill");
 		var value = parseInt($("input[name='Skill-" + skill + "']").val());
-		var shortTxt = $(this).data("shorttxt");
-		var longTxt = $(this).data("longtxt");
 		var skillType;
+		var	shortTxt = $(this).data("shorttxt");
+		var	longTxt = $(this).data("longtxt");
 
 		if ($(this).hasClass("border-danger")) skillType = "Advanced";
 		else if ($(this).hasClass("border-warning")) skillType = "General";
@@ -348,7 +354,11 @@
 		$(".expPool").val(exp);
 		original = value;
 		$("#originalSkillVal").val(original);
-		$("#currentSkill").html(String(skill) + ":").attr( "data-shortTxt", shortTxt ).attr( "data-longTxt", longTxt );
+		// SEPARATED IN CASE THERE IS NO SHORT/LONG TXT
+		$("#currentSkill").attr("data-shortTxt", shortTxt);
+		$("#currentSkill").attr("data-longTxt", longTxt);
+		$("#currentSkill").html(skill);
+		
 		$("#currentSkillVal").val(value);
 		$("#skillConfirmBtn").data("skill", skill);
 		$("#skillName").val(skill);
@@ -437,6 +447,7 @@
 			var longTxt = nsLongTxt;
 			var slotNum = nsSlotNum;
 			var skillValue = $("#currentSkillVal").val();
+
 			var border;
 			if (skillType == "General") border = "border-warning";
 			else if (skillType == "Advanced") border = "border-danger";
@@ -450,7 +461,7 @@
 			// RENDER HTML FOR NEW SKILL
 			$("#" + skillClass.toLowerCase() + "-" + slotNum).html(
 				'<div class="input-group my-0">' +
-				'<button class="btn btn-block border ' + border + ' bw-thick font-weight-bold my-1 px-0" data-skill="' + skill + '" data-skillclass="' + skillClass + '" data-shortTxt="' + shortTxt + '" data-longTxt="' + longTxt + '" type="button">' + skill + '</button>' +
+				'<button class="btn btn-block border ' + border + ' bw-thick font-weight-bold my-1 px-0 adjSkillBtn" data-skill="' + skill + '" data-skillclass="' + skillClass + '" data-shortTxt="' + shortTxt + '" data-longTxt="' + longTxt + '" type="button">' + skill + '</button>' +
 				'</div>'
 			);
 			$("#" + skillClass.toLowerCase() + "Val-" + slotNum).html(
@@ -491,23 +502,28 @@
 	});
 
 	$("#skillCancelBtn").click(function () {
-		exp += expTransfer;
-		// CLEAR ADJ VARIABLES
-		expTransfer = 0;
-		cost = 0;
-		if (newSkill == true) {
-			newSkill = false;
-			nsName = null;
-			nsClass = null;
-			nsType = null;
-			nsShortTxt = null;
-			nsLongTxt = null;
-			nsSlotNum = null;
-			clearNSModals();
+		if (expTransfer == 0) {
+			$("#skillModal").modal("toggle");
 		}
+		else {
+			exp += Number(expTransfer);
+			// CLEAR ADJ VARIABLES
+			expTransfer = 0;
+			cost = 0;
+			if (newSkill == true) {
+				newSkill = false;
+				nsName = null;
+				nsClass = null;
+				nsType = null;
+				nsShortTxt = null;
+				nsLongTxt = null;
+				nsSlotNum = null;
+				clearNSModals();
+			}
 
-		$(".expPool").val(exp);
-		$("#skillModal").modal("toggle");
+			$(".expPool").val(exp);
+			$("#skillModal").modal("toggle");		
+		}
 	});
 
 	/* ADD SKILL BUTTONS */
@@ -674,6 +690,7 @@
 		}
 		// POPULATE SKILL ADJ MODAL
 		$("#newSkillsModal").modal("hide");
+		$("#subSkillsModal").modal("hide");
 		newSkill = true;
 		popAdjSkillModal();
 	});
@@ -711,5 +728,8 @@
 	}
 
 	/* ADD ABILITY BUTTONS */
+	$("body").on("click", ".addAbilityBtn", function () {
+
+	});
 	// POPULATE ABILITY MODAL
 });
