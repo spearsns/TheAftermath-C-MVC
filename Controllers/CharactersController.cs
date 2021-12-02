@@ -25,7 +25,7 @@ namespace TheAftermath_V2.Controllers
             if (Session["Active"] != null) return View();
             else return RedirectToAction("Login", "Home");
             */
-             return View();
+            return View();
         }
 
         [HttpGet]
@@ -33,8 +33,8 @@ namespace TheAftermath_V2.Controllers
         {
             Guid acctID = Guid.Parse(Session["UserID"].ToString());
             var charQuery = from c in db.Characters
-                              where c.AccountID == acctID
-                              select new { c.ID, c.Name, c.Background, c.Status };
+                            where c.AccountID == acctID
+                            select new { c.ID, c.Name, c.Background, c.Status };
 
             List<Classes.CharacterData> charList = new List<Classes.CharacterData>();
             foreach (var x in charQuery)
@@ -43,8 +43,8 @@ namespace TheAftermath_V2.Controllers
                 {
                     Name = x.Name,
                     Status = x.Status,
-                    Background = db.Backgrounds.Where(a=>a.ID == x.Background).Select(a=>a.Name).FirstOrDefault(),
-                    TotalExp = db.CharacterExps.Where(a=>a.CharacterID == x.ID).Select(a=>a.TotalExp).FirstOrDefault(),
+                    Background = db.Backgrounds.Where(a => a.ID == x.Background).Select(a => a.Name).FirstOrDefault(),
+                    TotalExp = db.CharacterExps.Where(a => a.CharacterID == x.ID).Select(a => a.TotalExp).FirstOrDefault(),
                     AvailableExp = db.CharacterExps.Where(a => a.CharacterID == x.ID).Select(a => a.AvailableExp).FirstOrDefault()
                 });
             }
@@ -91,18 +91,20 @@ namespace TheAftermath_V2.Controllers
             var skillsQuery = from i in db.Skills
                               where i.Disabled == false && i.Type == "Standard"
                               select new { i.Name, i.ShortTxt, i.LongTxt, i.Class, i.Type, i.Description, i.Formula, i.Requirements };
-                                
+
             List<Classes.SkillData> skillsList = new List<Classes.SkillData>();
             foreach (var x in skillsQuery)
             {
-                skillsList.Add(new Classes.SkillData { Name = x.Name, 
-                                                        ShortTxt = x.ShortTxt, 
-                                                        LongTxt = x.LongTxt, 
-                                                        Class = x.Class, 
-                                                        Type = x.Type, 
-                                                        Description = x.Description, 
-                                                        Formula = x.Formula, 
-                                                        Requirements = x.Requirements
+                skillsList.Add(new Classes.SkillData
+                {
+                    Name = x.Name,
+                    ShortTxt = x.ShortTxt,
+                    LongTxt = x.LongTxt,
+                    Class = x.Class,
+                    Type = x.Type,
+                    Description = x.Description,
+                    Formula = x.Formula,
+                    Requirements = x.Requirements
                 });
             }
 
@@ -183,25 +185,27 @@ namespace TheAftermath_V2.Controllers
             var result = db.Skills.Where(x => x.Name == name && x.Disabled == false).Single();
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-        
+
         [HttpPost]
         public JsonResult GetNewSkills(string skillClass)
         {
             var skillsQuery = from i in db.Skills
-                              where i.Disabled == false && i.Class == skillClass && i.Type != "Standard" 
-                              select new { i.Name, i.ShortTxt, i.LongTxt, i.Class, i.Type, i.Description, i.Formula, i.Requirements };         
+                              where i.Disabled == false && i.Class == skillClass && i.Type != "Standard"
+                              select new { i.Name, i.ShortTxt, i.LongTxt, i.Class, i.Type, i.Description, i.Formula, i.Requirements };
 
             List<Classes.SkillData> skillsList = new List<Classes.SkillData>();
             foreach (var x in skillsQuery)
             {
-                skillsList.Add(new Classes.SkillData { Name = x.Name, 
-                                                        ShortTxt= x.ShortTxt,
-                                                        LongTxt = x.LongTxt,
-                                                        Class = x.Class, 
-                                                        Type = x.Type, 
-                                                        Description = x.Description, 
-                                                        Formula = x.Formula, 
-                                                        Requirements = x.Requirements 
+                skillsList.Add(new Classes.SkillData
+                {
+                    Name = x.Name,
+                    ShortTxt = x.ShortTxt,
+                    LongTxt = x.LongTxt,
+                    Class = x.Class,
+                    Type = x.Type,
+                    Description = x.Description,
+                    Formula = x.Formula,
+                    Requirements = x.Requirements
                 });
             }
             return Json(skillsList, JsonRequestBehavior.AllowGet);
@@ -230,9 +234,9 @@ namespace TheAftermath_V2.Controllers
 
                     Strategy = input.Strategy,
                     Habitat = input.Habitat,
-                    History = db.Histories.Where(x => x.Name == input.History).Select(x=>x.ID).Single(),
+                    History = db.Histories.Where(x => x.Name == input.History).Select(x => x.ID).Single(),
                     Background = db.Backgrounds.Where(x => x.Name == input.Background).Select(x => x.ID).Single(),
-                    
+
                     CreateDate = DateTime.Now
                 };
                 db.Characters.Add(character);
@@ -261,12 +265,13 @@ namespace TheAftermath_V2.Controllers
 
                 List<CharacterSkill> charSkills = new List<CharacterSkill>();
                 foreach (string key in Request.Form.AllKeys)
-                {                    
-                    if (key.StartsWith("Skill-")) 
+                {
+                    if (key.StartsWith("Skill-"))
                     {
                         string skillName = key.Substring(6);
 
-                        charSkills.Add(new CharacterSkill {
+                        charSkills.Add(new CharacterSkill
+                        {
                             ID = Guid.NewGuid(),
                             CharacterID = character.ID,
                             MasterID = (Guid)db.Skills.Where(x => x.Name == skillName).Select(x => x.ID).First(),
@@ -276,7 +281,7 @@ namespace TheAftermath_V2.Controllers
                     foreach (var skill in charSkills) db.CharacterSkills.Add(skill);
                 }
                 db.SaveChanges();
-                
+
                 var charExp = new CharacterExp
                 {
                     ID = Guid.NewGuid(),
@@ -322,7 +327,7 @@ namespace TheAftermath_V2.Controllers
 
             Guid acctID = Guid.Parse(Session["UserID"].ToString());
             var character = db.Characters.Where(a => a.Name == name && a.AccountID == acctID).First();
-            var charAttrs = db.CharacterAttributes.Where(a => a.CharacterID == character.ID).Join(db.Attributes, ca => ca.AttributeID, a => a.ID, (ca, a) => new{ Name = a.Name, Value = ca.Value });
+            var charAttrs = db.CharacterAttributes.Where(a => a.CharacterID == character.ID).Join(db.Attributes, ca => ca.AttributeID, a => a.ID, (ca, a) => new { Name = a.Name, Value = ca.Value });
 
             var skillQuery = from s in db.Skills
                              where s.Type == "Standard" && s.Disabled == false
@@ -365,20 +370,20 @@ namespace TheAftermath_V2.Controllers
                 Perception = charAttrs.Where(a => a.Name == "Perception").Select(a => a.Value).First(),
                 Willpower = charAttrs.Where(a => a.Name == "Willpower").Select(a => a.Value).First(),
                 Charisma = charAttrs.Where(a => a.Name == "Charisma").Select(a => a.Value).First(),
-                
+
                 Strength = charAttrs.Where(a => a.Name == "Strength").Select(a => a.Value).First(),
                 Endurance = charAttrs.Where(a => a.Name == "Endurance").Select(a => a.Value).First(),
                 Agility = charAttrs.Where(a => a.Name == "Agility").Select(a => a.Value).First(),
                 Speed = charAttrs.Where(a => a.Name == "Speed").Select(a => a.Value).First(),
                 Beauty = charAttrs.Where(a => a.Name == "Beauty").Select(a => a.Value).First(),
-                
+
                 Sequence = charAttrs.Where(a => a.Name == "Sequence").Select(a => a.Value).First(),
                 Actions = charAttrs.Where(a => a.Name == "Actions").Select(a => a.Value).First(),
-                
+
                 Skills = skillList,
                 Abilities = abilityList,
-                IDMarks = db.IDMarks.Where(a=>a.CharacterID == character.ID).ToList(),
-                Notes = db.CharacterNotes.Where(a=>a.CharacterID == character.ID).First().ToString()
+                IDMarks = db.IDMarks.Where(a => a.CharacterID == character.ID).ToList(),
+                Notes = db.CharacterNotes.Where(a => a.CharacterID == character.ID).First().ToString()
             };
             return View(charData);
         }
@@ -387,21 +392,72 @@ namespace TheAftermath_V2.Controllers
         public JsonResult GetCurrentSkills(string name)
         {
             Guid acctID = Guid.Parse(Session["UserID"].ToString());
-            Guid charID = db.Characters.Where(a => a.Name == name && a.AccountID == acctID).Select(a=>a.ID).Single();
+            Guid charID = db.Characters.Where(a => a.Name == name && a.AccountID == acctID).Select(a => a.ID).Single();
             var skillQuery = from cs in db.CharacterSkills
                              where cs.CharacterID == charID
                              join s in db.Skills on cs.MasterID equals s.ID
                              select new { s.Name, s.ShortTxt, s.LongTxt, s.Class, s.Type, s.Description, cs.Value };
 
             List<Classes.SkillData> skillList = new List<Classes.SkillData>();
-            foreach (var skill in skillQuery) skillList.Add(new Classes.SkillData { Name = skill.Name,
-                                                                                    ShortTxt = skill.ShortTxt,
-                                                                                    LongTxt = skill.LongTxt,
-                                                                                    Class = skill.Class,
-                                                                                    Type = skill.Type,
-                                                                                    Description = skill.Description, 
-                                                                                    Value = skill.Value });
+            foreach (var skill in skillQuery) skillList.Add(new Classes.SkillData
+            {
+                Name = skill.Name,
+                ShortTxt = skill.ShortTxt,
+                LongTxt = skill.LongTxt,
+                Class = skill.Class,
+                Type = skill.Type,
+                Description = skill.Description,
+                Value = skill.Value
+            });
             return Json(skillList, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult GetAbilities(string target)
+        {
+            List<Ability> newAbilityList = new List<Ability>();
+            
+            if (target == "Other")
+            {
+                List<string> others = new List<string> { "Bloodletter", "Command", "Conditioning", "Ensure", "Pack-Dump", "Quickdraw", "Rebound", "Tactician"};
+
+                foreach (string abl in others)
+                {
+                    var otherAblQuery = from a in db.Abilities
+                                        where a.Disabled == false && a.Name.Contains(abl)
+                                        select new { a.Name, a.Description, a.Effects, a.Requirements, a.Cost };
+
+                    foreach (var oa in otherAblQuery) newAbilityList.Add(new Ability { 
+                                                                            Name = oa.Name,
+                                                                            Description = oa.Description,
+                                                                            Effects = oa.Effects,
+                                                                            Requirements = oa.Requirements,
+                                                                            Cost = oa.Cost
+                                                                        });
+                    
+                }
+                //var abilities = db.Abilities.Where(x => others.Contains(x.Name));
+            }
+            else
+            {
+                var abilityQuery = from a in db.Abilities
+                                   where a.Disabled == false && a.Name.Contains(target)
+                                   select new { a.Name, a.Description, a.Effects, a.Requirements, a.Cost };
+
+                foreach (var x in abilityQuery)
+                {
+                    newAbilityList.Add(new Ability
+                    {
+                        Name = x.Name,
+                        Description = x.Description,
+                        Effects = x.Effects,
+                        Requirements = x.Requirements,
+                        Cost = x.Cost
+                    });
+                }
+
+            }
+            return Json(newAbilityList, JsonRequestBehavior.AllowGet);
         }
     }
 }

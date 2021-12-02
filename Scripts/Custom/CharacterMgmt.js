@@ -696,10 +696,6 @@
 	});
 
 	// CANCEL NEW SKILL BUTTON
-	$("#NSM-cancelBtn, #SSM-cancelBtn").click(function () {
-		clearNSModals();		
-	});
-
 	function clearNSModals() {
 		// CLEAR NEW SKILL MODAL
 		$("#NSM-begin").html(
@@ -726,6 +722,7 @@
 		$("#subSkillsModal").modal("hide");
 		altText(lg);
 	}
+	$("#NSM-cancelBtn, #SSM-cancelBtn").click(function () {clearNSModals();} );
 
 	/* ADD ABILITY BUTTONS */
 	var abilityNumber;
@@ -745,18 +742,18 @@
 				if (ability != "Undefined") abilityArr.push(ability);
 			}
 		}
-		/*
 		// GET JSON RETURN & RENDER HTML
 		$.ajax({
 			type: 'POST',
-			url: 'GetNewAbilities',
+			url: 'GetAbilities',
 			data: '{Target: "' + target + '"}',
 			dataType: 'json',
 			contentType: "application/json; charset=utf-8",
 			success:
 				function (results) {
-					for (var i = 0; i < abilitiesList.length; i++) {
-						var obj = abilitiesList[i];
+					console.log(results);
+					for (var i = 0; i < results.length; i++) {
+						var obj = results[i];
 						// COMPARE EXISTING TO RETURN AND OMIT RESULTS WHERE NECESSARY
 						if (abilityArr.includes(obj.Name)) continue;
 						else {
@@ -765,12 +762,15 @@
 								"<div class='row bg-white'>" +
 									"<div class='col-4'>" +
 										"<div class='input-group my-1'>" +
-											"<button class='btn btn-block btn-warning border border-dark font-weight-bold my-1 px-0 selectAbilityBtn' data-number='"+ number +"' data-ability='"+ obj.Name +"'" +
-											"data-effects='"+ obj.Effects +"' data-reqs='"+ obj.Requirements +"' data-cost='"+ obj.Cost +"' type = 'button' > " + obj.Name + "</button > " +
+											"<button class='btn btn-block btn-warning border border-dark font-weight-bold my-1 px-0 selectAbilityBtn' data-number='"+ abilityNumber +"' data-ability='"+ obj.Name +"'" +
+											"data-description='"+ obj.Description +"' data-reqs='"+ obj.Requirements +"' type = 'button' > " + obj.Name + "</button > " +
 										"</div>" +
 									"</div>" +
-									"<div class='col-8'>" +
-										"<p class='text-center my-2'>" + obj.Description + "</p>" +
+									"<div class='col-6'>" +
+										"<p class='text-center my-2'>" + obj.Effects + "</p>" +
+									"</div>" +
+									"<div class='col-2'>" +
+										"<p class='text-center my-2'>" + obj.Cost + "</p>" +
 									"</div>" +
 								"</div>"
 							);
@@ -779,12 +779,69 @@
 					$("#abilityTypeModal").modal("toggle");
 				}
 		});
-		*/
-		console.log("Ability Number = " + abilityNumber + " : Target => " + target);
-		$("#abilityTypeModal").modal("toggle");
 	});
 
-	$("#abilityCancelBtn").click(function () {
-		$("#abilitiesModal").modal("toggle");
+	// SELECT ABILITY BUTTON (CHOOSE NEW ABILITY)
+	$("body").on("click", ".selectAbilityBtn", function () {
+		var name = $(this).data("ability");
+		var description = $(this).data("description");
+		var effect = $(this).data("effect");
+		var reqs = $(this).data("reqs");
+		var slot = $(this).data("number");
+		// CHECK SKILL REQUIREMENTS
+
+		var unarmed = $("input[name='Skill-Unarmed']").val();
+		var grapple = $("input[name='Skill-Grapple']").val();
+		var short = $("input[name='Skill-Short']").val();
+		var long = $("input[name='Skill-Long']").val();
+		var twoHand = $("input[name='Skill-TwoHand']").val();
+		var chain = $("input[name='Skill-Chain']").val();
+		var shield = $("input[name='Skill-Shield']").val();
+
+		var thrown = $("input[name='Skill-Thrown']").val();
+		var archery = $("input[name='Skill-Archery'").val();
+		var pistols = $("input[name='Skill-Pistols']").val();
+		var rifles = $("input[name='Skill-Rifles']").val();
+
+		var offHand = $("input[name='Skill-OffHand]'").val();
+
+		if (eval(reqs) == false) {
+			alert("Minimum Requirements not met: " + reqs);
+			throw new Error("Minimum Requirements not met: " + reqs);
+		}
+		else {
+			// NEW ABILITY HTML
+			$("#ability-" + slot).html(
+				"<div class='input-group my-2'>" +
+					"<input class='form-control text-center px-0 py-0' name='Ability-" + slot + "' data-description='"+ description +"' data-effect='"+ effect +"' value='" + name + "' readonly>" +
+				"</div>"
+			);
+			// NEW ADD BUTTON HTML
+			$("#ability-" + (Number(slot) + 1)).html(
+				"<button class='btn btn-block btn-info border border-dark text-center font-weight-bold addAbilityBtn my-2 mx-auto w-50' type='button'>ADD</button>"
+			);
+			clearATM();
+        }
 	});
+
+	// CANCEL NEW ABILITY
+	function clearATM() {
+		// CLEAR ABILITY TYPE MODAL
+		$("#ATM-begin").html(
+			'<div class="row bg-dark">' +
+			'<div class="col-4">' +
+			'<h6 class="font-weight-bold text-center text-white my-2">ABILITY</h6>' +
+			'</div>' +
+			'<div class="col-6">' +
+			'<h6 class="font-weight-bold text-center text-white my-2">EFFECT</h6>' +
+			'</div>' +
+			'<div class="col-2">' +
+			'<h6 class="font-weight-bold text-center text-white my-2">COST</h6>' +
+			'</div>' +
+			'</div>'
+		);
+		$("#abilityTypeModal").modal("hide");
+		altText(lg);
+	}
+	$(".abilityCancelBtn").click(function () { clearATM(); });
 });
