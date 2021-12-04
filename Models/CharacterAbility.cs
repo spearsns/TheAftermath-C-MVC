@@ -17,7 +17,6 @@ namespace TheAftermath_V2.Models
         public System.Guid ID { get; set; }
         public System.Guid CharacterID { get; set; }
         public System.Guid AbilityID { get; set; }
-        public System.DateTime CreateDate { get; set; }
     
         public virtual Ability Ability { get; set; }
         public virtual Character Character { get; set; }

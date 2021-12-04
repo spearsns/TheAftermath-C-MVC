@@ -413,6 +413,26 @@ namespace TheAftermath_V2.Controllers
         }
 
         [HttpPost]
+        public JsonResult GetCurrentAbilities(string name)
+        {
+            Guid acctID = Guid.Parse(Session["UserID"].ToString());
+            Guid charID = db.Characters.Where(a => a.Name == name && a.AccountID == acctID).Select(a => a.ID).Single();
+            var abilityQ = from ca in db.CharacterAbilities
+                             where ca.CharacterID == charID
+                             join a in db.Abilities on ca.AbilityID equals a.ID
+                             select new { a.Name, a.Description, a.Effects };
+
+            List<Classes.AbilityData> abilityList = new List<Classes.AbilityData>();
+            foreach (var ability in abilityQ) abilityList.Add(new Classes.AbilityData
+            {
+                Name = ability.Name,
+                Description = ability.Description,
+                Effects = ability.Effects
+            });
+            return Json(abilityList, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
         public JsonResult GetAbilities(string target)
         {
             List<Ability> newAbilityList = new List<Ability>();
@@ -458,6 +478,154 @@ namespace TheAftermath_V2.Controllers
 
             }
             return Json(newAbilityList, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CharacterManagement([Bind(Include = "Name, Memory, Logic, Perception, Willpower, Charisma, Strength, Endurance, Agility, Speed, Beauty, Sequence, Actions, AvailableExp")] Classes.CharacterData input)
+        {
+            if (ModelState.IsValid)
+            {
+                Guid acctID = Guid.Parse(Session["UserID"].ToString());
+                string charName = input.Name;
+                var charID = db.Characters.Where(x => x.AccountID.Equals(acctID) && x.Name.Equals(charName)).Select(x=>x.ID).First();
+
+                //UPDATE ATTRIBUTES
+                var charAttrs = (from ca in db.CharacterAttributes
+                                 where ca.CharacterID == charID
+                                 join a in db.Attributes on ca.AttributeID equals a.ID
+                                 select new { ca.ID, a.Name, ca.AttributeID, ca.Value }).ToList();
+                
+                foreach (var attr in charAttrs)
+                {
+                    if (attr.Name == "Memory")
+                    {
+                        var result = db.CharacterAttributes.Where(x => x.ID.Equals(attr.ID)).First();
+                        result.Value = input.Memory;
+                    }
+                    else if (attr.Name == "Logic")
+                    {
+                        var result = db.CharacterAttributes.Where(x => x.ID.Equals(attr.ID)).First();
+                        result.Value = input.Logic;
+                    }
+                    else if (attr.Name == "Perception")
+                    {
+                        var result = db.CharacterAttributes.Where(x => x.ID.Equals(attr.ID)).First();
+                        result.Value = input.Perception;
+                    }
+                    else if (attr.Name == "Willpower")
+                    {
+                        var result = db.CharacterAttributes.Where(x => x.ID.Equals(attr.ID)).First();
+                        result.Value = input.Willpower;
+                    }
+                    else if (attr.Name == "Charisma")
+                    {
+                        var result = db.CharacterAttributes.Where(x => x.ID.Equals(attr.ID)).First();
+                        result.Value = input.Charisma;
+                    }
+                    else if (attr.Name == "Strength")
+                    {
+                        var result = db.CharacterAttributes.Where(x => x.ID.Equals(attr.ID)).First();
+                        result.Value = input.Strength;
+                    }
+                    else if (attr.Name == "Endurance")
+                    {
+                        var result = db.CharacterAttributes.Where(x => x.ID.Equals(attr.ID)).First();
+                        result.Value = input.Endurance;
+                    }
+                    else if (attr.Name == "Agility")
+                    {
+                        var result = db.CharacterAttributes.Where(x => x.ID.Equals(attr.ID)).First();
+                        result.Value = input.Agility;
+                    }
+                    else if (attr.Name == "Speed")
+                    {
+                        var result = db.CharacterAttributes.Where(x => x.ID.Equals(attr.ID)).First();
+                        result.Value = input.Speed;
+                    }
+                    else if (attr.Name == "Sequence")
+                    {
+                        var result = db.CharacterAttributes.Where(x => x.ID.Equals(attr.ID)).First();
+                        result.Value = input.Sequence;
+                    }
+                    else if (attr.Name == "Actions")
+                    {
+                        var result = db.CharacterAttributes.Where(x => x.ID.Equals(attr.ID)).First();
+                        result.Value = input.Actions;
+                    }
+                    db.SaveChanges();
+                }
+
+                // UPDATE SKILLS
+                // GET EXISTING SKILLS
+                var charSkills = (from cs in db.CharacterSkills
+                                  where cs.CharacterID == charID
+                                  join s in db.Skills on cs.MasterID equals s.ID
+                                  select new { cs.ID, s.Name, cs.MasterID, cs.Value }).ToList();
+
+                List<string> skillCheck = new List<string>();
+                foreach (var cs in charSkills) skillCheck.Add(cs.Name);
+                
+                foreach (string key in Request.Form.AllKeys)
+                {
+                    // SKILL ADJUSTMENTS
+                    if (key.StartsWith("Skill-"))
+                    {
+                        string skillName = key.Substring(6);
+                        if (skillCheck.Contains(skillName)) // UPDATE EXISTING SKILL
+                        {
+                            foreach (var cs in charSkills)
+                            {
+                                if (cs.Name == skillName)
+                                {
+                                    var result = db.CharacterSkills.Where(x => x.ID == cs.ID).FirstOrDefault();
+                                    result.Value = Convert.ToInt16(Request.Form[key]);
+                                }
+                            }
+                        }
+                        else // NEW SKILL
+                        {
+                            db.CharacterSkills.Add(new CharacterSkill
+                            {
+                                ID = Guid.NewGuid(),
+                                CharacterID = charID,
+                                MasterID = (Guid)db.Skills.Where(x => x.Name == skillName).Select(x => x.ID).First(),
+                                Value = Convert.ToInt16(Request.Form[key])
+                            });
+                        }
+                    }
+
+                    //ABILITY ADJUSTMENTS
+                    else if (key.StartsWith("Ability-"))
+                    {
+                        string abilityName = Request.Form[key];
+
+                        var charAbilities = (from ca in db.CharacterAbilities
+                                             where ca.CharacterID == charID
+                                             join a in db.Abilities on ca.AbilityID equals a.ID
+                                             select a.Name).ToList();
+                        
+                        if (charAbilities.Contains(abilityName)) continue;
+                        else
+                        {
+                            db.CharacterAbilities.Add(new CharacterAbility
+                            {
+                                ID = Guid.NewGuid(),
+                                CharacterID = charID,
+                                AbilityID = (Guid)db.Abilities.Where(x => x.Name == abilityName).Select(x => x.ID).First()
+                            });
+                        }
+                    }
+                }
+
+                var charExp = db.CharacterExps.Where(x => x.CharacterID == charID).First();
+                charExp.AvailableExp = input.AvailableExp;
+                db.SaveChanges();
+
+                ViewBag.ErrorMessage = "Success";
+                return RedirectToAction("Success", "Home");
+            }
+            return View(input);
         }
     }
 }

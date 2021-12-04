@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="AftermathV1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="AftermathV1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Abilities">
           <Key>
             <PropertyRef Name="ID" />
@@ -88,7 +88,6 @@
           <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="CharacterID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="AbilityID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
         </EntityType>
         <EntityType Name="CharacterAttributes">
           <Key>
@@ -474,8 +473,7 @@
             <End Role="IDMarks" EntitySet="IDMarks" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AftermathV1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -572,7 +570,6 @@
           <Property Name="ID" Type="Guid" Nullable="false" />
           <Property Name="CharacterID" Type="Guid" Nullable="false" />
           <Property Name="AbilityID" Type="Guid" Nullable="false" />
-          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="Ability" Relationship="Self.FK_CharacterAbilities_Abilities" FromRole="CharacterAbilities" ToRole="Abilities" />
           <NavigationProperty Name="Character" Relationship="Self.FK_CharacterAbilities_Characters" FromRole="CharacterAbilities" ToRole="Characters" />
         </EntityType>
@@ -1072,7 +1069,6 @@
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="CharacterID" ColumnName="CharacterID" />
                 <ScalarProperty Name="AbilityID" ColumnName="AbilityID" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

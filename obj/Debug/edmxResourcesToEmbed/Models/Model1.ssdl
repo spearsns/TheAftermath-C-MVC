@@ -83,7 +83,6 @@
     <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
     <Property Name="CharacterID" Type="uniqueidentifier" Nullable="false" />
     <Property Name="AbilityID" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
   </EntityType>
   <EntityType Name="CharacterAttributes">
     <Key>

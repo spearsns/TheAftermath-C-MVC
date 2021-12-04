@@ -17,7 +17,13 @@
 	altText(lg);
 	lg.addListener(altText);
 
-	// GLOBAL VARIABLES
+	/* -- EXPERIENCE GLOBALS -- */
+	var exp = $("#expPool").val();
+	var expTransfer = 0;
+	var cost;
+
+	/* -- ATTRIBUTE MANAGEMENT -- */
+	// GLOBALS
 	var memory = parseInt($("#memory").val());
 	var logic = parseInt($("#logic").val());
 	var perception = parseInt($("#perception").val());
@@ -29,108 +35,6 @@
 	var agility = parseInt($("#agility").val());
 	var speed = parseInt($("#speed").val());
 
-	var exp = $("#expPool").val();
-	var expTransfer = 0;
-	var cost;
-
-	var originalSkill;
-	var skillMax;
-
-	/* RENDER EXISTING SKILLS */
-	function getCurrentSkills() {
-		var charName = $("input[name='Name']").val();
-
-		$.ajax({
-			type: 'POST',
-			url: 'GetCurrentSkills',
-			data: '{Name: "' + charName + '" }',
-			dataType: 'json',
-			contentType: "application/json; charset=utf-8",
-			success:
-				function (results) {
-					// HARD-CODED FOR STANDARD SKILLS
-					var combatSlot = 10;
-					var socialSlot = 5;
-					var covertSlot = 4;
-					var survivalSlot = 4;
-					var medicalSlot = 3;
-					var scienceSlot = 1;
-					var craftsmanSlot = 2;
-					var constructionSlot = 2;
-					var technologySlot = 1;
-					var transportationSlot = 1;
-
-					for (i = 0; i < results.length; i++) {
-						// SORT DATA
-						var skill = results[i].Name;
-						var shortTxt = results[i].ShortTxt;
-						var longTxt = results[i].LongTxt;
-						var skillClass = results[i].Class;
-						var skillType = results[i].Type;
-						var skillValue = results[i].Value;
-
-						if (skillType == "Standard") continue;
-						// DETERMINE SLOT
-						var slotNum;
-						if (skillClass == "Combat") slotNum = combatSlot;
-						else if (skillClass == "Affiliation") { skillClass = "Social"; slotNum = socialSlot; }
-						else if (skillClass == "Languages") { skillClass = "Social"; slotNum = socialSlot; }
-						else if (skillClass == "Social") slotNum = socialSlot;
-						else if (skillClass == "Covert") slotNum = covertSlot;
-						else if (skillClass == "Survival") slotNum = survivalSlot;
-						else if (skillClass == "Craftsman") slotNum = craftsmanSlot;
-						else if (skillClass == "Construction") slotNum = constructionSlot;
-						else if (skillClass == "Medical") slotNum = medicalSlot;
-						else if (skillClass == "Science") slotNum = scienceSlot;
-						else if (skillClass == "Technology") slotNum = technologySlot;
-						else if (skillClass == "Transportation") slotNum = transportationSlot;
-						// HTML PREP
-						var border;
-						if (skillType == "General") border = "border-warning";
-						else if (skillType == "Advanced") border = "border-danger";
-						else border = "border-secondary"; // skillClass == "Focus"
-
-						var nextSlot
-						if (skillClass == "Combat") nextSlot = slotNum + 2;
-						else nextSlot = slotNum + 1;
-						// RENDER HTML FOR NEXT SKILL SLOT
-						$("#" + skillClass.toLowerCase() + "-" + slotNum).html(
-							'<div class="input-group my-0">' +
-							'<button class="btn btn-block border ' + border + ' bw-thick font-weight-bold my-1 px-0 text-uppercase adjSkillBtn" data-skill="' + skill + '" data-skillclass="' + skillClass + '" data-shortTxt="' + shortTxt + '" data-longTxt="' + longTxt + '" type="button">' + skill + '</button>' +
-							'</div>'
-						);
-						$("#" + skillClass.toLowerCase() + "Val-" + slotNum).html(
-							'<div class="input-group my-2">' +
-							'<input class="form-control text-center px-0 py-0" type="number" name="Skill-' + skill + '" value="' + skillValue + '" readonly />' +
-							'</div>'
-						);
-						// RENDER HTML FOR NEW ADD SKILL BTN
-						$("#" + skillClass.toLowerCase() + "-" + nextSlot).html(
-							'<button class="btn btn-block btn-info border border-dark text-center font-weight-bold addSkillBtn my-2 mx-auto" data-target="' + skillClass + "Skills" + '" type="button">ADD</button>'
-						);
-						$("#" + skillClass.toLowerCase() + "Val-" + nextSlot).html(
-							'<div class="input-group my-2">' +
-							'<input class="form-control text-center px-0 py-0" value="" readonly />' +
-							'</div>'
-						);
-						// INCREASE COUNT ON APPROPRIATE SLOT
-						if (skillClass == "Combat") combatSlot += 1;
-						else if (skillClass == "Social") socialSlot += 1;
-						else if (skillClass == "Covert") covertSlot += 1;
-						else if (skillClass == "Survival") survivalSlot += 1;
-						else if (skillClass == "Medical") medicalSlot += 1;
-						else if (skillClass == "Science") scienceSlot += 1;
-						else if (skillClass == "Technology") technologySlot += 1;
-						else if (skillClass == "Transportation") transportationSlot += 1;
-					}
-				}
-		});
-		altText(lg);
-	}
-	getCurrentSkills();
-
-	/* ATTRIBUTE MANAGEMENT */
-	// ORIGINAL ATTRIBUTE VALUES
 	var omemory = memory;
 	var ologic = logic;
 	var operception = perception;
@@ -141,7 +45,28 @@
 	var oagility = agility;
 	var ospeed = speed;
 
-	// POPULATE ATTR MODAL
+	// GLOBAL FUNCTIONS
+	function setAttributes() {
+		memory = parseInt($("#memory").val());
+		logic = parseInt($("#logic").val());
+		perception = parseInt($("#perception").val());
+		willpower = parseInt($("#willpower").val());
+		charisma = parseInt($("#charisma").val());
+
+		strength = parseInt($("#strength").val());
+		endurance = parseInt($("#endurance").val());
+		agility = parseInt($("#agility").val());
+		speed = parseInt($("#speed").val());
+		beauty = parseInt($("#beauty").val());
+
+		actions = Math.floor(speed / 2);
+		sequence = Math.floor((perception + speed) / 2);
+
+		$("#sequence").val(sequence);
+		$("#actions").val(actions);
+	}
+
+	// ADJUST ATTRIBUTES
 	function checkAttrCost() {
 		var value = parseInt($("#currentAttrVal").val());
 		
@@ -235,27 +160,20 @@
         }
 	});
 
-	function setAttributes() {
-		memory = parseInt($("#memory").val());
-		logic = parseInt($("#logic").val());
-		perception = parseInt($("#perception").val());
-		willpower = parseInt($("#willpower").val());
-		charisma = parseInt($("#charisma").val());
+	/* -- SKILL MANAGEMENT -- */
+	// GLOBALS
+	var newSkill = false;
+	var nsName;
+	var nsClass;
+	var nsType;
+	var nsShortTxt;
+	var nsLongTxt;
+	var nsSlotNum;
 
-		strength = parseInt($("#strength").val());
-		endurance = parseInt($("#endurance").val());
-		agility = parseInt($("#agility").val());
-		speed = parseInt($("#speed").val());
-		beauty = parseInt($("#beauty").val());
+	var originalSkill;
+	var skillMax;
 
-		actions = Math.floor(speed / 2);
-		sequence = Math.floor((perception + speed) / 2);
-
-		$("#sequence").val(sequence);
-		$("#actions").val(actions);
-	}
-
-	/* SKILL ADJUSTMENT */
+	// GLOBAL FUNCTIONS
 	function checkSkillCost() {
 		var skill = $("#skillName").val();
 		var skillType = $("#skillType").val();
@@ -296,6 +214,102 @@
 		else cost = 100; // FOCUS
 		$("#skillCost").val(cost);
 	}
+
+	// LAYOUT STANDARDS
+	var combatSlot = 10;
+	var socialSlot = 5;
+	var covertSlot = 4;
+	var survivalSlot = 4;
+	var medicalSlot = 3;
+	var scienceSlot = 1;
+	var craftsmanSlot = 2;
+	var constructionSlot = 2;
+	var technologySlot = 1;
+	var transportationSlot = 1;
+
+	// CURRENT SKILLS
+	function getCurrentSkills() {
+		var charName = $("input[name='Name']").val();
+
+		$.ajax({
+			type: 'POST',
+			url: 'GetCurrentSkills',
+			data: '{Name: "' + charName + '" }',
+			dataType: 'json',
+			contentType: "application/json; charset=utf-8",
+			success:
+				function (results) {
+
+					for (i = 0; i < results.length; i++) {
+						// SORT DATA
+						var skill = results[i].Name;
+						var shortTxt = results[i].ShortTxt;
+						var longTxt = results[i].LongTxt;
+						var skillClass = results[i].Class;
+						var skillType = results[i].Type;
+						var skillValue = results[i].Value;
+
+						if (skillType == "Standard") continue;
+						// DETERMINE SLOT
+						var slotNum;
+						if (skillClass == "Combat") slotNum = combatSlot;
+						else if (skillClass == "Affiliation") { skillClass = "Social"; slotNum = socialSlot; }
+						else if (skillClass == "Languages") { skillClass = "Social"; slotNum = socialSlot; }
+						else if (skillClass == "Social") slotNum = socialSlot;
+						else if (skillClass == "Covert") slotNum = covertSlot;
+						else if (skillClass == "Survival") slotNum = survivalSlot;
+						else if (skillClass == "Craftsman") slotNum = craftsmanSlot;
+						else if (skillClass == "Construction") slotNum = constructionSlot;
+						else if (skillClass == "Medical") slotNum = medicalSlot;
+						else if (skillClass == "Science") slotNum = scienceSlot;
+						else if (skillClass == "Technology") slotNum = technologySlot;
+						else if (skillClass == "Transportation") slotNum = transportationSlot;
+						// HTML PREP
+						var border;
+						if (skillType == "General") border = "border-warning";
+						else if (skillType == "Advanced") border = "border-danger";
+						else border = "border-secondary"; // skillClass == "Focus"
+
+						var nextSlot
+						if (skillClass == "Combat") nextSlot = slotNum + 2;
+						else nextSlot = slotNum + 1;
+						// RENDER HTML FOR NEXT SKILL SLOT
+						$("#" + skillClass.toLowerCase() + "-" + slotNum).html(
+							'<div class="input-group my-0">' +
+							'<button class="btn btn-block border ' + border + ' bw-thick font-weight-bold my-1 px-0 text-uppercase adjSkillBtn" data-skill="' + skill + '" data-skillclass="' + skillClass + '" data-shortTxt="' + shortTxt + '" data-longTxt="' + longTxt + '" type="button">' + skill + '</button>' +
+							'</div>'
+						);
+						$("#" + skillClass.toLowerCase() + "Val-" + slotNum).html(
+							'<div class="input-group my-2">' +
+							'<input class="form-control text-center px-0 py-0" type="number" name="Skill-' + skill + '" value="' + skillValue + '" readonly />' +
+							'</div>'
+						);
+						// RENDER HTML FOR NEW ADD SKILL BTN
+						$("#" + skillClass.toLowerCase() + "-" + nextSlot).html(
+							'<button class="btn btn-block btn-info border border-dark text-center font-weight-bold addSkillBtn my-2 mx-auto" data-target="' + skillClass + "Skills" + '" type="button">ADD</button>'
+						);
+						$("#" + skillClass.toLowerCase() + "Val-" + nextSlot).html(
+							'<div class="input-group my-2">' +
+							'<input class="form-control text-center px-0 py-0" value="" readonly />' +
+							'</div>'
+						);
+						// INCREASE COUNT ON APPROPRIATE SLOT
+						if (skillClass == "Combat") combatSlot += 1;
+						else if (skillClass == "Social") socialSlot += 1;
+						else if (skillClass == "Covert") covertSlot += 1;
+						else if (skillClass == "Survival") survivalSlot += 1;
+						else if (skillClass == "Medical") medicalSlot += 1;
+						else if (skillClass == "Science") scienceSlot += 1;
+						else if (skillClass == "Technology") technologySlot += 1;
+						else if (skillClass == "Transportation") transportationSlot += 1;
+					}
+				}
+		});
+		altText(lg);
+	}
+	getCurrentSkills();
+
+	// ADJUST SKILLS
 	// POPULATE SKILL MODAL
 	function popAdjSkillModal() {
 		var skill;
@@ -458,26 +472,29 @@
 			var nextSlot;
 			if (skillClass == "Combat") nextSlot = slotNum + 2;
 			else nextSlot = slotNum + 1;
-			// RENDER HTML FOR NEW SKILL
-			$("#" + skillClass.toLowerCase() + "-" + slotNum).html(
-				'<div class="input-group my-0">' +
-				'<button class="btn btn-block border ' + border + ' bw-thick font-weight-bold my-1 px-0 adjSkillBtn" data-skill="' + skill + '" data-skillclass="' + skillClass + '" data-shortTxt="' + shortTxt + '" data-longTxt="' + longTxt + '" type="button">' + skill + '</button>' +
-				'</div>'
-			);
-			$("#" + skillClass.toLowerCase() + "Val-" + slotNum).html(
-				'<div class="input-group my-2">' +
-				'<input class="form-control text-center px-0 py-0" type="number" name="Skill-' + skill + '" value="' + (skillValue) + '" readonly />' +
-				'</div>'
-			);
-			// RENDER HTML FOR NEW ADD SKILL BTN
-			$("#" + skillClass.toLowerCase() + "-" + nextSlot).html(
-				'<button class="btn btn-block btn-info border border-dark text-center font-weight-bold addSkillBtn my-2 mx-auto" data-target="' + skillClass + "Skills" + '" type="button">ADD</button>'
-			);
-			$("#" + skillClass.toLowerCase() + "Val-" + nextSlot).html(
-				'<div class="input-group my-2">' +
-				'<input class="form-control text-center px-0 py-0" value="" readonly />' +
-				'</div>'
-			);
+
+			if (skillValue >= 1) {
+				// RENDER HTML FOR NEW SKILL
+				$("#" + skillClass.toLowerCase() + "-" + slotNum).html(
+					'<div class="input-group my-0">' +
+					'<button class="btn btn-block border ' + border + ' bw-thick font-weight-bold my-1 px-0 adjSkillBtn" data-skill="' + skill + '" data-skillclass="' + skillClass + '" data-shortTxt="' + shortTxt + '" data-longTxt="' + longTxt + '" type="button">' + skill + '</button>' +
+					'</div>'
+				);
+				$("#" + skillClass.toLowerCase() + "Val-" + slotNum).html(
+					'<div class="input-group my-2">' +
+					'<input class="form-control text-center px-0 py-0" type="number" name="Skill-' + skill + '" value="' + (skillValue) + '" readonly />' +
+					'</div>'
+				);
+				// RENDER HTML FOR NEW ADD SKILL BTN
+				$("#" + skillClass.toLowerCase() + "-" + nextSlot).html(
+					'<button class="btn btn-block btn-info border border-dark text-center font-weight-bold addSkillBtn my-2 mx-auto" data-target="' + skillClass + "Skills" + '" type="button">ADD</button>'
+				);
+				$("#" + skillClass.toLowerCase() + "Val-" + nextSlot).html(
+					'<div class="input-group my-2">' +
+					'<input class="form-control text-center px-0 py-0" value="" readonly />' +
+					'</div>'
+				);
+			}
 			// CLEAR MODALS & TRANSFER DATA
 			newSkill = false;
 			nsName = null;
@@ -526,14 +543,7 @@
 		}
 	});
 
-	/* ADD SKILL BUTTONS */
-	var newSkill = false;
-	var nsName;
-	var nsClass;
-	var nsType;
-	var nsShortTxt;
-	var nsLongTxt;
-	var nsSlotNum;
+	// NEW SKILLS
 	// POPULATE SELECTION MODAL
 	$("body").on("click", ".addSkillBtn", function () {
 		var parentID = $(this).parent().attr("id");
@@ -605,7 +615,6 @@
 	});
 
 	// ADD SUBSKILLS BUTTONS (AFFILIATIONS OR LANGUAGES)
-	// POPULATE SELECTION MODAL
 	$("body").on("click", ".addSubskillBtn", function () {
 		var skillClass = $(this).data("target");
 		var slotID = "social-";
@@ -724,8 +733,48 @@
 	}
 	$("#NSM-cancelBtn, #SSM-cancelBtn").click(function () {clearNSModals();} );
 
-	/* ADD ABILITY BUTTONS */
+	/* -- ABILITY MANAGEMENT -- */
+	// GLOBALS
 	var abilityNumber;
+
+	// CURRENT ABILITIES
+	function getCurrentAbilities() {
+	var charName = $("input[name='Name']").val();
+
+		$.ajax({
+			type: 'POST',
+			url: 'GetCurrentAbilities',
+			data: '{Name: "' + charName + '" }',
+			dataType: 'json',
+			contentType: "application/json; charset=utf-8",
+			success:
+				function (results) {
+					//console.log(results);
+					for (i = 0; i < results.length; i++) {
+						// SORT DATA
+						var ability = results[i].Name;
+						var description = results[i].Description;
+						var effects = results[i].Effects;
+						var slot = i + 1;
+
+						// RENDER HTML FOR ABILITY SLOT
+						$("#ability-" + slot).html(
+							"<div class='input-group my-2'>" +
+							"<input class='form-control text-center px-0 py-0 font-weight-bold' name='Ability-" + slot + "' data-description='" + description + "' data-effect='" + effects + "' type='text' value='" + ability + "' readonly>" +
+							"</div>"
+						);
+						// RENDER NEW ADD BUTTON HTML
+						$("#ability-" + (slot + 1)).html(
+							"<button class='btn btn-block btn-info border border-dark text-center font-weight-bold addAbilityBtn my-2 mx-auto w-50' type='button'>ADD</button>"
+						);
+					}
+				}
+		});
+		altText(lg);
+	}
+	getCurrentAbilities();
+
+	// -- NEW ABILITIES
 	$("body").on("click", ".addAbilityBtn", function () {
 		var parentID = $(this).parent().attr("id");
 		abilityNumber = parentID.split("-")[1];
@@ -763,7 +812,7 @@
 									"<div class='col-4'>" +
 										"<div class='input-group my-1'>" +
 											"<button class='btn btn-block btn-warning border border-dark font-weight-bold my-1 px-0 selectAbilityBtn' data-number='"+ abilityNumber +"' data-ability='"+ obj.Name +"'" +
-											"data-description='"+ obj.Description +"' data-reqs='"+ obj.Requirements +"' type = 'button' > " + obj.Name + "</button > " +
+											"data-description='"+ obj.Description +"' data-reqs='"+ obj.Requirements +"' data-cost='"+ obj.Cost +"' type='button' > " + obj.Name + "</button > " +
 										"</div>" +
 									"</div>" +
 									"<div class='col-6'>" +
@@ -788,6 +837,7 @@
 		var effect = $(this).data("effect");
 		var reqs = $(this).data("reqs");
 		var slot = $(this).data("number");
+		var cost = Number($(this).data("cost"));
 		// CHECK SKILL REQUIREMENTS
 
 		var unarmed = $("input[name='Skill-Unarmed']").val();
@@ -805,7 +855,7 @@
 
 		var offHand = $("input[name='Skill-OffHand]'").val();
 
-		if (eval(reqs) == false) {
+		if (eval(reqs) == false && exp >= cost) {
 			alert("Minimum Requirements not met: " + reqs);
 			throw new Error("Minimum Requirements not met: " + reqs);
 		}
@@ -813,13 +863,16 @@
 			// NEW ABILITY HTML
 			$("#ability-" + slot).html(
 				"<div class='input-group my-2'>" +
-					"<input class='form-control text-center px-0 py-0' name='Ability-" + slot + "' data-description='"+ description +"' data-effect='"+ effect +"' value='" + name + "' readonly>" +
+					"<input class='form-control text-center px-0 py-0 font-weight-bold' name='Ability-" + slot + "' data-description='"+ description +"' data-effect='"+ effect +"' type='text' value='" + name + "' readonly>" +
 				"</div>"
 			);
 			// NEW ADD BUTTON HTML
 			$("#ability-" + (Number(slot) + 1)).html(
 				"<button class='btn btn-block btn-info border border-dark text-center font-weight-bold addAbilityBtn my-2 mx-auto w-50' type='button'>ADD</button>"
 			);
+
+			exp -= cost;
+			$(".expPool").val(exp);
 			clearATM();
         }
 	});

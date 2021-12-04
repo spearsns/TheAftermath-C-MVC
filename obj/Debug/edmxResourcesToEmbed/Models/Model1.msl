@@ -89,7 +89,6 @@
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="CharacterID" ColumnName="CharacterID" />
           <ScalarProperty Name="AbilityID" ColumnName="AbilityID" />
-          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

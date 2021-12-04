@@ -93,7 +93,6 @@
     <Property Name="ID" Type="Guid" Nullable="false" />
     <Property Name="CharacterID" Type="Guid" Nullable="false" />
     <Property Name="AbilityID" Type="Guid" Nullable="false" />
-    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
     <NavigationProperty Name="Ability" Relationship="Self.FK_CharacterAbilities_Abilities" FromRole="CharacterAbilities" ToRole="Abilities" />
     <NavigationProperty Name="Character" Relationship="Self.FK_CharacterAbilities_Characters" FromRole="CharacterAbilities" ToRole="Characters" />
   </EntityType>

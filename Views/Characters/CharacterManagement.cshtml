@@ -29,7 +29,7 @@
     <div class="col-8 px-0">
         <h5 id="availExpLbl" class="font-weight-bold my-3 text-center text-white">EXP POOL:</h5>
     </div>
-    <div id="skillPtsVal" class="col-4 px-0">
+    <div id="expPoolVal" class="col-4 px-0">
         <div class="input-group my-2 text-center">
             <input class="form-control text-center px-0 py-0 expPool" type="number" id="expPool" value="@Model.AvailableExp" readonly />
         </div>
@@ -1471,7 +1471,8 @@
         </div>
 
         <!-- SUBMIT -->
-        <div id="submitSlot" class="row bg-secondary d-none">
+        <div id="submitSlot" class="row bg-secondary">
+            <input type="hidden" name="AvailableExp" class="expPool" value="" readonly />
             <div class="col-md-4"></div>
             <div class="col-12 col-md-4 my-3">
                 <input id="submitBtn" class="btn btn-lg btn-success border border-light mx-auto btn-block" type="submit" value="CONFIRM &amp; SAVE" />
