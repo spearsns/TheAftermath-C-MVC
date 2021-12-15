@@ -439,7 +439,7 @@ namespace TheAftermath_V2.Controllers
             
             if (target == "Other")
             {
-                List<string> others = new List<string> { "Bloodletter", "Command", "Conditioning", "Ensure", "Pack-Dump", "Quickdraw", "Rebound", "Tactician"};
+                List<string> others = new List<string> { "Other", "Conditioning", "Ensure", "Quickdraw" };
 
                 foreach (string abl in others)
                 {
@@ -453,8 +453,7 @@ namespace TheAftermath_V2.Controllers
                                                                             Effects = oa.Effects,
                                                                             Requirements = oa.Requirements,
                                                                             Cost = oa.Cost
-                                                                        });
-                    
+                    });
                 }
                 //var abilities = db.Abilities.Where(x => others.Contains(x.Name));
             }

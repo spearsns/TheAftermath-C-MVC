@@ -392,16 +392,16 @@
         </div>
 
         <!-- DEMOGRAPHICS || ATTRIBUTES -->
-        <div class="row bg-white border-top border-dark">
-            <div class="col-6 border-right border-dark">
-                <h4 id="demographicsLbl" class="font-weight-bold my-2 text-center">DEMOGRAPHICS</h4>
+        <div class="row bg-black border-top border-dark">
+            <div class="col-6">
+                <h4 id="demographicsLbl" class="text-white font-weight-bold my-2 text-center">DEMOGRAPHICS</h4>
             </div>
             <div class="col-6">
-                <h4 id="attributeLbl" class="font-weight-bold my-2 text-center">ATTRIBUTES</h4>
+                <h4 id="attributeLbl" class="text-white font-weight-bold my-2 text-center">ATTRIBUTES</h4>
             </div>
         </div>
 
-        <!-- NAME || MEM / STR -->
+        <!-- NAME || WILL / END -->
         <div class="row bg-white">
             <div class="col-3 px-0">
                 <h6 id="nameLbl" class="font-weight-bold my-3 text-center">NAME:</h6>
@@ -409,6 +409,38 @@
             <div class="col-3 border-right border-dark px-0">
                 <div class="input-group my-2">
                     <input class="form-control text-center px-0 py-0" type="text" name="Name" value="@Model.Name" readonly />
+                </div>
+            </div>
+
+            <div class="col-2 px-0 bg-danger border-bottom border-dark">
+                <div class="input-group my-0">
+                    <button class="btn btn-block btn-light border border-success bw-thick text-center font-weight-bold my-1 attributeBtn" data-attr="willpower" data-shortTxt="WILL" data-longTxt="WILLPOWER" type="button">WILL</button>
+                </div>
+            </div>
+            <div class="col-1 px-0 bg-danger border-bottom border-dark">
+                <div class="input-group my-2">
+                    <input class="form-control text-center px-0 py-0" type="number" id="willpower" name="Willpower" value="@Model.Willpower" readonly />
+                </div>
+            </div>
+            <div class="col-2 px-0 bg-danger border-bottom border-dark">
+                <div class="input-group my-0">
+                    <button class="btn btn-block btn-light border border-success bw-thick text-center font-weight-bold my-1 attributeBtn" data-attr="endurance" data-shortTxt="END" data-longTxt="ENDURANCE" type="button">END</button>
+                </div>
+            </div>
+            <div class="col-1 px-0 bg-danger border-bottom border-dark">
+                <div class="input-group my-2">
+                    <input class="form-control text-center px-0 py-0" type="number" id="endurance" name="Endurance" value="@Model.Endurance" readonly />
+                </div>
+            </div>
+        </div>
+        <!-- DOB || MEM / STR -->
+        <div class="row bg-white">
+            <div class="col-3 px-0">
+                <h6 id="birthdateLbl" class="font-weight-bold my-3 text-center" data-shortTxt="D.O.B:" data-longTxt="BIRTHDATE">BIRTHDATE:</h6>
+            </div>
+            <div class="col-3 border-right border-dark px-0">
+                <div class="input-group my-2">
+                    <input class="form-control text-center px-0 py-0" type="text" name="Birthdate" value="@Model.Birthdate" readonly />
                 </div>
             </div>
 
@@ -432,39 +464,10 @@
                     <input class="form-control text-center px-0 py-0" type="number" id="strength" name="Strength" value="@Model.Strength" readonly />
                 </div>
             </div>
+
+
         </div>
-        <!-- DOB || LOG / END -->
-        <div class="row bg-white">
-            <div class="col-3 px-0">
-                <h6 id="birthdateLbl" class="font-weight-bold my-3 text-center" data-shortTxt="D.O.B:" data-longTxt="BIRTHDATE">BIRTHDATE:</h6>
-            </div>
-            <div class="col-3 border-right border-dark px-0">
-                <div class="input-group my-2">
-                    <input class="form-control text-center px-0 py-0" type="text" name="Birthdate" value="@Model.Birthdate" readonly />
-                </div>
-            </div>
-            <div class="col-2 px-0">
-                <div class="input-group my-0">
-                    <button class="btn btn-block btn-light border border-success bw-thick text-center font-weight-bold my-1 attributeBtn" data-attr="logic" data-shortTxt="LOG" data-longTxt="LOGIC" type="button">LOG</button>
-                </div>
-            </div>
-            <div class="col-1 px-0">
-                <div class="input-group my-2">
-                    <input class="form-control text-center px-0 py-0" type="number" id="logic" name="Logic" value="@Model.Logic" readonly />
-                </div>
-            </div>
-            <div class="col-2 px-0">
-                <div class="input-group my-0">
-                    <button class="btn btn-block btn-light border border-success bw-thick text-center font-weight-bold my-1 attributeBtn" data-attr="endurance" data-shortTxt="END" data-longTxt="ENDURANCE" type="button">END</button>
-                </div>
-            </div>
-            <div class="col-1 px-0">
-                <div class="input-group my-2">
-                    <input class="form-control text-center px-0 py-0" type="number" id="endurance" name="Endurance" value="@Model.Endurance" readonly />
-                </div>
-            </div>
-        </div>
-        <!-- SEX || PER / AGL -->
+        <!-- SEX || LOG / AGL -->
         <div class="row bg-white">
             <div class="col-3 px-0">
                 <h6 id="sexLbl" class="font-weight-bold my-3 text-center">SEX:</h6>
@@ -477,12 +480,12 @@
 
             <div class="col-2 px-0">
                 <div class="input-group my-0">
-                    <button class="btn btn-block btn-light border border-success bw-thick text-center font-weight-bold my-1 attributeBtn" data-attr="perception" data-shortTxt="PER" data-longTxt="PERCEPTION" type="button">PER</button>
+                    <button class="btn btn-block btn-light border border-success bw-thick text-center font-weight-bold my-1 attributeBtn" data-attr="logic" data-shortTxt="LOG" data-longTxt="LOGIC" type="button">LOG</button>
                 </div>
             </div>
             <div class="col-1 px-0">
                 <div class="input-group my-2">
-                    <input class="form-control text-center px-0 py-0" type="number" id="perception" name="Perception" value="@Model.Perception" readonly />
+                    <input class="form-control text-center px-0 py-0" type="number" id="logic" name="Logic" value="@Model.Logic" readonly />
                 </div>
             </div>
             <div class="col-2 px-0">
@@ -496,7 +499,7 @@
                 </div>
             </div>
         </div>
-        <!-- ETHNIC || WILL / SPD -->
+        <!-- ETHNIC || PER / SPD -->
         <div class="row bg-white">
             <div class="col-3 px-0">
                 <h6 id="ethnicityLbl" class="font-weight-bold my-3 text-center" data-shortTxt="ETHNIC:" data-longTxt="ETHNICITY:">ETHNIC:</h6>
@@ -509,12 +512,12 @@
 
             <div class="col-2 px-0">
                 <div class="input-group my-0">
-                    <button class="btn btn-block btn-light border border-success bw-thick text-center font-weight-bold my-1 attributeBtn" data-attr="willpower" data-shortTxt="WILL" data-longTxt="WILLPOWER" type="button">WILL</button>
+                    <button class="btn btn-block btn-light border border-success bw-thick text-center font-weight-bold my-1 attributeBtn" data-attr="perception" data-shortTxt="PER" data-longTxt="PERCEPTION" type="button">PER</button>
                 </div>
             </div>
             <div class="col-1 px-0">
                 <div class="input-group my-2">
-                    <input class="form-control text-center px-0 py-0" type="number" id="willpower" name="Willpower" value="@Model.Willpower" readonly />
+                    <input class="form-control text-center px-0 py-0" type="number" id="perception" name="Perception" value="@Model.Perception" readonly />
                 </div>
             </div>
             <div class="col-2 px-0">
@@ -801,7 +804,7 @@
             <div id="social-8" class="col-2 px-0"></div>
             <div id="socialVal-8" class="col-1 px-0"></div>
         </div>
-        <!-- TWO / ADD || EMPTY-->
+        <!-- TWO / BURST || EMPTY-->
         <div class="row bg-white">
             <div id="combat-9" class="col-2 px-0">
                 <div class="input-group my-0">
@@ -814,11 +817,11 @@
                 </div>
             </div>
             <div id="combat-10" class="col-2 px-0">
-                <button class="btn btn-block btn-info border border-dark text-center font-weight-bold addSkillBtn my-2 mx-auto" data-target="CombatSkills" type="button">ADD</button>
+                <button class="btn btn-block border border-warning bw-thick font-weight-bold my-1 px-0 adjSkillBtn" data-shortTxt="BURST" data-longTxt="BURST-FIRE" data-skill="BurstFire" data-skillclass="Combat" type="button">BURST</button>
             </div>
             <div id="combatVal-10" class="col-1 px-0 border-right border-dark">
                 <div class="input-group my-2">
-                    <input class="form-control text-center px-0 py-0" type="number" value="" readonly />
+                    <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-BurstFire" value="@Model.Skills.Where(a=>a.Name == "BurstFire").Select(a=>a.Value).First()" readonly />
                 </div>
             </div>
 
@@ -827,7 +830,7 @@
             <div id="social-10" class="col-2 px-0"></div>
             <div id="socialVal-10" class="col-1 px-0"></div>
         </div>
-        <!-- CHAIN || EMPTY -->
+        <!-- CHAIN / ADD || EMPTY -->
         <div class="row bg-white">
             <div id="combat-11" class="col-2 px-0">
                 <div class="input-group my-0">
@@ -839,8 +842,14 @@
                     <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Chain" value="@Model.Skills.Where(a=>a.Name == "Chain").Select(a=>a.Value).First()" readonly />
                 </div>
             </div>
-            <div id="combat-12" class="col-2 px-0"></div>
-            <div id="combatVal-12" class="col-1 px-0 border-right border-dark"></div>
+            <div id="combat-12" class="col-2 px-0">
+                <button class="btn btn-block btn-info border border-dark text-center font-weight-bold addSkillBtn my-2 mx-auto" data-target="CombatSkills" type="button">ADD</button>
+            </div>
+            <div id="combatVal-12" class="col-1 px-0 border-right border-dark">
+                <div class="input-group my-2">
+                    <input class="form-control text-center px-0 py-0" type="number" value="" readonly />
+                </div>
+            </div>
 
             <div id="social-11" class="col-2 px-0"></div>
             <div id="socialVal-11" class="col-1 px-0"></div>

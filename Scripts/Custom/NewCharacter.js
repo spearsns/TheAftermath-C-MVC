@@ -424,7 +424,7 @@
 	// GET BACKGROUND DATA
 	function getBackgroundData() {
 		// LOCAL VARIABLES
-		var combatSlot = 10;
+		var combatSlot = 12;
 		var socialSlot = 5;
 		var covertSlot = 4;
 		var survivalSlot = 4;
