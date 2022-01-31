@@ -1,0 +1,190 @@
+﻿@{
+    ViewBag.Title = "Tell";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('body').css('background-image', 'url("../Content/Images/Textures/darkScratch.jpg")');
+        $('#bodyContainer').removeClass("container").addClass("container-fluid");
+    });
+</script>
+
+<!-- MODALS -->
+<!-- MESSAGE MODAL -->
+<div class="modal fade" id="messageModal" data-backdrop="static" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-header bg-black">
+
+        </div>
+        <div class="modal-content">
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ADMIN MODAL -->
+<div class="modal fade" id="adminModal" data-backdrop="static" tabindex="-2" aria-labelledby="adminModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-header bg-black">
+
+        </div>
+        <div class="modal-content">
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- CHARACTER SHEET MODAL -->
+<div class="modal fade" id="charSheetModal" data-backdrop="static" tabindex="-3" aria-labelledby="charSheetModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-header bg-black">
+
+        </div>
+        <div class="modal-content">
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ID MARKS MODAL -->
+<div class="modal fade" id="idMarksModal" data-backdrop="static" tabindex="-4" aria-labelledby="idMarksModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-header bg-black">
+
+        </div>
+        <div class="modal-content">
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- NOTES MODAL -->
+<div class="modal fade" id="notesModal" data-backdrop="static" tabindex="-5" aria-labelledby="notesModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-header bg-black">
+
+        </div>
+        <div class="modal-content">
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- TASKBAR -->
+<div class="row bg-black sticky-top justify-content-around border border-white">
+    <div class="col-4 px-0">
+        <button id="twoD10Btn" class="btn btn-block btn-dark border border-white text-center font-weight-bold my-2 mx-auto w-75" type="button">2D10</button>
+    </div>
+    <div class="col-4 px-0">
+        <button id="randomHitBtn" class="btn btn-block btn-light border border-white text-center font-weight-bold my-2 mx-auto w-75" type="button">RANDOM HIT</button>
+    </div>
+    <div class="col-4 px-0">
+        <button id="D100Btn" class="btn btn-block btn-dark border border-white text-center font-weight-bold my-2 mx-auto w-75" type="button">D100</button>
+    </div>
+
+    <div class="col-4 px-0">
+        <h5 class="font-weight-bold text-white text-center my-3">LIKELIHOOD CALC:</h5>
+    </div>
+    <div class="col-4 px-0">
+        <div class="input-group my-2 text-center">
+            <input id="LoSValue" class="form-control text-center px-0 py-0 mx-auto" type="number" value="" placeholder="Enter LoS" />
+        </div>
+    </div>
+    <div class="col-4 px-0">
+        <button id="LoSBtn" class="btn btn-block btn-success border border-white text-center font-weight-bold my-2 mx-auto w-75" type="button">SHOW</button>
+    </div>
+
+    <div class="col-4"></div>
+    <div class="col-4 px-0">
+        <button id="adminBtn" class="btn btn-block btn-red border border-white text-center font-weight-bold my-2 mx-auto w-75" type="button">ADMIN</button>
+    </div>
+    <div class="col-4"></div>
+</div>
+
+<!-- GAME INFO -->
+<div class="row">
+    <div class="col-6 col-md-2">
+        <img src="~/Content/Images/Graffiti/Campaign-Red-500x150.png" class="img-fluid mx-auto d-block" />
+    </div>
+    <div class="col-6 col-md-2">
+        <div class="input-group my-2 text-center">
+            <input id="campaignName" class="form-control text-center px-0 py-0 my-2" type="text" value="" readonly />
+        </div>
+    </div>
+    <div class="col-6 col-md-2">
+        <img src="~/Content/Images/Graffiti/Conference-white-500x150.png" class="img-fluid mx-auto d-block" />
+    </div>
+    <div class="col-6 col-md-2">
+        <div class="input-group my-2 text-center">
+            <input id="conferenceLink" class="form-control text-center px-0 py-0 my-2 border border-primary bw-thick" type="text" value="" readonly />
+        </div>
+    </div>
+    <div class="col-6 col-md-2">
+        <img src="~/Content/Images/Graffiti/Storyteller-red-500x150.png" class="img-fluid mx-auto d-block" />
+    </div>
+    <div class="col-6 col-md-2">
+        <div class="input-group my-2 text-center">
+            <input id="storyteller" class="form-control text-center px-0 py-0 my-2" type="text" value="" readonly />
+        </div>
+    </div>
+</div>
+
+<!-- MAPS, NOTES IMAGES -->
+<div class="row justify-content-around">
+    <div class="col-3">
+        <button id="mapBtn" class="btn btn-block btn-info border border-white text-center font-weight-bold my-2 mx-auto" type="button">MAP</button>
+    </div>
+    <div class="col-3">
+        <button id="notesBtn" class="btn btn-block btn-light border border-dark text-center font-weight-bold my-2 mx-auto" type="button">NOTES</button>
+    </div>
+    <div class="col-3">
+        <button id="pictureBtn" class="btn btn-block btn-info border border-white text-center font-weight-bold my-2 mx-auto" type="button">PIC</button>
+    </div>
+</div>
+
+<!-- CHAT AREA -->
+<div class="row">
+    <div id="chatOutput" class="col-12 bg-white border border-dark h-40"></div>
+</div>
+<div class="row">
+    <div id="chatInput" class="col-12 bg-light border border-dark h-10"></div>
+</div>
+
+<!-- PLAYER AREA -->
+<div class="row justify-content-around">
+    <div class="d-none d-md-block col-md-2">
+        <img src="~/Content/Images/Graffiti/Player-white-500x150.png" class="img-fluid mx-auto d-block" />
+    </div>
+    <div class="d-none d-md-block col-md-2">
+        <img src="~/Content/Images/Graffiti/character-red-500x150.png" class="img-fluid mx-auto d-block" />
+    </div>
+    <div class="d-none d-md-block col-md-2">
+        <img src="~/Content/Images/Graffiti/IDMarks-black-500x150.png" class="img-fluid mx-auto d-block" />
+    </div>
+    <div class="d-none d-md-block col-md-2">
+        <img src="~/Content/Images/Graffiti/exp-red-500x150.png" class="img-fluid mx-auto d-block" />
+    </div>
+    <div class="d-none d-md-block col-md-2"></div>
+</div>
+
+<div id="userList" class="row bg-black justify-content-around h-40"></div>

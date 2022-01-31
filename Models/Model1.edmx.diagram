@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="618128a4a94d400f8abdba25a679c6ca" Name="Diagram1" ZoomLevel="67">
+      <Diagram DiagramId="618128a4a94d400f8abdba25a679c6ca" Name="Diagram1" ZoomLevel="21">
         <EntityTypeShape EntityType="AftermathV1Model.Ability" Width="1.5" PointX="6" PointY="8.25" IsExpanded="true" />
         <EntityTypeShape EntityType="AftermathV1Model.AccountRelationship" Width="1.5" PointX="3" PointY="12.625" IsExpanded="true" />
         <EntityTypeShape EntityType="AftermathV1Model.Account" Width="1.5" PointX="0.75" PointY="14.125" IsExpanded="true" />
@@ -24,7 +24,6 @@
         <AssociationConnector Association="AftermathV1Model.FK_CharacterAbilities_Abilities" ManuallyRouted="false" />
         <AssociationConnector Association="AftermathV1Model.FK_AccountRelationships_First" ManuallyRouted="false" />
         <AssociationConnector Association="AftermathV1Model.FK_AccountRelationships_Second" ManuallyRouted="false" />
-        <AssociationConnector Association="AftermathV1Model.FK_Campaigns_Accounts" ManuallyRouted="false" />
         <AssociationConnector Association="AftermathV1Model.FK_Characters_Accounts" ManuallyRouted="false" />
         <AssociationConnector Association="AftermathV1Model.FK_CharacterAttributes_Attributes" ManuallyRouted="false" />
         <AssociationConnector Association="AftermathV1Model.FK_Characters_Background" ManuallyRouted="false" />
@@ -36,6 +35,9 @@
         <AssociationConnector Association="AftermathV1Model.FK_CharacterSkills_Characters" ManuallyRouted="false" />
         <AssociationConnector Association="AftermathV1Model.FK_IDMarks_Characters" ManuallyRouted="false" />
         <AssociationConnector Association="AftermathV1Model.FK_CharacterSkills_Skills" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="AftermathV1Model.CampaignsActive" Width="1.5" PointX="11.25" PointY="18" />
+        <AssociationConnector Association="AftermathV1Model.FK_CampaignsActive_Accounts" />
+        <AssociationConnector Association="AftermathV1Model.FK_CampaignsActive_Campaigns" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -1,0 +1,212 @@
+﻿
+@{
+    ViewBag.Title = "Admin";
+}
+@section Scripts
+{
+    <script src="@Url.Content("~/Scripts/Custom/GameAdmin.js")" type="text/javascript"></script>
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('body').css('background-image', 'url("../Content/Images/Textures/darkRust.jpg")');
+    });
+</script>
+
+<!-- MODALS -->
+<!-- MESSAGE MODAL -->
+<div class="modal fade" id="messageModal" data-backdrop="static" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-header bg-black">
+
+        </div>
+        <div class="modal-content">
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- CONFIRM MODAL -->
+<div class="modal fade" id="confirmModal" data-backdrop="static" tabindex="-2" aria-labelledby="confirmModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-header bg-black">
+
+        </div>
+        <div class="modal-content">
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- BEGIN FORM -->
+@using (Html.BeginForm("Admin", "Games", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <!--CAMPAIGN NAME-->
+    <div class="row bg-black mt-5 pt-3">
+        <div class="col-md-3"></div>
+        <div class="col-6 col-md-3">
+            <img src="~/Content/Images/Graffiti/Campaign-Red-500x150.png" class="img-fluid mx-auto d-block" />
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="input-group my-2 text-center">
+                <input id="gameName" class="form-control text-center px-0 py-0 my-2 w-100" type="text" value="" />
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+    <!--SEASON-->
+    <div class="row bg-black">
+        <div class="col-md-3"></div>
+        <div class="col-6 col-md-3">
+            <img src="~/Content/Images/Graffiti/Season-black-500x150.png" class="img-fluid mx-auto d-block" />
+        </div>
+        <div class="col-6 col-md-3">
+            <select name="Season" id="season" class="custom-select custom-select-lg mt-2 text-center w-100">
+                <option value="Spring">Spring</option>
+                <option value="Summer">Summer</option>
+                <option value="Fall">Fall</option>
+                <option value="Winter">Winter</option>
+            </select>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+    <!--YEAR-->
+    <div class="row bg-black">
+        <div class="col-md-3"></div>
+        <div class="col-6 col-md-3">
+            <img src="~/Content/Images/Graffiti/Year-black-500x150.png" class="img-fluid mx-auto d-block" />
+        </div>
+        <div class="col-6 col-md-3">
+            <select name="Year" id="year" class="custom-select custom-select-lg mt-2 text-center w-100">
+                <option disabled>[Pre-Apocalypse]</option>
+                <option value="2012">2012</option>
+                <option disabled>[The Apocalypse]</option>
+                <option value="2013">2013</option>
+                <option value="2014">2014</option>
+                <option value="2015">2015</option>
+                <option value="2016">2016</option>
+                <option value="2017">2017</option>
+                <option disabled>[The Aftermath]</option>
+                <option value="2018">2018</option>
+                <option value="2019">2019</option>
+                <option value="2020">2020</option>
+                <option value="2021">2021</option>
+                <option disabled>[Present Day]</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+                <option value="2026">2026</option>
+                <option value="2027">2027</option>
+                <option value="2028">2028</option>
+                <option value="2029">2029</option>
+                <option value="2030">2030</option>
+                <option value="2031">2031</option>
+                <option value="2032">2032</option>
+            </select>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+    <!--DESCRIPTION-->
+    <div class="row bg-black">
+        <div class="col-md-3"></div>
+        <div class="col-6 col-md-3">
+            <img src="~/Content/Images/Graffiti/description-white-500x150.png" class="img-fluid mx-auto d-block">
+        </div>
+        <div class="col-6 col-md-3">
+            <textarea id="description" name="Description" rows="4" cols="50" class="rounded w-100"></textarea>
+        </div>
+        <div class="col-md-3"></div>
+        <hr />
+    </div>
+    <!--PLAYER PW-->
+    <div class="row bg-black">
+        <div class="col-md-3"></div>
+        <div class="col-6 col-md-3">
+            <img src="~/Content/Images/Graffiti/PlayerPW-red-500x150.png" class="img-fluid mx-auto d-block">
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="input-group my-2 text-center">
+                <input id="playerPW" class="form-control text-center px-0 py-0 my-2 w-100" type="password" value="" placeholder="Grants Access to PLAY" />
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+    <!--CONFIRM PLAYER PW-->
+    <div class="row bg-black">
+        <div class="col-md-3"></div>
+        <div class="col-6 col-md-3">
+            <img src="~/Content/Images/Graffiti/ConfirmPW-white-500x150.png" class="img-fluid mx-auto d-block">
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="input-group my-2 text-center">
+                <input id="confirmPlayerPW" class="form-control text-center px-0 py-0 my-2 w-100" type="password" value="" />
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+        <hr />
+    </div>
+    <!--STORYTELLER PW-->
+    <div class="row bg-black">
+        <div class="col-md-3"></div>
+        <div class="col-6 col-md-3">
+            <img src="~/Content/Images/Graffiti/StorytellerPW-green-500x150.png" class="img-fluid mx-auto d-block">
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="input-group my-2 text-center">
+                <input id="storytellerPW" class="form-control text-center px-0 py-0 my-2 w-100" type="password" value="" placeholder="Grants Access to TELL / ADMIN" />
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+    <!--CONFIRM STORYTELLER PW-->
+    <div class="row bg-black">
+        <div class="col-md-3"></div>
+        <div class="col-6 col-md-3">
+            <img src="~/Content/Images/Graffiti/ConfirmPW-white-500x150.png" class="img-fluid mx-auto d-block">
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="input-group my-2 text-center">
+                <input id="confirmStorytellerPW" class="form-control text-center px-0 py-0 my-2 w-100" type="password" value="" />
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+        <hr />
+    </div>
+    <!--END GAME-->
+    <div class="row bg-black pt-3">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <button id="endGameBtn" class="btn btn-lg btn-secondary border border-light mx-auto btn-block mb-3">END GAME</button>
+        </div>
+        <div class="col-4"></div>
+    </div>
+    <!--CANCEL-->
+    <div class="row bg-black">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <a href="@Url.Action("Index", "Games")" id="cancelBtn" class="btn btn-lg btn-red border border-light mx-auto btn-block mb-3" type="button">CANCEL</a>
+        </div>
+        <div class="col-4"></div>
+    </div>
+    <!--SUBMIT-->
+    <div class="row bg-black pb-3">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <input id="submitBtn" class="btn btn-lg btn-success border border-light mx-auto btn-block mb-3" type="submit" value="SUBMIT" />
+        </div>
+        <div class="col-4"></div>
+    </div>
+}

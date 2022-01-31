@@ -41,5 +41,6 @@ namespace TheAftermath_V2.Models
         public virtual DbSet<IDMark> IDMarks { get; set; }
         public virtual DbSet<Skill> Skills { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<CampaignsActive> CampaignsActives { get; set; }
     }
 }

@@ -29,6 +29,7 @@
     <EntitySetMapping Name="Accounts">
       <EntityTypeMapping TypeName="AftermathV1Model.Account">
         <MappingFragment StoreEntitySet="Accounts">
+          <ScalarProperty Name="Active" ColumnName="Active" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Username" ColumnName="Username" />
           <ScalarProperty Name="Email" ColumnName="Email" />
@@ -72,12 +73,13 @@
     <EntitySetMapping Name="Campaigns">
       <EntityTypeMapping TypeName="AftermathV1Model.Campaign">
         <MappingFragment StoreEntitySet="Campaigns">
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="Season" ColumnName="Season" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="AdminPassword" ColumnName="AdminPassword" />
           <ScalarProperty Name="PlayerPassword" ColumnName="PlayerPassword" />
-          <ScalarProperty Name="Storyteller" ColumnName="Storyteller" />
           <ScalarProperty Name="Locked" ColumnName="Locked" />
           <ScalarProperty Name="Closed" ColumnName="Closed" />
         </MappingFragment>
@@ -224,6 +226,18 @@
           <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
           <ScalarProperty Name="version" ColumnName="version" />
           <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CampaignsActives">
+      <EntityTypeMapping TypeName="AftermathV1Model.CampaignsActive">
+        <MappingFragment StoreEntitySet="CampaignsActive">
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="AdminActive" ColumnName="AdminActive" />
+          <ScalarProperty Name="CharacterID" ColumnName="CharacterID" />
+          <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+          <ScalarProperty Name="CampaignID" ColumnName="CampaignID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -14,15 +14,23 @@ namespace TheAftermath_V2.Models
     
     public partial class Campaign
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Campaign()
+        {
+            this.CampaignsActives = new HashSet<CampaignsActive>();
+        }
+    
         public System.Guid ID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string AdminPassword { get; set; }
         public string PlayerPassword { get; set; }
-        public Nullable<System.Guid> Storyteller { get; set; }
         public bool Locked { get; set; }
         public bool Closed { get; set; }
+        public string Season { get; set; }
+        public string Year { get; set; }
     
-        public virtual Account Account { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CampaignsActive> CampaignsActives { get; set; }
     }
 }

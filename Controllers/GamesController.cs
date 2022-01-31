@@ -13,6 +13,7 @@ namespace TheAftermath_V2.Controllers
     public class GamesController : Controller
     {
         // GET: Games
+        public AftermathV1Entities db = new AftermathV1Entities();
         public ActionResult Index()
         {
             /*
@@ -25,6 +26,265 @@ namespace TheAftermath_V2.Controllers
                 return RedirectToAction("Login", "Home");
             }
             */
+            return View();
+        }
+        
+        [HttpGet]
+        public JsonResult GetGames()
+        {
+            var gameQuery = from c in db.Campaigns
+                            where c.Closed == false
+                            select new { c.ID, c.Name };
+
+            List<Classes.GameData> gameList = new List<Classes.GameData>();
+            foreach (var x in gameQuery)
+            {
+                gameList.Add(new Classes.GameData
+                {
+                    ID = x.ID,
+                    Name = x.Name,
+                    Population = db.CampaignsActives.Where(a=>a.ID.Equals(x.ID)).Count()
+                });
+            }
+
+            return Json(gameList, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult GetGameData(string name)
+        {
+            var gameQ = (from c in db.Campaigns
+                         where c.Name == name && c.Closed == false
+                         select new { c.Season, c.Year, c.Description }).Single();
+
+            Classes.GameData result = new Classes.GameData
+            {
+                Season = gameQ.Season,
+                Year = gameQ.Year,
+                Description = gameQ.Description
+            };
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult GetGamePW(Guid ID)
+        {
+            var gameQ = (from c in db.Campaigns
+                         where c.ID == ID && c.Closed == false
+                         select new { c.PlayerPassword, c.AdminPassword }).Single();
+
+            Classes.GameData result = new Classes.GameData
+            {
+                PlayerPassword = gameQ.PlayerPassword,
+                AdminPassword = gameQ.AdminPassword
+            };
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult NewGame()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult NewGame([Bind(Include = "Name, Season, Year, Description, PlayerPW, AdminPW")] Models.NewGameModel input)
+        {
+            if (ModelState.IsValid)
+            {
+                var game = new Campaign
+                {
+                    ID = Guid.NewGuid(),
+                    Name = input.Name,
+                    Season = input.Season,
+                    Year = input.Year,
+                    Description = input.Description,
+                    PlayerPassword = input.PlayerPassword,
+                    AdminPassword = input.AdminPassword,
+                    Locked = false,
+                    Closed = false
+                };
+                db.Campaigns.Add(game);
+                db.SaveChanges();
+
+                ViewBag.ErrorMessage = "Success";
+                return RedirectToAction("Success", "Home");
+            }
+            return View(input);
+        }
+        public ActionResult Play()
+        {
+            string name = HttpContext.Request.QueryString["char"];
+
+            Guid acctID = Guid.Parse(Session["UserID"].ToString());
+            var character = db.Characters.Where(a => a.Name == name && a.AccountID == acctID).First();
+            var charAttrs = db.CharacterAttributes.Where(a => a.CharacterID == character.ID).Join(db.Attributes, ca => ca.AttributeID, a => a.ID, (ca, a) => new { Name = a.Name, Value = ca.Value });
+
+            var skillQuery = from s in db.Skills
+                             where s.Type == "Standard" && s.Disabled == false
+                             join cs in db.CharacterSkills on s.ID equals cs.MasterID
+                             select new { s.Name, s.Description, cs.Value };
+
+            List<Classes.SkillData> skillList = new List<Classes.SkillData>();
+            foreach (var skill in skillQuery) skillList.Add(new Classes.SkillData { Name = skill.Name, Description = skill.Description, Value = skill.Value });
+
+            var abilityQuery = from cab in db.CharacterAbilities
+                               where cab.CharacterID == character.ID
+                               join a in db.Abilities on cab.AbilityID equals a.ID
+                               select new { a.Name, a.Effects, a.Description };
+
+            List<Classes.AbilityData> abilityList = new List<Classes.AbilityData>();
+            foreach (var ability in abilityQuery) abilityList.Add(new Classes.AbilityData { Name = ability.Name, Description = ability.Description, Effects = ability.Effects });
+
+            Classes.CharacterData charData = new Classes.CharacterData
+            {
+                // DEMOGRAPHICS
+                Name = character.Name,
+                Status = character.Status,
+                Birthdate = character.Birthdate,
+                Sex = character.Sex,
+                Ethnicity = character.Ethnicity,
+                HairColor = character.HairColor,
+                HairStyle = character.HairStyle,
+                FacialHair = character.FacialHair,
+                EyeColor = character.EyeColor,
+                Habitat = character.Habitat,
+                History = db.Histories.Where(a => a.ID == character.History).Select(a => a.Name).First(),
+                Strategy = character.Strategy,
+                Background = db.Backgrounds.Where(a => a.ID == character.Background).Select(a => a.Name).First(),
+                // EXPERIENCE
+                TotalExp = db.CharacterExps.Where(a => a.CharacterID == character.ID).Select(a => a.TotalExp).First(),
+                AvailableExp = db.CharacterExps.Where(a => a.CharacterID == character.ID).Select(a => a.AvailableExp).First(),
+                // ATTRIBUTES
+                Memory = charAttrs.Where(a => a.Name == "Memory").Select(a => a.Value).First(),
+                Logic = charAttrs.Where(a => a.Name == "Logic").Select(a => a.Value).First(),
+                Perception = charAttrs.Where(a => a.Name == "Perception").Select(a => a.Value).First(),
+                Willpower = charAttrs.Where(a => a.Name == "Willpower").Select(a => a.Value).First(),
+                Charisma = charAttrs.Where(a => a.Name == "Charisma").Select(a => a.Value).First(),
+
+                Strength = charAttrs.Where(a => a.Name == "Strength").Select(a => a.Value).First(),
+                Endurance = charAttrs.Where(a => a.Name == "Endurance").Select(a => a.Value).First(),
+                Agility = charAttrs.Where(a => a.Name == "Agility").Select(a => a.Value).First(),
+                Speed = charAttrs.Where(a => a.Name == "Speed").Select(a => a.Value).First(),
+                Beauty = charAttrs.Where(a => a.Name == "Beauty").Select(a => a.Value).First(),
+
+                Sequence = charAttrs.Where(a => a.Name == "Sequence").Select(a => a.Value).First(),
+                Actions = charAttrs.Where(a => a.Name == "Actions").Select(a => a.Value).First(),
+
+                Skills = skillList,
+                Abilities = abilityList,
+                IDMarks = db.IDMarks.Where(a => a.CharacterID == character.ID).ToList(),
+                Notes = db.CharacterNotes.Where(a => a.CharacterID == character.ID).First().ToString()
+            };
+            return View(charData);
+        }
+
+        [HttpPost]
+        public JsonResult GetIDMarks(string name, string user)
+        {
+            Guid acctID = db.Accounts.Where(a => a.Username == user).Select(a => a.ID).Single();
+            Guid charID = db.Characters.Where(a => a.Name == name && a.AccountID == acctID).Select(a=>a.ID).Single();
+
+            var marksQ = (from id in db.IDMarks
+                          where id.CharacterID.Equals(charID)
+                          join c in db.Characters on id.CharacterID equals c.ID
+                          select new
+                          {
+                              c.Sex,
+                              c.Status,
+                              c.HairStyle,
+                              c.FacialHair,
+                              id.Head,
+                              id.Face,
+                              id.Neck,
+                              id.LeftShoulder,
+                              id.RightShoulder,
+                              id.LeftBicep,
+                              id.RightBicep,
+                              id.LeftRibs,
+                              id.RightRibs,
+                              id.Stomach,
+                              id.LowerBack,
+                              id.Groin,
+                              id.Rear,
+                              id.LeftForearm,
+                              id.RightForearm,
+                              id.LeftHand,
+                              id.RightHand,
+                              id.LeftThigh,
+                              id.RightThigh,
+                              id.LeftCalf,
+                              id.RightCalf,
+                              id.LeftFoot,
+                              id.RightFoot
+                          }).Single();
+
+            Classes.IDMarks result = new Classes.IDMarks
+            {
+                Sex = marksQ.Sex,
+                Status = marksQ.Status,
+                HairStyle = marksQ.HairStyle,
+                FacialHair = marksQ.FacialHair,
+                Head = marksQ.Head,
+                Face = marksQ.Face,
+                Neck = marksQ.Neck,
+                LeftShoulder = marksQ.LeftShoulder,
+                RightShoulder = marksQ.RightShoulder,
+                LeftBicep = marksQ.LeftBicep,
+                RightBicep = marksQ.RightBicep,
+                LeftRibs = marksQ.LeftRibs,
+                RightRibs = marksQ.RightRibs,
+                Stomach = marksQ.Stomach,
+                LowerBack = marksQ.LowerBack,
+                Groin = marksQ.Groin,
+                Rear = marksQ.Rear,
+                LeftForearm = marksQ.LeftForearm,
+                RightForearm = marksQ.RightForearm,
+                LeftHand = marksQ.LeftHand,
+                RightHand = marksQ.RightHand,
+                LeftThigh = marksQ.LeftThigh,
+                RightThigh = marksQ.RightThigh,
+                LeftCalf = marksQ.LeftCalf,
+                RightCalf = marksQ.RightCalf,
+                LeftFoot = marksQ.LeftFoot,
+                RightFoot = marksQ.RightFoot
+            };
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult GetNotes(string name, string user)
+        {
+            Guid acctID = db.Accounts.Where(a => a.Username == user).Select(a => a.ID).Single();
+            Guid charID = db.Characters.Where(a => a.Name == name && a.AccountID == acctID).Select(a => a.ID).Single();
+
+            var results = db.CharacterNotes.Where(a => a.CharacterID == charID).Single();
+
+            return Json(results, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult UpdateNotes(string name, string user, [Bind(Include = "charNotes")] string input)
+        {
+            Guid acctID = db.Accounts.Where(a => a.Username == user).Select(a => a.ID).Single();
+            Guid charID = db.Characters.Where(a => a.Name == name && a.AccountID == acctID).Select(a => a.ID).Single();
+            
+            var result = db.CharacterNotes.Where(a => a.CharacterID == charID).Single();
+
+            result.Notes = input;
+            db.SaveChanges();
+            string confirm = "success";
+            return Json(confirm, JsonRequestBehavior.AllowGet); 
+        }
+            public ActionResult Tell()
+        {
+            return View();
+        }
+        public ActionResult Admin()
+        {
             return View();
         }
     }

@@ -38,6 +38,7 @@
           <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="PictureLoc" Type="varchar" MaxLength="50" />
           <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+          <Property Name="Active" Type="bit" />
         </EntityType>
         <EntityType Name="Attributes">
           <Key>
@@ -74,12 +75,24 @@
           </Key>
           <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Season" Type="varchar" MaxLength="6" />
+          <Property Name="Year" Type="varchar" MaxLength="4" />
           <Property Name="Description" Type="text" Nullable="false" />
           <Property Name="AdminPassword" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="PlayerPassword" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Storyteller" Type="uniqueidentifier" />
           <Property Name="Locked" Type="bit" Nullable="false" />
           <Property Name="Closed" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CampaignsActive">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CampaignID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AccountID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CharacterID" Type="uniqueidentifier" />
+          <Property Name="AdminActive" Type="bit" Nullable="false" />
+          <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
         </EntityType>
         <EntityType Name="CharacterAbilities">
           <Key>
@@ -239,15 +252,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Campaigns_Accounts">
-          <End Role="Accounts" Type="Self.Accounts" Multiplicity="0..1" />
-          <End Role="Campaigns" Type="Self.Campaigns" Multiplicity="*" />
+        <Association Name="FK_CampaignsActive_Accounts">
+          <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
+          <End Role="CampaignsActive" Type="Self.CampaignsActive" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Accounts">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="Campaigns">
-              <PropertyRef Name="Storyteller" />
+            <Dependent Role="CampaignsActive">
+              <PropertyRef Name="AccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CampaignsActive_Campaigns">
+          <End Role="Campaigns" Type="Self.Campaigns" Multiplicity="1" />
+          <End Role="CampaignsActive" Type="Self.CampaignsActive" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Campaigns">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CampaignsActive">
+              <PropertyRef Name="CampaignID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -402,6 +427,7 @@
           <EntitySet Name="Attributes" EntityType="Self.Attributes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Backgrounds" EntityType="Self.Backgrounds" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Campaigns" EntityType="Self.Campaigns" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CampaignsActive" EntityType="Self.CampaignsActive" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CharacterAbilities" EntityType="Self.CharacterAbilities" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CharacterAttributes" EntityType="Self.CharacterAttributes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CharacterExps" EntityType="Self.CharacterExps" Schema="dbo" store:Type="Tables" />
@@ -420,9 +446,13 @@
             <End Role="Accounts" EntitySet="Accounts" />
             <End Role="AccountRelationships" EntitySet="AccountRelationships" />
           </AssociationSet>
-          <AssociationSet Name="FK_Campaigns_Accounts" Association="Self.FK_Campaigns_Accounts">
+          <AssociationSet Name="FK_CampaignsActive_Accounts" Association="Self.FK_CampaignsActive_Accounts">
             <End Role="Accounts" EntitySet="Accounts" />
+            <End Role="CampaignsActive" EntitySet="CampaignsActive" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CampaignsActive_Campaigns" Association="Self.FK_CampaignsActive_Campaigns">
             <End Role="Campaigns" EntitySet="Campaigns" />
+            <End Role="CampaignsActive" EntitySet="CampaignsActive" />
           </AssociationSet>
           <AssociationSet Name="FK_CharacterAbilities_Abilities" Association="Self.FK_CharacterAbilities_Abilities">
             <End Role="Abilities" EntitySet="Abilities" />
@@ -515,8 +545,9 @@
           <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="AccountRelationships" Relationship="Self.FK_AccountRelationships_First" FromRole="Accounts" ToRole="AccountRelationships" />
           <NavigationProperty Name="AccountRelationships1" Relationship="Self.FK_AccountRelationships_Second" FromRole="Accounts" ToRole="AccountRelationships" />
-          <NavigationProperty Name="Campaigns" Relationship="Self.FK_Campaigns_Accounts" FromRole="Accounts" ToRole="Campaigns" />
           <NavigationProperty Name="Characters" Relationship="Self.FK_Characters_Accounts" FromRole="Accounts" ToRole="Characters" />
+          <Property Name="Active" Type="Boolean" />
+          <NavigationProperty Name="CampaignsActives" Relationship="AftermathV1Model.FK_CampaignsActive_Accounts" FromRole="Account" ToRole="CampaignsActive" />
         </EntityType>
         <EntityType Name="Attribute">
           <Key>
@@ -558,10 +589,11 @@
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="AdminPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="PlayerPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Storyteller" Type="Guid" />
           <Property Name="Locked" Type="Boolean" Nullable="false" />
           <Property Name="Closed" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Account" Relationship="Self.FK_Campaigns_Accounts" FromRole="Campaigns" ToRole="Accounts" />
+          <NavigationProperty Name="CampaignsActives" Relationship="AftermathV1Model.FK_CampaignsActive_Campaigns" FromRole="Campaign" ToRole="CampaignsActive" />
+          <Property Name="Season" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="Year" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="CharacterAbility">
           <Key>
@@ -753,18 +785,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Campaigns_Accounts">
-          <End Role="Accounts" Type="Self.Account" Multiplicity="0..1" />
-          <End Role="Campaigns" Type="Self.Campaign" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Accounts">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Campaigns">
-              <PropertyRef Name="Storyteller" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Characters_Accounts">
           <End Role="Accounts" Type="Self.Account" Multiplicity="1" />
           <End Role="Characters" Type="Self.Character" Multiplicity="*" />
@@ -926,10 +946,6 @@
             <End Role="Accounts" EntitySet="Accounts" />
             <End Role="AccountRelationships" EntitySet="AccountRelationships" />
           </AssociationSet>
-          <AssociationSet Name="FK_Campaigns_Accounts" Association="Self.FK_Campaigns_Accounts">
-            <End Role="Accounts" EntitySet="Accounts" />
-            <End Role="Campaigns" EntitySet="Campaigns" />
-          </AssociationSet>
           <AssociationSet Name="FK_Characters_Accounts" Association="Self.FK_Characters_Accounts">
             <End Role="Accounts" EntitySet="Accounts" />
             <End Role="Characters" EntitySet="Characters" />
@@ -974,8 +990,54 @@
             <End Role="Skills" EntitySet="Skills" />
             <End Role="CharacterSkills" EntitySet="CharacterSkills" />
           </AssociationSet>
-        </EntityContainer>
-      </Schema>
+          <EntitySet Name="CampaignsActives" EntityType="AftermathV1Model.CampaignsActive" />
+          <AssociationSet Name="FK_CampaignsActive_Accounts" Association="AftermathV1Model.FK_CampaignsActive_Accounts">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="CampaignsActive" EntitySet="CampaignsActives" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CampaignsActive_Campaigns" Association="AftermathV1Model.FK_CampaignsActive_Campaigns">
+            <End Role="Campaign" EntitySet="Campaigns" />
+            <End Role="CampaignsActive" EntitySet="CampaignsActives" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="CampaignsActive">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="CampaignID" Type="Guid" Nullable="false" />
+          <Property Name="AccountID" Type="Guid" Nullable="false" />
+          <Property Name="CharacterID" Type="Guid" />
+          <Property Name="AdminActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Account" Relationship="AftermathV1Model.FK_CampaignsActive_Accounts" FromRole="CampaignsActive" ToRole="Account" />
+          <NavigationProperty Name="Campaign" Relationship="AftermathV1Model.FK_CampaignsActive_Campaigns" FromRole="CampaignsActive" ToRole="Campaign" />
+        </EntityType>
+        <Association Name="FK_CampaignsActive_Accounts">
+          <End Type="AftermathV1Model.Account" Role="Account" Multiplicity="1" />
+          <End Type="AftermathV1Model.CampaignsActive" Role="CampaignsActive" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CampaignsActive">
+              <PropertyRef Name="AccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CampaignsActive_Campaigns">
+          <End Type="AftermathV1Model.Campaign" Role="Campaign" Multiplicity="1" />
+          <End Type="AftermathV1Model.CampaignsActive" Role="CampaignsActive" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Campaign">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CampaignsActive">
+              <PropertyRef Name="CampaignID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -1009,6 +1071,7 @@
           <EntitySetMapping Name="Accounts">
             <EntityTypeMapping TypeName="AftermathV1Model.Account">
               <MappingFragment StoreEntitySet="Accounts">
+                <ScalarProperty Name="Active" ColumnName="Active" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
@@ -1052,12 +1115,13 @@
           <EntitySetMapping Name="Campaigns">
             <EntityTypeMapping TypeName="AftermathV1Model.Campaign">
               <MappingFragment StoreEntitySet="Campaigns">
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Season" ColumnName="Season" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="AdminPassword" ColumnName="AdminPassword" />
                 <ScalarProperty Name="PlayerPassword" ColumnName="PlayerPassword" />
-                <ScalarProperty Name="Storyteller" ColumnName="Storyteller" />
                 <ScalarProperty Name="Locked" ColumnName="Locked" />
                 <ScalarProperty Name="Closed" ColumnName="Closed" />
               </MappingFragment>
@@ -1204,6 +1268,18 @@
                 <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
                 <ScalarProperty Name="version" ColumnName="version" />
                 <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CampaignsActives">
+            <EntityTypeMapping TypeName="AftermathV1Model.CampaignsActive">
+              <MappingFragment StoreEntitySet="CampaignsActive">
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="AdminActive" ColumnName="AdminActive" />
+                <ScalarProperty Name="CharacterID" ColumnName="CharacterID" />
+                <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+                <ScalarProperty Name="CampaignID" ColumnName="CampaignID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
