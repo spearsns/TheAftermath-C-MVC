@@ -53,6 +53,7 @@
 		});
 		$("#idMarksModal").modal("toggle");
 	});
+
 	// IF DECIDED TO STORE NOTES
 	/*
 	$("#notesBtn").click(function () {
