@@ -335,7 +335,41 @@ namespace TheAftermath_V2.Controllers
             record.Timestamp = DateTime.Now;
             db.SaveChanges();
 
-            return View();
+            // GET CURRENT VALUES
+            var gameData = new Classes.GameData
+            {
+                Name = game.Name,
+                Season = game.Season,
+                Year = game.Year,
+                Description = game.Description,
+                PlayerPassword = game.PlayerPassword,
+                AdminPassword = game.AdminPassword
+            };
+
+            return View(gameData);
         }
-    }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Admin([Bind(Include = "Name, Season, Year, Description, PlayerPW, AdminPW")] Classes.GameData input)
+        {
+            if (ModelState.IsValid)
+            {
+                string gameName = HttpContext.Request.QueryString["game"];
+                var game = db.Campaigns.Where(a => a.Name == gameName).FirstOrDefault();
+                game.Name = input.Name;
+                game.Season = input.Season;
+                game.Year = input.Year;
+                game.Description = input.Description;
+                game.PlayerPassword = input.PlayerPassword;
+                game.AdminPassword = input.AdminPassword;
+                db.SaveChanges();
+
+                ViewBag.ErrorMessage = "Success";
+                return RedirectToAction("Success", "Home");
+            }
+            else
+            {
+                return View(input);
+            }   
+
 }
