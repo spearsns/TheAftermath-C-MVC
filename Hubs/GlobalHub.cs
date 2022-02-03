@@ -8,6 +8,7 @@ namespace TheAftermath_V2.Hubs
 {
     public class GlobalHub : Hub
     {
+        // INDEX LOBBY AND WHISPER 
         public void SendMessage(string username, string message)
         {
             Clients.All.NewMessage(username, message);

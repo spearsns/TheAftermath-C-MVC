@@ -29,13 +29,28 @@
     <EntitySetMapping Name="Accounts">
       <EntityTypeMapping TypeName="AftermathV1Model.Account">
         <MappingFragment StoreEntitySet="Accounts">
-          <ScalarProperty Name="Active" ColumnName="Active" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Username" ColumnName="Username" />
           <ScalarProperty Name="Email" ColumnName="Email" />
           <ScalarProperty Name="Password" ColumnName="Password" />
           <ScalarProperty Name="PictureLoc" ColumnName="PictureLoc" />
           <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="Active" ColumnName="Active" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AccountStatus1">
+      <EntityTypeMapping TypeName="AftermathV1Model.AccountStatus">
+        <MappingFragment StoreEntitySet="AccountStatus">
+          <ScalarProperty Name="Tell" ColumnName="Tell" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+          <ScalarProperty Name="Active" ColumnName="Active" />
+          <ScalarProperty Name="Admin" ColumnName="Admin" />
+          <ScalarProperty Name="Play" ColumnName="Play" />
+          <ScalarProperty Name="CampaignID" ColumnName="CampaignID" />
+          <ScalarProperty Name="CharacterID" ColumnName="CharacterID" />
+          <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -73,15 +88,19 @@
     <EntitySetMapping Name="Campaigns">
       <EntityTypeMapping TypeName="AftermathV1Model.Campaign">
         <MappingFragment StoreEntitySet="Campaigns">
-          <ScalarProperty Name="Year" ColumnName="Year" />
-          <ScalarProperty Name="Season" ColumnName="Season" />
+          <ScalarProperty Name="TellActive" ColumnName="TellActive" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Season" ColumnName="Season" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="AdminPassword" ColumnName="AdminPassword" />
           <ScalarProperty Name="PlayerPassword" ColumnName="PlayerPassword" />
           <ScalarProperty Name="Locked" ColumnName="Locked" />
           <ScalarProperty Name="Closed" ColumnName="Closed" />
+          <ScalarProperty Name="ConferenceLink" ColumnName="ConferenceLink" />
+          <ScalarProperty Name="MapLoc" ColumnName="MapLoc" />
+          <ScalarProperty Name="PictureLoc" ColumnName="PictureLoc" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -226,18 +245,6 @@
           <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
           <ScalarProperty Name="version" ColumnName="version" />
           <ScalarProperty Name="definition" ColumnName="definition" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="CampaignsActives">
-      <EntityTypeMapping TypeName="AftermathV1Model.CampaignsActive">
-        <MappingFragment StoreEntitySet="CampaignsActive">
-          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-          <ScalarProperty Name="AdminActive" ColumnName="AdminActive" />
-          <ScalarProperty Name="CharacterID" ColumnName="CharacterID" />
-          <ScalarProperty Name="AccountID" ColumnName="AccountID" />
-          <ScalarProperty Name="CampaignID" ColumnName="CampaignID" />
-          <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

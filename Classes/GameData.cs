@@ -15,6 +15,8 @@ namespace TheAftermath_V2.Classes
         public int Population { get; set; }
         public string PlayerPassword { get; set; }
         public string AdminPassword { get; set; }
+        public bool TellActive { get; set; }
+        public bool Locked { get; set; }
 
     }
 }

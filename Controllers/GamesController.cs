@@ -34,7 +34,7 @@ namespace TheAftermath_V2.Controllers
         {
             var gameQuery = from c in db.Campaigns
                             where c.Closed == false
-                            select new { c.ID, c.Name };
+                            select new { c.ID, c.Name, c.TellActive, c.Locked };
 
             List<Classes.GameData> gameList = new List<Classes.GameData>();
             foreach (var x in gameQuery)
@@ -43,7 +43,9 @@ namespace TheAftermath_V2.Controllers
                 {
                     ID = x.ID,
                     Name = x.Name,
-                    Population = db.CampaignsActives.Where(a=>a.ID.Equals(x.ID)).Count()
+                    Population = db.AccountStatus1.Where(a => a.CampaignID == x.ID).Count(),
+                    TellActive = x.TellActive,
+                    Locked = x.Locked
                 });
             }
 
@@ -116,10 +118,12 @@ namespace TheAftermath_V2.Controllers
         }
         public ActionResult Play()
         {
-            string name = HttpContext.Request.QueryString["char"];
-
+            string charName = HttpContext.Request.QueryString["char"];
+            string gameName = HttpContext.Request.QueryString["game"];
+            Guid gameID = db.Campaigns.Where(a => a.Name == gameName).Select(a => a.ID).SingleOrDefault();
             Guid acctID = Guid.Parse(Session["UserID"].ToString());
-            var character = db.Characters.Where(a => a.Name == name && a.AccountID == acctID).First();
+
+            var character = db.Characters.Where(a => a.Name == charName && a.AccountID == acctID).First();
             var charAttrs = db.CharacterAttributes.Where(a => a.CharacterID == character.ID).Join(db.Attributes, ca => ca.AttributeID, a => a.ID, (ca, a) => new { Name = a.Name, Value = ca.Value });
 
             var skillQuery = from s in db.Skills
@@ -178,6 +182,17 @@ namespace TheAftermath_V2.Controllers
                 IDMarks = db.IDMarks.Where(a => a.CharacterID == character.ID).ToList(),
                 Notes = db.CharacterNotes.Where(a => a.CharacterID == character.ID).First().ToString()
             };
+
+            // UPDATE ACCOUNT STATUS
+            var record = db.AccountStatus1.Where(a => a.AccountID == acctID).First();
+            record.Active = true;
+            record.Admin = false;
+            record.Play = true;
+            record.CampaignID = gameID;
+            record.CharacterID = character.ID;
+            record.Timestamp = DateTime.Now;
+            db.SaveChanges();
+
             return View(charData);
         }
 
@@ -254,7 +269,7 @@ namespace TheAftermath_V2.Controllers
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-
+        /* IF DECIDE TO SAVE USER NOTES
         [HttpPost]
         public JsonResult GetNotes(string name, string user)
         {
@@ -265,7 +280,7 @@ namespace TheAftermath_V2.Controllers
 
             return Json(results, JsonRequestBehavior.AllowGet);
         }
-
+        
         [HttpPost]
         public JsonResult UpdateNotes(string name, string user, [Bind(Include = "charNotes")] string input)
         {
@@ -279,12 +294,47 @@ namespace TheAftermath_V2.Controllers
             string confirm = "success";
             return Json(confirm, JsonRequestBehavior.AllowGet); 
         }
-            public ActionResult Tell()
+        */
+        public ActionResult Tell()
         {
+            Guid acctID = Guid.Parse(Session["UserID"].ToString());
+            string gameName = HttpContext.Request.QueryString["game"];
+            var game = db.Campaigns.Where(a => a.Name == gameName).First();
+            game.TellActive = true;
+            db.SaveChanges();
+
+            // UPDATE ACCOUNT STATUS
+            var record = db.AccountStatus1.Where(a => a.AccountID == acctID).First();
+            record.Active = true;
+            record.Admin = false;
+            record.Play = false;
+            record.Tell = true;
+            record.CampaignID = game.ID;
+            record.CharacterID = null;
+            record.Timestamp = DateTime.Now;
+            db.SaveChanges();
+
             return View();
         }
         public ActionResult Admin()
         {
+            Guid acctID = Guid.Parse(Session["UserID"].ToString());
+            string gameName = HttpContext.Request.QueryString["game"];
+            var game = db.Campaigns.Where(a => a.Name == gameName).First();
+            game.Locked = true;
+            db.SaveChanges();
+
+            // UPDATE ACCOUNT STATUS
+            var record = db.AccountStatus1.Where(a => a.AccountID == acctID).First();
+            record.Active = true;
+            record.Admin = true;
+            record.Play = false;
+            record.Tell = false;
+            record.CampaignID = game.ID;
+            record.CharacterID = null;
+            record.Timestamp = DateTime.Now;
+            db.SaveChanges();
+
             return View();
         }
     }

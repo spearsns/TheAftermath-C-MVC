@@ -22,6 +22,7 @@ namespace TheAftermath_V2.Models
         public Nullable<System.Guid> CampaignID { get; set; }
         public Nullable<System.Guid> CharacterID { get; set; }
         public System.DateTime Timestamp { get; set; }
+        public bool Tell { get; set; }
     
         public virtual Account Account { get; set; }
         public virtual Campaign Campaign { get; set; }

@@ -26,7 +26,7 @@ namespace TheAftermath_V2
 
         public static string RollD100()
         {
-            var tens = D10();
+            var tens = (D10() - 1);
             var ones = D10();
 
             if (tens == ones) return "CRITICAL! " + tens + ones;

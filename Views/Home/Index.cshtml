@@ -1,6 +1,10 @@
 ﻿@{
     ViewBag.Title = "Lobby";
 }
+@section Scripts
+{
+    <script src="@Url.Content("~/Scripts/Custom/Homepage.js")" type="text/javascript"></script>
+}
 
 <div class="row">
     <div class="col">
@@ -21,7 +25,9 @@
         </div>
 
         <div class="row">
-            <div class="col" id="userList"></div>
+            <div class="col">
+                <ul id="userList"></ul>
+            </div>
         </div>
     </div>
 </div>

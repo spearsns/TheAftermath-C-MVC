@@ -35,6 +35,20 @@
     <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
     <Property Name="Active" Type="bit" />
   </EntityType>
+  <EntityType Name="AccountStatus">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="AccountID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Active" Type="bit" Nullable="false" />
+    <Property Name="Admin" Type="bit" Nullable="false" />
+    <Property Name="Play" Type="bit" Nullable="false" />
+    <Property Name="Tell" Type="bit" Nullable="false" />
+    <Property Name="CampaignID" Type="uniqueidentifier" />
+    <Property Name="CharacterID" Type="uniqueidentifier" />
+    <Property Name="Timestamp" Type="smalldatetime" Nullable="false" />
+  </EntityType>
   <EntityType Name="Attributes">
     <Key>
       <PropertyRef Name="ID" />
@@ -75,19 +89,12 @@
     <Property Name="Description" Type="text" Nullable="false" />
     <Property Name="AdminPassword" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="PlayerPassword" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="TellActive" Type="bit" Nullable="false" />
     <Property Name="Locked" Type="bit" Nullable="false" />
     <Property Name="Closed" Type="bit" Nullable="false" />
-  </EntityType>
-  <EntityType Name="CampaignsActive">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="CampaignID" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="AccountID" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="CharacterID" Type="uniqueidentifier" />
-    <Property Name="AdminActive" Type="bit" Nullable="false" />
-    <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+    <Property Name="ConferenceLink" Type="varchar" MaxLength="50" />
+    <Property Name="MapLoc" Type="varchar" MaxLength="50" />
+    <Property Name="PictureLoc" Type="varchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="CharacterAbilities">
     <Key>
@@ -247,27 +254,39 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_CampaignsActive_Accounts">
+  <Association Name="FK_AccountStatus_Accounts">
     <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
-    <End Role="CampaignsActive" Type="Self.CampaignsActive" Multiplicity="*" />
+    <End Role="AccountStatus" Type="Self.AccountStatus" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Accounts">
         <PropertyRef Name="ID" />
       </Principal>
-      <Dependent Role="CampaignsActive">
+      <Dependent Role="AccountStatus">
         <PropertyRef Name="AccountID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_CampaignsActive_Campaigns">
-    <End Role="Campaigns" Type="Self.Campaigns" Multiplicity="1" />
-    <End Role="CampaignsActive" Type="Self.CampaignsActive" Multiplicity="*" />
+  <Association Name="FK_AccountStatus_Campaigns">
+    <End Role="Campaigns" Type="Self.Campaigns" Multiplicity="0..1" />
+    <End Role="AccountStatus" Type="Self.AccountStatus" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Campaigns">
         <PropertyRef Name="ID" />
       </Principal>
-      <Dependent Role="CampaignsActive">
+      <Dependent Role="AccountStatus">
         <PropertyRef Name="CampaignID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AccountStatus_Characters">
+    <End Role="Characters" Type="Self.Characters" Multiplicity="0..1" />
+    <End Role="AccountStatus" Type="Self.AccountStatus" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Characters">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="AccountStatus">
+        <PropertyRef Name="CharacterID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -419,10 +438,10 @@
     <EntitySet Name="Abilities" EntityType="Self.Abilities" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AccountRelationships" EntityType="Self.AccountRelationships" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Accounts" EntityType="Self.Accounts" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AccountStatus" EntityType="Self.AccountStatus" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Attributes" EntityType="Self.Attributes" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Backgrounds" EntityType="Self.Backgrounds" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Campaigns" EntityType="Self.Campaigns" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="CampaignsActive" EntityType="Self.CampaignsActive" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CharacterAbilities" EntityType="Self.CharacterAbilities" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CharacterAttributes" EntityType="Self.CharacterAttributes" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CharacterExps" EntityType="Self.CharacterExps" Schema="dbo" store:Type="Tables" />
@@ -441,13 +460,17 @@
       <End Role="Accounts" EntitySet="Accounts" />
       <End Role="AccountRelationships" EntitySet="AccountRelationships" />
     </AssociationSet>
-    <AssociationSet Name="FK_CampaignsActive_Accounts" Association="Self.FK_CampaignsActive_Accounts">
+    <AssociationSet Name="FK_AccountStatus_Accounts" Association="Self.FK_AccountStatus_Accounts">
       <End Role="Accounts" EntitySet="Accounts" />
-      <End Role="CampaignsActive" EntitySet="CampaignsActive" />
+      <End Role="AccountStatus" EntitySet="AccountStatus" />
     </AssociationSet>
-    <AssociationSet Name="FK_CampaignsActive_Campaigns" Association="Self.FK_CampaignsActive_Campaigns">
+    <AssociationSet Name="FK_AccountStatus_Campaigns" Association="Self.FK_AccountStatus_Campaigns">
       <End Role="Campaigns" EntitySet="Campaigns" />
-      <End Role="CampaignsActive" EntitySet="CampaignsActive" />
+      <End Role="AccountStatus" EntitySet="AccountStatus" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AccountStatus_Characters" Association="Self.FK_AccountStatus_Characters">
+      <End Role="Characters" EntitySet="Characters" />
+      <End Role="AccountStatus" EntitySet="AccountStatus" />
     </AssociationSet>
     <AssociationSet Name="FK_CharacterAbilities_Abilities" Association="Self.FK_CharacterAbilities_Abilities">
       <End Role="Abilities" EntitySet="Abilities" />

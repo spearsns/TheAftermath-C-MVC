@@ -52,6 +52,22 @@ namespace TheAftermath_V2.Controllers
                     Session["Active"] = true;
                     Session["UserID"] = result.ID.ToString();
                     Session["Username"] = result.Username.ToString();
+
+                    // UPDATE ACCOUNT STATUS
+                    var change = new AccountStatus
+                    {
+                        ID = Guid.NewGuid(),
+                        AccountID = result.ID,
+                        Active = true,
+                        Admin = false,
+                        Play = false,
+                        CampaignID = null,
+                        CharacterID = null,
+                        Timestamp = DateTime.Now
+                    };
+                    db.AccountStatus1.Add(change);
+                    db.SaveChanges();
+
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -64,6 +80,23 @@ namespace TheAftermath_V2.Controllers
         }
         public ActionResult Logout()
         {
+            Guid acctID = Guid.Parse(Session["UserID"].ToString());
+            var record = db.AccountStatus1.Where(a => a.AccountID == acctID).First();
+            if (record.Tell == true)
+            {
+                var gameRecord = db.Campaigns.Where(a => a.ID == record.CampaignID).Single();
+                gameRecord.TellActive = false;
+                db.SaveChanges();
+            }
+            else if (record.Admin == true)
+            {
+                var gameRecord = db.Campaigns.Where(a => a.ID == record.CampaignID).Single();
+                gameRecord.Locked = false;
+                db.SaveChanges();
+            }
+            db.AccountStatus1.Remove(record);
+            db.SaveChanges();
+
             Session.Clear();
             Session.Abandon();
             return RedirectToAction("Index", "Home");
@@ -95,7 +128,7 @@ namespace TheAftermath_V2.Controllers
             }
             return View(input);
         }
-        // EVALUATE AT LAUNCH
+        // IMPORTANT -- EVALUATE AT LAUNCH
         // FORGOT AND RESET PASSWORD SHOWS NO BUILD ERRORS BUT DOESN'T FUNCTION LOCALLY EITHER
         public ActionResult ForgotPassword()
         {
@@ -155,7 +188,6 @@ namespace TheAftermath_V2.Controllers
                 smtp.Credentials = NetworkCred;
                 smtp.Port = 587;
                 smtp.Send(mm);
-
             }
         }
 
@@ -214,6 +246,19 @@ namespace TheAftermath_V2.Controllers
             }
             ViewBag.Message = message;
             return View(model);
+        }
+
+        [HttpGet]
+        public JsonResult GetActiveList()
+        {
+            var userQ = from a in db.AccountStatus1
+                        where a.Active == true
+                        join acct in db.Accounts on a.AccountID equals acct.ID
+                        select new { acct.Username, acct.ID, a.Play, a.Tell, a.Admin };
+
+            List<Classes.UserData> resultsList = new List<Classes.UserData>();
+            foreach (var user in userQ) resultsList.Add(new Classes.UserData { ID = user.ID, Username = user.Username, Admin = user.Admin, Play = user.Play, Tell = user.Tell });
+            return Json(resultsList, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Playbook()

@@ -17,13 +17,13 @@ namespace TheAftermath_V2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Character()
         {
+            this.AccountStatus = new HashSet<AccountStatus>();
             this.CharacterAbilities = new HashSet<CharacterAbility>();
             this.CharacterAttributes = new HashSet<CharacterAttribute>();
             this.CharacterExps = new HashSet<CharacterExp>();
             this.CharacterNotes = new HashSet<CharacterNote>();
             this.CharacterSkills = new HashSet<CharacterSkill>();
             this.IDMarks = new HashSet<IDMark>();
-            this.AccountStatus = new HashSet<AccountStatus>();
         }
     
         public System.Guid ID { get; set; }
@@ -46,6 +46,8 @@ namespace TheAftermath_V2.Models
         public System.DateTime CreateDate { get; set; }
     
         public virtual Account Account { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AccountStatus> AccountStatus { get; set; }
         public virtual Background Background1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CharacterAbility> CharacterAbilities { get; set; }
@@ -60,7 +62,5 @@ namespace TheAftermath_V2.Models
         public virtual ICollection<CharacterSkill> CharacterSkills { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<IDMark> IDMarks { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AccountStatus> AccountStatus { get; set; }
     }
 }

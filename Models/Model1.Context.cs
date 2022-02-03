@@ -28,6 +28,7 @@ namespace TheAftermath_V2.Models
         public virtual DbSet<Ability> Abilities { get; set; }
         public virtual DbSet<AccountRelationship> AccountRelationships { get; set; }
         public virtual DbSet<Account> Accounts { get; set; }
+        public virtual DbSet<AccountStatus> AccountStatus1 { get; set; }
         public virtual DbSet<Attribute> Attributes { get; set; }
         public virtual DbSet<Background> Backgrounds { get; set; }
         public virtual DbSet<Campaign> Campaigns { get; set; }
@@ -41,6 +42,5 @@ namespace TheAftermath_V2.Models
         public virtual DbSet<IDMark> IDMarks { get; set; }
         public virtual DbSet<Skill> Skills { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
-        public virtual DbSet<AccountStatus> AccountStatus1 { get; set; }
     }
 }
