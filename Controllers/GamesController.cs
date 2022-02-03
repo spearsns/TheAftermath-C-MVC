@@ -28,7 +28,7 @@ namespace TheAftermath_V2.Controllers
             */
             return View();
         }
-        
+
         [HttpGet]
         public JsonResult GetGames()
         {
@@ -200,7 +200,7 @@ namespace TheAftermath_V2.Controllers
         public JsonResult GetIDMarks(string name, string user)
         {
             Guid acctID = db.Accounts.Where(a => a.Username == user).Select(a => a.ID).Single();
-            Guid charID = db.Characters.Where(a => a.Name == name && a.AccountID == acctID).Select(a=>a.ID).Single();
+            Guid charID = db.Characters.Where(a => a.Name == name && a.AccountID == acctID).Select(a => a.ID).Single();
 
             var marksQ = (from id in db.IDMarks
                           where id.CharacterID.Equals(charID)
@@ -348,6 +348,7 @@ namespace TheAftermath_V2.Controllers
 
             return View(gameData);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Admin([Bind(Include = "Name, Season, Year, Description, PlayerPW, AdminPW")] Classes.GameData input)
@@ -370,6 +371,7 @@ namespace TheAftermath_V2.Controllers
             else
             {
                 return View(input);
-            }   
-
+            }
+        }
+    }
 }

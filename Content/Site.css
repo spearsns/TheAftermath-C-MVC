@@ -7,6 +7,8 @@ body {
     background-image: url("Images/Textures/lightRust.jpg");
     background-size: cover;
     background-repeat: no-repeat;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -40,6 +42,12 @@ body {
 */
 .dl-horizontal dt {
     white-space: normal;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 
 .h-10 {
@@ -78,6 +86,11 @@ hr {
     margin-right: auto;
     background-color: white;
     border: 0 none;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
 }
 
 #indexChatInput {
