@@ -119,7 +119,6 @@ namespace TheAftermath_V2.Controllers
             List<Classes.SkillData> skillsList = new List<Classes.SkillData>();
             if (bgData.Skills != null)
             {
-                // bgData.Skills is varchar so split! 
                 string[] skillsArr;
 
                 if (bgData.Skills.Contains(",")) skillsArr = bgData.Skills.Replace(" ", String.Empty).Split(',');
@@ -258,7 +257,7 @@ namespace TheAftermath_V2.Controllers
                     new CharacterAttribute { ID = Guid.NewGuid(), CharacterID = character.ID, AttributeID = db.Attributes.Where(x => x.Name == "Beauty").Select(x => x.ID).FirstOrDefault(), Value = (byte)input.Beauty },
 
                     new CharacterAttribute { ID = Guid.NewGuid(), CharacterID = character.ID, AttributeID = db.Attributes.Where(x => x.Name == "Sequence").Select(x => x.ID).FirstOrDefault(), Value = (byte)input.Sequence },
-                    new CharacterAttribute { ID = Guid.NewGuid(), CharacterID = character.ID, AttributeID = db.Attributes.Where(x => x.Name == "Actions").Select(x => x.ID).FirstOrDefault(), Value = (byte)input.Memory }
+                    new CharacterAttribute { ID = Guid.NewGuid(), CharacterID = character.ID, AttributeID = db.Attributes.Where(x => x.Name == "Actions").Select(x => x.ID).FirstOrDefault(), Value = (byte)input.Actions }
                 };
                 foreach (var attr in charAttrs) db.CharacterAttributes.Add(attr);
                 db.SaveChanges();
@@ -379,7 +378,7 @@ namespace TheAftermath_V2.Controllers
 
                 Sequence = charAttrs.Where(a => a.Name == "Sequence").Select(a => a.Value).First(),
                 Actions = charAttrs.Where(a => a.Name == "Actions").Select(a => a.Value).First(),
-
+                            
                 Skills = skillList,
                 Abilities = abilityList,
                 IDMarks = db.IDMarks.Where(a => a.CharacterID == character.ID).ToList(),

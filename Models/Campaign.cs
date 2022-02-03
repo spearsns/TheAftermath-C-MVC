@@ -17,7 +17,7 @@ namespace TheAftermath_V2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Campaign()
         {
-            this.CampaignsActives = new HashSet<CampaignsActive>();
+            this.AccountStatus = new HashSet<AccountStatus>();
         }
     
         public System.Guid ID { get; set; }
@@ -29,8 +29,11 @@ namespace TheAftermath_V2.Models
         public bool Closed { get; set; }
         public string Season { get; set; }
         public string Year { get; set; }
+        public string ConferenceLink { get; set; }
+        public string MapLoc { get; set; }
+        public string PictureLoc { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CampaignsActive> CampaignsActives { get; set; }
+        public virtual ICollection<AccountStatus> AccountStatus { get; set; }
     }
 }

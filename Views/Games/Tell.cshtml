@@ -74,17 +74,19 @@
     </div>
 </div>
 <!-- NOTES MODAL -->
-<div class="modal fade" id="notesModal" data-backdrop="static" tabindex="-5" aria-labelledby="notesModalLabel" aria-hidden="false">
+<div class="modal fade" id="notesModal" tabindex="-3" aria-labelledby="notesModalLabel" aria-hidden="false">
     <div class="modal-dialog modal-xl">
         <div class="modal-header bg-black">
-
+            <h4 class="font-weight-bold text-white text-center mx-auto">NOTES:</h4>
         </div>
         <div class="modal-content">
             <div class="modal-body">
-
+                <textarea id="tellNotes" class="w-100" name="charNotes" rows="16" cols="80"></textarea>
             </div>
             <div class="modal-footer">
-
+                <!-- IF DECIDE TO STORE NOTES IN DB -->
+                <!-- <button type="submit" class="btn btn-lg btn-success border border-dark mx-auto" data-dismiss="modal">UPDATE</button> -->
+                <button type="button" class="btn btn-lg btn-danger border border-dark mx-auto" data-dismiss="modal">CLOSE</button>
             </div>
         </div>
     </div>
@@ -106,8 +108,8 @@
         <h5 class="font-weight-bold text-white text-center my-3">LIKELIHOOD CALC:</h5>
     </div>
     <div class="col-4 px-0">
-        <div class="input-group my-2 text-center">
-            <input id="LoSValue" class="form-control text-center px-0 py-0 mx-auto" type="number" value="" placeholder="Enter LoS" />
+        <div class="input-group my-2 text-center mx-auto w-75">
+            <input id="LoSValue" class="form-control text-center px-0 py-0" type="number" value="" placeholder="Enter LoS" />
         </div>
     </div>
     <div class="col-4 px-0">
@@ -128,7 +130,7 @@
     </div>
     <div class="col-6 col-md-2">
         <div class="input-group my-2 text-center">
-            <input id="campaignName" class="form-control text-center px-0 py-0 my-2" type="text" value="" readonly />
+            <input id="campaignName" class="form-control text-center px-0 py-0 my-3" type="text" value="" readonly />
         </div>
     </div>
     <div class="col-6 col-md-2">
@@ -136,7 +138,7 @@
     </div>
     <div class="col-6 col-md-2">
         <div class="input-group my-2 text-center">
-            <input id="conferenceLink" class="form-control text-center px-0 py-0 my-2 border border-primary bw-thick" type="text" value="" readonly />
+            <input id="conferenceLink" class="form-control text-center px-0 py-0 my-3 border border-primary bw-thick" type="text" value="" readonly />
         </div>
     </div>
     <div class="col-6 col-md-2">
@@ -144,7 +146,7 @@
     </div>
     <div class="col-6 col-md-2">
         <div class="input-group my-2 text-center">
-            <input id="storyteller" class="form-control text-center px-0 py-0 my-2" type="text" value="" readonly />
+            <input id="storyteller" class="form-control text-center px-0 py-0 my-3" type="text" value="" readonly />
         </div>
     </div>
 </div>
@@ -155,7 +157,7 @@
         <button id="mapBtn" class="btn btn-block btn-info border border-white text-center font-weight-bold my-2 mx-auto" type="button">MAP</button>
     </div>
     <div class="col-3">
-        <button id="notesBtn" class="btn btn-block btn-light border border-dark text-center font-weight-bold my-2 mx-auto" type="button">NOTES</button>
+        <button id="notesBtn" class="btn btn-block btn-light border border-dark text-center font-weight-bold my-2 mx-auto" data-toggle="modal" data-target="#notesModal" type="button">NOTES</button>
     </div>
     <div class="col-3">
         <button id="pictureBtn" class="btn btn-block btn-info border border-white text-center font-weight-bold my-2 mx-auto" type="button">PIC</button>

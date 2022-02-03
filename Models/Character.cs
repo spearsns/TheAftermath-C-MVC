@@ -23,6 +23,7 @@ namespace TheAftermath_V2.Models
             this.CharacterNotes = new HashSet<CharacterNote>();
             this.CharacterSkills = new HashSet<CharacterSkill>();
             this.IDMarks = new HashSet<IDMark>();
+            this.AccountStatus = new HashSet<AccountStatus>();
         }
     
         public System.Guid ID { get; set; }
@@ -59,5 +60,7 @@ namespace TheAftermath_V2.Models
         public virtual ICollection<CharacterSkill> CharacterSkills { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<IDMark> IDMarks { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AccountStatus> AccountStatus { get; set; }
     }
 }

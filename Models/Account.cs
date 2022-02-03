@@ -20,7 +20,7 @@ namespace TheAftermath_V2.Models
             this.AccountRelationships = new HashSet<AccountRelationship>();
             this.AccountRelationships1 = new HashSet<AccountRelationship>();
             this.Characters = new HashSet<Character>();
-            this.CampaignsActives = new HashSet<CampaignsActive>();
+            this.AccountStatus = new HashSet<AccountStatus>();
         }
     
         public System.Guid ID { get; set; }
@@ -38,6 +38,6 @@ namespace TheAftermath_V2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Character> Characters { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CampaignsActive> CampaignsActives { get; set; }
+        public virtual ICollection<AccountStatus> AccountStatus { get; set; }
     }
 }
