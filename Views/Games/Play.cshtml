@@ -518,7 +518,7 @@
     </div>
     <div class="col-6 col-md-2">
         <div class="input-group my-3 text-center">
-            <input id="storyteller" class="form-control text-center px-0 py-0 my-3" type="text" value="" readonly />
+            <input id="storyteller" class="form-control text-center px-0 py-0 my-3" type="text" data-id="" value="" readonly />
         </div>
     </div>
 </div>
@@ -537,7 +537,14 @@
 <!-- CHAT AREA -->
 <div class="row">
     <div id="chatOutput" class="col-9 bg-white border border-dark h-40"></div>
-    <div id="playerList" class="col-3 bg-light border border-dark h-40"></div>
+    <div class="col-3 bg-light border border-dark h-40">
+        <div class="row bg-info">
+            <div class="col">
+                <img src="~/Content/Images/Graffiti/online-200x50.png" class="img-fluid mx-auto d-block" />
+            </div>
+        </div>
+        <ul id="playerList"></ul>
+    </div>
 </div>
 <div class="row">
     <div id="chatInput" class="col-12 bg-light border border-dark h-10"></div>

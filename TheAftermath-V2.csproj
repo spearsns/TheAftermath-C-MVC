@@ -368,6 +368,7 @@
     <Content Include="Scripts\Custom\NewGame.js" />
     <Content Include="Scripts\Custom\Play.js" />
     <Content Include="Scripts\Custom\ResetValidation.js" />
+    <Content Include="Scripts\Custom\Tell.js" />
     <Content Include="Scripts\Custom\Wiki.js" />
     <Content Include="Scripts\Custom\Validation.js" />
     <Content Include="Scripts\esm\popper-utils.js" />

@@ -316,6 +316,47 @@ namespace TheAftermath_V2.Controllers
 
             return View();
         }
+
+        [HttpPost]
+        public JsonResult LockGame(string name)
+        {
+            var game = db.Campaigns.Where(a => a.Name == name).First();
+            game.Locked = true;
+            db.SaveChanges();
+
+            return Json("Success", JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult UnlockGame(string name)
+        {
+            var game = db.Campaigns.Where(a => a.Name == name).First();
+            game.Locked = false;
+            db.SaveChanges();
+
+            return Json("Success", JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult UpdateDate(string name, string season, string year)
+        {
+            var game = db.Campaigns.Where(a => a.Name == name).First();
+            game.Season = season;
+            game.Year = year;
+            db.SaveChanges();
+
+            return Json("Success", JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult UpdateDescription(string name, string input)
+        {
+            var game = db.Campaigns.Where(a => a.Name == name).First();
+            game.Description = input;
+            db.SaveChanges();
+
+            return Json("Success", JsonRequestBehavior.AllowGet);
+        }
         public ActionResult Admin()
         {
             Guid acctID = Guid.Parse(Session["UserID"].ToString());
@@ -372,6 +413,25 @@ namespace TheAftermath_V2.Controllers
             {
                 return View(input);
             }
+        }
+
+        [HttpPost]
+        public JsonResult GetPlayers(string game)
+        {
+            Guid gameID = db.Campaigns.Where(a => a.Name == game).Select(a => a.ID).First();
+
+            var activeQ = from ax in db.AccountStatus1
+                          where ax.CampaignID == gameID
+                          join a in db.Accounts on ax.AccountID equals a.ID
+                          select new { a.ID, a.Username, ax.Play, ax.Tell };
+
+            List<Classes.UserData> userList = new List<Classes.UserData>();
+            foreach (var item in activeQ)
+            {
+                userList.Add(new Classes.UserData { ID = item.ID, Username = item.Username, Play = item.Play, Tell = item.Tell });
+            }
+
+            return Json(userList, JsonRequestBehavior.AllowGet);
         }
     }
 }

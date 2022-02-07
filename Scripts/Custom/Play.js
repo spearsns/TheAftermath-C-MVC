@@ -2,6 +2,7 @@
 	var urlParams = new URLSearchParams(window.location.search);
 	var charName = urlParams.get("char");
 	var userName = urlParams.get("user");
+	var gameName = urlParams.get("game");
 	var charSex = $("#sex").val();
 
 	if (charSex == "Female") {
@@ -188,4 +189,25 @@
 		});
 	}
 	getCurrentAbilities();
+
+	function getPlayers() {
+		$.ajax({
+			type: 'POST',
+			url: 'GetPlayers',
+			data: JSON.stringify({ Game: gameName }),
+			dataType: 'json',
+			contentType: "application/json; charset=utf-8",
+			success:
+				function (results) {
+					console.log(results);
+					for (i = 0; i < results.length; i++) {
+						var result = results[i];
+						if (result.UserName == userName) continue;
+						else if (result.Tell == true) $("#storyteller").val(result.Username).data("id", result.ID);
+						else $("#playerList").append("<li data-id='"+ result.ID +"'>" + result.UserName + "</li>");                        
+					}
+				}
+		});
+	}
+	getPlayers();
 });
