@@ -1,10 +1,6 @@
 ﻿@{
     ViewBag.Title = "Lobby";
 }
-@section Scripts
-{
-    <script src="@Url.Content("~/Scripts/Custom/Homepage.js")" type="text/javascript"></script>
-}
 
 <div class="row">
     <div class="col">
@@ -13,8 +9,8 @@
 </div>
 
 <div class="row border border-dark rounded">
-    <div class="col-9 col-lg-10 border border-dark" id="indexChatLogArea">
-        <div id="chatLog"></div>
+    <div class="col-9 col-lg-10 border border-dark overflow-auto" id="indexChatLogArea">
+        <ul id="chatLog"></ul>
     </div>
 
     <div class="col-3 col-lg-2 border border-dark" id="indexUserListArea">
@@ -32,6 +28,20 @@
     </div>
 </div>
 
-<div class="row border border-dark rounded mt-2">
-    <div class="col border border-dark" id="indexChatInput"></div>
+<div class="row mt-2">
+    <div class="col-9 col-lg-10">
+        <div class="input-group my-2">
+            <input id="userInput" class="form-control px-2 py-0" type="text" />
+        </div>
+    </div>
+    <div class="col-3 col-lg-2 my-2">
+        <button id="sendMsgBtn" class="btn btn-block btn-success font-weight-bold">SEND</button>
+    </div>
 </div>
+
+@section Scripts
+{
+    <script src="@Url.Content("~/Scripts/jquery.signalR-2.4.2.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Custom/SignalR-Home.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/signalr/hubs")" type="text/javascript"></script>
+}

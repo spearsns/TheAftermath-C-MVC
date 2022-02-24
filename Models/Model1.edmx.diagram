@@ -15,13 +15,12 @@
         <EntityTypeShape EntityType="AftermathV1Model.CharacterAbility" Width="1.5" PointX="8.25" PointY="17" IsExpanded="true" />
         <EntityTypeShape EntityType="AftermathV1Model.CharacterAttribute" Width="1.5" PointX="8.375" PointY="14.5" IsExpanded="true" />
         <EntityTypeShape EntityType="AftermathV1Model.CharacterExp" Width="1.5" PointX="1.125" PointY="18.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="AftermathV1Model.CharacterNote" Width="1.5" PointX="8.5" PointY="20.25" IsExpanded="true" />
         <EntityTypeShape EntityType="AftermathV1Model.Character" Width="1.5" PointX="6" PointY="12.5" IsExpanded="true" />
         <EntityTypeShape EntityType="AftermathV1Model.CharacterSkill" Width="1.5" PointX="8.25" PointY="11.625" IsExpanded="true" />
         <EntityTypeShape EntityType="AftermathV1Model.History" Width="1.5" PointX="3.5" PointY="19.375" IsExpanded="true" />
         <EntityTypeShape EntityType="AftermathV1Model.IDMark" Width="1.5" PointX="6" PointY="20.25" IsExpanded="true" />
         <EntityTypeShape EntityType="AftermathV1Model.Skill" Width="1.5" PointX="11" PointY="10.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="AftermathV1Model.sysdiagram" Width="1.5" PointX="8.625" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AftermathV1Model.sysdiagram" Width="1.5" PointX="8.375" PointY="7" IsExpanded="true" />
         <AssociationConnector Association="AftermathV1Model.FK_CharacterAbilities_Abilities" ManuallyRouted="false" />
         <AssociationConnector Association="AftermathV1Model.FK_AccountRelationships_First" ManuallyRouted="false" />
         <AssociationConnector Association="AftermathV1Model.FK_AccountRelationships_Second" ManuallyRouted="false" />
@@ -35,11 +34,16 @@
         <AssociationConnector Association="AftermathV1Model.FK_CharacterAbilities_Characters" ManuallyRouted="false" />
         <AssociationConnector Association="AftermathV1Model.FK_CharacterAttributes_Characters" ManuallyRouted="false" />
         <AssociationConnector Association="AftermathV1Model.FK_CharacterExps_Characters" ManuallyRouted="false" />
-        <AssociationConnector Association="AftermathV1Model.FK_CharacterNotes_Characters" ManuallyRouted="false" />
         <AssociationConnector Association="AftermathV1Model.FK_Characters_History" ManuallyRouted="false" />
         <AssociationConnector Association="AftermathV1Model.FK_CharacterSkills_Characters" ManuallyRouted="false" />
         <AssociationConnector Association="AftermathV1Model.FK_IDMarks_Characters" ManuallyRouted="false" />
         <AssociationConnector Association="AftermathV1Model.FK_CharacterSkills_Skills" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="AftermathV1Model.CampaignNote" Width="1.5" PointX="2.625" PointY="5.875" />
+        <AssociationConnector Association="AftermathV1Model.FK_CampaignNotes_Accounts" />
+        <AssociationConnector Association="AftermathV1Model.FK_CampaignNotes_Campaigns" />
+        <AssociationConnector Association="AftermathV1Model.FK_CampaignNotes_Characters" />
+        <EntityTypeShape EntityType="AftermathV1Model.AccountIM" Width="1.5" PointX="5.875" PointY="4.375" />
+        <AssociationConnector Association="AftermathV1Model.FK_AccountIMs_Accounts" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

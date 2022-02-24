@@ -21,6 +21,8 @@ namespace TheAftermath_V2.Models
             this.AccountRelationships1 = new HashSet<AccountRelationship>();
             this.AccountStatus = new HashSet<AccountStatus>();
             this.Characters = new HashSet<Character>();
+            this.CampaignNotes = new HashSet<CampaignNote>();
+            this.AccountIMs = new HashSet<AccountIM>();
         }
     
         public System.Guid ID { get; set; }
@@ -29,7 +31,6 @@ namespace TheAftermath_V2.Models
         public string Password { get; set; }
         public string PictureLoc { get; set; }
         public System.DateTime CreateDate { get; set; }
-        public Nullable<bool> Active { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AccountRelationship> AccountRelationships { get; set; }
@@ -39,5 +40,9 @@ namespace TheAftermath_V2.Models
         public virtual ICollection<AccountStatus> AccountStatus { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Character> Characters { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CampaignNote> CampaignNotes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AccountIM> AccountIMs { get; set; }
     }
 }

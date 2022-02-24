@@ -93,13 +93,8 @@ html {
     min-height: 100%;
 }
 
-#indexChatInput {
-    min-height: 15vh;
-    background-color: whitesmoke; 
-}
-
 #indexChatLogArea {
-    min-height: 60vh;
+    height: 60vh;
     background-color: white;
 }
 

@@ -83,6 +83,7 @@ namespace TheAftermath_V2.Controllers
             Guid acctID = Guid.Parse(Session["UserID"].ToString());
             var record = db.AccountStatus1.Where(a => a.AccountID == acctID).First();
             record.Active = false;
+
             if (record.Tell == true)
             {
                 var gameRecord = db.Campaigns.Where(a => a.ID == record.CampaignID).Single();
@@ -95,11 +96,12 @@ namespace TheAftermath_V2.Controllers
                 gameRecord.Locked = false;
                 db.SaveChanges();
             }
-            db.AccountStatus1.Remove(record);
-            db.SaveChanges();
 
             Session.Clear();
             Session.Abandon();
+
+            db.AccountStatus1.Remove(record);
+            db.SaveChanges();
             return RedirectToAction("Index", "Home");
         }
         public ActionResult Registration()

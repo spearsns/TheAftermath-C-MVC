@@ -35,12 +35,13 @@ namespace TheAftermath_V2.Models
         public virtual DbSet<CharacterAbility> CharacterAbilities { get; set; }
         public virtual DbSet<CharacterAttribute> CharacterAttributes { get; set; }
         public virtual DbSet<CharacterExp> CharacterExps { get; set; }
-        public virtual DbSet<CharacterNote> CharacterNotes { get; set; }
         public virtual DbSet<Character> Characters { get; set; }
         public virtual DbSet<CharacterSkill> CharacterSkills { get; set; }
         public virtual DbSet<History> Histories { get; set; }
         public virtual DbSet<IDMark> IDMarks { get; set; }
         public virtual DbSet<Skill> Skills { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<CampaignNote> CampaignNotes { get; set; }
+        public virtual DbSet<AccountIM> AccountIMs { get; set; }
     }
 }

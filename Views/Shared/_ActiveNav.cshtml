@@ -2,12 +2,22 @@
     <div class="col-4 col-md-2">
         <h3 class="my-2 text-black text-center font-weight-bold" id="sessionUsername">@Session["Username"].ToString()</h3>
     </div>
+
+    <!-- IM NOTIFICATIONS -->
     <div class="col-2 col-md-1" id="messageDiv">
         <span class="badge badge-pill badge-danger ml-3" id="messageCount"></span>
     </div>
+
     <div class="col-4 offset-2 col-md-2 offset-md-7">
         <a class="btn btn-outline-light float-right mr-2 my-2" href="@Url.Action("Logout", "Home")">LOG OUT</a>
     </div>
+</div>
+
+<div id ="IM-NotificationArea" class="row bg-info d-none">
+    <div class="col-6 col-md-3">
+        <ul id="IM-List"></ul>
+    </div>
+    <div class="col-6 col-md-9"></div>
 </div>
 
 <div class="row bg-black mx-0">

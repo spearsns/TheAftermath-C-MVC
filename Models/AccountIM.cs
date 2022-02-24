@@ -12,13 +12,14 @@ namespace TheAftermath_V2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class CharacterNote
+    public partial class AccountIM
     {
         public System.Guid ID { get; set; }
-        public System.Guid CharacterID { get; set; }
-        public string Notes { get; set; }
+        public System.Guid AccountID { get; set; }
+        public int TotalIMs { get; set; }
+        public int UnreadIMs { get; set; }
         public System.DateTime CreateDate { get; set; }
     
-        public virtual Character Character { get; set; }
+        public virtual Account Account { get; set; }
     }
 }

@@ -299,6 +299,7 @@ namespace TheAftermath_V2.Controllers
                 db.IDMarks.Add(charID);
                 db.SaveChanges();
 
+                /* -- CAMPAIGN NOTE
                 var charNote = new CharacterNote
                 {
                     ID = Guid.NewGuid(),
@@ -307,7 +308,8 @@ namespace TheAftermath_V2.Controllers
                 };
                 db.CharacterNotes.Add(charNote);
                 db.SaveChanges();
-
+                */
+                
                 ViewBag.ErrorMessage = "Success";
                 return RedirectToAction("Success", "Home");
             }
@@ -381,8 +383,7 @@ namespace TheAftermath_V2.Controllers
                             
                 Skills = skillList,
                 Abilities = abilityList,
-                IDMarks = db.IDMarks.Where(a => a.CharacterID == character.ID).ToList(),
-                Notes = db.CharacterNotes.Where(a => a.CharacterID == character.ID).First().ToString()
+                IDMarks = db.IDMarks.Where(a => a.CharacterID == character.ID).ToList()
             };
             return View(charData);
         }

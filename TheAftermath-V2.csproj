@@ -175,12 +175,16 @@
     <Compile Include="Classes\IDMarks.cs" />
     <Compile Include="Classes\SkillData.cs" />
     <Compile Include="Classes\UserData.cs" />
+    <Compile Include="ConnectionMapping.cs" />
     <Compile Include="Hubs\GameHub.cs" />
     <Compile Include="Hubs\GlobalHub.cs" />
     <Compile Include="Models\Ability.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Account.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AccountIM.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountRelationship.cs">
@@ -198,6 +202,9 @@
     <Compile Include="Models\Campaign.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CampaignNote.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Character.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -208,9 +215,6 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CharacterExp.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CharacterNote.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CharacterSkill.cs">
@@ -363,11 +367,14 @@
     <Content Include="Scripts\Custom\CharacterSelect.js" />
     <Content Include="Scripts\Custom\GameAdmin.js" />
     <Content Include="Scripts\Custom\GameSelect.js" />
-    <Content Include="Scripts\Custom\Homepage.js" />
     <Content Include="Scripts\Custom\NewCharacter.js" />
     <Content Include="Scripts\Custom\NewGame.js" />
     <Content Include="Scripts\Custom\Play.js" />
     <Content Include="Scripts\Custom\ResetValidation.js" />
+    <Content Include="Scripts\Custom\SignalR-Game.js" />
+    <Content Include="Scripts\Custom\SignalR-Home.js" />
+    <Content Include="Scripts\Custom\SignalR-IM.js" />
+    <Content Include="Scripts\Custom\SignalR-Monitor.js" />
     <Content Include="Scripts\Custom\Tell.js" />
     <Content Include="Scripts\Custom\Wiki.js" />
     <Content Include="Scripts\Custom\Validation.js" />

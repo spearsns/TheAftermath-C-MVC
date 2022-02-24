@@ -179,8 +179,7 @@ namespace TheAftermath_V2.Controllers
 
                 Skills = skillList,
                 Abilities = abilityList,
-                IDMarks = db.IDMarks.Where(a => a.CharacterID == character.ID).ToList(),
-                Notes = db.CharacterNotes.Where(a => a.CharacterID == character.ID).First().ToString()
+                IDMarks = db.IDMarks.Where(a => a.CharacterID == character.ID).ToList()
             };
 
             // UPDATE ACCOUNT STATUS

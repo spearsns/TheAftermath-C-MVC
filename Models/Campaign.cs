@@ -18,6 +18,7 @@ namespace TheAftermath_V2.Models
         public Campaign()
         {
             this.AccountStatus = new HashSet<AccountStatus>();
+            this.CampaignNotes = new HashSet<CampaignNote>();
         }
     
         public System.Guid ID { get; set; }
@@ -36,5 +37,7 @@ namespace TheAftermath_V2.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AccountStatus> AccountStatus { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CampaignNote> CampaignNotes { get; set; }
     }
 }

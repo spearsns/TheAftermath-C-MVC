@@ -21,9 +21,9 @@ namespace TheAftermath_V2.Models
             this.CharacterAbilities = new HashSet<CharacterAbility>();
             this.CharacterAttributes = new HashSet<CharacterAttribute>();
             this.CharacterExps = new HashSet<CharacterExp>();
-            this.CharacterNotes = new HashSet<CharacterNote>();
             this.CharacterSkills = new HashSet<CharacterSkill>();
             this.IDMarks = new HashSet<IDMark>();
+            this.CampaignNotes = new HashSet<CampaignNote>();
         }
     
         public System.Guid ID { get; set; }
@@ -55,12 +55,12 @@ namespace TheAftermath_V2.Models
         public virtual ICollection<CharacterAttribute> CharacterAttributes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CharacterExp> CharacterExps { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CharacterNote> CharacterNotes { get; set; }
         public virtual History History1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CharacterSkill> CharacterSkills { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<IDMark> IDMarks { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CampaignNote> CampaignNotes { get; set; }
     }
 }

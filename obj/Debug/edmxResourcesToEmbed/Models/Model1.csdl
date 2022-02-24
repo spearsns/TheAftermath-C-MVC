@@ -36,11 +36,12 @@
     <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="PictureLoc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
-    <Property Name="Active" Type="Boolean" />
     <NavigationProperty Name="AccountRelationships" Relationship="Self.FK_AccountRelationships_First" FromRole="Accounts" ToRole="AccountRelationships" />
     <NavigationProperty Name="AccountRelationships1" Relationship="Self.FK_AccountRelationships_Second" FromRole="Accounts" ToRole="AccountRelationships" />
     <NavigationProperty Name="AccountStatus" Relationship="Self.FK_AccountStatus_Accounts" FromRole="Accounts" ToRole="AccountStatus" />
     <NavigationProperty Name="Characters" Relationship="Self.FK_Characters_Accounts" FromRole="Accounts" ToRole="Characters" />
+    <NavigationProperty Name="CampaignNotes" Relationship="AftermathV1Model.FK_CampaignNotes_Accounts" FromRole="Account" ToRole="CampaignNote" />
+    <NavigationProperty Name="AccountIMs" Relationship="AftermathV1Model.FK_AccountIMs_Accounts" FromRole="Account" ToRole="AccountIM" />
   </EntityType>
   <EntityType Name="AccountStatus">
     <Key>
@@ -108,6 +109,7 @@
     <Property Name="PictureLoc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="AccountStatus" Relationship="Self.FK_AccountStatus_Campaigns" FromRole="Campaigns" ToRole="AccountStatus" />
     <Property Name="TellActive" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="CampaignNotes" Relationship="AftermathV1Model.FK_CampaignNotes_Campaigns" FromRole="Campaign" ToRole="CampaignNote" />
   </EntityType>
   <EntityType Name="CharacterAbility">
     <Key>
@@ -140,16 +142,6 @@
     <Property Name="AvailableExp" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Character" Relationship="Self.FK_CharacterExps_Characters" FromRole="CharacterExps" ToRole="Characters" />
   </EntityType>
-  <EntityType Name="CharacterNote">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="Guid" Nullable="false" />
-    <Property Name="CharacterID" Type="Guid" Nullable="false" />
-    <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
-    <NavigationProperty Name="Character" Relationship="Self.FK_CharacterNotes_Characters" FromRole="CharacterNotes" ToRole="Characters" />
-  </EntityType>
   <EntityType Name="Character">
     <Key>
       <PropertyRef Name="ID" />
@@ -178,10 +170,10 @@
     <NavigationProperty Name="CharacterAbilities" Relationship="Self.FK_CharacterAbilities_Characters" FromRole="Characters" ToRole="CharacterAbilities" />
     <NavigationProperty Name="CharacterAttributes" Relationship="Self.FK_CharacterAttributes_Characters" FromRole="Characters" ToRole="CharacterAttributes" />
     <NavigationProperty Name="CharacterExps" Relationship="Self.FK_CharacterExps_Characters" FromRole="Characters" ToRole="CharacterExps" />
-    <NavigationProperty Name="CharacterNotes" Relationship="Self.FK_CharacterNotes_Characters" FromRole="Characters" ToRole="CharacterNotes" />
     <NavigationProperty Name="History1" Relationship="Self.FK_Characters_History" FromRole="Characters" ToRole="History" />
     <NavigationProperty Name="CharacterSkills" Relationship="Self.FK_CharacterSkills_Characters" FromRole="Characters" ToRole="CharacterSkills" />
     <NavigationProperty Name="IDMarks" Relationship="Self.FK_IDMarks_Characters" FromRole="Characters" ToRole="IDMarks" />
+    <NavigationProperty Name="CampaignNotes" Relationship="AftermathV1Model.FK_CampaignNotes_Characters" FromRole="Character" ToRole="CampaignNote" />
   </EntityType>
   <EntityType Name="CharacterSkill">
     <Key>
@@ -408,18 +400,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_CharacterNotes_Characters">
-    <End Role="Characters" Type="Self.Character" Multiplicity="1" />
-    <End Role="CharacterNotes" Type="Self.CharacterNote" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Characters">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="CharacterNotes">
-        <PropertyRef Name="CharacterID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Characters_History">
     <End Role="History" Type="Self.History" Multiplicity="1" />
     <End Role="Characters" Type="Self.Character" Multiplicity="*" />
@@ -479,7 +459,6 @@
     <EntitySet Name="CharacterAbilities" EntityType="Self.CharacterAbility" />
     <EntitySet Name="CharacterAttributes" EntityType="Self.CharacterAttribute" />
     <EntitySet Name="CharacterExps" EntityType="Self.CharacterExp" />
-    <EntitySet Name="CharacterNotes" EntityType="Self.CharacterNote" />
     <EntitySet Name="Characters" EntityType="Self.Character" />
     <EntitySet Name="CharacterSkills" EntityType="Self.CharacterSkill" />
     <EntitySet Name="Histories" EntityType="Self.History" />
@@ -534,10 +513,6 @@
       <End Role="Characters" EntitySet="Characters" />
       <End Role="CharacterExps" EntitySet="CharacterExps" />
     </AssociationSet>
-    <AssociationSet Name="FK_CharacterNotes_Characters" Association="Self.FK_CharacterNotes_Characters">
-      <End Role="Characters" EntitySet="Characters" />
-      <End Role="CharacterNotes" EntitySet="CharacterNotes" />
-    </AssociationSet>
     <AssociationSet Name="FK_Characters_History" Association="Self.FK_Characters_History">
       <End Role="History" EntitySet="Histories" />
       <End Role="Characters" EntitySet="Characters" />
@@ -554,5 +529,96 @@
       <End Role="Skills" EntitySet="Skills" />
       <End Role="CharacterSkills" EntitySet="CharacterSkills" />
     </AssociationSet>
+    <EntitySet Name="CampaignNotes" EntityType="AftermathV1Model.CampaignNote" />
+    <AssociationSet Name="FK_CampaignNotes_Accounts" Association="AftermathV1Model.FK_CampaignNotes_Accounts">
+      <End Role="Account" EntitySet="Accounts" />
+      <End Role="CampaignNote" EntitySet="CampaignNotes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CampaignNotes_Campaigns" Association="AftermathV1Model.FK_CampaignNotes_Campaigns">
+      <End Role="Campaign" EntitySet="Campaigns" />
+      <End Role="CampaignNote" EntitySet="CampaignNotes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CampaignNotes_Characters" Association="AftermathV1Model.FK_CampaignNotes_Characters">
+      <End Role="Character" EntitySet="Characters" />
+      <End Role="CampaignNote" EntitySet="CampaignNotes" />
+    </AssociationSet>
+    <EntitySet Name="AccountIMs" EntityType="AftermathV1Model.AccountIM" />
+    <AssociationSet Name="FK_AccountIMs_Accounts" Association="AftermathV1Model.FK_AccountIMs_Accounts">
+      <End Role="Account" EntitySet="Accounts" />
+      <End Role="AccountIM" EntitySet="AccountIMs" />
+    </AssociationSet>
   </EntityContainer>
+  <EntityType Name="CampaignNote">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Guid" Nullable="false" />
+    <Property Name="CampaignID" Type="Guid" Nullable="false" />
+    <Property Name="AccountID" Type="Guid" Nullable="false" />
+    <Property Name="CharacterID" Type="Guid" />
+    <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="Account" Relationship="AftermathV1Model.FK_CampaignNotes_Accounts" FromRole="CampaignNote" ToRole="Account" />
+    <NavigationProperty Name="Campaign" Relationship="AftermathV1Model.FK_CampaignNotes_Campaigns" FromRole="CampaignNote" ToRole="Campaign" />
+    <NavigationProperty Name="Character" Relationship="AftermathV1Model.FK_CampaignNotes_Characters" FromRole="CampaignNote" ToRole="Character" />
+  </EntityType>
+  <Association Name="FK_CampaignNotes_Accounts">
+    <End Type="AftermathV1Model.Account" Role="Account" Multiplicity="1" />
+    <End Type="AftermathV1Model.CampaignNote" Role="CampaignNote" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Account">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="CampaignNote">
+        <PropertyRef Name="AccountID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CampaignNotes_Campaigns">
+    <End Type="AftermathV1Model.Campaign" Role="Campaign" Multiplicity="1" />
+    <End Type="AftermathV1Model.CampaignNote" Role="CampaignNote" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Campaign">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="CampaignNote">
+        <PropertyRef Name="CampaignID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CampaignNotes_Characters">
+    <End Type="AftermathV1Model.Character" Role="Character" Multiplicity="0..1" />
+    <End Type="AftermathV1Model.CampaignNote" Role="CampaignNote" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Character">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="CampaignNote">
+        <PropertyRef Name="CharacterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="AccountIM">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Guid" Nullable="false" />
+    <Property Name="AccountID" Type="Guid" Nullable="false" />
+    <Property Name="TotalIMs" Type="Int32" Nullable="false" />
+    <Property Name="UnreadIMs" Type="Int32" Nullable="false" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="Account" Relationship="AftermathV1Model.FK_AccountIMs_Accounts" FromRole="AccountIM" ToRole="Account" />
+  </EntityType>
+  <Association Name="FK_AccountIMs_Accounts">
+    <End Type="AftermathV1Model.Account" Role="Account" Multiplicity="1" />
+    <End Type="AftermathV1Model.AccountIM" Role="AccountIM" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Account">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="AccountIM">
+        <PropertyRef Name="AccountID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>
