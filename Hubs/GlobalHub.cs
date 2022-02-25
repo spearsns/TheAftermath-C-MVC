@@ -13,6 +13,11 @@ namespace TheAftermath_V2.Hubs
     {
         public AftermathV1Entities db = new AftermathV1Entities();
 
+        public void Disconnect(string username)
+        {
+            _connections.Remove(username, Context.ConnectionId);
+        }
+
         public void SendMessage(string username, string message)
         {
             Clients.All.NewMessage(username, message);
@@ -55,24 +60,30 @@ namespace TheAftermath_V2.Hubs
             }
         }
 
+        // EXAMPLE IM
+        public void SendChatMessage(string who, string message)
+        {
+            string name = Context.User.Identity.Name;
+
+            foreach (var connectionId in _connections.GetConnections(who))
+            {
+                Clients.Client(connectionId).addChatMessage(name + ": " + message);
+            }
+        }
+
         // EXAMPLE CONNECTION MAPPING -- RELIES ON = ConnectionMapping.cs
         // NEED TO CHANGE USERNAME ON LOGIN
         private readonly static ConnectionMapping<string> _connections = new ConnectionMapping<string>();
 
         public override Task OnConnected()
         {
-            DateTime dt = DateTime.Now;
-            string time = dt.ToString("HH:mm:ss");
-            string defaultName = "Visitor [" + time + "]";
-            string name;
-
-            if (HttpContext.Current.Session != null) name = HttpContext.Current.Session["Username"].ToString();
-            else name = defaultName;
+            var name = Context.QueryString["username"];
 
             _connections.Add(name, Context.ConnectionId);
-            Clients.All.Online(name, _connections.Count, _connections.GetAll());
+            Clients.Client(Context.ConnectionId).newID(name);
+            Clients.All.Online(name, _connections.Count);
 
-            return base.OnConnected();            
+            return base.OnConnected();
         }
 
         // NOT WORKING PROPERLY

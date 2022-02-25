@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace TheAftermath_V2
+namespace TheAftermath_V2.Examples
 {
-    public class ConnectionMapping<T>
+    public class ConnectionMappingExample<T>
     {
-        private readonly Dictionary<T, HashSet<string>> _connections = new Dictionary<T, HashSet<string>>();
+        private readonly Dictionary<T, HashSet<string>> _connections =
+            new Dictionary<T, HashSet<string>>();
 
         public int Count
         {
@@ -33,13 +34,6 @@ namespace TheAftermath_V2
                     connections.Add(connectionId);
                 }
             }
-        }
-
-        public List<T> GetAllConns()
-        {
-            var allConns = _connections.Keys.ToList();
-            
-            return allConns;
         }
 
         public IEnumerable<string> GetConnections(T key)

@@ -7,6 +7,9 @@ using System.Web;
 using System.Web.Mvc;
 using TheAftermath_V2.Models;
 using WebMatrix.WebData;
+using System.Threading.Tasks;
+using Microsoft.AspNet.SignalR;
+using TheAftermath_V2.Hubs;
 
 namespace TheAftermath_V2.Controllers
 {
@@ -68,7 +71,7 @@ namespace TheAftermath_V2.Controllers
                     db.AccountStatus1.Add(change);
                     db.SaveChanges();
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Home", new { username = result.Username.ToString() });
                 }
                 else
                 {

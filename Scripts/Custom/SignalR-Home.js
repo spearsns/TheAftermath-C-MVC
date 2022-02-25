@@ -49,18 +49,14 @@
 
         // -- FUNCTIONS -- //
         // CONNECTION MONITORING -- NEED USERNAME CONNECTION HANDOFF ON LOGIN
-        chat.client.Online = function (name, count, list) {
+
+        chat.client.Online = function (name, count) {
             $("#chatLog").append('<li class="text-secondary text-uppercase"><strong>' + htmlEncode(name) + ' ONLINE</strong></li>');
-            $("#chatLog").append('<li class="text-secondary text-uppercase"><strong>' + htmlEncode(count) + ' ACTIVE USERS</strong></li>');
-
-            for (i = 0; i < list.length; i++) {
-                var item = list[i];
-                $("#chatLog").append('<li class="text-secondary text-uppercase"><strong>-' + htmlEncode(item) + '-</strong></li>');
-            }
-
+            $("#chatLog").append('<li class="text-secondary text-uppercase"><strong>ACTIVE USERS : '+ htmlEncode(count) +'</strong></li>');
             $("#chatLog li:last-child").focus();
             getActiveList();
         }
+
         chat.client.Offline = function (name) {
             $("#chatLog").append('<li class="text-secondary text-uppercase"><strong>' + htmlEncode(name) + ' OFFLINE</strong></li>');
             $("#chatLog li:last-child").focus();
@@ -81,6 +77,7 @@
         }
 
         // -- START SIGNALR -- //
+        $.connection.hub.qs = { "username" : username };
         $.connection.hub.start().done(function () {
             $("#userInput").on("keypress", function (e) {
                 if (e.which == 13) {
@@ -96,6 +93,10 @@
                 chat.server.sendMessage(username, $('#userInput').val());
                 // Clear text box and reset focus for next comment. 
                 $('#userInput').val('').focus();
+            });
+
+            $("a").click(function () {
+                chat.server.disconnect(username);
             });
         });
 

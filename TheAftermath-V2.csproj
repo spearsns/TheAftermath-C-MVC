@@ -176,6 +176,8 @@
     <Compile Include="Classes\SkillData.cs" />
     <Compile Include="Classes\UserData.cs" />
     <Compile Include="ConnectionMapping.cs" />
+    <Compile Include="Examples\ChatHubExample.cs" />
+    <Compile Include="Examples\ConnectionMappingExample.cs" />
     <Compile Include="Hubs\GameHub.cs" />
     <Compile Include="Hubs\GlobalHub.cs" />
     <Compile Include="Models\Ability.cs">

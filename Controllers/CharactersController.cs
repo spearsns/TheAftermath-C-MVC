@@ -298,18 +298,7 @@ namespace TheAftermath_V2.Controllers
                 };
                 db.IDMarks.Add(charID);
                 db.SaveChanges();
-
-                /* -- CAMPAIGN NOTE
-                var charNote = new CharacterNote
-                {
-                    ID = Guid.NewGuid(),
-                    CharacterID = character.ID,
-                    CreateDate = DateTime.Now
-                };
-                db.CharacterNotes.Add(charNote);
-                db.SaveChanges();
-                */
-                
+                                
                 ViewBag.ErrorMessage = "Success";
                 return RedirectToAction("Success", "Home");
             }
