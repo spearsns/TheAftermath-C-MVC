@@ -376,7 +376,6 @@
     <Content Include="Scripts\Custom\SignalR-Game.js" />
     <Content Include="Scripts\Custom\SignalR-Home.js" />
     <Content Include="Scripts\Custom\SignalR-IM.js" />
-    <Content Include="Scripts\Custom\SignalR-Monitor.js" />
     <Content Include="Scripts\Custom\Tell.js" />
     <Content Include="Scripts\Custom\Wiki.js" />
     <Content Include="Scripts\Custom\Validation.js" />

@@ -12,10 +12,11 @@ namespace TheAftermath_V2.Hubs
     public class GlobalHub : Hub
     {
         public AftermathV1Entities db = new AftermathV1Entities();
-
+        
         public void Disconnect(string username)
         {
             _connections.Remove(username, Context.ConnectionId);
+            Clients.All.NotifyOffline(username, _connections.Count);
         }
 
         public void SendMessage(string username, string message)
@@ -60,19 +61,7 @@ namespace TheAftermath_V2.Hubs
             }
         }
 
-        // EXAMPLE IM
-        public void SendChatMessage(string who, string message)
-        {
-            string name = Context.User.Identity.Name;
-
-            foreach (var connectionId in _connections.GetConnections(who))
-            {
-                Clients.Client(connectionId).addChatMessage(name + ": " + message);
-            }
-        }
-
         // EXAMPLE CONNECTION MAPPING -- RELIES ON = ConnectionMapping.cs
-        // NEED TO CHANGE USERNAME ON LOGIN
         private readonly static ConnectionMapping<string> _connections = new ConnectionMapping<string>();
 
         public override Task OnConnected()
@@ -80,8 +69,7 @@ namespace TheAftermath_V2.Hubs
             var name = Context.QueryString["username"];
 
             _connections.Add(name, Context.ConnectionId);
-            Clients.Client(Context.ConnectionId).newID(name);
-            Clients.All.Online(name, _connections.Count);
+            Clients.All.NotifyOnline(name, _connections.Count);
 
             return base.OnConnected();
         }
@@ -89,45 +77,13 @@ namespace TheAftermath_V2.Hubs
         // NOT WORKING PROPERLY
         public override Task OnDisconnected(bool stopCalled)
         {
-            DateTime dt = DateTime.Now;
-            string time = dt.ToString("HH:mm:ss");
-            string defaultName = "Visitor [" + time + "]";
-            string name;
-
-            if (HttpContext.Current.Session != null)
-            {
-                name = HttpContext.Current.Session["Username"].ToString();
-                Guid acctID = (Guid)HttpContext.Current.Session["UserID"];
-                var record = db.AccountStatus1.Where(a => a.AccountID == acctID).First();
-                record.Active = false;
-
-                if (record.Tell == true)
-                {
-                    var gameRecord = db.Campaigns.Where(a => a.ID == record.CampaignID).Single();
-                    gameRecord.TellActive = false;
-                    db.SaveChanges();
-                }
-                else if (record.Admin == true)
-                {
-                    var gameRecord = db.Campaigns.Where(a => a.ID == record.CampaignID).Single();
-                    gameRecord.Locked = false;
-                    db.SaveChanges();
-                }
-
-                HttpContext.Current.Session.Clear();
-                HttpContext.Current.Session.Abandon();
-
-                db.AccountStatus1.Remove(record);
-                db.SaveChanges();
-            }
-            else name = defaultName;
+            var name = Context.QueryString["username"];
 
             _connections.Remove(name, Context.ConnectionId);
-            Clients.All.Offline(name);
-
+            Clients.All.NotifyOffline(name, _connections.Count);
             return base.OnDisconnected(stopCalled);
         }
-
+       
         // RETURN TO THIS 
         public override Task OnReconnected()
         {

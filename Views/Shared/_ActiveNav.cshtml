@@ -1,23 +1,26 @@
-﻿<div class="row bg-info">
-    <div class="col-4 col-md-2">
+﻿<div class="row bg-info no-gutters">
+    <div class="col-3 col-md-2">
         <h3 class="my-2 text-black text-center font-weight-bold" id="sessionUsername">@Session["Username"].ToString()</h3>
     </div>
 
-    <!-- IM NOTIFICATIONS -->
     <div class="col-2 col-md-1" id="messageDiv">
-        <span class="badge badge-pill badge-danger ml-3" id="messageCount"></span>
+        <span class="badge badge-pill badge-danger ml-4" id="messageCount">1</span>
     </div>
-
-    <div class="col-4 offset-2 col-md-2 offset-md-7">
-        <a class="btn btn-outline-light float-right mr-2 my-2" href="@Url.Action("Logout", "Home")">LOG OUT</a>
+    
+    <div class="col-3 col-md-2">
+        <div class="dropdown">
+            <button class="btn btn-block btn-outline-light font-weight-bold dropdown-toggle my-2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">MESSAGES</button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <button class="dropdown-item btn btn-block border border-dark font-weight-bold text-center" type="button">BUTTON - 1</button>
+                <button class="dropdown-item btn btn-block border border-dark font-weight-bold text-center" type="button">BUTTON - 2</button>
+                <button class="dropdown-item btn btn-block border border-dark font-weight-bold text-center" type="button">BUTTON - 3</button>
+            </div>
+        </div>
     </div>
-</div>
-
-<div id ="IM-NotificationArea" class="row bg-info d-none">
-    <div class="col-6 col-md-3">
-        <ul id="IM-List"></ul>
+    
+    <div class="col-3 offset-1 col-md-2 offset-md-5">
+        <a class="btn btn-outline-light font-weight-bold float-right mr-2 my-2" href="@Url.Action("Logout", "Home")">LOG OUT</a>
     </div>
-    <div class="col-6 col-md-9"></div>
 </div>
 
 <div class="row bg-black mx-0">

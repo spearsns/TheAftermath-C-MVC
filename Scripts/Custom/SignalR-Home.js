@@ -34,7 +34,10 @@
                         else if (user.Tell == true) css = "text-primary";
                         else css = "text-dark";
 
-                        $("#userList").append("<li class=" + css + ">" + user.Username + "</li>");
+                        if ($("#sessionUsername").length > 0) {
+                            $("#userList").append("<button class='btn btn-block border border-dark font-weight-bold text-center mt-1 " + css + " im-btn' data-user='"+ user.Username +"'>" + user.Username + "</button>");
+                        }
+                        else $("#userList").append("<button class='btn btn-block border border-dark font-weight-bold text-center mt-1 " + css + " im-btn' data-user='" + user.Username + "' disabled >" + user.Username + "</button>");
                     }
                 }
         });
@@ -47,18 +50,18 @@
         // Reference the auto-generated proxy for the hub.  
         var chat = $.connection.globalHub;
 
-        // -- FUNCTIONS -- //
-        // CONNECTION MONITORING -- NEED USERNAME CONNECTION HANDOFF ON LOGIN
-
-        chat.client.Online = function (name, count) {
-            $("#chatLog").append('<li class="text-secondary text-uppercase"><strong>' + htmlEncode(name) + ' ONLINE</strong></li>');
-            $("#chatLog").append('<li class="text-secondary text-uppercase"><strong>ACTIVE USERS : '+ htmlEncode(count) +'</strong></li>');
+        // -- CLIENT (RECEIVING) FUNCTIONS -- //
+        chat.client.NotifyOnline = function (name, count) {
+            if (username == name) $("#chatLog").append('<li class="text-info text-uppercase"><strong>SERVER: ' + htmlEncode(name) + ' ONLINE</strong></li>');
+            else $("#chatLog").append('<li class="text-secondary text-uppercase"><strong>SERVER: ' + htmlEncode(name) + ' ONLINE</strong></li>');
+            $("#chatLog").append('<li class="text-secondary text-uppercase"><strong>SERVER: ACTIVE USERS ('+ htmlEncode(count) +')</strong></li>');
             $("#chatLog li:last-child").focus();
             getActiveList();
         }
 
-        chat.client.Offline = function (name) {
-            $("#chatLog").append('<li class="text-secondary text-uppercase"><strong>' + htmlEncode(name) + ' OFFLINE</strong></li>');
+        chat.client.NotifyOffline = function (name, count) {
+            $("#chatLog").append('<li class="text-secondary text-uppercase"><strong>SERVER: ' + htmlEncode(name) + ' OFFLINE</strong></li>');
+            $("#chatLog").append('<li class="text-secondary text-uppercase"><strong>SERVER: ACTIVE USERS (' + htmlEncode(count) + ')</strong></li>');
             $("#chatLog li:last-child").focus();
             getActiveList();
         }
@@ -77,21 +80,26 @@
         }
 
         // -- START SIGNALR -- //
-        $.connection.hub.qs = { "username" : username };
+        chat.client.void = function () { };
+        $.connection.hub.logging = true;
+
+        $.connection.hub.qs = { "username": username };
+        $.connection.hub.starting(function () {
+            console.log(username);
+        });
+
         $.connection.hub.start().done(function () {
+
+        // -- SERVER (SENDING) FUNCTIONS -- //
             $("#userInput").on("keypress", function (e) {
                 if (e.which == 13) {
-                    // Call the Send method on the hub. 
                     chat.server.sendMessage(username, $('#userInput').val());
-                    // Clear text box and reset focus for next comment. 
                     $('#userInput').val('').focus();
                 }
             })
 
-            $('#sendMsgBtn').click(function () {
-                // Call the Send method on the hub. 
-                chat.server.sendMessage(username, $('#userInput').val());
-                // Clear text box and reset focus for next comment. 
+            $('#sendMsgBtn').click(function () { 
+                chat.server.sendMessage(username, $('#userInput').val()); 
                 $('#userInput').val('').focus();
             });
 

@@ -9,6 +9,7 @@ namespace TheAftermath_V2.Hubs
     public class GameHub : Hub
     {
         // IN GAME PLAY AND TELL
+        // CHANGE Clients.All to Clients.Room ?!?
         public void SendMessage(string username, string message)
         {
             Clients.All.NewMessage(username, message);
