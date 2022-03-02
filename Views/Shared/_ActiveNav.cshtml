@@ -4,20 +4,16 @@
     </div>
 
     <div class="col-2 col-md-1" id="messageDiv">
-        <span class="badge badge-pill badge-danger ml-4" id="messageCount">1</span>
+        <span class="badge badge-pill badge-danger ml-4" id="messageCount"></span>
     </div>
-    
+
     <div class="col-3 col-md-2">
         <div class="dropdown">
-            <button class="btn btn-block btn-outline-light font-weight-bold dropdown-toggle my-2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">MESSAGES</button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <button class="dropdown-item btn btn-block border border-dark font-weight-bold text-center" type="button">BUTTON - 1</button>
-                <button class="dropdown-item btn btn-block border border-dark font-weight-bold text-center" type="button">BUTTON - 2</button>
-                <button class="dropdown-item btn btn-block border border-dark font-weight-bold text-center" type="button">BUTTON - 3</button>
-            </div>
+            <button class="btn btn-block btn-outline-light font-weight-bold dropdown-toggle my-2" type="button" id="IM-dropdownMenuBtn" data-toggle="dropdown" aria-expanded="false">MESSAGES</button>
+            <div id="IM-dropdown-menu" class="dropdown-menu" aria-labelledby="IM-dropdownMenuBtn"></div>
         </div>
     </div>
-    
+
     <div class="col-3 offset-1 col-md-2 offset-md-5">
         <a class="btn btn-outline-light font-weight-bold float-right mr-2 my-2" href="@Url.Action("Logout", "Home")">LOG OUT</a>
     </div>
@@ -84,5 +80,3 @@
         </ul>
     </div>
 </nav>
-
-

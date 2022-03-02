@@ -16,7 +16,6 @@ namespace TheAftermath_V2.Hubs
         public void Disconnect(string username)
         {
             _connections.Remove(username, Context.ConnectionId);
-            Clients.All.NotifyOffline(username, _connections.Count);
         }
 
         public void SendMessage(string username, string message)
@@ -24,12 +23,11 @@ namespace TheAftermath_V2.Hubs
             Clients.All.NewMessage(username, message);
         }
 
-        public void SendIM(string receiver, string message)
+        public void SendIM(string sender, string receiver, string message)
         {
-            string sender = HttpContext.Current.Session["Username"].ToString();
-
             foreach (var connectionId in _connections.GetConnections(receiver))
             {
+                /*
                 // DB LOGIC FOR NOTIFICATION
                 Guid targetID = db.Accounts.Where(a => a.Username == receiver).Select(a => a.ID).First();
                 var targetRecord = db.AccountIMs.Where(a => a.AccountID == targetID).First();
@@ -56,7 +54,7 @@ namespace TheAftermath_V2.Hubs
                     db.AccountIMs.Add(acctIMData);
                     db.SaveChanges();
                 }
-
+                */
                 Clients.Client(connectionId).NewIM(sender, message);
             }
         }

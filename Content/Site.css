@@ -97,6 +97,10 @@ html {
     min-height: 100%;
 }
 
+.IM-log {
+    height: 30vh;
+}
+
 #indexChatLogArea {
     height: 60vh;
     background-color: white;
