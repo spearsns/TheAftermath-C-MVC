@@ -1,7 +1,8 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Backstory";
 }
+
+<div id="IM-Modals"></div>
 
 <div class="row">
     <div class="col">
@@ -744,18 +745,18 @@
                 <div id="collapseTwenty-Eight" class="collapse" aria-labelledby="headingTwenty-Eight" data-parent="#backstoryAccordion">
                     <div class="card-body">
                         <p>
-                            Last but not least, we have the grisly underbelly of post-apocalyptic society that makes everything possible.  Regardless of whether the population consists of the dregs of society; murderers, rapists, and thieves; or the unfortunate souls who simply made mistakes like stealing to feed their family, pissed off the wrong cop, or got into a fist fight at work; the system doesn't discriminate.  
+                            Last but not least, we have the grisly underbelly of post-apocalyptic society that makes everything possible.  Regardless of whether the population consists of the dregs of society; murderers, rapists, and thieves; or the unfortunate souls who simply made mistakes like stealing to feed their family, pissed off the wrong cop, or got into a fist fight at work; the system doesn't discriminate.
                             At least on paper.  The end result is the same, prisoners are the backbone of the current labor system and with communications being what they are right at this point, what happens in confinement stays in confinement.  For better or worse.
                         </p>
                         <p>
-                            The first thing that needs to be understood is that again, America is a massive nation and oddly enough the prison system remained largely unaffected by the events that transpired.  The only real difference is that instead of simply warehousing and stockpiling inmates as they had done historically, with the recovery effort in full swing they transformed into labor camps.  
-                            Because of the sheer size of the country, the labor itself varies from place to place, but generally speaking the output is the same.  In areas where the land is fertile and the prisons already reside you can expect hard labor in the fields.  In some areas it is food, in others it is cotton or tobacco.  In some regions inmates are sent to mine coal for the trains or harvest timber for the literal rebuilding.  
-                            In others they work sorting freight or mail.  Along the trade routes they get shipped out to once abandoned county jails to repair roads, train tracks, or bridges.  In the urban areas they perform trash collection, shovel snow, or engage in community service day in and day out.  In the end the prisoners do whatever is necessary for society to build momentum for zero pay.  
+                            The first thing that needs to be understood is that again, America is a massive nation and oddly enough the prison system remained largely unaffected by the events that transpired.  The only real difference is that instead of simply warehousing and stockpiling inmates as they had done historically, with the recovery effort in full swing they transformed into labor camps.
+                            Because of the sheer size of the country, the labor itself varies from place to place, but generally speaking the output is the same.  In areas where the land is fertile and the prisons already reside you can expect hard labor in the fields.  In some areas it is food, in others it is cotton or tobacco.  In some regions inmates are sent to mine coal for the trains or harvest timber for the literal rebuilding.
+                            In others they work sorting freight or mail.  Along the trade routes they get shipped out to once abandoned county jails to repair roads, train tracks, or bridges.  In the urban areas they perform trash collection, shovel snow, or engage in community service day in and day out.  In the end the prisoners do whatever is necessary for society to build momentum for zero pay.
                             Its estimated that 60 percent or more of the current national fuel consumption is dedicated solely to the transportation of this unpaid workforce.
                         </p>
                         <p>
-                            If anything happens to you during your workday, you are buried on site and the official statement is nearly always “escape attempt”.  Both the corrections officers and the inmates could care less if you live or die.  This is especially true for the lifers.  To make matters worse the conditions are absolutely atrocious.  Corruption is rampant, gang solidarity even more so.  
-                            Food, healthcare, and common decency are barely existent and many of the incarcerated fall to disease, malnutrition, inclement weather, or sheer physical exertion.  These cases are noted as “Natural Causes”, but only if they occur within the housing facilities.  Many suspect that the lighter sentences were simply put in place so that the strong could get out and recover from their ailments before being put back to work again, 
+                            If anything happens to you during your workday, you are buried on site and the official statement is nearly always “escape attempt”.  Both the corrections officers and the inmates could care less if you live or die.  This is especially true for the lifers.  To make matters worse the conditions are absolutely atrocious.  Corruption is rampant, gang solidarity even more so.
+                            Food, healthcare, and common decency are barely existent and many of the incarcerated fall to disease, malnutrition, inclement weather, or sheer physical exertion.  These cases are noted as “Natural Causes”, but only if they occur within the housing facilities.  Many suspect that the lighter sentences were simply put in place so that the strong could get out and recover from their ailments before being put back to work again,
                             effectively increasing the likelihood of survival by taking a fully hands-off, zero responsibility approach.  Of course it's then justified by stating “You have to be crazy to keep coming back here” and thus the cycle continues.  In most states, the three strikes rule still applies.
                         </p>
                         <h5 class="font-weight-bold text-center">WELCOME TO THE AFTERMATH!</h5>
@@ -766,3 +767,10 @@
     </div>
 </div>
 <script src="@Url.Content("~/Scripts/Client/Wiki.js")" type="text/javascript"></script>
+
+@section Scripts
+{
+    <script src="@Url.Content("~/Scripts/jquery.signalR-2.4.2.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Custom/SignalR-IM.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/signalr/hubs")" type="text/javascript"></script>
+}

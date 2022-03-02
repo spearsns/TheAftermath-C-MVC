@@ -85,21 +85,7 @@ namespace TheAftermath_V2.Controllers
         {
             Guid acctID = Guid.Parse(Session["UserID"].ToString());
             var record = db.AccountStatus1.Where(a => a.AccountID == acctID).First();
-            record.Active = false;
-
-            if (record.Tell == true)
-            {
-                var gameRecord = db.Campaigns.Where(a => a.ID == record.CampaignID).Single();
-                gameRecord.TellActive = false;
-                db.SaveChanges();
-            }
-            else if (record.Admin == true)
-            {
-                var gameRecord = db.Campaigns.Where(a => a.ID == record.CampaignID).Single();
-                gameRecord.Locked = false;
-                db.SaveChanges();
-            }
-
+            
             Session.Clear();
             Session.Abandon();
 

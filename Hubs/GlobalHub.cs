@@ -14,7 +14,7 @@ namespace TheAftermath_V2.Hubs
         public AftermathV1Entities db = new AftermathV1Entities();
         
         public void Disconnect(string username)
-        {
+        {   
             _connections.Remove(username, Context.ConnectionId);
         }
 
@@ -26,35 +26,7 @@ namespace TheAftermath_V2.Hubs
         public void SendIM(string sender, string receiver, string message)
         {
             foreach (var connectionId in _connections.GetConnections(receiver))
-            {
-                /*
-                // DB LOGIC FOR NOTIFICATION
-                Guid targetID = db.Accounts.Where(a => a.Username == receiver).Select(a => a.ID).First();
-                var targetRecord = db.AccountIMs.Where(a => a.AccountID == targetID).First();
-                if (targetRecord != null)
-                {
-                    int total = targetRecord.TotalIMs += 1;
-                    int unread = targetRecord.UnreadIMs += 1;
-
-                    targetRecord.TotalIMs = total;
-                    targetRecord.UnreadIMs = unread;
-
-                    db.SaveChanges();
-                }
-                else
-                {
-                    var acctIMData = new AccountIM
-                    {
-                        ID = Guid.NewGuid(),
-                        TotalIMs = 1,
-                        UnreadIMs = 1,
-                        CreateDate = DateTime.Now
-                    };
-
-                    db.AccountIMs.Add(acctIMData);
-                    db.SaveChanges();
-                }
-                */
+            {                
                 Clients.Client(connectionId).NewIM(sender, message);
             }
         }
@@ -72,12 +44,11 @@ namespace TheAftermath_V2.Hubs
             return base.OnConnected();
         }
 
-        // NOT WORKING PROPERLY
         public override Task OnDisconnected(bool stopCalled)
         {
             var name = Context.QueryString["username"];
-
             _connections.Remove(name, Context.ConnectionId);
+
             Clients.All.NotifyOffline(name, _connections.Count);
             return base.OnDisconnected(stopCalled);
         }
