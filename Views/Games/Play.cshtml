@@ -1,10 +1,6 @@
 ﻿@{
     ViewBag.Title = "Play";
 }
-@section Scripts
-{
-    <script src="@Url.Content("~/Scripts/Custom/Play.js")" type="text/javascript"></script>
-}
 <script type="text/javascript">
     $(document).ready(function () {
         $('body').css('background-image', 'url("../Content/Images/Textures/darkScratch.jpg")');
@@ -1542,3 +1538,10 @@
     <div id="ability-15" class="col-3 px-0"></div>
     <div id="ability-16" class="col-3 px-0"></div>
 </div>
+
+@section Scripts
+{
+    <script src="@Url.Content("~/Scripts/jquery.signalR-2.4.2.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/signalr/hubs")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Custom/Play.js")" type="text/javascript"></script>
+}

@@ -1,10 +1,6 @@
 ﻿@{
     ViewBag.Title = "Tell";
 }
-@section Scripts
-{
-    <script src="@Url.Content("~/Scripts/Custom/Tell.js")" type="text/javascript"></script>
-}
 <script type="text/javascript">
     $(document).ready(function () {
         $('body').css('background-image', 'url("../Content/Images/Textures/darkScratch.jpg")');
@@ -167,7 +163,6 @@
         </div>
     </div>
 </div>
-
 <!-- CHARACTER SHEET MODAL -->
 <div class="modal fade" id="charSheetModal" data-backdrop="static" tabindex="-3" aria-labelledby="charSheetModalLabel" aria-hidden="false">
     <div class="modal-dialog modal-xl">
@@ -318,3 +313,10 @@
 </div>
 
 <div id="userList" class="row bg-black justify-content-around h-40"></div>
+
+@section Scripts
+{
+    <script src="@Url.Content("~/Scripts/jquery.signalR-2.4.2.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/signalr/hubs")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Custom/Tell.js")" type="text/javascript"></script>
+}
