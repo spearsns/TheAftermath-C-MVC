@@ -26,7 +26,7 @@
             contentType: 'application/json; charset=utf-8',
             success:
                 function (results) {
-                    $("#userList").html("");
+                    $("#lobbyActiveUserList").html("");
 
                     for (var i = 0; i < results.length; i++) {
                         var user = results[i];
@@ -40,9 +40,9 @@
                         else css = "text-dark";
 
                         if ($("#sessionUsername").length > 0) {
-                            $("#userList").append("<button class='btn btn-block border border-dark font-weight-bold text-center mt-1 " + css + " IM-btn' data-connection='"+ user.Username +"'>" + user.Username + "</button>");
+                            $("#lobbyActiveUserList").append("<button class='btn btn-block border border-dark font-weight-bold text-center mt-1 " + css + " IM-btn' data-connection='"+ user.Username +"'>" + user.Username + "</button>");
                         }
-                        else $("#userList").append("<button class='btn btn-block border border-dark font-weight-bold text-center mt-1 " + css + " IM-btn' data-connection='" + user.Username + "' disabled >" + user.Username + "</button>");
+                        else $("#lobbyActiveUserList").append("<button class='btn btn-block border border-dark font-weight-bold text-center mt-1 " + css + " IM-btn' data-connection='" + user.Username + "' disabled >" + user.Username + "</button>");
                     }
                 }
         });
@@ -114,27 +114,27 @@
 
         // -- CLIENT (RECEIVING) FUNCTIONS -- //
         chat.client.NotifyOnline = function (name, count) {
-            if (username == name) $("#chatLog").append('<li class="text-info text-uppercase"><strong>SERVER: ' + htmlEncode(name) + ' ONLINE</strong></li>');
-            else $("#chatLog").append('<li class="text-secondary text-uppercase"><strong>SERVER: ' + htmlEncode(name) + ' ONLINE</strong></li>');
+            if (username == name) $("#lobbyChatLog").append('<li class="text-info text-uppercase"><strong>SERVER: ' + htmlEncode(name) + ' ONLINE</strong></li>');
+            else $("#lobbyChatLog").append('<li class="text-secondary text-uppercase"><strong>SERVER: ' + htmlEncode(name) + ' ONLINE</strong></li>');
             //$("#chatLog").append('<li class="text-secondary text-uppercase"><strong>SERVER: ACTIVE USERS ('+ htmlEncode(count) +')</strong></li>');
-            $("#chatLog li:last-child").focus();
+            $("#lobbyChatLog li:last-child").focus();
             getActiveList();
         }
 
         chat.client.NotifyOffline = function (name, count) {
-            $("#chatLog").append('<li class="text-secondary text-uppercase"><strong>SERVER: ' + htmlEncode(name) + ' OFFLINE</strong></li>');
+            $("#lobbyChatLog").append('<li class="text-secondary text-uppercase"><strong>SERVER: ' + htmlEncode(name) + ' OFFLINE</strong></li>');
             //$("#chatLog").append('<li class="text-secondary text-uppercase"><strong>SERVER: ACTIVE USERS (' + htmlEncode(count) + ')</strong></li>');
-            $("#chatLog li:last-child").focus();
+            $("#lobbyChatLog li:last-child").focus();
             getActiveList();
         }
 
         // LOBBY CHATROOM
-        chat.client.NewMessage = function (name, message) { 
-            if (name == username) $('#chatLog').append('<li class="text-info"><strong>' + htmlEncode(name) + '</strong>: ' + htmlEncode(message) + '</li>');
-            else $('#chatLog').append('<li><strong>' + htmlEncode(name) + '</strong>: ' + htmlEncode(message) + '</li>');
-            $("#chatLog li:last-child").focus();
+        chat.client.NewLobbyMessage = function (name, message) { 
+            if (name == username) $('#lobbyChatLog').append('<li class="text-info"><strong>' + htmlEncode(name) + '</strong>: ' + htmlEncode(message) + '</li>');
+            else $('#lobbyChatLog').append('<li><strong>' + htmlEncode(name) + '</strong>: ' + htmlEncode(message) + '</li>');
+            $("#lobbyChatLog li:last-child").focus();
         };
-        $('#userInput').focus();
+        $('#lobbyChatInput').focus();
 
         // USER TO USER IM
         chat.client.NewIM = function (sender, message) {
@@ -209,16 +209,16 @@
 
         // -- SERVER (SENDING) FUNCTIONS -- //
             // CHATROOM
-            $("#userInput").on("keypress", function (e) {
+            $("#lobbyChatInput").on("keypress", function (e) {
                 if (e.which == 13) {
-                    chat.server.sendMessage(username, $('#userInput').val());
-                    $('#userInput').val('').focus();
+                    chat.server.sendLobbyMessage(username, $('#lobbyChatInput').val());
+                    $('#lobbyChatInput').val('').focus();
                 }
             });
 
-            $('#sendMsgBtn').click(function () {
-                chat.server.sendMessage(username, $('#userInput').val());
-                $('#userInput').val('').focus();
+            $('#sendLobbyMsgBtn').click(function () {
+                chat.server.sendLobbyMessage(username, $('#lobbyChatInput').val());
+                $('#lobbyChatInput').val('').focus();
             });
             // IM's
             $("body").on("keypress", ".IM-input", function (e) {

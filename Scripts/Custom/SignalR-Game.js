@@ -12,12 +12,12 @@
 
     var transferCount = 0;
     var messageCount = 0;
-    var messageModals = 3;
+    var messageModals = 4;
 
-    function getActive() {
+    function getGameActiveList() {
         $.ajax({
             type: 'POST',
-            url: 'GetActive',
+            url: 'GetGameActiveList',
             data: JSON.stringify({ Game: gameName }),
             dataType: 'json',
             contentType: "application/json; charset=utf-8",
@@ -27,12 +27,12 @@
                         var result = results[i];
                         if (result.Username == userName) continue;
                         else if (result.Tell == true) $("#storyteller").val(result.Username);
-                        else $("#userList").append("<button class='btn btn-block border border-dark font-weight-bold text-center mt-1 IM-btn' data-connection='" + result.Username + "'>" + result.Username + "</button>");
+                        else $("#gameActiveUserList").append("<button class='btn btn-block border border-dark font-weight-bold text-center mt-1 IM-btn' data-connection='" + result.Username + "'>" + result.Username + "</button>");
                     }
                 }
         });
     }
-    getActive();
+    getActiveListGame();
 
     // -- IM BUTTONS -- //
     // FROM ONLINE LIST
@@ -95,32 +95,32 @@
 
     // -- SIGNALR -- //
     $(function () {
-        var chat = $.connection.gameHub;
+        var chat = $.connection.globalHub;
 
         // -- CLIENT (RECEIVING) FUNCTIONS -- //
         // CHATROOM
         chat.client.NotifyOnline = function (name, count) {
-            console.log(name + " ONLINE -- ACTIVE USERS (" + count + ")");
+            //console.log(name + " ONLINE -- ACTIVE USERS (" + count + ")");
             //$("#chatLog").append('<li class="text-secondary text-uppercase"><strong>SERVER: '+ htmlEncode(name) +' ONLINE -- ACTIVE USERS ('+ htmlEncode(count) +')</strong></li>');
-            $("#chatLog li:last-child").focus();
+            $("#gameChatLog li:last-child").focus();
             if (userName != name) getActive();
         }
 
         chat.client.NotifyOffline = function (name, count) {
-            console.log(name + " OFFLINE -- ACTIVE USERS (" + count + ")");
+            //console.log(name + " OFFLINE -- ACTIVE USERS (" + count + ")");
             //$("#chatLog").append('<li class="text-secondary text-uppercase"><strong>SERVER: ' + htmlEncode(name) + ' ONLINE -- ACTIVE USERS (' + htmlEncode(count) + ')</strong></li>');
-            $("#chatLog li:last-child").focus();
+            $("#gameChatLog li:last-child").focus();
             getActive();
         }
 
-        chat.client.NewMessage = function (name, charname, game, message, dice) {
-            console.log("Message Received [Name:"+ name +"] [Game:"+ game +"] [Character:"+ charname +"] [Dice:"+ dice +"]");
+        chat.client.NewGameMessage = function (name, charname, game, message, dice) {
+            //console.log("Message Received [Name:"+ name +"] [Game:"+ game +"] [Character:"+ charname +"] [Dice:"+ dice +"]");
             if (gameName == game) {
-                if (charname == "STORYTELLER") $('#chatLog').append('<li class="text-red"><strong>' + htmlEncode(name) + ' [' + htmlEncode(charname) + ']</strong>: ' + htmlEncode(message) + '</li>');
-                else if (dice == true) $('#chatLog').append('<li class="text-secondary"><strong>' + htmlEncode(name) + ' [' + htmlEncode(charname) + ']</strong>: ' + htmlEncode(message) + '</li>');
-                else if (name == userName && dice == false) $('#chatLog').append('<li class="text-info"><strong>' + htmlEncode(name) + ' ['+ htmlEncode(charname) +']</strong>: ' + htmlEncode(message) + '</li>');
-                else $('#chatLog').append('<li><strong>' + htmlEncode(name) + ' [' + htmlEncode(charname) +']</strong>: ' + htmlEncode(message) + '</li>');
-                $("#chatLog li:last-child").focus();
+                if (charname == "STORYTELLER") $('#gameChatLog').append('<li class="text-red"><strong>' + htmlEncode(name) + ' [' + htmlEncode(charname) + ']</strong>: ' + htmlEncode(message) + '</li>');
+                else if (dice == true) $('#gameChatLog').append('<li class="text-secondary"><strong>' + htmlEncode(name) + ' [' + htmlEncode(charname) + ']</strong>: ' + htmlEncode(message) + '</li>');
+                else if (name == userName && dice == false) $('#gameChatLog').append('<li class="text-info"><strong>' + htmlEncode(name) + ' ['+ htmlEncode(charname) +']</strong>: ' + htmlEncode(message) + '</li>');
+                else $('#gameChatLog').append('<li><strong>' + htmlEncode(name) + ' [' + htmlEncode(charname) +']</strong>: ' + htmlEncode(message) + '</li>');
+                $("#gameChatLog li:last-child").focus();
             }
         };
 
@@ -198,18 +198,18 @@
 
             // -- SERVER (SENDING) FUNCTIONS -- //
             // CHATROOM
-            $("#chatInput").on("keypress", function (e) {
+            $("#gameChatInput").on("keypress", function (e) {
                 if (e.which == 13) {
-                    console.log('sendMessage called');
-                    chat.server.sendMessage(userName, charName, gameName, $('#chatInput').val());
-                    $('#chatInput').val('').focus();
+                    //console.log('sendMessage called');
+                    chat.server.sendGameMessage(userName, charName, gameName, $('#gameChatInput').val());
+                    $('#gameChatInput').val('').focus();
                 }
             });
 
-            $('#sendMsgBtn').click(function () {
-                console.log('sendMessage called');
-                chat.server.sendMessage(userName, charName, gameName, $('#chatInput').val());
-                $('#chatInput').val('').focus();
+            $('#sendGameMsgBtn').click(function () {
+                //console.log('sendMessage called');
+                chat.server.sendGameMessage(userName, charName, gameName, $('#gameChatInput').val());
+                $('#gameChatInput').val('').focus();
             });
             // IM's
             $("body").on("keypress", ".IM-input", function (e) {
@@ -229,6 +229,7 @@
                 chat.server.sendIM(userName, targetUser, input);
                 $('.IM-input[data-connection="' + targetUser + '"]').val('').focus();
             });
+
             // DICE
             $('#twoD10Btn').click(function () {
                 chat.server.roll2D10(userName, charName, gameName);
@@ -248,6 +249,7 @@
                 console.log("LoS called with value of [" + value + "]");
                 $('#LoSValue').val('');
             });
+
             // FORCING onDisconnect TO FIRE
             $("a").click(function () {
                 chat.server.disconnect(username);

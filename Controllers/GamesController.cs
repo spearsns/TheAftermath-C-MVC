@@ -12,8 +12,9 @@ namespace TheAftermath_V2.Controllers
 {
     public class GamesController : Controller
     {
-        // GET: Games
         public AftermathV1Entities db = new AftermathV1Entities();
+
+        // -- NAVIGATION -- //
         public ActionResult Index()
         {
             /*
@@ -85,6 +86,7 @@ namespace TheAftermath_V2.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        // -- NEW GAME -- //
         public ActionResult NewGame()
         {
             return View();
@@ -116,6 +118,8 @@ namespace TheAftermath_V2.Controllers
             }
             return View(input);
         }
+
+        // -- PLAY -- //
         public ActionResult Play()
         {
             string charName = HttpContext.Request.QueryString["char"];
@@ -268,32 +272,8 @@ namespace TheAftermath_V2.Controllers
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-        /* IF DECIDE TO SAVE USER NOTES
-        [HttpPost]
-        public JsonResult GetNotes(string name, string user)
-        {
-            Guid acctID = db.Accounts.Where(a => a.Username == user).Select(a => a.ID).Single();
-            Guid charID = db.Characters.Where(a => a.Name == name && a.AccountID == acctID).Select(a => a.ID).Single();
 
-            var results = db.CharacterNotes.Where(a => a.CharacterID == charID).Single();
-
-            return Json(results, JsonRequestBehavior.AllowGet);
-        }
-        
-        [HttpPost]
-        public JsonResult UpdateNotes(string name, string user, [Bind(Include = "charNotes")] string input)
-        {
-            Guid acctID = db.Accounts.Where(a => a.Username == user).Select(a => a.ID).Single();
-            Guid charID = db.Characters.Where(a => a.Name == name && a.AccountID == acctID).Select(a => a.ID).Single();
-            
-            var result = db.CharacterNotes.Where(a => a.CharacterID == charID).Single();
-
-            result.Notes = input;
-            db.SaveChanges();
-            string confirm = "success";
-            return Json(confirm, JsonRequestBehavior.AllowGet); 
-        }
-        */
+        // -- TELL -- //
         public ActionResult Tell()
         {
             Guid acctID = Guid.Parse(Session["UserID"].ToString());
@@ -414,8 +394,9 @@ namespace TheAftermath_V2.Controllers
             }
         }
 
+        // -- IN GAME (PLAY || TELL) -- //
         [HttpPost]
-        public JsonResult GetActive(string game)
+        public JsonResult GetGameActiveList(string game)
         {
             Guid gameID = db.Campaigns.Where(a => a.Name == game).Select(a => a.ID).First();
 
