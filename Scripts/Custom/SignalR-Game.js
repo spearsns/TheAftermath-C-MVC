@@ -1,14 +1,18 @@
 ﻿$(document).ready(function () {
+    var url = window.location.href;
     var urlParams = new URLSearchParams(window.location.search);
-    var charName = urlParams.get("char");
     var userName = urlParams.get("user");
     var gameName = urlParams.get("game");
+    var charName;
 
-    console.log("User ["+ userName +"] logged into ["+ gameName +"] using ["+ charName +"]");
+    if (url.indexOf("Tell") >= 0) charName = "STORYTELLER";
+    else charName = urlParams.get("char");
+
+    console.log("User ["+ userName +"] logged into ["+ gameName +"] as ["+ charName +"]");
 
     var transferCount = 0;
     var messageCount = 0;
-    var messageModals = 0;
+    var messageModals = 3;
 
     function getActive() {
         $.ajax({
@@ -95,10 +99,25 @@
 
         // -- CLIENT (RECEIVING) FUNCTIONS -- //
         // CHATROOM
+        chat.client.NotifyOnline = function (name, count) {
+            console.log(name + " ONLINE -- ACTIVE USERS (" + count + ")");
+            //$("#chatLog").append('<li class="text-secondary text-uppercase"><strong>SERVER: '+ htmlEncode(name) +' ONLINE -- ACTIVE USERS ('+ htmlEncode(count) +')</strong></li>');
+            $("#chatLog li:last-child").focus();
+            if (userName != name) getActive();
+        }
+
+        chat.client.NotifyOffline = function (name, count) {
+            console.log(name + " OFFLINE -- ACTIVE USERS (" + count + ")");
+            //$("#chatLog").append('<li class="text-secondary text-uppercase"><strong>SERVER: ' + htmlEncode(name) + ' ONLINE -- ACTIVE USERS (' + htmlEncode(count) + ')</strong></li>');
+            $("#chatLog li:last-child").focus();
+            getActive();
+        }
+
         chat.client.NewMessage = function (name, charname, game, message, dice) {
             console.log("Message Received [Name:"+ name +"] [Game:"+ game +"] [Character:"+ charname +"] [Dice:"+ dice +"]");
             if (gameName == game) {
-                if (dice == true) $('#chatLog').append('<li class="text-red"><strong>' + htmlEncode(name) + ' [' + htmlEncode(charname) +']</strong>: ' + htmlEncode(message) + '</li>');
+                if (charname == "STORYTELLER") $('#chatLog').append('<li class="text-red"><strong>' + htmlEncode(name) + ' [' + htmlEncode(charname) + ']</strong>: ' + htmlEncode(message) + '</li>');
+                else if (dice == true) $('#chatLog').append('<li class="text-secondary"><strong>' + htmlEncode(name) + ' [' + htmlEncode(charname) + ']</strong>: ' + htmlEncode(message) + '</li>');
                 else if (name == userName && dice == false) $('#chatLog').append('<li class="text-info"><strong>' + htmlEncode(name) + ' ['+ htmlEncode(charname) +']</strong>: ' + htmlEncode(message) + '</li>');
                 else $('#chatLog').append('<li><strong>' + htmlEncode(name) + ' [' + htmlEncode(charname) +']</strong>: ' + htmlEncode(message) + '</li>');
                 $("#chatLog li:last-child").focus();
@@ -107,6 +126,7 @@
 
         // USER TO USER IM
         chat.client.NewIM = function (sender, message) {
+            console.log("IM Recieved from [" + sender + "]");
             // HANDLE COUNT
             if ($(".IM-dropdown-btn[data-connection='" + sender + "']").length > 0) {
                 if ($('.IM-modal[data-connection="' + sender + '"]').hasClass("show")) {
@@ -196,8 +216,8 @@
                 if (e.which == 13) {
                     var targetUser = $(this).data("connection");
                     var input = $('.IM-input[data-connection="' + targetUser + '"]').val();
-                    $('.IM-log[data-connection="' + targetUser + '"]').append('<li class="text-info"><strong>' + username + '</strong>: ' + input + '</li>');
-                    chat.server.sendIM(username, targetUser, input);
+                    $('.IM-log[data-connection="' + targetUser + '"]').append('<li class="text-info"><strong>' + userName + '</strong>: ' + input + '</li>');
+                    chat.server.sendIM(userName, targetUser, input);
                     $('.IM-input[data-connection="' + targetUser + '"]').val('').focus();
                 }
             });
@@ -205,8 +225,8 @@
             $('body').on('click', '.sendIMBtn', function () {
                 var targetUser = $(this).data("connection");
                 var input = $('.IM-input[data-connection="' + targetUser + '"]').val();
-                $('.IM-log[data-connection="' + targetUser + '"]').append('<li class="text-info"><strong>' + username + '</strong>: ' + input + '</li>');
-                chat.server.sendIM(username, targetUser, input);
+                $('.IM-log[data-connection="' + targetUser + '"]').append('<li class="text-info"><strong>' + userName + '</strong>: ' + input + '</li>');
+                chat.server.sendIM(userName, targetUser, input);
                 $('.IM-input[data-connection="' + targetUser + '"]').val('').focus();
             });
             // DICE
@@ -220,6 +240,13 @@
 
             $('#D100Btn').click(function () {
                 chat.server.rollD100(userName, charName, gameName);
+            });
+
+            $('#LoSBtn').click(function () {
+                var value = $('#LoSValue').val();
+                chat.server.likelihoodOfSx(value, userName, gameName);
+                console.log("LoS called with value of [" + value + "]");
+                $('#LoSValue').val('');
             });
             // FORCING onDisconnect TO FIRE
             $("a").click(function () {
