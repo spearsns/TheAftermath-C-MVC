@@ -54,6 +54,16 @@ body {
     width: 100%;
 }
 
+#gameChatLogArea {
+    height: 60vh;
+    background-color: white;
+}
+
+#gameUserListArea {
+    min-height: 60vh;
+    background-color: ghostwhite;
+}
+
 .h-10 {
     height: 10vh;
 }

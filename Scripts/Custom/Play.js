@@ -5,6 +5,7 @@
 	var gameName = urlParams.get("game");
 	var charSex = $("#sex").val();
 
+	$("#campaignName").val(gameName);
 	if (charSex == "Female") {
 		$("#idMarksBG").css("background-image", "url('../../Content/Images/Embed/VirtruvianWoman-1200x1200-50o.png')");
 		$(".facialHairSlot").html("");
@@ -55,39 +56,6 @@
 		$("#idMarksModal").modal("toggle");
 	});
 
-	// IF DECIDED TO STORE NOTES
-	/*
-	$("#notesBtn").click(function () {
-		$.ajax({
-			type: 'POST',
-			url: 'GetNotes',
-			data: JSON.stringify({ Name: charName, User: userName }),
-			dataType: 'json',
-			contentType: "application/json; charset=utf-8",
-			success:
-				function (results) {
-					$("#charNotes").val(results);
-				}
-		});
-		$("#notesModal").modal("toggle");
-	});
-
-	$("#updateNotesBtn").click(function () {
-		var input = $("#charNotes").val();
-		$.ajax({
-			type: 'POST',
-			url: 'UpdateNotes',
-			data: JSON.stringify({ Name: charName, User: userName, Input: input }),
-			dataType: 'json',
-			contentType: "application/json; charset=utf-8",
-			success:
-				function (result) {
-					console.log(result);
-					$("#notesModal").modal("toggle");
-				}
-		});
-	});
-	*/
 	// LAYOUT STANDARDS
 	var combatSlot = 12;
 	var socialSlot = 5;
@@ -188,26 +156,5 @@
 				}
 		});
 	}
-	getCurrentAbilities();
-
-	function getPlayers() {
-		$.ajax({
-			type: 'POST',
-			url: 'GetPlayers',
-			data: JSON.stringify({ Game: gameName }),
-			dataType: 'json',
-			contentType: "application/json; charset=utf-8",
-			success:
-				function (results) {
-					console.log(results);
-					for (i = 0; i < results.length; i++) {
-						var result = results[i];
-						if (result.UserName == userName) continue;
-						else if (result.Tell == true) $("#storyteller").val(result.Username).data("id", result.ID);
-						else $("#playerList").append("<li data-id='"+ result.ID +"'>" + result.UserName + "</li>");                        
-					}
-				}
-		});
-	}
-	getPlayers();
+	getCurrentAbilities();	
 });

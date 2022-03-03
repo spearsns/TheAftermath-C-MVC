@@ -37,7 +37,6 @@ namespace TheAftermath_V2.Hubs
         public override Task OnConnected()
         {
             var name = Context.QueryString["username"];
-
             _connections.Add(name, Context.ConnectionId);
             Clients.All.NotifyOnline(name, _connections.Count);
 
@@ -48,12 +47,12 @@ namespace TheAftermath_V2.Hubs
         {
             var name = Context.QueryString["username"];
             _connections.Remove(name, Context.ConnectionId);
-
             Clients.All.NotifyOffline(name, _connections.Count);
+
             return base.OnDisconnected(stopCalled);
         }
        
-        // RETURN TO THIS 
+        // RETURN TO THIS... 
         public override Task OnReconnected()
         {
             string name = HttpContext.Current.Session["Username"].ToString();

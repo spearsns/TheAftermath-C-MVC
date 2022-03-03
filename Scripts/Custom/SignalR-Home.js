@@ -130,7 +130,7 @@
 
         // LOBBY CHATROOM
         chat.client.NewMessage = function (name, message) { 
-            if (name == username) $('#chatLog').append('<li class="text-primary"><strong>' + htmlEncode(name) + '</strong>: ' + htmlEncode(message) + '</li>');
+            if (name == username) $('#chatLog').append('<li class="text-info"><strong>' + htmlEncode(name) + '</strong>: ' + htmlEncode(message) + '</li>');
             else $('#chatLog').append('<li><strong>' + htmlEncode(name) + '</strong>: ' + htmlEncode(message) + '</li>');
             $("#chatLog li:last-child").focus();
         };

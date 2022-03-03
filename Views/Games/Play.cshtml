@@ -515,19 +515,34 @@
     </div>
 </div>
 <!-- CHAT AREA -->
-<div class="row">
-    <div id="chatOutput" class="col-9 bg-white border border-dark h-40"></div>
-    <div class="col-3 bg-light border border-dark h-40">
+<div class="row border border-dark rounded">
+    <div class="col-9 col-lg-10 border border-dark overflow-auto" id="gameChatLogArea">
+        <ul id="chatLog"></ul>
+    </div>
+
+    <div class="col-3 col-lg-2 border border-dark" id="gameUserListArea">
         <div class="row bg-info">
             <div class="col">
                 <img src="~/Content/Images/Graffiti/online-200x50.png" class="img-fluid mx-auto d-block" />
             </div>
         </div>
-        <ul id="playerList"></ul>
+
+        <div class="row">
+            <div class="col" id="userList">
+            </div>
+        </div>
     </div>
 </div>
-<div class="row">
-    <div id="chatInput" class="col-12 bg-light border border-dark h-10"></div>
+
+<div class="row mt-2">
+    <div class="col-9 col-lg-10">
+        <div class="input-group my-2">
+            <input id="chatInput" class="form-control px-2 py-0" type="text" />
+        </div>
+    </div>
+    <div class="col-3 col-lg-2 my-2">
+        <button id="sendMsgBtn" class="btn btn-block btn-success font-weight-bold">SEND</button>
+    </div>
 </div>
 
 <!-- CHARACTER SHEET -->
@@ -1526,8 +1541,8 @@
 @section Scripts
 {
     <script src="@Url.Content("~/Scripts/jquery.signalR-2.4.2.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Custom/SignalR-Game.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/signalr/hubs")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/Custom/Play.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/Custom/SignalR-IM.js")" type="text/javascript"></script>
-    <script src="@Url.Content("~/Scripts/Custom/SignalR-Game.js")" type="text/javascript"></script>
 }

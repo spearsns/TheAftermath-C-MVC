@@ -415,7 +415,7 @@ namespace TheAftermath_V2.Controllers
         }
 
         [HttpPost]
-        public JsonResult GetPlayers(string game)
+        public JsonResult GetActive(string game)
         {
             Guid gameID = db.Campaigns.Where(a => a.Name == game).Select(a => a.ID).First();
 
