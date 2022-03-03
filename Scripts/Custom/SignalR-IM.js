@@ -12,6 +12,8 @@
     if (url.toLowerCase().indexOf("newcharacter") >= 0) messageModals = 5;
     if (url.toLowerCase().indexOf("admin") >= 0) messageModals = 2;
     if (url.toLowerCase().indexOf("games/index") >= 0) messageModals = 3;
+    if (url.toLowerCase().indexOf("play") >= 0) messageModals = 3;
+    if (url.toLowerCase().indexOf("tell") >= 0) messageModals = 5;
         
     // FROM MESSAGE LIST
     $("body").on("click", ".IM-dropdown-btn", function () {
@@ -128,7 +130,6 @@
                 chat.server.disconnect(username);
             });
         });
-
     });
     // This optional function html-encodes messages for display in the page.
     function htmlEncode(value) {

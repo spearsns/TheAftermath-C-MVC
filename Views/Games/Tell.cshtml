@@ -9,22 +9,6 @@
 </script>
 
 <!-- MODALS -->
-<!-- MESSAGE MODAL -->
-<div class="modal fade" id="messageModal" data-backdrop="static" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="false">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-header bg-black">
-
-        </div>
-        <div class="modal-content">
-            <div class="modal-body">
-
-            </div>
-            <div class="modal-footer">
-
-            </div>
-        </div>
-    </div>
-</div>
 <!-- ADMIN MODAL -->
 <div class="modal fade" id="adminModal" data-backdrop="static" tabindex="-2" aria-labelledby="adminModalLabel" aria-hidden="false">
     <div class="modal-dialog modal-xl">
@@ -196,7 +180,7 @@
     </div>
 </div>
 <!-- NOTES MODAL -->
-<div class="modal fade" id="notesModal" tabindex="-3" aria-labelledby="notesModalLabel" aria-hidden="false">
+<div class="modal fade" id="notesModal" tabindex="-5" aria-labelledby="notesModalLabel" aria-hidden="false">
     <div class="modal-dialog modal-xl">
         <div class="modal-header bg-black">
             <h4 class="font-weight-bold text-white text-center mx-auto">NOTES:</h4>
@@ -319,4 +303,6 @@
     <script src="@Url.Content("~/Scripts/jquery.signalR-2.4.2.min.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/signalr/hubs")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/Custom/Tell.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Custom/SignalR-IM.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Custom/SignalR-Game.js")" type="text/javascript"></script>
 }
