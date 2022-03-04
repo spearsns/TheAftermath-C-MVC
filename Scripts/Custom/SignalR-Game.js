@@ -1,38 +1,131 @@
 ﻿$(document).ready(function () {
     var url = window.location.href;
     var urlParams = new URLSearchParams(window.location.search);
-    var userName = urlParams.get("user");
-    var gameName = urlParams.get("game");
-    var charName;
+    var username = urlParams.get("user");
+    var gamename = urlParams.get("game");
+    var charname;
 
-    if (url.indexOf("Tell") >= 0) charName = "STORYTELLER";
-    else charName = urlParams.get("char");
+    if (url.indexOf("Tell") >= 0) charname = "STORYTELLER";
+    else charname = urlParams.get("char");
 
-    console.log("User ["+ userName +"] logged into ["+ gameName +"] as ["+ charName +"]");
+    console.log("User ["+ username +"] logged into ["+ gamename +"] as ["+ charname +"]");
 
     var transferCount = 0;
     var messageCount = 0;
-    var messageModals = 4;
+    var messageModals = 5;
 
     function getGameActiveList() {
         $.ajax({
             type: 'POST',
             url: 'GetGameActiveList',
-            data: JSON.stringify({ Game: gameName }),
+            data: JSON.stringify({ Game: gamename }),
             dataType: 'json',
             contentType: "application/json; charset=utf-8",
             success:
                 function (results) {
                     for (i = 0; i < results.length; i++) {
                         var result = results[i];
-                        if (result.Username == userName) continue;
+                        $('#gameActiveUserList').html('');
+                        if (result.Username == username) continue;
                         else if (result.Tell == true) $("#storyteller").val(result.Username);
                         else $("#gameActiveUserList").append("<button class='btn btn-block border border-dark font-weight-bold text-center mt-1 IM-btn' data-connection='" + result.Username + "'>" + result.Username + "</button>");
                     }
                 }
         });
     }
-    getActiveListGame();
+    getGameActiveList();
+
+    function getCharacterList() {
+        $.ajax({
+            type: 'POST',
+            url: 'GetCharacterList',
+            data: JSON.stringify({ Game: gamename }),
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            success:
+                function (results) {
+                    for (i = 0; i < results.length; i++) {
+                        var result = results[i];
+                        $('#characterList').html('');
+                        $('#characterList').append(
+                            // PLAYER BUTTON FOR IM's
+                            '<div class="col-2">' +
+                            '<button class="btn btn-block btn-light rounded font-weight-bold text-center mt-1 IM-btn" data-connection="' + result.Username + '">' + result.Username + '</button>' +
+                            '</div>' +
+                            // CHARACTER BUTTON TO VIEW CHAR SHEET
+                            '<div class="col-2">' +
+                            '<button class="btn btn-block btn-warning border border-light rounded font-weight-bold text-center mt-1 characterBtn" data-charname="' + result.CharacterID + '" data-username="'+ result.Username +'">' + result.CharacterName + '</button>' +
+                            '</div>' +
+                            // ID MARKS BUTTON
+                            '<div class="col-2">' +
+                            '<button class="btn btn-block btn-info border border-light font-weight-bold text-center mt-1 IDMarksBtn" data-character="' + result.CharacterID + '">VIEW</button>' +
+                            '</div>' +
+                            // EXPERIENCE INPUT TO AWARD
+                            '<div class="col-2">' +
+                            '<div class="input-group my-2">' +
+                            '<input class="form-control text-center px-2 expGain" data-character="' + result.CharacterID + '" type="text" />' +
+                            '</div>' +
+                            '</div>' +
+                            // AWARD EXPERIENCE BUTTON
+                            '<div class="col-2">' +
+                            '<button class="btn btn-block btn-success border border-light font-weight-bold text-center mt-1 awardExpBtn" data-character="' + result.CharacterID + '">AWARD</button>' +
+                            '</div>'
+                        );
+                    }
+                }
+        });
+    }
+    getCharacterList();
+
+    $("body").on("click", ".IDMarksBtn", function () {
+        var charname = $(this).data('charname');
+        var username = $(this).data('username');
+        $.ajax({
+            type: 'POST',
+            url: 'GetIDMarks',
+            data: JSON.stringify({ Name: charname, User: username }),
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            success:
+                function (results) {
+                    //console.log(results);
+
+                    $("#status").val(results.Status);
+                    $("#hairStyle-ID").val(results.HairStyle);
+                    $("#Hairstyle").val(results.HairStyle);
+                    $("#facialHair-ID").val(results.FacialHair);
+                    $("#facialHair").val(results.FacialHair);
+                    $("#head").val(results.Head);
+                    $("#face").val(results.Face);
+                    $("#neck").val(results.Neck);
+                    $("#leftShoulder").val(results.LeftShoulder);
+                    $("#rightShoulder").val(results.RightShoulder);
+                    $("#leftRibs").val(results.LeftRibs);
+                    $("#rightRibs").val(results.RightRibs);
+                    $("#stomach").val(results.Stomach);
+                    $("#lowerBack").val(results.LowerBack);
+                    $("#groin").val(results.Groin);
+                    $("#rear").val(results.Rear);
+                    $("#leftBicep").val(results.LeftBicep);
+                    $("#rightBicep").val(results.RightBicep);
+                    $("#leftForearm").val(results.LeftForearm);
+                    $("#rightForearm").val(results.RightForearm);
+                    $("#leftHand").val(results.LeftHand);
+                    $("#rightHand").val(results.RightHand);
+                    $("#leftThigh").val(results.LeftThigh);
+                    $("#rightThigh").val(results.RightThigh);
+                    $("#leftCalf").val(results.LeftCalf);
+                    $("#rightCalf").val(results.RightCalf);
+                    $("#leftFoot").val(results.LeftFoot);
+                    $("#rightFoot").val(results.RightFoot);
+                }
+        });
+        $("#idMarksModal").modal("toggle");
+    });
+
+    $('body').on('click', '.characterBtn', function () {
+        $('#charSheetModal').modal('toggle');
+    });
 
     // -- IM BUTTONS -- //
     // FROM ONLINE LIST
@@ -100,25 +193,27 @@
         // -- CLIENT (RECEIVING) FUNCTIONS -- //
         // CHATROOM
         chat.client.NotifyOnline = function (name, count) {
-            //console.log(name + " ONLINE -- ACTIVE USERS (" + count + ")");
-            //$("#chatLog").append('<li class="text-secondary text-uppercase"><strong>SERVER: '+ htmlEncode(name) +' ONLINE -- ACTIVE USERS ('+ htmlEncode(count) +')</strong></li>');
             $("#gameChatLog li:last-child").focus();
-            if (userName != name) getActive();
+            if (username != name) {
+                getGameActiveList();
+                getCharacterList();
+            }
         }
 
         chat.client.NotifyOffline = function (name, count) {
-            //console.log(name + " OFFLINE -- ACTIVE USERS (" + count + ")");
-            //$("#chatLog").append('<li class="text-secondary text-uppercase"><strong>SERVER: ' + htmlEncode(name) + ' ONLINE -- ACTIVE USERS (' + htmlEncode(count) + ')</strong></li>');
             $("#gameChatLog li:last-child").focus();
-            getActive();
+            if (username != name) {
+                getGameActiveList();
+                getCharacterList();
+            }
         }
 
         chat.client.NewGameMessage = function (name, charname, game, message, dice) {
             //console.log("Message Received [Name:"+ name +"] [Game:"+ game +"] [Character:"+ charname +"] [Dice:"+ dice +"]");
-            if (gameName == game) {
+            if (gamename == game) {
                 if (charname == "STORYTELLER") $('#gameChatLog').append('<li class="text-red"><strong>' + htmlEncode(name) + ' [' + htmlEncode(charname) + ']</strong>: ' + htmlEncode(message) + '</li>');
                 else if (dice == true) $('#gameChatLog').append('<li class="text-secondary"><strong>' + htmlEncode(name) + ' [' + htmlEncode(charname) + ']</strong>: ' + htmlEncode(message) + '</li>');
-                else if (name == userName && dice == false) $('#gameChatLog').append('<li class="text-info"><strong>' + htmlEncode(name) + ' ['+ htmlEncode(charname) +']</strong>: ' + htmlEncode(message) + '</li>');
+                else if (username == name && dice == false) $('#gameChatLog').append('<li class="text-info"><strong>' + htmlEncode(name) + ' ['+ htmlEncode(charname) +']</strong>: ' + htmlEncode(message) + '</li>');
                 else $('#gameChatLog').append('<li><strong>' + htmlEncode(name) + ' [' + htmlEncode(charname) +']</strong>: ' + htmlEncode(message) + '</li>');
                 $("#gameChatLog li:last-child").focus();
             }
@@ -193,7 +288,7 @@
         chat.client.void = function () { };
         $.connection.hub.logging = true;
 
-        $.connection.hub.qs = { "username": userName };
+        $.connection.hub.qs = { "username": username };
         $.connection.hub.start().done(function () {
 
             // -- SERVER (SENDING) FUNCTIONS -- //
@@ -201,14 +296,14 @@
             $("#gameChatInput").on("keypress", function (e) {
                 if (e.which == 13) {
                     //console.log('sendMessage called');
-                    chat.server.sendGameMessage(userName, charName, gameName, $('#gameChatInput').val());
+                    chat.server.sendGameMessage(username, charname, gamename, $('#gameChatInput').val());
                     $('#gameChatInput').val('').focus();
                 }
             });
 
             $('#sendGameMsgBtn').click(function () {
                 //console.log('sendMessage called');
-                chat.server.sendGameMessage(userName, charName, gameName, $('#gameChatInput').val());
+                chat.server.sendGameMessage(username, charname, gamename, $('#gameChatInput').val());
                 $('#gameChatInput').val('').focus();
             });
             // IM's
@@ -216,8 +311,8 @@
                 if (e.which == 13) {
                     var targetUser = $(this).data("connection");
                     var input = $('.IM-input[data-connection="' + targetUser + '"]').val();
-                    $('.IM-log[data-connection="' + targetUser + '"]').append('<li class="text-info"><strong>' + userName + '</strong>: ' + input + '</li>');
-                    chat.server.sendIM(userName, targetUser, input);
+                    $('.IM-log[data-connection="' + targetUser + '"]').append('<li class="text-info"><strong>' + username + '</strong>: ' + input + '</li>');
+                    chat.server.sendIM(username, targetUser, input);
                     $('.IM-input[data-connection="' + targetUser + '"]').val('').focus();
                 }
             });
@@ -225,27 +320,27 @@
             $('body').on('click', '.sendIMBtn', function () {
                 var targetUser = $(this).data("connection");
                 var input = $('.IM-input[data-connection="' + targetUser + '"]').val();
-                $('.IM-log[data-connection="' + targetUser + '"]').append('<li class="text-info"><strong>' + userName + '</strong>: ' + input + '</li>');
-                chat.server.sendIM(userName, targetUser, input);
+                $('.IM-log[data-connection="' + targetUser + '"]').append('<li class="text-info"><strong>' + username + '</strong>: ' + input + '</li>');
+                chat.server.sendIM(username, targetUser, input);
                 $('.IM-input[data-connection="' + targetUser + '"]').val('').focus();
             });
 
             // DICE
             $('#twoD10Btn').click(function () {
-                chat.server.roll2D10(userName, charName, gameName);
+                chat.server.roll2D10(username, charname, gamename);
             });
 
             $('#randomHitBtn').click(function () {
-                chat.server.randomHit(userName, charName, gameName);
+                chat.server.randomHit(username, charname, gamename);
             });
 
             $('#D100Btn').click(function () {
-                chat.server.rollD100(userName, charName, gameName);
+                chat.server.rollD100(username, charname, gamename);
             });
 
             $('#LoSBtn').click(function () {
                 var value = $('#LoSValue').val();
-                chat.server.likelihoodOfSx(value, userName, gameName);
+                chat.server.likelihoodOfSx(value, username, gamename);
                 console.log("LoS called with value of [" + value + "]");
                 $('#LoSValue').val('');
             });

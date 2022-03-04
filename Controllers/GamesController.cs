@@ -119,11 +119,13 @@ namespace TheAftermath_V2.Controllers
             return View(input);
         }
 
-        // -- PLAY -- //
+        // -- PLAY (All Character Data can be pulled by STORYTELLER from TELL PAGE)-- //
         public ActionResult Play()
         {
             string charName = HttpContext.Request.QueryString["char"];
             string gameName = HttpContext.Request.QueryString["game"];
+            Session["GameName"] = gameName;
+
             Guid gameID = db.Campaigns.Where(a => a.Name == gameName).Select(a => a.ID).SingleOrDefault();
             Guid acctID = Guid.Parse(Session["UserID"].ToString());
 
@@ -197,6 +199,26 @@ namespace TheAftermath_V2.Controllers
             db.SaveChanges();
 
             return View(charData);
+        }
+
+        [HttpPost]
+        public JsonResult GetGameActiveList(string game)
+        {
+            Guid gameID = db.Campaigns.Where(a => a.Name == game).Select(a => a.ID).First();
+
+            var activeQ = from ax in db.AccountStatus1
+                          where ax.CampaignID == gameID
+                          join a in db.Accounts on ax.AccountID equals a.ID
+                          join c in db.Characters on ax.CharacterID equals c.ID
+                          select new { a.Username, ax.Play, ax.Tell, c.Name };
+
+            List<Classes.UserData> userList = new List<Classes.UserData>();
+            foreach (var record in activeQ)
+            {
+                userList.Add(new Classes.UserData { Username = record.Username, Play = record.Play, Tell = record.Tell });
+            }
+
+            return Json(userList, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -278,8 +300,9 @@ namespace TheAftermath_V2.Controllers
         {
             Guid acctID = Guid.Parse(Session["UserID"].ToString());
             string gameName = HttpContext.Request.QueryString["game"];
-            var game = db.Campaigns.Where(a => a.Name == gameName).First();
-            game.TellActive = true;
+            Session["GameName"] = gameName;
+            var gameRecord = db.Campaigns.Where(a => a.Name == gameName).First();
+            gameRecord.TellActive = true;
             db.SaveChanges();
 
             // UPDATE ACCOUNT STATUS
@@ -288,7 +311,7 @@ namespace TheAftermath_V2.Controllers
             record.Admin = false;
             record.Play = false;
             record.Tell = true;
-            record.CampaignID = game.ID;
+            record.CampaignID = gameRecord.ID;
             record.CharacterID = null;
             record.Timestamp = DateTime.Now;
             db.SaveChanges();
@@ -336,6 +359,27 @@ namespace TheAftermath_V2.Controllers
 
             return Json("Success", JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public JsonResult GetCharacterList(string game)
+        {
+            Guid gameID = db.Campaigns.Where(a => a.Name == game).Select(a => a.ID).First();
+
+            var characterQ = from ax in db.AccountStatus1
+                             where ax.CampaignID == gameID
+                             join a in db.Accounts on ax.AccountID equals a.ID
+                             join c in db.Characters on ax.CharacterID equals c.ID
+                             select new { a.Username, ax.CharacterID, c.Name };
+
+            List<Classes.UserData> characterList = new List<Classes.UserData>();
+            foreach (var record in characterQ)
+            {
+                characterList.Add(new Classes.UserData { Username = record.Username , CharacterID = (Guid)record.CharacterID , CharacterName = record.Name });
+            }
+            return Json(characterList, JsonRequestBehavior.AllowGet);
+        }
+
+        // -- ADMIN -- //
         public ActionResult Admin()
         {
             Guid acctID = Guid.Parse(Session["UserID"].ToString());
@@ -392,26 +436,6 @@ namespace TheAftermath_V2.Controllers
             {
                 return View(input);
             }
-        }
-
-        // -- IN GAME (PLAY || TELL) -- //
-        [HttpPost]
-        public JsonResult GetGameActiveList(string game)
-        {
-            Guid gameID = db.Campaigns.Where(a => a.Name == game).Select(a => a.ID).First();
-
-            var activeQ = from ax in db.AccountStatus1
-                          where ax.CampaignID == gameID
-                          join a in db.Accounts on ax.AccountID equals a.ID
-                          select new { a.ID, a.Username, ax.Play, ax.Tell };
-
-            List<Classes.UserData> userList = new List<Classes.UserData>();
-            foreach (var item in activeQ)
-            {
-                userList.Add(new Classes.UserData { ID = item.ID, Username = item.Username, Play = item.Play, Tell = item.Tell });
-            }
-
-            return Json(userList, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -238,11 +238,12 @@
                 chat.server.sendIM(username, targetUser, input);
                 $('.IM-input[data-connection="' + targetUser + '"]').val('').focus();
             });
-
+            /*
             // FORCING onDisconnect TO FIRE
             $("a").click(function () {
                 chat.server.disconnect(username);
             });
+            */
         });
 
     });

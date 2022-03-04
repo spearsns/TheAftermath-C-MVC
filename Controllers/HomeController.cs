@@ -86,6 +86,13 @@ namespace TheAftermath_V2.Controllers
             Guid acctID = Guid.Parse(Session["UserID"].ToString());
             var record = db.AccountStatus1.Where(a => a.AccountID == acctID).First();
             
+            if (record.Tell == true)
+            {
+                var campaign = db.Campaigns.Where(a => a.ID == record.CampaignID).Single();
+                campaign.TellActive = false;
+                campaign.Locked = false;
+            }
+
             Session.Clear();
             Session.Abandon();
 

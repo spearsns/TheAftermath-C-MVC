@@ -17,15 +17,15 @@ namespace TheAftermath_V2.Hubs
         // DICE
         public void Roll2D10(string username, string charname, string game)
         {
-            Clients.All.NewGameMessage(username, charname, game, "[2D10] " + Dice.TwoD10().ToString(), true);
+            Clients.All.NewGameMessage(username, charname, game, "rolls [2D10] ... " + Dice.TwoD10().ToString(), true);
         }
         public void RollD100(string username, string charname, string game)
         {
-            Clients.All.NewGameMessage(username, charname, game, "[D100] " + Dice.RollD100().ToString(), true);
+            Clients.All.NewGameMessage(username, charname, game, "rolls [D100] ... " + Dice.RollD100().ToString(), true);
         }
         public void RandomHit(string username, string charname, string game)
         {
-            Clients.All.NewGameMessage(username, charname, game, "[Random Hit] " + Dice.RandomHit().ToString(), true);
+            Clients.All.NewGameMessage(username, charname, game, "rolls [Random Hit] ... " + Dice.RandomHit().ToString(), true);
         }
         public void LikelihoodOfSx(int value, string username, string game)
         {
@@ -38,7 +38,7 @@ namespace TheAftermath_V2.Hubs
             string majorSxResult = "[LoS] Major Success: 01 - " + majorSx;
             string directSxResult = "[LoS] Direct Success: " + (majorSx + 1) + " - " + directSx;
             string minorSxResult = "[LoS] Minor Success: " + (directSx + 1) + " - " + value;
-            string minorFxResult = "[LoS] Minor Failure: " + value + " - " + (value + minorFail);
+            string minorFxResult = "[LoS] Minor Failure: " + (value + 1) + " - " + (value + minorFail);
             string directFxResult = "[LoS] Direct Failure: " + (value + minorFail + 1) + " - " + (value + directFail);
             string majorFxResult = "[LoS] Major Failure: " + (value + directFail + 1) + " - 100";
 
@@ -81,18 +81,19 @@ namespace TheAftermath_V2.Hubs
 
         public override Task OnConnected()
         {
-            var name = Context.QueryString["username"];
-            _connections.Add(name, Context.ConnectionId);
-            Clients.All.NotifyOnline(name, _connections.Count);
+            string username = Context.QueryString["username"];
+
+            _connections.Add(username, Context.ConnectionId);
+            Clients.All.NotifyOnline(username, _connections.Count);
 
             return base.OnConnected();
         }
 
         public override Task OnDisconnected(bool stopCalled)
         {
-            var name = Context.QueryString["username"];
-            _connections.Remove(name, Context.ConnectionId);
-            Clients.All.NotifyOffline(name, _connections.Count);
+            var username = Context.QueryString["username"];
+            _connections.Remove(username, Context.ConnectionId);
+            Clients.All.NotifyOffline(username, _connections.Count);
 
             return base.OnDisconnected(stopCalled);
         }
@@ -100,12 +101,11 @@ namespace TheAftermath_V2.Hubs
         // RETURN TO THIS... 
         public override Task OnReconnected()
         {
-            // MIGHT BE ABLE TO USE SESSION VARIABLES FOR DISCONNECT IN GAME...
-            string name = HttpContext.Current.Session["Username"].ToString();
+            var username = Context.QueryString["username"];
 
-            if (!_connections.GetConnections(name).Contains(Context.ConnectionId))
+            if (!_connections.GetConnections(username).Contains(Context.ConnectionId))
             {
-                _connections.Add(name, Context.ConnectionId);
+                _connections.Add(username, Context.ConnectionId);
             }
 
             return base.OnReconnected();
