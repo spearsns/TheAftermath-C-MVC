@@ -54,16 +54,16 @@
                             '</div>' +
                             // CHARACTER BUTTON TO VIEW CHAR SHEET
                             '<div class="col-2">' +
-                            '<button class="btn btn-block btn-warning border border-light rounded font-weight-bold text-center mt-1 characterBtn" data-charname="' + result.CharacterID + '" data-username="'+ result.Username +'">' + result.CharacterName + '</button>' +
+                            '<button class="btn btn-block btn-warning border border-light rounded font-weight-bold text-center mt-1 characterBtn" data-username="' + result.Username + '" data-charname="' + result.CharacterName + '">' + result.CharacterName + '</button>' +
                             '</div>' +
                             // ID MARKS BUTTON
                             '<div class="col-2">' +
-                            '<button class="btn btn-block btn-info border border-light font-weight-bold text-center mt-1 IDMarksBtn" data-character="' + result.CharacterID + '">VIEW</button>' +
+                            '<button class="btn btn-block btn-info border border-light font-weight-bold text-center mt-1 IDMarksBtn" data-username="'+ result.Username +'" data-charname="' + result.CharacterName + '" data-sex="'+ result.CharacterSex +'">VIEW</button>' +
                             '</div>' +
                             // EXPERIENCE INPUT TO AWARD
                             '<div class="col-2">' +
                             '<div class="input-group my-2">' +
-                            '<input class="form-control text-center px-2 expGain" data-character="' + result.CharacterID + '" type="text" />' +
+                            '<input class="form-control text-center px-2 expInput" data-character="' + result.CharacterID + '" type="text" />' +
                             '</div>' +
                             '</div>' +
                             // AWARD EXPERIENCE BUTTON
@@ -77,19 +77,25 @@
     }
     getCharacterList();
 
+    // -- ID MARKS BUTTONS (STORYTELLER) -- //
     $("body").on("click", ".IDMarksBtn", function () {
-        var charname = $(this).data('charname');
-        var username = $(this).data('username');
+        var charSex = $(this).data("sex");
+        if (charSex == "Female") {
+            $("#idMarksBG").css("background-image", "url('../../Content/Images/Embed/VirtruvianWoman-1200x1200-50o.png')");
+            $(".facialHairSlot").html("");
+        }
+
+        var charName = $(this).data('charname');
+        var userName = $(this).data('username');
+
         $.ajax({
             type: 'POST',
             url: 'GetIDMarks',
-            data: JSON.stringify({ Name: charname, User: username }),
+            data: JSON.stringify({ Name: charName, User: userName }),
             dataType: 'json',
             contentType: "application/json; charset=utf-8",
             success:
                 function (results) {
-                    //console.log(results);
-
                     $("#status").val(results.Status);
                     $("#hairStyle-ID").val(results.HairStyle);
                     $("#Hairstyle").val(results.HairStyle);
@@ -123,7 +129,122 @@
         $("#idMarksModal").modal("toggle");
     });
 
+    // -- CHARACTER SHEET BUTTONS (STORYTELLER) -- //
     $('body').on('click', '.characterBtn', function () {
+        var userName = $(this).data("username");
+        var charName = $(this).data("charname");
+
+        // LAYOUT STANDARDS
+        var combatSlot = 12;
+        var socialSlot = 5;
+        var covertSlot = 4;
+        var survivalSlot = 4;
+        var medicalSlot = 3;
+        var scienceSlot = 1;
+        var craftsmanSlot = 2;
+        var constructionSlot = 2;
+        var technologySlot = 1;
+        var transportationSlot = 1;
+
+        $.ajax({
+            type: 'POST',
+            url: 'GetCharacterSheet',
+            data: JSON.stringify({ Name: charName, User: userName }),
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            success:
+                function (results) {
+                    console.log(results);
+                    $('#background').val(results.Background);
+                    $('#strategy').val(results.Strategy);
+                    $('#history').val(results.History);
+                    $('#habitat').val(results.Habitat);
+                    $('#characterName').val(results.Name);
+                    $('#willpower').val(results.Willpower);
+                    $('#endurance').val(results.Endurance);
+                    $('#birthdate').val(results.Birthdate);
+                    $('#memory').val(results.Memory);
+                    $('#strength').val(results.Strength);
+                    $('#sex').val(results.Sex);
+                    $('#logic').val(results.Logic);
+                    $('#agility').val(results.Agility);
+                    $('#ethnicity').val(results.Ethnicity);
+                    $('#perception').val(results.Perception);
+                    $('#speed').val(results.Speed);
+                    $('#hairColor').val(results.HairColor);
+                    $('#charisma').val(results.Charisma);
+                    $('#beauty').val(results.Beauty);
+                    $('#eyeColor').val(results.EyeColor);
+                    $('#hairStyle').val(results.HairStyle);
+                    $('#sequence').val(results.Sequence);
+                    $('#actions').val(results.Actions);
+                    $('#facialHair').val(results.FacialHair);
+
+                    // -- SKILLS -- //
+                    for (i = 0; i < results.Skills.length; i++) {
+
+                        var skillName = results.Skills[i].Name;
+                        var skillType = results.Skills[i].Type;
+                        var skillClass = results.Skills[i].Class;
+                        var skillValue = results.Skills[i].Value;
+
+                        if (skillType == "Standard") $('input[name="Skill-' + skillName + '"]').val(skillValue);
+                        else {
+                            // DETERMINE SLOT
+                            var slotNum;
+                            if (skillClass == "Combat") slotNum = combatSlot;
+                            else if (skillClass == "Affiliation") { skillClass = "Social"; slotNum = socialSlot; }
+                            else if (skillClass == "Languages") { skillClass = "Social"; slotNum = socialSlot; }
+                            else if (skillClass == "Social") slotNum = socialSlot;
+                            else if (skillClass == "Covert") slotNum = covertSlot;
+                            else if (skillClass == "Survival") slotNum = survivalSlot;
+                            else if (skillClass == "Craftsman") slotNum = craftsmanSlot;
+                            else if (skillClass == "Construction") slotNum = constructionSlot;
+                            else if (skillClass == "Medical") slotNum = medicalSlot;
+                            else if (skillClass == "Science") slotNum = scienceSlot;
+                            else if (skillClass == "Technology") slotNum = technologySlot;
+                            else if (skillClass == "Transportation") slotNum = transportationSlot;
+
+                            var nextSlot;
+                            if (skillClass == "Combat") nextSlot = slotNum + 2;
+                            else nextSlot = slotNum + 1;
+                            // RENDER HTML FOR NEXT SKILL SLOT
+                            $("#" + skillClass.toLowerCase() + "-" + slotNum).html(
+                                '<h6 class="font-weight-bold text-center my-3 text-uppercase">' + skillName + '</h6>'
+                            );
+                            $("#" + skillClass.toLowerCase() + "Val-" + slotNum).html(
+                                '<div class="input-group my-2">' +
+                                '<input class="form-control text-center px-0 py-0" type="number" name="Skill-' + skillName + '" value="' + skillValue + '" readonly />' +
+                                '</div>'
+                            );
+                            // INCREASE COUNT ON APPROPRIATE SLOT
+                            if (skillClass == "Combat") combatSlot += 1;
+                            else if (skillClass == "Social") socialSlot += 1;
+                            else if (skillClass == "Covert") covertSlot += 1;
+                            else if (skillClass == "Survival") survivalSlot += 1;
+                            else if (skillClass == "Medical") medicalSlot += 1;
+                            else if (skillClass == "Science") scienceSlot += 1;
+                            else if (skillClass == "Technology") technologySlot += 1;
+                            else if (skillClass == "Transportation") transportationSlot += 1;
+                        }
+                    }
+
+                    // ABILITIES
+                    for (i = 0; i < results.Abilities.length; i++) {
+                        var abilityName = results.Abilities[i].Name;
+                        var abilityDescription = results.Abilities[i].Description;
+                        var slot = i + 1;
+
+                        // RENDER HTML FOR ABILITY SLOT
+                        $("#ability-" + slot).html(
+                            "<div class='input-group my-2'>" +
+                            "<input class='form-control text-center px-0 py-0 font-weight-bold' name='Ability-" + slot + "' data-description='" + abilityDescription + "' type='text' value='" + abilityName + "' readonly>" +
+                            "</div>"
+                        );
+                    }
+
+                }
+        });
         $('#charSheetModal').modal('toggle');
     });
 

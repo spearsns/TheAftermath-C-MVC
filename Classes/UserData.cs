@@ -14,6 +14,7 @@ namespace TheAftermath_V2.Classes
         public bool Tell { get; set; }
         public virtual Guid CharacterID { get; set; }
         public string CharacterName { get; set; }
+        public string CharacterSex { get; set; }
         public virtual Guid CampaignID { get; set; }
 
     }

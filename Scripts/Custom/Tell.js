@@ -1,6 +1,7 @@
 ﻿$(document).ready(function () {
 	var urlParams = new URLSearchParams(window.location.search);
-    var gameName = urlParams.get("game");
+	var gameName = urlParams.get("game");
+	$("#campaignName").val(gameName);
 
     $("#adminBtn").click(function () {
 		$.ajax({

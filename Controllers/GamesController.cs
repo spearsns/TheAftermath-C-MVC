@@ -119,7 +119,7 @@ namespace TheAftermath_V2.Controllers
             return View(input);
         }
 
-        // -- PLAY (All Character Data can be pulled by STORYTELLER from TELL PAGE)-- //
+        // -- PLAY -- //
         public ActionResult Play()
         {
             string charName = HttpContext.Request.QueryString["char"];
@@ -369,14 +369,78 @@ namespace TheAftermath_V2.Controllers
                              where ax.CampaignID == gameID
                              join a in db.Accounts on ax.AccountID equals a.ID
                              join c in db.Characters on ax.CharacterID equals c.ID
-                             select new { a.Username, ax.CharacterID, c.Name };
+                             select new { a.Username, ax.CharacterID, c.Name, c.Sex };
 
             List<Classes.UserData> characterList = new List<Classes.UserData>();
             foreach (var record in characterQ)
             {
-                characterList.Add(new Classes.UserData { Username = record.Username , CharacterID = (Guid)record.CharacterID , CharacterName = record.Name });
+                characterList.Add(new Classes.UserData { Username = record.Username , CharacterID = (Guid)record.CharacterID , CharacterName = record.Name, CharacterSex = record.Sex });
             }
             return Json(characterList, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult GetCharacterSheet(string name, string user)
+        {
+            Guid acctID = db.Accounts.Where(a => a.Username == user).Select(a => a.ID).Single();
+
+            var character = db.Characters.Where(a => a.Name == name && a.AccountID == acctID).First();
+            var charAttrs = db.CharacterAttributes.Where(a => a.CharacterID == character.ID).Join(db.Attributes, ca => ca.AttributeID, a => a.ID, (ca, a) => new { Name = a.Name, Value = ca.Value });
+
+            var skillQuery = from cs in db.CharacterSkills
+                             where cs.CharacterID == character.ID
+                             join s in db.Skills on cs.MasterID equals s.ID
+                             select new { s.Name, s.Type, s.Class, cs.Value };
+
+            List<Classes.SkillData> skillList = new List<Classes.SkillData>();
+            foreach (var skill in skillQuery) skillList.Add(new Classes.SkillData { Name = skill.Name, Type = skill.Type, Class = skill.Class, Value = skill.Value });
+
+            var abilityQuery = from ca in db.CharacterAbilities
+                               where ca.CharacterID == character.ID
+                               join a in db.Abilities on ca.AbilityID equals a.ID
+                               select new { a.Name, a.Description };
+
+            List<Classes.AbilityData> abilityList = new List<Classes.AbilityData>();
+            foreach (var ability in abilityQuery) abilityList.Add(new Classes.AbilityData { Name = ability.Name, Description = ability.Description });
+
+            Classes.CharacterData charData = new Classes.CharacterData
+            {
+                // DEMOGRAPHICS
+                Name = character.Name,
+                Status = character.Status,
+                Birthdate = character.Birthdate,
+                Sex = character.Sex,
+                Ethnicity = character.Ethnicity,
+                HairColor = character.HairColor,
+                HairStyle = character.HairStyle,
+                FacialHair = character.FacialHair,
+                EyeColor = character.EyeColor,
+                Habitat = character.Habitat,
+                History = db.Histories.Where(a => a.ID == character.History).Select(a => a.Name).First(),
+                Strategy = character.Strategy,
+                Background = db.Backgrounds.Where(a => a.ID == character.Background).Select(a => a.Name).First(),
+
+                // ATTRIBUTES
+                Memory = charAttrs.Where(a => a.Name == "Memory").Select(a => a.Value).First(),
+                Logic = charAttrs.Where(a => a.Name == "Logic").Select(a => a.Value).First(),
+                Perception = charAttrs.Where(a => a.Name == "Perception").Select(a => a.Value).First(),
+                Willpower = charAttrs.Where(a => a.Name == "Willpower").Select(a => a.Value).First(),
+                Charisma = charAttrs.Where(a => a.Name == "Charisma").Select(a => a.Value).First(),
+
+                Strength = charAttrs.Where(a => a.Name == "Strength").Select(a => a.Value).First(),
+                Endurance = charAttrs.Where(a => a.Name == "Endurance").Select(a => a.Value).First(),
+                Agility = charAttrs.Where(a => a.Name == "Agility").Select(a => a.Value).First(),
+                Speed = charAttrs.Where(a => a.Name == "Speed").Select(a => a.Value).First(),
+                Beauty = charAttrs.Where(a => a.Name == "Beauty").Select(a => a.Value).First(),
+
+                Sequence = charAttrs.Where(a => a.Name == "Sequence").Select(a => a.Value).First(),
+                Actions = charAttrs.Where(a => a.Name == "Actions").Select(a => a.Value).First(),
+
+                Skills = skillList,
+                Abilities = abilityList
+            };
+            
+            return Json(charData, JsonRequestBehavior.AllowGet);
         }
 
         // -- ADMIN -- //
