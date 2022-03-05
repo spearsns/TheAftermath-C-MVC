@@ -8,7 +8,7 @@
     if (url.indexOf("Tell") >= 0) charname = "STORYTELLER";
     else charname = urlParams.get("char");
 
-    console.log("User ["+ username +"] logged into ["+ gamename +"] as ["+ charname +"]");
+    //console.log("User ["+ username +"] logged into ["+ gamename +"] as ["+ charname +"]");
 
     var transferCount = 0;
     var messageCount = 0;
@@ -63,12 +63,12 @@
                             // EXPERIENCE INPUT TO AWARD
                             '<div class="col-2">' +
                             '<div class="input-group my-2">' +
-                            '<input class="form-control text-center px-2 expInput" data-character="' + result.CharacterID + '" type="text" />' +
+                            '<input class="form-control text-center px-2 expInput" data-username="' + result.Username + '" data-charname="' + result.CharacterName + '" type="number" />' +
                             '</div>' +
                             '</div>' +
                             // AWARD EXPERIENCE BUTTON
                             '<div class="col-2">' +
-                            '<button class="btn btn-block btn-success border border-light font-weight-bold text-center mt-1 awardExpBtn" data-character="' + result.CharacterID + '">AWARD</button>' +
+                            '<button class="btn btn-block btn-success border border-light font-weight-bold text-center mt-1 awardExpBtn" data-username="' + result.Username + '" data-charname="' + result.CharacterName + '">AWARD</button>' +
                             '</div>'
                         );
                     }
@@ -76,6 +76,21 @@
         });
     }
     getCharacterList();
+
+    function getExperience() {
+        $.ajax({
+            type: 'POST',
+            url: 'GetExperience',
+            data: JSON.stringify({ User: username, Charname: charname }),
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            success:
+                function (result) {
+                    $('#expPool').val(result);
+                }
+        });
+    }
+    if (url.indexOf("Play") >= 0) getExperience();
 
     // -- ID MARKS BUTTONS (STORYTELLER) -- //
     $("body").on("click", ".IDMarksBtn", function () {
@@ -312,7 +327,7 @@
         var chat = $.connection.globalHub;
 
         // -- CLIENT (RECEIVING) FUNCTIONS -- //
-        // CHATROOM
+        // CHATROOM & PLAY
         chat.client.NotifyOnline = function (name, count) {
             $("#gameChatLog li:last-child").focus();
             if (username != name) {
@@ -339,6 +354,10 @@
                 $("#gameChatLog li:last-child").focus();
             }
         };
+
+        chat.client.NotifyExpGain = function (name) {
+            if (name == username) getExperience();
+        }
 
         // USER TO USER IM
         chat.client.NewIM = function (sender, message) {
@@ -462,13 +481,47 @@
             $('#LoSBtn').click(function () {
                 var value = $('#LoSValue').val();
                 chat.server.likelihoodOfSx(value, username, gamename);
-                console.log("LoS called with value of [" + value + "]");
                 $('#LoSValue').val('');
             });
 
-            // FORCING onDisconnect TO FIRE
-            $("a").click(function () {
-                chat.server.disconnect(username);
+            $('body').on('keypress', '.expInput', function (e) {
+                if (e.which == 13) {
+                    var userName = $(this).data('username');
+                    var charName = $(this).data('charname');
+                    var exp = $('.expInput[data-charname="' + charName + '"]').val();
+
+                    $.ajax({
+                        type: 'POST',
+                        url: 'UpdateExperience',
+                        data: JSON.stringify({ User: userName, Name: charName, Exp: exp }),
+                        dataType: 'json',
+                        contentType: "application/json; charset=utf-8",
+                        success:
+                            function (result) {
+                                chat.server.sendExpGain(userName);
+                                $('.expInput[data-charname="' + charName + '"]').val('');
+                            }
+                    });
+                }
+            });
+
+            $('body').on('click', '.awardExpBtn', function () {
+                var userName = $(this).data('username');
+                var charName = $(this).data('charname');
+                var exp = $('.expInput[data-charname="' + charName + '"]').val();
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'UpdateExperience',
+                    data: JSON.stringify({ User: userName, Name: charName, Exp: exp }),
+                    dataType: 'json',
+                    contentType: "application/json; charset=utf-8",
+                    success:
+                        function (result) {
+                            chat.server.sendExpGain(userName);
+                            $('.expInput[data-charname="' + charName + '"]').val('');
+                        }
+                });
             });
         });
 

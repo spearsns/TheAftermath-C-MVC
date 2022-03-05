@@ -50,6 +50,11 @@ namespace TheAftermath_V2.Hubs
             Clients.All.NewGameMessage(username, "STORYTELLER", game, majorFxResult, true);
         }
 
+        public void SendExpGain(string name)
+        {
+            Clients.All.NotifyExpGain(name);
+        }
+
         public void SendGameMessage(string username, string charname, string game, string message)
         {
             Clients.All.NewGameMessage(username, charname, game, message, false);

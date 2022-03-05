@@ -295,6 +295,16 @@ namespace TheAftermath_V2.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        public JsonResult GetExperience(string user, string charname)
+        {
+            Guid acctID = db.Accounts.Where(a => a.Username == user).Select(a => a.ID).Single();
+            Guid charID = db.Characters.Where(a => a.Name == charname && a.AccountID == acctID).Select(a => a.ID).Single();
+            int exp = db.CharacterExps.Where(a => a.CharacterID == charID).Select(a => a.AvailableExp).Single();
+
+            return Json(exp, JsonRequestBehavior.AllowGet);
+        }
+
         // -- TELL -- //
         public ActionResult Tell()
         {
@@ -441,6 +451,24 @@ namespace TheAftermath_V2.Controllers
             };
             
             return Json(charData, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult UpdateExperience(string user, string name, int exp)
+        {
+            Guid acctID = db.Accounts.Where(a => a.Username == user).Select(a => a.ID).Single();
+            Guid charID = db.Characters.Where(a => a.Name == name && a.AccountID == acctID).Select(a => a.ID).Single();
+            
+            var record = db.CharacterExps.Where(a => a.CharacterID == charID).Single();
+
+            int totalExp = record.TotalExp;
+            int availExp = record.AvailableExp;
+
+            record.TotalExp = totalExp + exp;
+            record.AvailableExp = availExp + exp;
+
+            db.SaveChanges();
+            return Json("Success", JsonRequestBehavior.AllowGet);
         }
 
         // -- ADMIN -- //
