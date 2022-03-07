@@ -8,7 +8,21 @@
     if (url.indexOf("Tell") >= 0) charname = "STORYTELLER";
     else charname = urlParams.get("char");
 
-    //console.log("User ["+ username +"] logged into ["+ gamename +"] as ["+ charname +"]");
+    function updateStatus() {
+        console.log("updateStatus fired");
+        $.ajax({
+            type: 'POST',
+            url: 'UpdateStatus',
+            data: JSON.stringify({ User: username, Character: charname, Game: gamename }),
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            success:
+                function (result) {
+                    console.log(result);
+                }
+        });
+    }
+    updateStatus();
 
     var transferCount = 0;
     var messageCount = 0;

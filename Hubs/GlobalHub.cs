@@ -97,6 +97,26 @@ namespace TheAftermath_V2.Hubs
         public override Task OnDisconnected(bool stopCalled)
         {
             var username = Context.QueryString["username"];
+
+            Guid acctID = db.Accounts.Where(a=>a.Username == username).Select(a=>a.ID).First();
+            var record = db.AccountStatus1.Where(a => a.AccountID == acctID).First();
+
+            if (record.Tell == true)
+            {
+                var campaign = db.Campaigns.Where(a => a.ID == record.CampaignID).Single();
+                campaign.TellActive = false;
+                campaign.Locked = false;
+            }
+
+            record.Active = false;
+            record.Admin = false;
+            record.Play = false;
+            record.Tell = false;
+            record.CampaignID = null;
+            record.CharacterID = null;
+            record.Timestamp = DateTime.Now;
+
+            db.SaveChanges();
             _connections.Remove(username, Context.ConnectionId);
             Clients.All.NotifyOffline(username, _connections.Count);
 

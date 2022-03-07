@@ -1,8 +1,27 @@
 ﻿$(document).ready(function () {
     var url = window.location.href;
+    targetUrl = 'UpdateStatus';
+    if (url.indexOf('Games') > 0 || url.indexOf('Characters') > 0) targetUrl = '../Home/UpdateStatus';
+    
+    function updateStatus() {
+        $.ajax({
+            type: 'POST',
+            url: targetUrl,
+            dataType: 'json',
+            data: JSON.stringify({ User: username }),
+            contentType: 'application/json; charset=utf-8',
+            success:
+                function (result) {
+                    console.log(result + " - Logged in as : " + username);
+                }
+        });
+    }
 
     var username;
-    if ($("#sessionUsername").length > 0) username = $("#sessionUsername").html();
+    if ($("#sessionUsername").length > 0) {
+        username = $("#sessionUsername").html();
+        updateStatus();
+    }
     
     var transferCount = 0;
     var messageCount = 0;
@@ -14,7 +33,7 @@
     if (url.toLowerCase().indexOf("games/index") >= 0) messageModals = 3;
     if (url.toLowerCase().indexOf("play") >= 0) messageModals = 3;
     if (url.toLowerCase().indexOf("tell") >= 0) messageModals = 5;
-        
+            
     // FROM MESSAGE LIST
     $("body").on("click", ".IM-dropdown-btn", function () {
         if ($(this).hasClass('unread')) {
@@ -35,6 +54,23 @@
     // -- SIGNALR -- //
     $(function () {
         var chat = $.connection.globalHub;
+
+        /*
+        chat.client.NotifyOnline = function (name, count) {
+            if (username == name && activeUser == true) {
+                getActiveList();
+                $('#lobbyChatLog').append('<li class="text-info"><strong>SERVER: ' + htmlEncode(name) + ' ONLINE</strong></li>');
+            }
+            else if (username == name && activeUser == false) {
+                $('#lobbyChatLog').append('<li class="text-info"><strong>SERVER: ' + htmlEncode(name) + ' ONLINE</strong></li>');
+                getActiveList();
+            }
+            else {
+                $('#lobbyChatLog').append('<li class="text-secondary"><strong>SERVER: ' + htmlEncode(name) + ' ONLINE</strong></li>');
+                getActiveList();
+            }
+        }
+        */
 
         chat.client.NewIM = function (sender, message) {
             // HANDLE COUNT
@@ -124,11 +160,12 @@
                 chat.server.sendIM(username, targetUser, input);
                 $('.IM-input[data-connection="' + targetUser + '"]').val('').focus();
             });
-
+            /*
             // FORCING onDisconnect TO FIRE
             $("a").click(function () {
                 chat.server.disconnect(username);
             });
+            */
         });
     });
     // This optional function html-encodes messages for display in the page.

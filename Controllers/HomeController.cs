@@ -56,21 +56,6 @@ namespace TheAftermath_V2.Controllers
                     Session["UserID"] = result.ID.ToString();
                     Session["Username"] = result.Username.ToString();
 
-                    // UPDATE ACCOUNT STATUS
-                    var change = new AccountStatus
-                    {
-                        ID = Guid.NewGuid(),
-                        AccountID = result.ID,
-                        Active = true,
-                        Admin = false,
-                        Play = false,
-                        CampaignID = null,
-                        CharacterID = null,
-                        Timestamp = DateTime.Now
-                    };
-                    db.AccountStatus1.Add(change);
-                    db.SaveChanges();
-
                     return RedirectToAction("Index", "Home", new { username = result.Username.ToString() });
                 }
                 else
@@ -80,6 +65,46 @@ namespace TheAftermath_V2.Controllers
                 }
             }
             return View();
+        }
+
+        [HttpPost]
+        public JsonResult UpdateStatus(string user)
+        {
+            Guid acctID = db.Accounts.Where(a => a.Username == user).Select(a => a.ID).Single();
+            if (db.AccountStatus1.Any(a=>a.AccountID == acctID))
+            {
+                var record = db.AccountStatus1.Where(a => a.AccountID == acctID).First();
+
+                record.Active = true;
+                record.Admin = false;
+                record.Play = false;
+                record.Tell = false;
+                record.CampaignID = null;
+                record.CharacterID = null;
+                record.Timestamp = DateTime.Now;
+                db.SaveChanges();
+
+                return Json("Success", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                var newRecord = new AccountStatus
+                {
+                    ID = Guid.NewGuid(),
+                    AccountID = acctID,
+                    Active = true,
+                    Admin = false,
+                    Play = false,
+                    Tell = false,
+                    CampaignID = null,
+                    CharacterID = null,
+                    Timestamp = DateTime.Now
+                };
+                db.AccountStatus1.Add(newRecord);
+                db.SaveChanges();
+
+                return Json("Success", JsonRequestBehavior.AllowGet);
+            }
         }
         public ActionResult Logout()
         {
@@ -93,11 +118,19 @@ namespace TheAftermath_V2.Controllers
                 campaign.Locked = false;
             }
 
+            record.Active = false;
+            record.Admin = false;
+            record.Play = false;
+            record.Tell = false;
+            record.CampaignID = null;
+            record.CharacterID = null;
+            record.Timestamp = DateTime.Now;
+
+            db.SaveChanges();
+
             Session.Clear();
             Session.Abandon();
 
-            db.AccountStatus1.Remove(record);
-            db.SaveChanges();
             return RedirectToAction("Index", "Home");
         }
         public ActionResult Registration()
@@ -196,9 +229,6 @@ namespace TheAftermath_V2.Controllers
         }
         public ActionResult ResetPassword(string id)
         {
-            //Verify the reset password link
-            //Find account associated with this link
-            //redirect to reset password page
             if (string.IsNullOrWhiteSpace(id))
             {
                 return HttpNotFound();
@@ -224,7 +254,7 @@ namespace TheAftermath_V2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ResetPassword(ResetPasswordModel model)
         {
-            var message = "";
+            string message = "";
             if (ModelState.IsValid)
             {
                 using (var context = new AftermathV1Entities())

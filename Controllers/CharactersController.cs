@@ -21,11 +21,8 @@ namespace TheAftermath_V2.Controllers
         /* -- INDEX (CHARACTER SELECT) -- */
         public ActionResult Index()
         {
-            /*
             if (Session["Active"] != null) return View();
             else return RedirectToAction("Login", "Home");
-            */
-            return View();
         }
 
         [HttpGet]
@@ -55,34 +52,34 @@ namespace TheAftermath_V2.Controllers
         /* -- NEW CHARACTER -- */
         public ActionResult NewCharacter()
         {
-            /*
-            if (Session["Active"] != null) return View();
-            else return RedirectToAction("Login", "Home");
-            */
-
-            NewCharModel newChar = new NewCharModel
+            if (Session["Active"] != null) 
             {
-                Strategy = NCBio.Strategy(),
-                Birthdate = NCBio.Birthdate(),
-                Ethnicity = NCBio.Ethnicity(),
-                EyeColor = NCBio.EyeColor(),
-                Habitat = NCBio.Habitat(),
-                History = NCBio.History(),
-                Sex = NCBio.Sex(),
+                NewCharModel newChar = new NewCharModel
+                {
+                    Strategy = NCBio.Strategy(),
+                    Birthdate = NCBio.Birthdate(),
+                    Ethnicity = NCBio.Ethnicity(),
+                    EyeColor = NCBio.EyeColor(),
+                    Habitat = NCBio.Habitat(),
+                    History = NCBio.History(),
+                    Sex = NCBio.Sex(),
 
-                Memory = Dice.TwoD10(),
-                Logic = Dice.TwoD10(),
-                Perception = Dice.TwoD10(),
-                Willpower = Dice.TwoD10(),
-                Charisma = Dice.TwoD10(),
+                    Memory = Dice.TwoD10(),
+                    Logic = Dice.TwoD10(),
+                    Perception = Dice.TwoD10(),
+                    Willpower = Dice.TwoD10(),
+                    Charisma = Dice.TwoD10(),
 
-                Strength = Dice.TwoD10(),
-                Endurance = Dice.TwoD10(),
-                Agility = Dice.TwoD10(),
-                Speed = Dice.TwoD10(),
-                Beauty = Dice.TwoD10()
-            };
-            return View(newChar);
+                    Strength = Dice.TwoD10(),
+                    Endurance = Dice.TwoD10(),
+                    Agility = Dice.TwoD10(),
+                    Speed = Dice.TwoD10(),
+                    Beauty = Dice.TwoD10()
+                };
+                return View(newChar);
+            }
+            else return RedirectToAction("Login", "Home");
+            
         }
 
         [HttpGet]
@@ -308,73 +305,72 @@ namespace TheAftermath_V2.Controllers
         /* -- CHARACTER MANAGEMENT -- */
         public ActionResult CharacterManagement()
         {
-            /*
-            if (Session["Active"] != null) return View();
-            else return RedirectToAction("Login", "Home");
-            */
-
-            string name = HttpContext.Request.QueryString["name"];
-
-            Guid acctID = Guid.Parse(Session["UserID"].ToString());
-            var character = db.Characters.Where(a => a.Name == name && a.AccountID == acctID).First();
-            var charAttrs = db.CharacterAttributes.Where(a => a.CharacterID == character.ID).Join(db.Attributes, ca => ca.AttributeID, a => a.ID, (ca, a) => new { Name = a.Name, Value = ca.Value });
-
-            var skillQuery = from s in db.Skills
-                             where s.Type == "Standard" && s.Disabled == false
-                             join cs in db.CharacterSkills on s.ID equals cs.MasterID
-                             select new { s.Name, s.Description, cs.Value };
-
-            List<Classes.SkillData> skillList = new List<Classes.SkillData>();
-            foreach (var skill in skillQuery) skillList.Add(new Classes.SkillData { Name = skill.Name, Description = skill.Description, Value = skill.Value });
-
-            var abilityQuery = from cab in db.CharacterAbilities
-                               where cab.CharacterID == character.ID
-                               join a in db.Abilities on cab.AbilityID equals a.ID
-                               select new { a.Name, a.Effects, a.Description };
-
-            List<Classes.AbilityData> abilityList = new List<Classes.AbilityData>();
-            foreach (var ability in abilityQuery) abilityList.Add(new Classes.AbilityData { Name = ability.Name, Description = ability.Description, Effects = ability.Effects });
-
-            Classes.CharacterData charData = new Classes.CharacterData
+            if (Session["Active"] != null)
             {
-                // DEMOGRAPHICS
-                Name = character.Name,
-                Status = character.Status,
-                Birthdate = character.Birthdate,
-                Sex = character.Sex,
-                Ethnicity = character.Ethnicity,
-                HairColor = character.HairColor,
-                HairStyle = character.HairStyle,
-                FacialHair = character.FacialHair,
-                EyeColor = character.EyeColor,
-                Habitat = character.Habitat,
-                History = db.Histories.Where(a => a.ID == character.History).Select(a => a.Name).First(),
-                Strategy = character.Strategy,
-                Background = db.Backgrounds.Where(a => a.ID == character.Background).Select(a => a.Name).First(),
-                // EXPERIENCE
-                TotalExp = db.CharacterExps.Where(a => a.CharacterID == character.ID).Select(a => a.TotalExp).First(),
-                AvailableExp = db.CharacterExps.Where(a => a.CharacterID == character.ID).Select(a => a.AvailableExp).First(),
-                // ATTRIBUTES
-                Memory = charAttrs.Where(a => a.Name == "Memory").Select(a => a.Value).First(),
-                Logic = charAttrs.Where(a => a.Name == "Logic").Select(a => a.Value).First(),
-                Perception = charAttrs.Where(a => a.Name == "Perception").Select(a => a.Value).First(),
-                Willpower = charAttrs.Where(a => a.Name == "Willpower").Select(a => a.Value).First(),
-                Charisma = charAttrs.Where(a => a.Name == "Charisma").Select(a => a.Value).First(),
+                string name = HttpContext.Request.QueryString["name"];
 
-                Strength = charAttrs.Where(a => a.Name == "Strength").Select(a => a.Value).First(),
-                Endurance = charAttrs.Where(a => a.Name == "Endurance").Select(a => a.Value).First(),
-                Agility = charAttrs.Where(a => a.Name == "Agility").Select(a => a.Value).First(),
-                Speed = charAttrs.Where(a => a.Name == "Speed").Select(a => a.Value).First(),
-                Beauty = charAttrs.Where(a => a.Name == "Beauty").Select(a => a.Value).First(),
+                Guid acctID = Guid.Parse(Session["UserID"].ToString());
+                var character = db.Characters.Where(a => a.Name == name && a.AccountID == acctID).First();
+                var charAttrs = db.CharacterAttributes.Where(a => a.CharacterID == character.ID).Join(db.Attributes, ca => ca.AttributeID, a => a.ID, (ca, a) => new { Name = a.Name, Value = ca.Value });
 
-                Sequence = charAttrs.Where(a => a.Name == "Sequence").Select(a => a.Value).First(),
-                Actions = charAttrs.Where(a => a.Name == "Actions").Select(a => a.Value).First(),
-                            
-                Skills = skillList,
-                Abilities = abilityList,
-                IDMarks = db.IDMarks.Where(a => a.CharacterID == character.ID).ToList()
-            };
-            return View(charData);
+                var skillQuery = from s in db.Skills
+                                 where s.Type == "Standard" && s.Disabled == false
+                                 join cs in db.CharacterSkills on s.ID equals cs.MasterID
+                                 select new { s.Name, s.Description, cs.Value };
+
+                List<Classes.SkillData> skillList = new List<Classes.SkillData>();
+                foreach (var skill in skillQuery) skillList.Add(new Classes.SkillData { Name = skill.Name, Description = skill.Description, Value = skill.Value });
+
+                var abilityQuery = from cab in db.CharacterAbilities
+                                   where cab.CharacterID == character.ID
+                                   join a in db.Abilities on cab.AbilityID equals a.ID
+                                   select new { a.Name, a.Effects, a.Description };
+
+                List<Classes.AbilityData> abilityList = new List<Classes.AbilityData>();
+                foreach (var ability in abilityQuery) abilityList.Add(new Classes.AbilityData { Name = ability.Name, Description = ability.Description, Effects = ability.Effects });
+
+                Classes.CharacterData charData = new Classes.CharacterData
+                {
+                    // DEMOGRAPHICS
+                    Name = character.Name,
+                    Status = character.Status,
+                    Birthdate = character.Birthdate,
+                    Sex = character.Sex,
+                    Ethnicity = character.Ethnicity,
+                    HairColor = character.HairColor,
+                    HairStyle = character.HairStyle,
+                    FacialHair = character.FacialHair,
+                    EyeColor = character.EyeColor,
+                    Habitat = character.Habitat,
+                    History = db.Histories.Where(a => a.ID == character.History).Select(a => a.Name).First(),
+                    Strategy = character.Strategy,
+                    Background = db.Backgrounds.Where(a => a.ID == character.Background).Select(a => a.Name).First(),
+                    // EXPERIENCE
+                    TotalExp = db.CharacterExps.Where(a => a.CharacterID == character.ID).Select(a => a.TotalExp).First(),
+                    AvailableExp = db.CharacterExps.Where(a => a.CharacterID == character.ID).Select(a => a.AvailableExp).First(),
+                    // ATTRIBUTES
+                    Memory = charAttrs.Where(a => a.Name == "Memory").Select(a => a.Value).First(),
+                    Logic = charAttrs.Where(a => a.Name == "Logic").Select(a => a.Value).First(),
+                    Perception = charAttrs.Where(a => a.Name == "Perception").Select(a => a.Value).First(),
+                    Willpower = charAttrs.Where(a => a.Name == "Willpower").Select(a => a.Value).First(),
+                    Charisma = charAttrs.Where(a => a.Name == "Charisma").Select(a => a.Value).First(),
+
+                    Strength = charAttrs.Where(a => a.Name == "Strength").Select(a => a.Value).First(),
+                    Endurance = charAttrs.Where(a => a.Name == "Endurance").Select(a => a.Value).First(),
+                    Agility = charAttrs.Where(a => a.Name == "Agility").Select(a => a.Value).First(),
+                    Speed = charAttrs.Where(a => a.Name == "Speed").Select(a => a.Value).First(),
+                    Beauty = charAttrs.Where(a => a.Name == "Beauty").Select(a => a.Value).First(),
+
+                    Sequence = charAttrs.Where(a => a.Name == "Sequence").Select(a => a.Value).First(),
+                    Actions = charAttrs.Where(a => a.Name == "Actions").Select(a => a.Value).First(),
+
+                    Skills = skillList,
+                    Abilities = abilityList,
+                    IDMarks = db.IDMarks.Where(a => a.CharacterID == character.ID).ToList()
+                };
+                return View(charData);
+            }
+            else return RedirectToAction("Login", "Home");
         }
 
         [HttpPost]

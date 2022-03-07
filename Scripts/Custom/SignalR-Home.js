@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-
+        
     var username;
     var d = new Date();
     var h = d.getHours();
@@ -9,7 +9,24 @@
     var s = d.getSeconds();
     if (s < 10) s = "0" + s;
 
-    if ($("#sessionUsername").length > 0) username = $("#sessionUsername").html();
+    function updateStatus() {
+        $.ajax({
+            type: 'POST',
+            url: 'Home/UpdateStatus',
+            dataType: 'json',
+            data: JSON.stringify({ User: username }),
+            contentType: 'application/json; charset=utf-8',
+            success:
+                function (result) {
+                    console.log(result + " - Logged in as : " + username);
+                }
+        });
+    }
+
+    if ($("#sessionUsername").length > 0) {
+        username = $("#sessionUsername").html();
+        updateStatus();
+    }
     else username = "Visitor [" + h + ":" + m + ":" + s + "]";
 
     $('#indexChatLogArea').attr('overflow', 'auto');
@@ -17,6 +34,8 @@
     var transferCount = 0;
     var messageCount = 0;
     var messageModals = 0;
+
+    
 
     function getActiveList() {
         $.ajax({
@@ -33,16 +52,17 @@
                         var css;
 
                         if (user.Username == username) continue;
+                        else {
+                            if (user.Play == true) css = "text-success";
+                            else if (user.Admin == true) css = "text-danger";
+                            else if (user.Tell == true) css = "text-primary";
+                            else css = "text-dark";
 
-                        if (user.Play == true) css = "text-success";
-                        else if (user.Admin == true) css = "text-danger";
-                        else if (user.Tell == true) css = "text-primary";
-                        else css = "text-dark";
-
-                        if ($("#sessionUsername").length > 0) {
-                            $("#lobbyActiveUserList").append("<button class='btn btn-block border border-dark font-weight-bold text-center mt-1 " + css + " IM-btn' data-connection='"+ user.Username +"'>" + user.Username + "</button>");
+                            if ($("#sessionUsername").length > 0) {
+                                $("#lobbyActiveUserList").append("<button class='btn btn-block border border-dark font-weight-bold text-center mt-1 " + css + " IM-btn' data-connection='" + user.Username + "'>" + user.Username + "</button>");
+                            }
+                            else $("#lobbyActiveUserList").append("<button class='btn btn-block border border-dark font-weight-bold text-center mt-1 " + css + " IM-btn' data-connection='" + user.Username + "' disabled >" + user.Username + "</button>");
                         }
-                        else $("#lobbyActiveUserList").append("<button class='btn btn-block border border-dark font-weight-bold text-center mt-1 " + css + " IM-btn' data-connection='" + user.Username + "' disabled >" + user.Username + "</button>");
                     }
                 }
         });
@@ -114,17 +134,18 @@
 
         // -- CLIENT (RECEIVING) FUNCTIONS -- //
         chat.client.NotifyOnline = function (name, count) {
-            if (username == name) $("#lobbyChatLog").append('<li class="text-info text-uppercase"><strong>SERVER: ' + htmlEncode(name) + ' ONLINE</strong></li>');
-            else $("#lobbyChatLog").append('<li class="text-secondary text-uppercase"><strong>SERVER: ' + htmlEncode(name) + ' ONLINE</strong></li>');
-            //$("#chatLog").append('<li class="text-secondary text-uppercase"><strong>SERVER: ACTIVE USERS ('+ htmlEncode(count) +')</strong></li>');
-            $("#lobbyChatLog li:last-child").focus();
-            getActiveList();
+            if (username == name) {
+                getActiveList();
+                $('#lobbyChatLog').append('<li class="text-info"><strong>SERVER: ' + htmlEncode(name) + ' ONLINE</strong></li>');
+            }
+            else {
+                $('#lobbyChatLog').append('<li class="text-secondary"><strong>SERVER: ' + htmlEncode(name) + ' ONLINE</strong></li>');
+                getActiveList();
+            }
         }
 
         chat.client.NotifyOffline = function (name, count) {
-            $("#lobbyChatLog").append('<li class="text-secondary text-uppercase"><strong>SERVER: ' + htmlEncode(name) + ' OFFLINE</strong></li>');
-            //$("#chatLog").append('<li class="text-secondary text-uppercase"><strong>SERVER: ACTIVE USERS (' + htmlEncode(count) + ')</strong></li>');
-            $("#lobbyChatLog li:last-child").focus();
+            $('#lobbyChatLog').append('<li class="text-secondary"><strong>SERVER: ' + htmlEncode(name) + ' OFFLINE</strong></li>');
             getActiveList();
         }
 
@@ -239,7 +260,7 @@
                 $('.IM-input[data-connection="' + targetUser + '"]').val('').focus();
             });
             /*
-            // FORCING onDisconnect TO FIRE
+            // FORCE onDisconnect TO FIRE
             $("a").click(function () {
                 chat.server.disconnect(username);
             });
