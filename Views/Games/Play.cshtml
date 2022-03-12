@@ -441,6 +441,44 @@
         </div>
     </div>
 </div>
+<!-- MAPS MODAL -->
+<div class="modal fade" id="gameMapModal" tabindex="-6" aria-labelledby="gameMapsModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div id="gameMapSlot" class="col-12 border border-dark">
+                            <img src="~/Content/Images/Embed/MapGrid-8x8-1000x1000.png" id="gameMap" class="img-fluid mx-auto d-block" style="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-lg btn-danger border border-dark mx-auto" data-dismiss="modal">CLOSE</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- PICS MODAL -->
+<div class="modal fade" id="gamePicModal" tabindex="-7" aria-labelledby="picsModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div id="gamePicSlot" class="col-12 border border-dark">
+                            <img src="" id="gamePic" class="img-fluid mx-auto d-block" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-lg btn-danger border border-dark mx-auto" data-dismiss="modal">CLOSE</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- IM MODALS -->
 <div id="IM-Modals"></div>
 
@@ -498,20 +536,20 @@
     </div>
     <div class="col-6 col-md-2">
         <div class="input-group my-3 text-center">
-            <input id="storyteller" class="form-control text-center px-0 py-0 my-3" type="text" data-id="" value="" readonly />
+            <input id="storytellerName" class="form-control text-center px-0 py-0 my-3" type="text" data-id="" value="" readonly />
         </div>
     </div>
 </div>
 <!-- MAPS, NOTES, & IMAGES -->
 <div class="row justify-content-around">
     <div class="col-3">
-        <button id="mapBtn" class="btn btn-block btn-info border border-white text-center font-weight-bold my-2 mx-auto" type="button">MAP</button>
+        <button id="mapBtn" class="btn btn-block btn-info border border-white text-center font-weight-bold my-2 mx-auto" data-toggle="modal" data-target="#gameMapModal" type="button">MAP</button>
     </div>
     <div class="col-3">
         <button id="notesBtn" class="btn btn-block btn-light border border-dark text-center font-weight-bold my-2 mx-auto" data-toggle="modal" data-target="#notesModal" type="button">NOTES</button>
     </div>
     <div class="col-3">
-        <button id="pictureBtn" class="btn btn-block btn-info border border-white text-center font-weight-bold my-2 mx-auto" type="button">PIC</button>
+        <button id="pictureBtn" class="btn btn-block btn-info border border-white text-center font-weight-bold my-2 mx-auto" data-toggle="modal" data-target="#gamePicModal" type="button">PIC</button>
     </div>
 </div>
 <!-- CHAT AREA -->

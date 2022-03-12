@@ -419,7 +419,7 @@
     <Content Include="Content\Images\Carousel\Slide4-Aftermath-750x250.jpg" />
     <Content Include="Content\Images\Carousel\Slide5-Aftermath-750x250.jpg" />
     <Content Include="Content\Images\Carousel\Slide6-Aftermath-750x250.jpg" />
-    <Content Include="Content\Images\Embed\MapGrid-black-1000x1000.png" />
+    <Content Include="Content\Images\Embed\MapGrid-8x8-1000x1000.png" />
     <Content Include="Content\Images\Embed\VirtruvianMan-1200x1200-50o.png" />
     <Content Include="Content\Images\Embed\VirtruvianWoman-1200x1200-50o.png" />
     <Content Include="Content\Images\Graffiti\apocalypseRed-900x150.png" />
@@ -461,12 +461,10 @@
     <Content Include="Content\Images\Icons\LockIcon-white-100x100.png" />
     <Content Include="Content\Images\Icons\LockIcon-white-50x50.png" />
     <Content Include="Content\Images\Icons\messageIcon-50x50.png" />
-    <Content Include="Content\Users\CharacterPics\PicSlot-black-500x500.png" />
     <Content Include="Content\Images\Textures\darkRust.jpg" />
     <Content Include="Content\Images\Textures\darkScratch.jpg" />
     <Content Include="Content\Images\Textures\lightRust.jpg" />
     <Content Include="Content\Images\Textures\lightPatch.png" />
-    <Content Include="Content\Users\CharacterPics\default-250x250.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -655,8 +653,9 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Temp\" />
-    <Folder Include="Content\Users\GameMaps\" />
-    <Folder Include="Content\Users\GamePics\" />
+    <Folder Include="Uploads\Characters\" />
+    <Folder Include="Uploads\Games\Maps\" />
+    <Folder Include="Uploads\Games\Pics\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

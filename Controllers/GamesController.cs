@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -14,11 +15,226 @@ namespace TheAftermath_V2.Controllers
     {
         public AftermathV1Entities db = new AftermathV1Entities();
 
-        // -- NAVIGATION -- //
-        public ActionResult Index()
+        // -- ADMIN PAGE -- //
+        public ActionResult Admin()
         {
-            if (Session["Active"] != null) return View();
+            if (Session["Active"] != null)
+            {
+                Guid acctID = Guid.Parse(Session["UserID"].ToString());
+                string gameName = HttpContext.Request.QueryString["game"];
+                var game = db.Campaigns.Where(a => a.Name == gameName).First();
+                game.Locked = true;
+                db.SaveChanges();
+
+                // UPDATE ACCOUNT STATUS
+                var record = db.AccountStatus1.Where(a => a.AccountID == acctID).First();
+                record.Active = true;
+                record.Admin = true;
+                record.Play = false;
+                record.Tell = false;
+                record.CampaignID = game.ID;
+                record.CharacterID = null;
+                record.Timestamp = DateTime.Now;
+                db.SaveChanges();
+
+                // GET CURRENT VALUES
+                var gameData = new Classes.GameData
+                {
+                    Name = game.Name,
+                    Season = game.Season,
+                    Year = game.Year,
+                    Description = game.Description,
+                    PlayerPassword = game.PlayerPassword,
+                    AdminPassword = game.AdminPassword
+                };
+
+                return View(gameData);
+            }
             else return RedirectToAction("Login", "Home");
+
+        }
+        // -- ADMIN SUBMIT -- //
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Admin([Bind(Include = "Name, Season, Year, Description, PlayerPW, AdminPW")] Classes.GameData input)
+        {
+            if (ModelState.IsValid)
+            {
+                string gameName = HttpContext.Request.QueryString["game"];
+                var game = db.Campaigns.Where(a => a.Name == gameName).FirstOrDefault();
+                game.Name = input.Name;
+                game.Season = input.Season;
+                game.Year = input.Year;
+                game.Description = input.Description;
+                game.PlayerPassword = input.PlayerPassword;
+                game.AdminPassword = input.AdminPassword;
+                db.SaveChanges();
+
+                ViewBag.ErrorMessage = "Success";
+                return RedirectToAction("Success", "Home");
+            }
+            else
+            {
+                return View(input);
+            }
+        }
+
+        [HttpPost]
+        public JsonResult GetCharacterList(string game)
+        {
+            Guid gameID = db.Campaigns.Where(a => a.Name == game).Select(a => a.ID).First();
+
+            var characterQ = from ax in db.AccountStatus1
+                             where ax.CampaignID == gameID
+                             join a in db.Accounts on ax.AccountID equals a.ID
+                             join c in db.Characters on ax.CharacterID equals c.ID
+                             select new { a.Username, ax.CharacterID, c.Name, c.Sex };
+
+            List<Classes.UserData> characterList = new List<Classes.UserData>();
+            foreach (var record in characterQ)
+            {
+                characterList.Add(new Classes.UserData { Username = record.Username, CharacterID = (Guid)record.CharacterID, CharacterName = record.Name, CharacterSex = record.Sex });
+            }
+            return Json(characterList, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult GetCharacterSheet(string name, string user)
+        {
+            Guid acctID = db.Accounts.Where(a => a.Username == user).Select(a => a.ID).Single();
+
+            var character = db.Characters.Where(a => a.Name == name && a.AccountID == acctID).First();
+            var charAttrs = db.CharacterAttributes.Where(a => a.CharacterID == character.ID).Join(db.Attributes, ca => ca.AttributeID, a => a.ID, (ca, a) => new { Name = a.Name, Value = ca.Value });
+
+            var skillQuery = from cs in db.CharacterSkills
+                             where cs.CharacterID == character.ID
+                             join s in db.Skills on cs.MasterID equals s.ID
+                             select new { s.Name, s.Type, s.Class, cs.Value };
+
+            List<Classes.SkillData> skillList = new List<Classes.SkillData>();
+            foreach (var skill in skillQuery) skillList.Add(new Classes.SkillData { Name = skill.Name, Type = skill.Type, Class = skill.Class, Value = skill.Value });
+
+            var abilityQuery = from ca in db.CharacterAbilities
+                               where ca.CharacterID == character.ID
+                               join a in db.Abilities on ca.AbilityID equals a.ID
+                               select new { a.Name, a.Description };
+
+            List<Classes.AbilityData> abilityList = new List<Classes.AbilityData>();
+            foreach (var ability in abilityQuery) abilityList.Add(new Classes.AbilityData { Name = ability.Name, Description = ability.Description });
+
+            Classes.CharacterData charData = new Classes.CharacterData
+            {
+                // DEMOGRAPHICS
+                Name = character.Name,
+                Status = character.Status,
+                Birthdate = character.Birthdate,
+                Sex = character.Sex,
+                Ethnicity = character.Ethnicity,
+                HairColor = character.HairColor,
+                HairStyle = character.HairStyle,
+                FacialHair = character.FacialHair,
+                EyeColor = character.EyeColor,
+                Habitat = character.Habitat,
+                History = db.Histories.Where(a => a.ID == character.History).Select(a => a.Name).First(),
+                Strategy = character.Strategy,
+                Background = db.Backgrounds.Where(a => a.ID == character.Background).Select(a => a.Name).First(),
+
+                // ATTRIBUTES
+                Memory = charAttrs.Where(a => a.Name == "Memory").Select(a => a.Value).First(),
+                Logic = charAttrs.Where(a => a.Name == "Logic").Select(a => a.Value).First(),
+                Perception = charAttrs.Where(a => a.Name == "Perception").Select(a => a.Value).First(),
+                Willpower = charAttrs.Where(a => a.Name == "Willpower").Select(a => a.Value).First(),
+                Charisma = charAttrs.Where(a => a.Name == "Charisma").Select(a => a.Value).First(),
+
+                Strength = charAttrs.Where(a => a.Name == "Strength").Select(a => a.Value).First(),
+                Endurance = charAttrs.Where(a => a.Name == "Endurance").Select(a => a.Value).First(),
+                Agility = charAttrs.Where(a => a.Name == "Agility").Select(a => a.Value).First(),
+                Speed = charAttrs.Where(a => a.Name == "Speed").Select(a => a.Value).First(),
+                Beauty = charAttrs.Where(a => a.Name == "Beauty").Select(a => a.Value).First(),
+
+                Sequence = charAttrs.Where(a => a.Name == "Sequence").Select(a => a.Value).First(),
+                Actions = charAttrs.Where(a => a.Name == "Actions").Select(a => a.Value).First(),
+
+                Skills = skillList,
+                Abilities = abilityList
+            };
+
+            return Json(charData, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult GetExperience(string user, string charname)
+        {
+            Guid acctID = db.Accounts.Where(a => a.Username == user).Select(a => a.ID).Single();
+            Guid charID = db.Characters.Where(a => a.Name == charname && a.AccountID == acctID).Select(a => a.ID).Single();
+            int exp = db.CharacterExps.Where(a => a.CharacterID == charID).Select(a => a.AvailableExp).Single();
+
+            return Json(exp, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult GetGameActiveList(string game)
+        {
+            Guid gameID = db.Campaigns.Where(a => a.Name == game).Select(a => a.ID).First();
+
+            var activeQ = from ax in db.AccountStatus1
+                          where ax.CampaignID == gameID
+                          join a in db.Accounts on ax.AccountID equals a.ID
+                          select new { a.Username, ax.Play, ax.Tell };
+
+            List<Classes.UserData> userList = new List<Classes.UserData>();
+            foreach (var record in activeQ)
+            {
+                userList.Add(new Classes.UserData { Username = record.Username, Play = record.Play, Tell = record.Tell });
+            }
+
+            return Json(userList, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult GetGameData(string name)
+        {
+            var gameQ = (from c in db.Campaigns
+                         where c.Name == name && c.Closed == false
+                         select new { c.Season, c.Year, c.Description }).Single();
+
+            Classes.GameData result = new Classes.GameData
+            {
+                Season = gameQ.Season,
+                Year = gameQ.Year,
+                Description = gameQ.Description
+            };
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult GetGameLinks(string game)
+        {
+            var gameRecord = db.Campaigns.Where(a => a.Name == game).Single();
+            Campaign result = new Campaign
+            {
+                ConferenceLink = gameRecord.ConferenceLink,
+                MapLoc = gameRecord.MapLoc,
+                PictureLoc = gameRecord.PictureLoc
+            };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult GetGamePW(Guid ID)
+        {
+            var gameQ = (from c in db.Campaigns
+                         where c.ID == ID && c.Closed == false
+                         select new { c.PlayerPassword, c.AdminPassword }).Single();
+
+            Classes.GameData result = new Classes.GameData
+            {
+                PlayerPassword = gameQ.PlayerPassword,
+                AdminPassword = gameQ.AdminPassword
+            };
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -42,201 +258,6 @@ namespace TheAftermath_V2.Controllers
             }
 
             return Json(gameList, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpPost]
-        public JsonResult GetGameData(string name)
-        {
-            var gameQ = (from c in db.Campaigns
-                         where c.Name == name && c.Closed == false
-                         select new { c.Season, c.Year, c.Description }).Single();
-
-            Classes.GameData result = new Classes.GameData
-            {
-                Season = gameQ.Season,
-                Year = gameQ.Year,
-                Description = gameQ.Description
-            };
-
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpPost]
-        public JsonResult GetGamePW(Guid ID)
-        {
-            var gameQ = (from c in db.Campaigns
-                         where c.ID == ID && c.Closed == false
-                         select new { c.PlayerPassword, c.AdminPassword }).Single();
-
-            Classes.GameData result = new Classes.GameData
-            {
-                PlayerPassword = gameQ.PlayerPassword,
-                AdminPassword = gameQ.AdminPassword
-            };
-
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
-
-        // -- NEW GAME -- //
-        public ActionResult NewGame()
-        {
-            if (Session["Active"] != null) return View();
-            else return RedirectToAction("Login", "Home");
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult NewGame([Bind(Include = "Name, Season, Year, Description, PlayerPW, AdminPW")] Models.NewGameModel input)
-        {
-            if (ModelState.IsValid)
-            {
-                var game = new Campaign
-                {
-                    ID = Guid.NewGuid(),
-                    Name = input.Name,
-                    Season = input.Season,
-                    Year = input.Year,
-                    Description = input.Description,
-                    PlayerPassword = input.PlayerPassword,
-                    AdminPassword = input.AdminPassword,
-                    Locked = false,
-                    Closed = false
-                };
-                db.Campaigns.Add(game);
-                db.SaveChanges();
-
-                ViewBag.ErrorMessage = "Success";
-                return RedirectToAction("Success", "Home");
-            }
-            return View(input);
-        }
-        
-        // -- UPDATE STATUS -- //
-        [HttpPost]
-        public JsonResult UpdateStatus(string user, string character, string game)
-        {
-            Guid acctID = db.Accounts.Where(a => a.Username == user).Select(a => a.ID).Single();
-            Guid gameID = db.Campaigns.Where(a => a.Name == game).Select(a => a.ID).Single();
-            var record = db.AccountStatus1.Where(a => a.AccountID == acctID).First();
-
-            if (character != "STORYTELLER")
-            {
-                record.Active = true;
-                record.Admin = false;
-                record.Play = true;
-                record.Tell = false;
-                record.CampaignID = gameID;
-                record.CharacterID = db.Characters.Where(a => a.Name == character && a.AccountID == acctID).Select(a => a.ID).Single();
-                record.Timestamp = DateTime.Now;
-            }
-            else
-            {
-                record.Active = true;
-                record.Admin = false;
-                record.Play = false;
-                record.Tell = true;
-                record.CampaignID = gameID;
-                record.CharacterID = null;
-                record.Timestamp = DateTime.Now;
-            }
-            db.SaveChanges();
-
-            return Json("Success", JsonRequestBehavior.AllowGet);
-        }
-        
-        // -- PLAY -- //
-        public ActionResult Play()
-        {
-            if (Session["Active"] != null) 
-            {
-                string charName = HttpContext.Request.QueryString["char"];
-                string gameName = HttpContext.Request.QueryString["game"];
-                Session["GameName"] = gameName;
-
-                Guid gameID = db.Campaigns.Where(a => a.Name == gameName).Select(a => a.ID).SingleOrDefault();
-                Guid acctID = Guid.Parse(Session["UserID"].ToString());
-
-                var character = db.Characters.Where(a => a.Name == charName && a.AccountID == acctID).First();
-                var charAttrs = db.CharacterAttributes.Where(a => a.CharacterID == character.ID).Join(db.Attributes, ca => ca.AttributeID, a => a.ID, (ca, a) => new { Name = a.Name, Value = ca.Value });
-
-                var skillQuery = from s in db.Skills
-                                 where s.Type == "Standard" && s.Disabled == false
-                                 join cs in db.CharacterSkills on s.ID equals cs.MasterID
-                                 select new { s.Name, s.Description, cs.Value };
-
-                List<Classes.SkillData> skillList = new List<Classes.SkillData>();
-                foreach (var skill in skillQuery) skillList.Add(new Classes.SkillData { Name = skill.Name, Description = skill.Description, Value = skill.Value });
-
-                var abilityQuery = from cab in db.CharacterAbilities
-                                   where cab.CharacterID == character.ID
-                                   join a in db.Abilities on cab.AbilityID equals a.ID
-                                   select new { a.Name, a.Effects, a.Description };
-
-                List<Classes.AbilityData> abilityList = new List<Classes.AbilityData>();
-                foreach (var ability in abilityQuery) abilityList.Add(new Classes.AbilityData { Name = ability.Name, Description = ability.Description, Effects = ability.Effects });
-
-                Classes.CharacterData charData = new Classes.CharacterData
-                {
-                    // DEMOGRAPHICS
-                    Name = character.Name,
-                    Status = character.Status,
-                    Birthdate = character.Birthdate,
-                    Sex = character.Sex,
-                    Ethnicity = character.Ethnicity,
-                    HairColor = character.HairColor,
-                    HairStyle = character.HairStyle,
-                    FacialHair = character.FacialHair,
-                    EyeColor = character.EyeColor,
-                    Habitat = character.Habitat,
-                    History = db.Histories.Where(a => a.ID == character.History).Select(a => a.Name).First(),
-                    Strategy = character.Strategy,
-                    Background = db.Backgrounds.Where(a => a.ID == character.Background).Select(a => a.Name).First(),
-                    // EXPERIENCE
-                    TotalExp = db.CharacterExps.Where(a => a.CharacterID == character.ID).Select(a => a.TotalExp).First(),
-                    AvailableExp = db.CharacterExps.Where(a => a.CharacterID == character.ID).Select(a => a.AvailableExp).First(),
-                    // ATTRIBUTES
-                    Memory = charAttrs.Where(a => a.Name == "Memory").Select(a => a.Value).First(),
-                    Logic = charAttrs.Where(a => a.Name == "Logic").Select(a => a.Value).First(),
-                    Perception = charAttrs.Where(a => a.Name == "Perception").Select(a => a.Value).First(),
-                    Willpower = charAttrs.Where(a => a.Name == "Willpower").Select(a => a.Value).First(),
-                    Charisma = charAttrs.Where(a => a.Name == "Charisma").Select(a => a.Value).First(),
-
-                    Strength = charAttrs.Where(a => a.Name == "Strength").Select(a => a.Value).First(),
-                    Endurance = charAttrs.Where(a => a.Name == "Endurance").Select(a => a.Value).First(),
-                    Agility = charAttrs.Where(a => a.Name == "Agility").Select(a => a.Value).First(),
-                    Speed = charAttrs.Where(a => a.Name == "Speed").Select(a => a.Value).First(),
-                    Beauty = charAttrs.Where(a => a.Name == "Beauty").Select(a => a.Value).First(),
-
-                    Sequence = charAttrs.Where(a => a.Name == "Sequence").Select(a => a.Value).First(),
-                    Actions = charAttrs.Where(a => a.Name == "Actions").Select(a => a.Value).First(),
-
-                    Skills = skillList,
-                    Abilities = abilityList,
-                    IDMarks = db.IDMarks.Where(a => a.CharacterID == character.ID).ToList()
-                };
-                return View(charData);
-            }
-            else return RedirectToAction("Login", "Home");
-        }
-
-        [HttpPost]
-        public JsonResult GetGameActiveList(string game)
-        {
-            Guid gameID = db.Campaigns.Where(a => a.Name == game).Select(a => a.ID).First();
-
-            var activeQ = from ax in db.AccountStatus1
-                          where ax.CampaignID == gameID
-                          join a in db.Accounts on ax.AccountID equals a.ID
-                          join c in db.Characters on ax.CharacterID equals c.ID
-                          select new { a.Username, ax.Play, ax.Tell, c.Name };
-
-            List<Classes.UserData> userList = new List<Classes.UserData>();
-            foreach (var record in activeQ)
-            {
-                userList.Add(new Classes.UserData { Username = record.Username, Play = record.Play, Tell = record.Tell });
-            }
-
-            return Json(userList, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -313,17 +334,133 @@ namespace TheAftermath_V2.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
-        public JsonResult GetExperience(string user, string charname)
+        // -- INDEX PAGE -- //
+        public ActionResult Index()
         {
-            Guid acctID = db.Accounts.Where(a => a.Username == user).Select(a => a.ID).Single();
-            Guid charID = db.Characters.Where(a => a.Name == charname && a.AccountID == acctID).Select(a => a.ID).Single();
-            int exp = db.CharacterExps.Where(a => a.CharacterID == charID).Select(a => a.AvailableExp).Single();
-
-            return Json(exp, JsonRequestBehavior.AllowGet);
+            if (Session["Active"] != null) return View();
+            else return RedirectToAction("Login", "Home");
         }
 
-        // -- TELL -- //
+        [HttpPost]
+        public JsonResult LockGame(string name)
+        {
+            var game = db.Campaigns.Where(a => a.Name == name).First();
+            game.Locked = true;
+            db.SaveChanges();
+
+            return Json("Success", JsonRequestBehavior.AllowGet);
+        }
+
+        // -- NEW GAME PAGE -- //
+        public ActionResult NewGame()
+        {
+            if (Session["Active"] != null) return View();
+            else return RedirectToAction("Login", "Home");
+        }
+        // -- NEW GAME SUBMIT -- //
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult NewGame([Bind(Include = "Name, Season, Year, Description, PlayerPW, AdminPW")] Models.NewGameModel input)
+        {
+            if (ModelState.IsValid)
+            {
+                var game = new Campaign
+                {
+                    ID = Guid.NewGuid(),
+                    Name = input.Name,
+                    Season = input.Season,
+                    Year = input.Year,
+                    Description = input.Description,
+                    PlayerPassword = input.PlayerPassword,
+                    AdminPassword = input.AdminPassword,
+                    Locked = false,
+                    Closed = false
+                };
+                db.Campaigns.Add(game);
+                db.SaveChanges();
+
+                ViewBag.ErrorMessage = "Success";
+                return RedirectToAction("Success", "Home");
+            }
+            return View(input);
+        }
+
+        // -- PLAY PAGE -- //
+        public ActionResult Play()
+        {
+            if (Session["Active"] != null)
+            {
+                string charName = HttpContext.Request.QueryString["char"];
+                string gameName = HttpContext.Request.QueryString["game"];
+                Session["GameName"] = gameName;
+
+                Guid gameID = db.Campaigns.Where(a => a.Name == gameName).Select(a => a.ID).SingleOrDefault();
+                Guid acctID = Guid.Parse(Session["UserID"].ToString());
+
+                var character = db.Characters.Where(a => a.Name == charName && a.AccountID == acctID).First();
+                var charAttrs = db.CharacterAttributes.Where(a => a.CharacterID == character.ID).Join(db.Attributes, ca => ca.AttributeID, a => a.ID, (ca, a) => new { Name = a.Name, Value = ca.Value });
+
+                var skillQuery = from s in db.Skills
+                                 where s.Type == "Standard" && s.Disabled == false
+                                 join cs in db.CharacterSkills on s.ID equals cs.MasterID
+                                 select new { s.Name, s.Description, cs.Value };
+
+                List<Classes.SkillData> skillList = new List<Classes.SkillData>();
+                foreach (var skill in skillQuery) skillList.Add(new Classes.SkillData { Name = skill.Name, Description = skill.Description, Value = skill.Value });
+
+                var abilityQuery = from cab in db.CharacterAbilities
+                                   where cab.CharacterID == character.ID
+                                   join a in db.Abilities on cab.AbilityID equals a.ID
+                                   select new { a.Name, a.Effects, a.Description };
+
+                List<Classes.AbilityData> abilityList = new List<Classes.AbilityData>();
+                foreach (var ability in abilityQuery) abilityList.Add(new Classes.AbilityData { Name = ability.Name, Description = ability.Description, Effects = ability.Effects });
+
+                Classes.CharacterData charData = new Classes.CharacterData
+                {
+                    // DEMOGRAPHICS
+                    Name = character.Name,
+                    Status = character.Status,
+                    Birthdate = character.Birthdate,
+                    Sex = character.Sex,
+                    Ethnicity = character.Ethnicity,
+                    HairColor = character.HairColor,
+                    HairStyle = character.HairStyle,
+                    FacialHair = character.FacialHair,
+                    EyeColor = character.EyeColor,
+                    Habitat = character.Habitat,
+                    History = db.Histories.Where(a => a.ID == character.History).Select(a => a.Name).First(),
+                    Strategy = character.Strategy,
+                    Background = db.Backgrounds.Where(a => a.ID == character.Background).Select(a => a.Name).First(),
+                    // EXPERIENCE
+                    TotalExp = db.CharacterExps.Where(a => a.CharacterID == character.ID).Select(a => a.TotalExp).First(),
+                    AvailableExp = db.CharacterExps.Where(a => a.CharacterID == character.ID).Select(a => a.AvailableExp).First(),
+                    // ATTRIBUTES
+                    Memory = charAttrs.Where(a => a.Name == "Memory").Select(a => a.Value).First(),
+                    Logic = charAttrs.Where(a => a.Name == "Logic").Select(a => a.Value).First(),
+                    Perception = charAttrs.Where(a => a.Name == "Perception").Select(a => a.Value).First(),
+                    Willpower = charAttrs.Where(a => a.Name == "Willpower").Select(a => a.Value).First(),
+                    Charisma = charAttrs.Where(a => a.Name == "Charisma").Select(a => a.Value).First(),
+
+                    Strength = charAttrs.Where(a => a.Name == "Strength").Select(a => a.Value).First(),
+                    Endurance = charAttrs.Where(a => a.Name == "Endurance").Select(a => a.Value).First(),
+                    Agility = charAttrs.Where(a => a.Name == "Agility").Select(a => a.Value).First(),
+                    Speed = charAttrs.Where(a => a.Name == "Speed").Select(a => a.Value).First(),
+                    Beauty = charAttrs.Where(a => a.Name == "Beauty").Select(a => a.Value).First(),
+
+                    Sequence = charAttrs.Where(a => a.Name == "Sequence").Select(a => a.Value).First(),
+                    Actions = charAttrs.Where(a => a.Name == "Actions").Select(a => a.Value).First(),
+
+                    Skills = skillList,
+                    Abilities = abilityList,
+                    IDMarks = db.IDMarks.Where(a => a.CharacterID == character.ID).ToList()
+                };
+                return View(charData);
+            }
+            else return RedirectToAction("Login", "Home");
+        }
+
+        // -- TELL PAGE -- //
         public ActionResult Tell()
         {
             if (Session["Active"] != null)
@@ -338,16 +475,6 @@ namespace TheAftermath_V2.Controllers
                 return View();
             }
             else return RedirectToAction("Login", "Home");
-        }
-
-        [HttpPost]
-        public JsonResult LockGame(string name)
-        {
-            var game = db.Campaigns.Where(a => a.Name == name).First();
-            game.Locked = true;
-            db.SaveChanges();
-
-            return Json("Success", JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -382,94 +509,11 @@ namespace TheAftermath_V2.Controllers
         }
 
         [HttpPost]
-        public JsonResult GetCharacterList(string game)
-        {
-            Guid gameID = db.Campaigns.Where(a => a.Name == game).Select(a => a.ID).First();
-
-            var characterQ = from ax in db.AccountStatus1
-                             where ax.CampaignID == gameID
-                             join a in db.Accounts on ax.AccountID equals a.ID
-                             join c in db.Characters on ax.CharacterID equals c.ID
-                             select new { a.Username, ax.CharacterID, c.Name, c.Sex };
-
-            List<Classes.UserData> characterList = new List<Classes.UserData>();
-            foreach (var record in characterQ)
-            {
-                characterList.Add(new Classes.UserData { Username = record.Username , CharacterID = (Guid)record.CharacterID , CharacterName = record.Name, CharacterSex = record.Sex });
-            }
-            return Json(characterList, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpPost]
-        public JsonResult GetCharacterSheet(string name, string user)
-        {
-            Guid acctID = db.Accounts.Where(a => a.Username == user).Select(a => a.ID).Single();
-
-            var character = db.Characters.Where(a => a.Name == name && a.AccountID == acctID).First();
-            var charAttrs = db.CharacterAttributes.Where(a => a.CharacterID == character.ID).Join(db.Attributes, ca => ca.AttributeID, a => a.ID, (ca, a) => new { Name = a.Name, Value = ca.Value });
-
-            var skillQuery = from cs in db.CharacterSkills
-                             where cs.CharacterID == character.ID
-                             join s in db.Skills on cs.MasterID equals s.ID
-                             select new { s.Name, s.Type, s.Class, cs.Value };
-
-            List<Classes.SkillData> skillList = new List<Classes.SkillData>();
-            foreach (var skill in skillQuery) skillList.Add(new Classes.SkillData { Name = skill.Name, Type = skill.Type, Class = skill.Class, Value = skill.Value });
-
-            var abilityQuery = from ca in db.CharacterAbilities
-                               where ca.CharacterID == character.ID
-                               join a in db.Abilities on ca.AbilityID equals a.ID
-                               select new { a.Name, a.Description };
-
-            List<Classes.AbilityData> abilityList = new List<Classes.AbilityData>();
-            foreach (var ability in abilityQuery) abilityList.Add(new Classes.AbilityData { Name = ability.Name, Description = ability.Description });
-
-            Classes.CharacterData charData = new Classes.CharacterData
-            {
-                // DEMOGRAPHICS
-                Name = character.Name,
-                Status = character.Status,
-                Birthdate = character.Birthdate,
-                Sex = character.Sex,
-                Ethnicity = character.Ethnicity,
-                HairColor = character.HairColor,
-                HairStyle = character.HairStyle,
-                FacialHair = character.FacialHair,
-                EyeColor = character.EyeColor,
-                Habitat = character.Habitat,
-                History = db.Histories.Where(a => a.ID == character.History).Select(a => a.Name).First(),
-                Strategy = character.Strategy,
-                Background = db.Backgrounds.Where(a => a.ID == character.Background).Select(a => a.Name).First(),
-
-                // ATTRIBUTES
-                Memory = charAttrs.Where(a => a.Name == "Memory").Select(a => a.Value).First(),
-                Logic = charAttrs.Where(a => a.Name == "Logic").Select(a => a.Value).First(),
-                Perception = charAttrs.Where(a => a.Name == "Perception").Select(a => a.Value).First(),
-                Willpower = charAttrs.Where(a => a.Name == "Willpower").Select(a => a.Value).First(),
-                Charisma = charAttrs.Where(a => a.Name == "Charisma").Select(a => a.Value).First(),
-
-                Strength = charAttrs.Where(a => a.Name == "Strength").Select(a => a.Value).First(),
-                Endurance = charAttrs.Where(a => a.Name == "Endurance").Select(a => a.Value).First(),
-                Agility = charAttrs.Where(a => a.Name == "Agility").Select(a => a.Value).First(),
-                Speed = charAttrs.Where(a => a.Name == "Speed").Select(a => a.Value).First(),
-                Beauty = charAttrs.Where(a => a.Name == "Beauty").Select(a => a.Value).First(),
-
-                Sequence = charAttrs.Where(a => a.Name == "Sequence").Select(a => a.Value).First(),
-                Actions = charAttrs.Where(a => a.Name == "Actions").Select(a => a.Value).First(),
-
-                Skills = skillList,
-                Abilities = abilityList
-            };
-            
-            return Json(charData, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpPost]
         public JsonResult UpdateExperience(string user, string name, int exp)
         {
             Guid acctID = db.Accounts.Where(a => a.Username == user).Select(a => a.ID).Single();
             Guid charID = db.Characters.Where(a => a.Name == name && a.AccountID == acctID).Select(a => a.ID).Single();
-            
+
             var record = db.CharacterExps.Where(a => a.CharacterID == charID).Single();
 
             int totalExp = record.TotalExp;
@@ -482,68 +526,122 @@ namespace TheAftermath_V2.Controllers
             return Json("Success", JsonRequestBehavior.AllowGet);
         }
 
-        // -- ADMIN -- //
-        public ActionResult Admin()
-        {
-            if (Session["Active"] != null)
-            {
-                Guid acctID = Guid.Parse(Session["UserID"].ToString());
-                string gameName = HttpContext.Request.QueryString["game"];
-                var game = db.Campaigns.Where(a => a.Name == gameName).First();
-                game.Locked = true;
-                db.SaveChanges();
-
-                // UPDATE ACCOUNT STATUS
-                var record = db.AccountStatus1.Where(a => a.AccountID == acctID).First();
-                record.Active = true;
-                record.Admin = true;
-                record.Play = false;
-                record.Tell = false;
-                record.CampaignID = game.ID;
-                record.CharacterID = null;
-                record.Timestamp = DateTime.Now;
-                db.SaveChanges();
-
-                // GET CURRENT VALUES
-                var gameData = new Classes.GameData
-                {
-                    Name = game.Name,
-                    Season = game.Season,
-                    Year = game.Year,
-                    Description = game.Description,
-                    PlayerPassword = game.PlayerPassword,
-                    AdminPassword = game.AdminPassword
-                };
-
-                return View(gameData);
-            }
-            else return RedirectToAction("Login", "Home");
-
-        }
-
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Admin([Bind(Include = "Name, Season, Year, Description, PlayerPW, AdminPW")] Classes.GameData input)
+        public ActionResult UpdateGameMap()
         {
-            if (ModelState.IsValid)
+            string game = Request.Form["game"];
+            if (Request.Files.Count > 0)
             {
-                string gameName = HttpContext.Request.QueryString["game"];
-                var game = db.Campaigns.Where(a => a.Name == gameName).FirstOrDefault();
-                game.Name = input.Name;
-                game.Season = input.Season;
-                game.Year = input.Year;
-                game.Description = input.Description;
-                game.PlayerPassword = input.PlayerPassword;
-                game.AdminPassword = input.AdminPassword;
-                db.SaveChanges();
+                try
+                {
+                    string mapLoc = "";
+                    var record = db.Campaigns.Where(a => a.Name == game).Single();
 
-                ViewBag.ErrorMessage = "Success";
-                return RedirectToAction("Success", "Home");
+                    HttpFileCollectionBase files = Request.Files;
+                    for (int i = 0; i < files.Count; i++)
+                    {
+                        HttpPostedFileBase file = files[i];
+                        string extension = Path.GetExtension(file.FileName);
+                        string fname = game +"-Map-" + DateTime.Now.ToString("MMddyyyy-HHmmss") + extension;
+                        mapLoc = fname;
+
+                        string filename = Path.Combine(Server.MapPath("~/Uploads/Games/Maps/"), fname);
+                        file.SaveAs(filename);
+                    }
+
+                    record.MapLoc = mapLoc;
+                    db.SaveChanges();
+                    return Json("Success!");
+                }
+                catch (Exception ex)
+                {
+                    return Json("Failure. Error details: " + ex.Message);
+                }
             }
             else
             {
-                return View(input);
+                return Json("No files selected.");
             }
         }
+
+        [HttpPost]
+        public ActionResult UpdateGamePic()
+        {
+            string game = Request.Form["game"];
+            if (Request.Files.Count > 0)
+            {
+                try
+                {
+                    string picLoc = "";
+                    var record = db.Campaigns.Where(a => a.Name == game).Single();
+
+                    HttpFileCollectionBase files = Request.Files;
+                    for (int i = 0; i < files.Count; i++)
+                    {
+                        HttpPostedFileBase file = files[i];
+                        string extension = Path.GetExtension(file.FileName);
+                        string fname = game + "-Pic-" + DateTime.Now.ToString("MMddyyyy-HHmmss") + extension;
+                        picLoc = fname;
+
+                        string filename = Path.Combine(Server.MapPath("~/Uploads/Games/Pics/"), fname);
+                        file.SaveAs(filename);
+                    }
+
+                    record.PictureLoc = picLoc;
+                    db.SaveChanges();
+                    return Json("Success!");
+                }
+                catch (Exception ex)
+                {
+                    return Json("Failure. Error details: " + ex.Message);
+                }
+            }
+            else
+            {
+                return Json("No files selected.");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult UpdateLink(string game, string input)
+        {
+            var record = db.Campaigns.Where(a => a.Name == game).Single();
+            record.ConferenceLink = input;
+            db.SaveChanges();
+            return Json("Link Updated Successfully!", JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult UpdateStatus(string user, string character, string game)
+        {
+            Guid acctID = db.Accounts.Where(a => a.Username == user).Select(a => a.ID).Single();
+            Guid gameID = db.Campaigns.Where(a => a.Name == game).Select(a => a.ID).Single();
+            var record = db.AccountStatus1.Where(a => a.AccountID == acctID).First();
+
+            if (character != "STORYTELLER")
+            {
+                record.Active = true;
+                record.Admin = false;
+                record.Play = true;
+                record.Tell = false;
+                record.CampaignID = gameID;
+                record.CharacterID = db.Characters.Where(a => a.Name == character && a.AccountID == acctID).Select(a => a.ID).Single();
+                record.Timestamp = DateTime.Now;
+            }
+            else
+            {
+                record.Active = true;
+                record.Admin = false;
+                record.Play = false;
+                record.Tell = true;
+                record.CampaignID = gameID;
+                record.CharacterID = null;
+                record.Timestamp = DateTime.Now;
+            }
+            db.SaveChanges();
+
+            return Json("Success", JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

@@ -9,7 +9,6 @@
     else charname = urlParams.get("char");
 
     function updateStatus() {
-        console.log("updateStatus fired");
         $.ajax({
             type: 'POST',
             url: 'UpdateStatus',
@@ -18,7 +17,8 @@
             contentType: "application/json; charset=utf-8",
             success:
                 function (result) {
-                    console.log(result);
+                    console.log(result + " - Logged in as : " + username);
+                    getGameActiveList();
                 }
         });
     }
@@ -26,7 +26,24 @@
 
     var transferCount = 0;
     var messageCount = 0;
-    var messageModals = 5;
+    var messageModals = 8;
+
+    function getGameLinks() {
+        $.ajax({
+            type: 'POST',
+            url: 'GetGameLinks',
+            data: JSON.stringify({ Game: gamename }),
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            success:
+                function (result) {
+                    if (result.MapLoc != null) $('#gameMap').css('background-image', 'url("../Uploads/Games/Maps/' + result.MapLoc + '")').css('background-size', 'cover');
+                    if (result.PictureLoc != null) $('#gamePic').attr('src', '../Uploads/Games/Pics/' + result.PictureLoc);
+                    if (result.ConferenceLink != null) $('#conferenceLink').val(result.ConferenceLink);
+                }
+        });
+    }
+    getGameLinks();
 
     function getGameActiveList() {
         $.ajax({
@@ -37,17 +54,22 @@
             contentType: "application/json; charset=utf-8",
             success:
                 function (results) {
+                    $('#gameActiveUserList').html('');
+
                     for (i = 0; i < results.length; i++) {
                         var result = results[i];
-                        $('#gameActiveUserList').html('');
-                        if (result.Username == username) continue;
-                        else if (result.Tell == true) $("#storyteller").val(result.Username);
+
+                        if (result.Username == username && result.Tell != true) continue;
+                        else if (result.Username == username && result.Tell == true) $("#storytellerName").val(result.Username);
+                        else if (result.Tell == true) {
+                            $("#storytellerName").val(result.Username);
+                            $("#gameActiveUserList").append("<button class='btn btn-block border border-danger font-weight-bold text-danger text-center mt-1 IM-btn' data-connection='" + result.Username + "'>" + result.Username + "</button>")
+                        }
                         else $("#gameActiveUserList").append("<button class='btn btn-block border border-dark font-weight-bold text-center mt-1 IM-btn' data-connection='" + result.Username + "'>" + result.Username + "</button>");
                     }
                 }
         });
     }
-    getGameActiveList();
 
     function getCharacterList() {
         $.ajax({
@@ -358,8 +380,13 @@
             }
         }
 
+        chat.client.NotifyGameUpdate = function (game) {
+            if (gamename == game) {
+                getGameLinks();
+            }
+        }
+
         chat.client.NewGameMessage = function (name, charname, game, message, dice) {
-            //console.log("Message Received [Name:"+ name +"] [Game:"+ game +"] [Character:"+ charname +"] [Dice:"+ dice +"]");
             if (gamename == game) {
                 if (charname == "STORYTELLER") $('#gameChatLog').append('<li class="text-red"><strong>' + htmlEncode(name) + ' [' + htmlEncode(charname) + ']</strong>: ' + htmlEncode(message) + '</li>');
                 else if (dice == true) $('#gameChatLog').append('<li class="text-secondary"><strong>' + htmlEncode(name) + ' [' + htmlEncode(charname) + ']</strong>: ' + htmlEncode(message) + '</li>');
@@ -535,6 +562,90 @@
                             chat.server.sendExpGain(userName);
                             $('.expInput[data-charname="' + charName + '"]').val('');
                         }
+                });
+            });
+
+            // MAP / PIC / CONFERENCE LINK UPDATE
+            $('#mapSubmitBtn').click(function () {  
+                if (window.FormData !== undefined) {
+
+                    var fileUpload = $("#gameMapInput").get(0);
+                    var files = fileUpload.files;
+
+                    var fileData = new FormData();
+  
+                    for (var i = 0; i < files.length; i++) {
+                        fileData.append(files[i].name, files[i]);
+                    }
+                    fileData.append('game', gamename);
+
+                    $.ajax({
+                        url: 'UpdateGameMap',
+                        type: "POST",
+                        contentType: false,  
+                        processData: false,  
+                        data: fileData,
+                        success: function (result) {
+                            $('#mapResponse').html(result);
+                            chat.server.sendGameUpdate(gamename);
+                        },
+                        error: function (err) {
+                            $('#mapResponse').html(err.statusText);
+                        }
+                    });
+                } else {
+                    alert("FormData is not supported.");
+                }
+            });
+
+            $('#picSubmitBtn').click(function () {
+                if (window.FormData !== undefined) {
+
+                    var fileUpload = $("#gamePicInput").get(0);
+                    var files = fileUpload.files;
+
+                    var fileData = new FormData();
+
+                    for (var i = 0; i < files.length; i++) {
+                        fileData.append(files[i].name, files[i]);
+                    }
+                    fileData.append('game', gamename);
+
+                    $.ajax({
+                        url: 'UpdateGamePic',
+                        type: "POST",
+                        contentType: false,
+                        processData: false,
+                        data: fileData,
+                        success: function (result) {
+                            $('#picResponse').html(result);
+                            chat.server.sendGameUpdate(gamename);
+                        },
+                        error: function (err) {
+                            $('#picResponse').html(err.statusText);
+                        }
+                    });
+                } else {
+                    alert("FormData is not supported.");
+                }
+            });
+
+            $('#linkSubmitBtn').click(function () {
+                var input = $("#conferenceLink").val();
+
+                $.ajax({
+                    url: 'UpdateLink',
+                    type: 'POST',
+                    data: JSON.stringify({ Game: gamename, Input: "http://www." + input }),
+                    dataType: 'json',
+                    contentType: "application/json; charset=utf-8",
+                    success: function (result) {
+                        alert(result);
+                        chat.server.sendGameUpdate(gamename);
+                    },
+                    error: function (err) {
+                        alert(err.statusText);
+                    }
                 });
             });
         });

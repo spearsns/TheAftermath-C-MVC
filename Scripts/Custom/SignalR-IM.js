@@ -55,22 +55,9 @@
     $(function () {
         var chat = $.connection.globalHub;
 
-        /*
         chat.client.NotifyOnline = function (name, count) {
-            if (username == name && activeUser == true) {
-                getActiveList();
-                $('#lobbyChatLog').append('<li class="text-info"><strong>SERVER: ' + htmlEncode(name) + ' ONLINE</strong></li>');
-            }
-            else if (username == name && activeUser == false) {
-                $('#lobbyChatLog').append('<li class="text-info"><strong>SERVER: ' + htmlEncode(name) + ' ONLINE</strong></li>');
-                getActiveList();
-            }
-            else {
-                $('#lobbyChatLog').append('<li class="text-secondary"><strong>SERVER: ' + htmlEncode(name) + ' ONLINE</strong></li>');
-                getActiveList();
-            }
+            if (url.toLowerCase().indexOf("games/index") >= 0) getGames();
         }
-        */
 
         chat.client.NewIM = function (sender, message) {
             // HANDLE COUNT
@@ -160,12 +147,6 @@
                 chat.server.sendIM(username, targetUser, input);
                 $('.IM-input[data-connection="' + targetUser + '"]').val('').focus();
             });
-            /*
-            // FORCING onDisconnect TO FIRE
-            $("a").click(function () {
-                chat.server.disconnect(username);
-            });
-            */
         });
     });
     // This optional function html-encodes messages for display in the page.

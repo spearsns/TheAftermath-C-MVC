@@ -76,9 +76,10 @@ namespace TheAftermath_V2.Hubs
             }
         }
 
-        public void Disconnect(string username)
+        // -- GAME MAP / PIC / CONFERENCE LINK UPDATE
+        public void SendGameUpdate(string game)
         {
-            _connections.Remove(username, Context.ConnectionId);
+            Clients.All.NotifyGameUpdate(game);
         }
 
         // CONNECTION MAPPING -- RELIES ON = ConnectionMapping.cs
@@ -123,7 +124,6 @@ namespace TheAftermath_V2.Hubs
             return base.OnDisconnected(stopCalled);
         }
        
-        // RETURN TO THIS... 
         public override Task OnReconnected()
         {
             var username = Context.QueryString["username"];

@@ -59,6 +59,14 @@ body {
     background-color: white;
 }
 
+#gameMapSlot {
+    min-height: 60vh;
+}
+
+#gamePicSlot {
+    min-height: 60vh;
+}
+
 #gameUserListArea {
     min-height: 60vh;
     background-color: ghostwhite;

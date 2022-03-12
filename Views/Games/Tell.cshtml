@@ -1586,7 +1586,83 @@
         </div>
     </div>
 </div>
-
+<!-- MAPS MODAL -->
+<div class="modal fade" id="gameMapModal" tabindex="-6" aria-labelledby="gameMapsModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div id="gameMapSlot" class="col-12 bg-secondary">
+                            <img src="~/Content/Images/Embed/MapGrid-8x8-1000x1000.png" id="gameMap" class="img-fluid mx-auto d-block my-5" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4"></div>
+                        <div class="col-4">
+                            <form id="mapUpload" enctype="multipart/form-data" method="post">
+                                <div class="form-group">
+                                    <input type="file" accept=".jpg, .jpeg, .png" class="form-control-file form-control-lg" id="gameMapInput">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-4"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4"></div>
+                        <div class="col-4">
+                            <h4 id="mapResponse" class="text-red text-center font-weight-bold"></h4>
+                        </div>
+                        <div class="col-4"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="mapSubmitBtn" class="btn btn-lg btn-success border border-dark mx-auto">SUBMIT</button>
+                <button type="button" class="btn btn-lg btn-danger border border-dark mx-auto" data-dismiss="modal">CANCEL</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- PICS MODAL -->
+<div class="modal fade" id="gamePicModal" tabindex="-7" aria-labelledby="picsModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div id="gamePicSlot" class="col-12 bg-secondary">
+                            <img src="" id="gamePic" class="img-fluid mx-auto d-block" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4"></div>
+                        <div class="col-4">
+                            <form id="picUpload" enctype="multipart/form-data" method="post">
+                                <div class="form-group">
+                                    <input type="file" accept=".jpg, .jpeg, .png" class="form-control-file form-control-lg" id="gamePicInput">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-4"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4"></div>
+                        <div class="col-4">
+                            <h4 id="picResponse" class="text-red text-center font-weight-bold"></h4>
+                        </div>
+                        <div class="col-4"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="picSubmitBtn" class="btn btn-lg btn-success border border-dark mx-auto">SUBMIT</button>
+                <button type="button" class="btn btn-lg btn-danger border border-dark mx-auto" data-dismiss="modal">CANCEL</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- IM MODALS -->
 <div id="IM-Modals"></div>
 
 <!-- TASKBAR -->
@@ -1623,6 +1699,7 @@
 
 <!-- GAME INFO -->
 <div class="row">
+    <!-- CAMPAIGN NAME -->
     <div class="col-6 col-md-2">
         <img src="~/Content/Images/Graffiti/Campaign-Red-500x150.png" class="img-fluid mx-auto d-block" />
     </div>
@@ -1631,20 +1708,27 @@
             <input id="campaignName" class="form-control text-center px-0 py-0 my-3" type="text" value="" readonly />
         </div>
     </div>
+    <!-- CONFERENCE LINK -->
     <div class="col-6 col-md-2">
         <img src="~/Content/Images/Graffiti/Conference-white-500x150.png" class="img-fluid mx-auto d-block" />
     </div>
     <div class="col-6 col-md-2">
         <div class="input-group my-2 text-center">
-            <input id="conferenceLink" class="form-control text-center px-0 py-0 my-3 border border-primary bw-thick" type="text" value="" readonly />
+            <input id="conferenceLink" class="form-control text-center px-0 py-0 my-3 border border-primary" type="text" value="" />
         </div>
     </div>
+    <div class="col-6 order-md-10"></div>
+    <div class="col-6 col-md-2 order-md-11">
+        <button type="button" id="linkSubmitBtn" class="btn btn-block btn-primary border border-white text-center font-weight-bold mx-auto" data-dismiss="modal">UPDATE LINK</button>
+    </div>
+    <div class="col-md-4 order-md-12"></div>
+    <!-- STORYTELLER -->
     <div class="col-6 col-md-2">
         <img src="~/Content/Images/Graffiti/Storyteller-red-500x150.png" class="img-fluid mx-auto d-block" />
     </div>
     <div class="col-6 col-md-2">
         <div class="input-group my-2 text-center">
-            <input id="storyteller" class="form-control text-center px-0 py-0 my-3" type="text" value="" readonly />
+            <input id="storytellerName" class="form-control text-center px-0 py-0 my-3" type="text" value="" readonly />
         </div>
     </div>
 </div>
@@ -1652,13 +1736,13 @@
 <!-- MAPS, NOTES IMAGES -->
 <div class="row justify-content-around">
     <div class="col-3">
-        <button id="mapBtn" class="btn btn-block btn-info border border-white text-center font-weight-bold my-2 mx-auto" type="button">MAP</button>
+        <button id="mapBtn" class="btn btn-block btn-info border border-white text-center font-weight-bold my-2 mx-auto" data-toggle="modal" data-target="#gameMapModal" type="button">MAP</button>
     </div>
     <div class="col-3">
         <button id="notesBtn" class="btn btn-block btn-light border border-dark text-center font-weight-bold my-2 mx-auto" data-toggle="modal" data-target="#notesModal" type="button">NOTES</button>
     </div>
     <div class="col-3">
-        <button id="pictureBtn" class="btn btn-block btn-info border border-white text-center font-weight-bold my-2 mx-auto" type="button">PIC</button>
+        <button id="pictureBtn" class="btn btn-block btn-info border border-white text-center font-weight-bold my-2 mx-auto" data-toggle="modal" data-target="#gamePicModal" type="button">PIC</button>
     </div>
 </div>
 
