@@ -28,7 +28,7 @@
     var messageCount = 0;
     var messageModals = 8;
 
-    function getGameLinks() {
+    function getGameLinks(target) {
         $.ajax({
             type: 'POST',
             url: 'GetGameLinks',
@@ -37,9 +37,9 @@
             contentType: "application/json; charset=utf-8",
             success:
                 function (result) {
-                    if (result.MapLoc != null) $('#gameMap').css('background-image', 'url("../Uploads/Games/Maps/' + result.MapLoc + '")').css('background-size', 'cover');
-                    if (result.PictureLoc != null) $('#gamePic').attr('src', '../Uploads/Games/Pics/' + result.PictureLoc);
-                    if (result.ConferenceLink != null) $('#conferenceLink').val(result.ConferenceLink);
+                    $('#gameMap').css('background-image', 'url("../Uploads/Games/Maps/' + result.MapLoc + '")').css('background-size', 'cover');
+                    $('#gamePic').attr('src', '../Uploads/Games/Pics/' + result.PictureLoc);
+                    $('#conferenceLink').val(result.ConferenceLink);
                 }
         });
     }
@@ -380,9 +380,12 @@
             }
         }
 
-        chat.client.NotifyGameUpdate = function (game) {
+        chat.client.NotifyGameUpdate = function (game, target) {
             if (gamename == game) {
-                getGameLinks();
+                getGameLinks(target);
+                if (target == 'map') $('#gameChatLog').append('<li class="text-secondary font-weight-bold"><strong>SERVER: GAME MAP UPDATED</strong></li>');
+                else if (target == 'pic') $('#gameChatLog').append('<li class="text-secondary font-weight-bold"><strong>SERVER: GAME PIC UPDATED</strong></li>');
+                else $('#gameChatLog').append('<li class="text-secondary font-weight-bold"><strong>SERVER: GAME CONFERENCE LINK UPDATED</strong></li>');
             }
         }
 
@@ -587,7 +590,7 @@
                         data: fileData,
                         success: function (result) {
                             $('#mapResponse').html(result);
-                            chat.server.sendGameUpdate(gamename);
+                            chat.server.sendGameUpdate(gamename, 'map');
                         },
                         error: function (err) {
                             $('#mapResponse').html(err.statusText);
@@ -619,7 +622,7 @@
                         data: fileData,
                         success: function (result) {
                             $('#picResponse').html(result);
-                            chat.server.sendGameUpdate(gamename);
+                            chat.server.sendGameUpdate(gamename, 'pic');
                         },
                         error: function (err) {
                             $('#picResponse').html(err.statusText);
@@ -636,12 +639,11 @@
                 $.ajax({
                     url: 'UpdateLink',
                     type: 'POST',
-                    data: JSON.stringify({ Game: gamename, Input: "http://www." + input }),
+                    data: JSON.stringify({ Game: gamename, Input: input }),
                     dataType: 'json',
                     contentType: "application/json; charset=utf-8",
                     success: function (result) {
-                        alert(result);
-                        chat.server.sendGameUpdate(gamename);
+                        chat.server.sendGameUpdate(gamename, 'link');
                     },
                     error: function (err) {
                         alert(err.statusText);

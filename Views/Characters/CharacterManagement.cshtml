@@ -340,6 +340,13 @@
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
+    <!-- CHARACTER PIC -->
+    <div class="row">
+        <div id="charPicSlot" class="col-12 d-none">
+            <img src="" id="charPortrait" class="img-fluid mx-auto d-block" />
+        </div>
+    </div>
+
     <!-- BIOGRAPHY -->
     <div class="row bg-black">
         <div class="col-12">

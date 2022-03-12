@@ -34,9 +34,7 @@
     var transferCount = 0;
     var messageCount = 0;
     var messageModals = 0;
-
     
-
     function getActiveList() {
         $.ajax({
             type: 'GET',

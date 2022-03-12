@@ -77,9 +77,9 @@ namespace TheAftermath_V2.Hubs
         }
 
         // -- GAME MAP / PIC / CONFERENCE LINK UPDATE
-        public void SendGameUpdate(string game)
+        public void SendGameUpdate(string game, string target)
         {
-            Clients.All.NotifyGameUpdate(game);
+            Clients.All.NotifyGameUpdate(game, target);
         }
 
         // CONNECTION MAPPING -- RELIES ON = ConnectionMapping.cs
