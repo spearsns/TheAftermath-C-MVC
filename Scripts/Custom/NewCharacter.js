@@ -21,6 +21,37 @@
 	altText(lg);
 	lg.addListener(altText);
 
+	var charNameErr = false;
+
+	$('#characterName').on('change', function () {
+		var message = $("#nameLbl");
+		$.ajax({
+			type: "POST",
+			url: 'CheckCharName',
+			data: '{Charname: "' + $("#characterName").val() + '" }',
+			contentType: "application/json; charset=utf-8",
+			dataType: "json",
+			success: function (response) {
+				if (response) {
+					message.css("color", "green");
+					message.html("AVAILABLE");
+					charNameErr = false;
+					$("#submitBtn").prop("disabled", false);
+				}
+				else {
+					message.css("color", "red");
+					message.html("UNAVAILABLE");
+					charNameErr = true;
+					$("#submitBtn").prop("disabled", true);
+				}
+			}
+		});
+
+		if (charNameErr == false) {
+			$("#submitBtn").prop("disabled", false);
+		}
+	});
+
 	/* -- GLOBAL VARIABLES -- */
 	// INITIAL ATTRIBUTES
 	var memory = parseInt( $("#memory").val() );

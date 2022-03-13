@@ -25,6 +25,13 @@ namespace TheAftermath_V2.Controllers
             else return RedirectToAction("Login", "Home");
         }
 
+        [HttpPost]
+        public JsonResult CheckCharName(string charname)
+        {
+            bool isValid = !db.Characters.ToList().Exists(a => a.Name.Equals(charname, StringComparison.CurrentCultureIgnoreCase));
+            return Json(isValid);
+        }
+
         [HttpGet]
         public JsonResult GetCharacters()
         {

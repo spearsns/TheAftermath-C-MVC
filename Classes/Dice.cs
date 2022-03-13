@@ -26,11 +26,20 @@ namespace TheAftermath_V2
 
         public static string RollD100()
         {
-            var tens = (D10() - 1);
-            var ones = D10();
+            var roll = ((D10() - 1) * 10) + D10();
 
-            if (tens == ones) return "CRITICAL! " + tens + ones;
-            else return tens.ToString() + ones.ToString();
+            if (roll < 10) return "0" + roll.ToString();
+            else if(roll == 11) return "CRITICAL! 11";
+            else if (roll == 22) return "CRITICAL! 22";
+            else if (roll == 33) return "CRITICAL! 33";
+            else if (roll == 44) return "CRITICAL! 44";
+            else if (roll == 55) return "CRITICAL! 55";
+            else if (roll == 66) return "CRITICAL! 66";
+            else if (roll == 77) return "CRITICAL! 77";
+            else if (roll == 88) return "CRITICAL! 88";
+            else if (roll == 99) return "CRITICAL! 99";
+            else if (roll == 100) return "WILD CRITICAL! 00";
+            else return roll.ToString();
         }
 
         public static string RandomHit()

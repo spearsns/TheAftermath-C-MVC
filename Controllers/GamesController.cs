@@ -80,6 +80,13 @@ namespace TheAftermath_V2.Controllers
         }
 
         [HttpPost]
+        public JsonResult CheckGameName(string gamename)
+        {
+            bool isValid = !db.Campaigns.ToList().Exists(a => a.Name.Equals(gamename, StringComparison.CurrentCultureIgnoreCase));
+            return Json(isValid);
+        }
+
+        [HttpPost]
         public JsonResult GetCharacterList(string game)
         {
             Guid gameID = db.Campaigns.Where(a => a.Name == game).Select(a => a.ID).First();

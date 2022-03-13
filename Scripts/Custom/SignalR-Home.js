@@ -132,18 +132,11 @@
 
         // -- CLIENT (RECEIVING) FUNCTIONS -- //
         chat.client.NotifyOnline = function (name, count) {
-            if (username == name) {
-                getActiveList();
-                $('#lobbyChatLog').append('<li class="text-info"><strong>SERVER: ' + htmlEncode(name) + ' ONLINE</strong></li>');
-            }
-            else {
-                $('#lobbyChatLog').append('<li class="text-secondary"><strong>SERVER: ' + htmlEncode(name) + ' ONLINE</strong></li>');
-                getActiveList();
-            }
+            if (username == name) $('#lobbyChatLog').append('<li class="text-secondary font-weight-bold"><strong>SERVER: ' + username + ' JOINED THE LOBBY</strong></li>')
+            getActiveList();
         }
 
         chat.client.NotifyOffline = function (name, count) {
-            $('#lobbyChatLog').append('<li class="text-secondary"><strong>SERVER: ' + htmlEncode(name) + ' OFFLINE</strong></li>');
             getActiveList();
         }
 
@@ -257,12 +250,6 @@
                 chat.server.sendIM(username, targetUser, input);
                 $('.IM-input[data-connection="' + targetUser + '"]').val('').focus();
             });
-            /*
-            // FORCE onDisconnect TO FIRE
-            $("a").click(function () {
-                chat.server.disconnect(username);
-            });
-            */
         });
 
     });

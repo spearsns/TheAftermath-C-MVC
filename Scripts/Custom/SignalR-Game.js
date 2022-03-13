@@ -373,6 +373,7 @@
                 getGameActiveList();
                 getCharacterList();
             }
+            else $('#gameChatLog').append('<li class="font-weight-bold text-secondary"><strong>SERVER: [' + name + '] JOINED ['+ gamename +'] AS [' + charname + ']</strong></li>');
         }
 
         chat.client.NotifyOffline = function (name, count) {

@@ -49,14 +49,20 @@ namespace TheAftermath_V2.Controllers
             if (ModelState.IsValid)
             {
                 var result = db.Accounts.Where(x => x.Username.Equals(input.Username) && x.Password.Equals(input.Password)).FirstOrDefault();
+                var acctStatus = db.AccountStatus1.Where(a => a.AccountID == result.ID).Single();
 
-                if (result != null)
+                if (result != null && acctStatus.Active == false)
                 {
                     Session["Active"] = true;
                     Session["UserID"] = result.ID.ToString();
                     Session["Username"] = result.Username.ToString();
 
                     return RedirectToAction("Index", "Home", new { username = result.Username.ToString() });
+                }
+                else if (result != null && acctStatus.Active == true)
+                {
+                    ViewBag.ErrorMessage = "Username currently ACTIVE - Reset Password or Create New Account - BE SELF-CENTERED, DON'T SHARE!";
+                    return View(input);
                 }
                 else
                 {
