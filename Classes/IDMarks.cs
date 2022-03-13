@@ -7,6 +7,8 @@ namespace TheAftermath_V2.Classes
 {
     public class IDMarks
     {
+        public string UserName { get; set; } 
+        public string CharacterName { get; set; }
         public string Sex { get; set; }
         public string Status { get; set; }
         public string HairStyle { get; set; }

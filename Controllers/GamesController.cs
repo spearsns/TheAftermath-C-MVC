@@ -603,6 +603,48 @@ namespace TheAftermath_V2.Controllers
         }
 
         [HttpPost]
+        public ActionResult UpdateIDMarks(Classes.IDMarks idm)
+        {
+            string username = idm.UserName;
+            string charname = idm.CharacterName;
+
+            Guid acctID = db.Accounts.Where(a => a.Username == username).Select(a => a.ID).Single();
+            var charRecord = db.Characters.Where(a => a.Name == charname && a.AccountID == acctID).Single();
+            var idMarksRecord = db.IDMarks.Where(a => a.CharacterID == charRecord.ID).Single();
+
+            charRecord.HairStyle = idm.HairStyle;
+            charRecord.FacialHair = idm.FacialHair;
+            charRecord.Status = idm.Status;
+
+            idMarksRecord.Head = idm.Head;
+            idMarksRecord.Face = idm.Face;
+            idMarksRecord.Neck = idm.Neck;
+            idMarksRecord.LeftShoulder = idm.LeftShoulder;
+            idMarksRecord.RightShoulder = idm.RightShoulder;
+            idMarksRecord.LeftRibs = idm.LeftRibs;
+            idMarksRecord.RightRibs = idm.RightRibs;
+            idMarksRecord.LeftBicep = idm.LeftBicep;
+            idMarksRecord.RightBicep = idm.RightBicep;
+            idMarksRecord.Stomach = idm.Stomach;
+            idMarksRecord.LowerBack = idm.LowerBack;
+            idMarksRecord.LeftForearm = idm.LeftForearm;
+            idMarksRecord.RightForearm = idm.RightForearm;
+            idMarksRecord.Groin = idm.Groin;
+            idMarksRecord.Rear = idm.Rear;
+            idMarksRecord.LeftHand = idm.LeftHand;
+            idMarksRecord.RightHand = idm.RightHand;
+            idMarksRecord.LeftThigh = idm.LeftThigh;
+            idMarksRecord.RightThigh = idm.RightThigh;
+            idMarksRecord.LeftCalf = idm.LeftCalf;
+            idMarksRecord.RightCalf = idm.RightCalf;
+            idMarksRecord.LeftFoot = idm.LeftFoot;
+            idMarksRecord.RightFoot = idm.RightFoot;
+
+            db.SaveChanges();
+            return Json(charname, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
         public ActionResult UpdateLink(string game, string input)
         {
             var record = db.Campaigns.Where(a => a.Name == game).Single();

@@ -1157,291 +1157,296 @@
     </div>
 </div>
 <!-- ID MARKS MODAL -->
-<div class="modal fade" id="idMarksModal" tabindex="-4" aria-labelledby="descriptionModalLabel" aria-hidden="false">
+<div class="modal fade" id="idMarksModal" tabindex="-4" aria-labelledby="idMarksModalLabel" aria-hidden="false">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-body">
-                <div id="idMarksBG" class="container-fluid bg-black text-white" style="background-image: url('../../Content/Images/Embed/VirtruvianMan-1200x1200-50o.png'); background-size: 100% 100%; background-repeat: no-repeat;">
-                    <div class="row bg-black">
-                        <div class="col-6">
-                            <h3 class="text-center text-white font-weight-bold my-3">STATUS:</h3>
+                <form id="idMarksForm">
+                    <div id="idMarksBG" class="container-fluid bg-black text-white" style="background-image: url('../../Content/Images/Embed/VirtruvianMan-1200x1200-50o.png'); background-size: 100% 100%; background-repeat: no-repeat;">
+                        <div class="row bg-black">
+                            <div class="col-6">
+                                <h3 class="text-center text-white font-weight-bold my-3">STATUS:</h3>
+                            </div>
+                            <div class="col-6">
+                                <select name="Status" id="charStatus" class="custom-select custom-select-lg mt-2 text-center w-100">
+                                    <option value="HEALTHY">HEALTHY</option>
+                                    <option value="INJURED">INJURED</option>
+                                    <option value="RECOVERING">RECOVERING</option>
+                                    <option value="SICK">SICK</option>
+                                    <option value="DECEASED">DECEASED</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="col-6">
-                            <div class="input-group my-2 text-center">
-                                <input id="status" class="form-control text-center px-0 py-0 my-2" type="text" value="" readonly />
+                        <!-- HEAD / HAIR-->
+                        <div class="row">
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">HEAD</h5>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">HAIRSTYLE</h5>
+                            </div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="Head" id="head" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="HairStyle" id="hairStyle-ID" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- FACE / FACIAL HAIR -->
+                        <div class="row">
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">FACE</h5>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5 facialHairSlot">
+                                <h5 class="font-weight-bold text-center mt-1">FACIAL HAIR</h5>
+                            </div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="Face" id="face" class="form-control text-center px-0 py-0 facialHair" type="text" value="" />
+                                </div>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5 facialHairSlot">
+                                <div class="input-group text-center">
+                                    <input name="FacialHair" id="facialHair-ID" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- NECK / EMPTY -->
+                        <div class="row">
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">NECK</h5>
+                            </div>
+                            <div class="col-7"></div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="Neck" id="neck" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                            <div class="col-7"></div>
+                        </div>
+                        <hr />
+                        <!-- L SHOULDER / R SHOULDER -->
+                        <div class="row">
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center">LEFT SHOULDER</h5>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center">RIGHT SHOULDER</h5>
+                            </div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="LeftShoulder" id="leftShoulder" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="RightShoulder" id="rightShoulder" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- L RIBS / R RIBS -->
+                        <div class="row">
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">LEFT RIBS</h5>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">RIGHT RIBS</h5>
+                            </div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="LeftRibs" id="leftRibs" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="RightRibs" id="rightRibs" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- STOMACH / LOWER BACK -->
+                        <div class="row">
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">STOMACH</h5>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">LOWER BACK</h5>
+                            </div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="Stomach" id="stomach" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="LowerBack" id="lowerBack" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- GROIN / REAR -->
+                        <div class="row">
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">GROIN</h5>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">REAR</h5>
+                            </div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="Groin" id="groin" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="Rear" id="rear" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <!-- L BICEP / R BICEP -->
+                        <div class="row">
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">LEFT BICEP</h5>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">RIGHT BICEP</h5>
+                            </div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="LeftBicep" id="leftBicep" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="RightBicep" id="rightBicep" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- LEFT FOREARM / RIGHT FOREARM -->
+                        <div class="row">
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">LEFT FOREARM</h5>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">RIGHT FOREARM</h5>
+                            </div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="LeftForearm" id="leftForearm" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="RightForearm" id="rightForearm" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- L HAND / R HAND -->
+                        <div class="row">
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">LEFT HAND</h5>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">RIGHT HAND</h5>
+                            </div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="LeftHand" id="leftHand" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="RightHand" id="rightHand" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <!-- L THIGH / R THIGH -->
+                        <div class="row">
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center">LEFT THIGH</h5>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center">RIGHT THIGH</h5>
+                            </div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="LeftThigh" id="leftThigh" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="RightThigh" id="rightThigh" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- L CALF / R CALF -->
+                        <div class="row">
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">LEFT CALF</h5>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">RIGHT CALF</h5>
+                            </div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="LeftCalf" id="leftCalf" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="RightCalf" id="rightCalf" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- L FOOT / R FOOT -->
+                        <div class="row">
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">LEFT FOOT</h5>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">RIGHT FOOT</h5>
+                            </div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="LeftFoot" id="leftFoot" class="form-control text-center px-0 py-0 mb-2" type="text" value="" />
+                                </div>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="RightFoot" id="rightFoot" class="form-control text-center px-0 py-0 mb-2" type="text" value="" />
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <!-- HEAD / HAIR-->
-                    <div class="row">
-                        <div class="col-5">
-                            <h5 class="font-weight-bold text-center mt-1">HEAD</h5>
-                        </div>
-                        <div class="col-2"></div>
-                        <div class="col-5">
-                            <h5 class="font-weight-bold text-center mt-1">HAIRSTYLE</h5>
-                        </div>
-                        <div class="col-5">
-                            <div class="input-group text-center">
-                                <input id="head" class="form-control text-center px-0 py-0" type="text" value="" readonly />
-                            </div>
-                        </div>
-                        <div class="col-2"></div>
-                        <div class="col-5">
-                            <div class="input-group text-center">
-                                <input id="hairStyle-ID" class="form-control text-center px-0 py-0" type="text" value="" readonly />
-                            </div>
-                        </div>
-                    </div>
-                    <!-- HEAD / FACE -->
-                    <div class="row">
-                        <div class="col-5">
-                            <h5 class="font-weight-bold text-center mt-1">FACE</h5>
-                        </div>
-                        <div class="col-2"></div>
-                        <div class="col-5 facialHairSlot">
-                            <h5 class="font-weight-bold text-center mt-1">FACIAL HAIR</h5>
-                        </div>
-                        <div class="col-5">
-                            <div class="input-group text-center">
-                                <input id="face" class="form-control text-center px-0 py-0 facialHair" type="text" value="" readonly />
-                            </div>
-                        </div>
-                        <div class="col-2"></div>
-                        <div class="col-5 facialHairSlot">
-                            <div class="input-group text-center">
-                                <input id="facialHair-ID" class="form-control text-center px-0 py-0" type="text" value="" readonly />
-                            </div>
-                        </div>
-                    </div>
-                    <!-- NECK / EMPTY -->
-                    <div class="row">
-                        <div class="col-5">
-                            <h5 class="font-weight-bold text-center mt-1">NECK</h5>
-                        </div>
-                        <div class="col-7"></div>
-                        <div class="col-5">
-                            <div class="input-group text-center">
-                                <input id="neck" class="form-control text-center px-0 py-0" type="text" value="" readonly />
-                            </div>
-                        </div>
-                        <div class="col-7"></div>
-                    </div>
-                    <hr />
-                    <!-- L SHOULDER / R SHOULDER -->
-                    <div class="row">
-                        <div class="col-5">
-                            <h5 class="font-weight-bold text-center">LEFT SHOULDER</h5>
-                        </div>
-                        <div class="col-2"></div>
-                        <div class="col-5">
-                            <h5 class="font-weight-bold text-center">RIGHT SHOULDER</h5>
-                        </div>
-                        <div class="col-5">
-                            <div class="input-group text-center">
-                                <input id="leftShoulder" class="form-control text-center px-0 py-0" type="text" value="" readonly />
-                            </div>
-                        </div>
-                        <div class="col-2"></div>
-                        <div class="col-5">
-                            <div class="input-group text-center">
-                                <input id="rightShoulder" class="form-control text-center px-0 py-0" type="text" value="" readonly />
-                            </div>
-                        </div>
-                    </div>
-                    <!-- L RIBS / R RIBS -->
-                    <div class="row">
-                        <div class="col-5">
-                            <h5 class="font-weight-bold text-center mt-1">LEFT RIBS</h5>
-                        </div>
-                        <div class="col-2"></div>
-                        <div class="col-5">
-                            <h5 class="font-weight-bold text-center mt-1">RIGHT RIBS</h5>
-                        </div>
-                        <div class="col-5">
-                            <div class="input-group text-center">
-                                <input id="leftRibs" class="form-control text-center px-0 py-0" type="text" value="" readonly />
-                            </div>
-                        </div>
-                        <div class="col-2"></div>
-                        <div class="col-5">
-                            <div class="input-group text-center">
-                                <input id="rightRibs" class="form-control text-center px-0 py-0" type="text" value="" readonly />
-                            </div>
-                        </div>
-                    </div>
-                    <!-- STOMACH / LOWER BACK -->
-                    <div class="row">
-                        <div class="col-5">
-                            <h5 class="font-weight-bold text-center mt-1">STOMACH</h5>
-                        </div>
-                        <div class="col-2"></div>
-                        <div class="col-5">
-                            <h5 class="font-weight-bold text-center mt-1">LOWER BACK</h5>
-                        </div>
-                        <div class="col-5">
-                            <div class="input-group text-center">
-                                <input id="stomach" class="form-control text-center px-0 py-0" type="text" value="" readonly />
-                            </div>
-                        </div>
-                        <div class="col-2"></div>
-                        <div class="col-5">
-                            <div class="input-group text-center">
-                                <input id="lowerBack" class="form-control text-center px-0 py-0" type="text" value="" readonly />
-                            </div>
-                        </div>
-                    </div>
-                    <!-- GROIN / REAR -->
-                    <div class="row">
-                        <div class="col-5">
-                            <h5 class="font-weight-bold text-center mt-1">GROIN</h5>
-                        </div>
-                        <div class="col-2"></div>
-                        <div class="col-5">
-                            <h5 class="font-weight-bold text-center mt-1">REAR</h5>
-                        </div>
-                        <div class="col-5">
-                            <div class="input-group text-center">
-                                <input id="groin" class="form-control text-center px-0 py-0" type="text" value="" readonly />
-                            </div>
-                        </div>
-                        <div class="col-2"></div>
-                        <div class="col-5">
-                            <div class="input-group text-center">
-                                <input id="rear" class="form-control text-center px-0 py-0" type="text" value="" readonly />
-                            </div>
-                        </div>
-                    </div>
-                    <hr />
-
-                    <!-- L BICEP / R BICEP -->
-                    <div class="row">
-                        <div class="col-5">
-                            <h5 class="font-weight-bold text-center mt-1">LEFT BICEP</h5>
-                        </div>
-                        <div class="col-2"></div>
-                        <div class="col-5">
-                            <h5 class="font-weight-bold text-center mt-1">RIGHT BICEP</h5>
-                        </div>
-                        <div class="col-5">
-                            <div class="input-group text-center">
-                                <input id="leftBicep" class="form-control text-center px-0 py-0" type="text" value="" readonly />
-                            </div>
-                        </div>
-                        <div class="col-2"></div>
-                        <div class="col-5">
-                            <div class="input-group text-center">
-                                <input id="rightBicep" class="form-control text-center px-0 py-0" type="text" value="" readonly />
-                            </div>
-                        </div>
-                    </div>
-                    <!-- LEFT FOREARM / RIGHT FOREARM -->
-                    <div class="row">
-                        <div class="col-5">
-                            <h5 class="font-weight-bold text-center mt-1">LEFT FOREARM</h5>
-                        </div>
-                        <div class="col-2"></div>
-                        <div class="col-5">
-                            <h5 class="font-weight-bold text-center mt-1">RIGHT FOREARM</h5>
-                        </div>
-                        <div class="col-5">
-                            <div class="input-group text-center">
-                                <input id="leftForearm" class="form-control text-center px-0 py-0" type="text" value="" readonly />
-                            </div>
-                        </div>
-                        <div class="col-2"></div>
-                        <div class="col-5">
-                            <div class="input-group text-center">
-                                <input id="rightForearm" class="form-control text-center px-0 py-0" type="text" value="" readonly />
-                            </div>
-                        </div>
-                    </div>
-                    <!-- L HAND / R HAND -->
-                    <div class="row">
-                        <div class="col-5">
-                            <h5 class="font-weight-bold text-center mt-1">LEFT HAND</h5>
-                        </div>
-                        <div class="col-2"></div>
-                        <div class="col-5">
-                            <h5 class="font-weight-bold text-center mt-1">RIGHT HAND</h5>
-                        </div>
-                        <div class="col-5">
-                            <div class="input-group text-center">
-                                <input id="leftHand" class="form-control text-center px-0 py-0" type="text" value="" readonly />
-                            </div>
-                        </div>
-                        <div class="col-2"></div>
-                        <div class="col-5">
-                            <div class="input-group text-center">
-                                <input id="rightHand" class="form-control text-center px-0 py-0" type="text" value="" readonly />
-                            </div>
-                        </div>
-                    </div>
-                    <hr />
-                    <!-- L THIGH / R THIGH -->
-                    <div class="row">
-                        <div class="col-5">
-                            <h5 class="font-weight-bold text-center">LEFT THIGH</h5>
-                        </div>
-                        <div class="col-2"></div>
-                        <div class="col-5">
-                            <h5 class="font-weight-bold text-center">RIGHT THIGH</h5>
-                        </div>
-                        <div class="col-5">
-                            <div class="input-group text-center">
-                                <input id="leftThigh" class="form-control text-center px-0 py-0" type="text" value="" readonly />
-                            </div>
-                        </div>
-                        <div class="col-2"></div>
-                        <div class="col-5">
-                            <div class="input-group text-center">
-                                <input id="rightThigh" class="form-control text-center px-0 py-0" type="text" value="" readonly />
-                            </div>
-                        </div>
-                    </div>
-                    <!-- L CALF / R CALF -->
-                    <div class="row">
-                        <div class="col-5">
-                            <h5 class="font-weight-bold text-center mt-1">LEFT CALF</h5>
-                        </div>
-                        <div class="col-2"></div>
-                        <div class="col-5">
-                            <h5 class="font-weight-bold text-center mt-1">RIGHT CALF</h5>
-                        </div>
-                        <div class="col-5">
-                            <div class="input-group text-center">
-                                <input id="leftCalf" class="form-control text-center px-0 py-0" type="text" value="" readonly />
-                            </div>
-                        </div>
-                        <div class="col-2"></div>
-                        <div class="col-5">
-                            <div class="input-group text-center">
-                                <input id="rightCalf" class="form-control text-center px-0 py-0" type="text" value="" readonly />
-                            </div>
-                        </div>
-                    </div>
-                    <!-- L FOOT / R FOOT -->
-                    <div class="row">
-                        <div class="col-5">
-                            <h5 class="font-weight-bold text-center mt-1">LEFT FOOT</h5>
-                        </div>
-                        <div class="col-2"></div>
-                        <div class="col-5">
-                            <h5 class="font-weight-bold text-center mt-1">RIGHT FOOT</h5>
-                        </div>
-                        <div class="col-5">
-                            <div class="input-group text-center">
-                                <input id="leftFoot" class="form-control text-center px-0 py-0 mb-2" type="text" value="" readonly />
-                            </div>
-                        </div>
-                        <div class="col-2"></div>
-                        <div class="col-5">
-                            <div class="input-group text-center">
-                                <input id="rightFoot" class="form-control text-center px-0 py-0 mb-2" type="text" value="" readonly />
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </form>
                 <!-- SHORTHAND LIST -->
                 <div class="container-fluid text-center">
                     <div class="row bg-black text-white text-center">
@@ -1565,6 +1570,7 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <button id="updateIDMarksBtn" type="button" class="btn btn-lg btn-success border border-dark mx-auto" data-charname="" data-username="">UPDATE</button>
                 <button type="button" class="btn btn-lg btn-danger border border-dark mx-auto" data-dismiss="modal">CLOSE</button>
             </div>
         </div>

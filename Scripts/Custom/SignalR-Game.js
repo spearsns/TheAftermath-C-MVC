@@ -147,7 +147,7 @@
             contentType: "application/json; charset=utf-8",
             success:
                 function (results) {
-                    $("#status").val(results.Status);
+                    $("#charStatus").val(results.Status);
                     $("#hairStyle-ID").val(results.HairStyle);
                     $("#Hairstyle").val(results.HairStyle);
                     $("#facialHair-ID").val(results.FacialHair);
@@ -175,6 +175,8 @@
                     $("#rightCalf").val(results.RightCalf);
                     $("#leftFoot").val(results.LeftFoot);
                     $("#rightFoot").val(results.RightFoot);
+                    // MODIFY SUBMIT BUTTON
+                    $('#updateIDMarksBtn').attr('data-charname', charName).attr('data-username', userName);
                 }
         });
         $("#idMarksModal").modal("toggle");
@@ -205,7 +207,7 @@
             contentType: "application/json; charset=utf-8",
             success:
                 function (results) {
-                    console.log(results);
+                    //console.log(results);
                     $('#background').val(results.Background);
                     $('#strategy').val(results.Strategy);
                     $('#history').val(results.History);
@@ -298,7 +300,7 @@
         });
         $('#charSheetModal').modal('toggle');
     });
-
+     
     // -- IM BUTTONS -- //
     // FROM ONLINE LIST
     $("body").on("click", ".IM-btn", function () {
@@ -385,7 +387,8 @@
                 getGameLinks(target);
                 if (target == 'map') $('#gameChatLog').append('<li class="text-secondary font-weight-bold"><strong>SERVER: GAME MAP UPDATED</strong></li>');
                 else if (target == 'pic') $('#gameChatLog').append('<li class="text-secondary font-weight-bold"><strong>SERVER: GAME PIC UPDATED</strong></li>');
-                else $('#gameChatLog').append('<li class="text-secondary font-weight-bold"><strong>SERVER: GAME CONFERENCE LINK UPDATED</strong></li>');
+                else if (target == 'link') $('#gameChatLog').append('<li class="text-secondary font-weight-bold"><strong>SERVER: GAME CONFERENCE LINK UPDATED</strong></li>');
+                else $('#gameChatLog').append('<li class="text-secondary font-weight-bold"><strong>SERVER: ['+ target +'] ID MARKS UPDATED</strong></li>');
             }
         }
 
@@ -648,6 +651,26 @@
                     error: function (err) {
                         alert(err.statusText);
                     }
+                });
+            });
+
+            $('#updateIDMarksBtn').click(function () {
+                var userName = $(this).data('username');
+                var charName = $(this).data('charname');
+
+                var IDMdata = $("#idMarksForm").serialize() + '&UserName=' + userName + '&CharacterName=' + charName;
+
+                $.ajax({
+                    url: "UpdateIDMarks",
+                    type: "POST",
+                    dataType: 'json',
+                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                    data: IDMdata,
+                    success:
+                        function (result) {
+                            chat.server.sendGameUpdate(gamename, result);
+                            $('#idMarksModal').modal('toggle');
+                        }
                 });
             });
         });
