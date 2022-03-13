@@ -16,69 +16,84 @@
 
 						if (obj.TellActive == 0 && obj.Locked == 0) {
 							$("#gameList").append(
-								"<div class='col-md-2'>" +
+								"<div class='row'>" +
+								"<div class='col-12 order-4 col-md-2 order-md-1'>" +
 								"<button class='btn btn-block btn-success font-weight-bold my-2 px-0 playBtn' data-id='" + obj.ID + "' data-name='" + obj.Name + "'>PLAY</button>" +
 								"</div>" +
-								"<div class='col-md-2'>" +
+								"<div class='col-12 order-1 col-md-2 order-md-2'>" +
 								"<h5 class='font-weight-bold my-3 px-0 text-uppercase text-center text-white'>" + obj.Name + "</h5>" +
 								"</div>" +
-								"<div class='col-md-2'>" +
+								"<div class='col-6 order-2 d-md-none'>" +
+								"<h5 class='font-weight-bold text-white text-center my-3'>POPULATION:</h4>" +
+								"</div>" +
+								"<div class='col-6 order-3 col-md-2 order-md-3'>" +
 								"<h5 class='font-weight-bold my-3 px-0 text-center text-white'>" + obj.Population + "</h5>" +
 								"</div>" +
-								"<div class='col-md-2'>" +
+								"<div class='col-12 order-5 col-md-2 order-md-4'>" +
 								"<button class='btn btn-block btn-light font-weight-bold my-2 px-0 descriptionBtn' data-id='" + obj.ID + "' data-name='" + obj.Name + "'>INFO</button>" +
 								"</div>" +
-								"<div class='col-md-2'>" +
+								"<div class='col-12 order-6 col-md-2 order-md-5'>" +
 								"<button class='btn btn-block btn-primary font-weight-bold my-2 px-0 tellBtn' data-id='" + obj.ID + "' data-name='" + obj.Name + "'>TELL</button>" +
 								"</div>" +
-								"<div class='col-md-2'>" +
+								"<div class='col-12 order-7 col-md-2 order-md-6'>" +
 								"<button class='btn btn-block btn-secondary font-weight-bold my-2 px-0 adminBtn' data-id='" + obj.ID + "' data-name='" + obj.Name + "'>ADMIN</button>" +
+								"</div>" +
 								"</div>" +
 								"<hr class='d-md-none'>"
 							);
 						}
 						else if (obj.Locked == 1) {
 							$("#gameList").append(
-								"<div class='col-md-2'>" +
+								"<div class='row'>" +
+								"<div class='col-12 order-4 col-md-2 order-md-1'>" +
 								"<img src='Content/Images/Icons/LockIcon-white-50x50.png' class='d-block mx-auto my-1' />" +
 								"</div>" +
-								"<div class='col-md-2'>" +
+								"<div class='col-12 order-1 col-md-2 order-md-2'>" +
 								"<h5 class='font-weight-bold my-3 px-0 text-uppercase text-center text-white'>" + obj.Name + "</h5>" +
 								"</div>" +
-								"<div class='col-md-2'>" +
+								"<div class='col-6 order-2 d-md-none'>" +
+								"<h5 class='font-weight-bold text-white text-center my-3'>POPULATION:</h4>" +
+								"</div>" +
+								"<div class='col-6 order-3 col-md-2 order-md-3'>" +
 								"<h5 class='font-weight-bold my-3 px-0 text-center text-white'>" + obj.Population + "</h5>" +
 								"</div>" +
-								"<div class='col-md-2'>" +
+								"<div class='col-12 order-5 col-md-2 order-md-4'>" +
 								"<button class='btn btn-block btn-light font-weight-bold my-2 px-0 descriptionBtn' data-id='" + obj.ID + "' data-name='" + obj.Name + "'>INFO</button>" +
 								"</div>" +
-								"<div class='col-md-2'>" +
+								"<div class='col-12 order-6 col-md-2 order-md-5'>" +
 								"<img src='Content/Images/Icons/LockIcon-white-50x50.png' class='d-block mx-auto my-1' />" +
 								"</div>" +
-								"<div class='col-md-2'>" +
+								"<div class='col-12 order-7 col-md-2 order-md-6'>" +
 								"<img src='Content/Images/Icons/LockIcon-white-50x50.png' class='d-block mx-auto my-1' />" +
+								"</div>" +
 								"</div>" +
 								"<hr class='d-md-none'>"
 							);
 						}
 						else if (obj.TellActive == 1) {
 							$("#gameList").append(
-								"<div class='col-md-2'>" +
+								"<div class='row'>" +
+								"<div class='col-12 order-4 col-md-2 order-md-1'>" +
 								"<button class='btn btn-block btn-success font-weight-bold my-2 px-0 playBtn' data-id='" + obj.ID + "' data-name='" + obj.Name + "'>PLAY</button>" +
 								"</div>" +
-								"<div class='col-md-2'>" +
+								"<div class='col-12 order-1 col-md-2 order-md-2'>" +
 								"<h5 class='font-weight-bold my-3 px-0 text-uppercase text-center text-white'>" + obj.Name + "</h5>" +
 								"</div>" +
-								"<div class='col-md-2'>" +
+								"<div class='col-6 order-2 d-md-none'>" +
+								"<h5 class='font-weight-bold text-white text-center my-3'>POPULATION:</h4>" +
+								"</div>" +
+								"<div class='col-6 order-3 col-md-2 order-md-3'>" +
 								"<h5 class='font-weight-bold my-3 px-0 text-center text-white'>" + obj.Population + "</h5>" +
 								"</div>" +
-								"<div class='col-md-2'>" +
+								"<div class='col-12 order-5 col-md-2 order-md-4'>" +
 								"<button class='btn btn-block btn-light font-weight-bold my-2 px-0 descriptionBtn' data-id='" + obj.ID + "' data-name='" + obj.Name + "'>INFO</button>" +
 								"</div>" +
-								"<div class='col-md-2'>" +
+								"<div class='col-12 order-6 col-md-2 order-md-5'>" +
 								'<img src="Content/Images/Icons/LockIcon-white-50x50.png" class="d-block mx-auto my-1" />' +
 								"</div>" +
-								"<div class='col-md-2'>" +
+								"<div class='col-12 order-7 col-md-2 order-md-6'>" +
 								'<img src="Content/Images/Icons/LockIcon-white-50x50.png" class="d-block mx-auto my-1" />' +
+								"</div>" +
 								"</div>" +
 								"<hr class='d-md-none'>"
 							);
@@ -167,25 +182,34 @@
 										for (var i = 0; i < results.length; i++) {
 
 											var obj = results[i];
-											if (obj.Status != "Dead") {
+											if (obj.Status != "DECEASED") {
 												$("#characterList").append(
-													"<div class='col-md-1'></div>" +
-													"<div class='col-md-2'>" +
+													"<div class='row'>" +
+													"<div class='col-lg-1'></div>" +
+													"<div class='col-12 col-lg-2'>" +
 													"<a href='Games/Play?game="+ gameName +"&char="+ obj.Name +"&user="+ username +"' class='btn btn-block btn-warning font-weight-bold my-2 px-0 charSelectBtn' data-name='" + obj.Name + "' type='button' >" + obj.Name + "</a>" +
 													"</div>" +
-													"<div class='col-md-2'>" +
+													"<div class='col-12 col-lg-2'>" +
 													"<h5 class='font-weight-bold my-3 px-0 text-uppercase text-center text-white'>" + obj.Status + "</h5>" +
 													"</div>" +
-													"<div class='col-md-2'>" +
+													"<div class='col-12 col-lg-2'>" +
 													"<h5 class='font-weight-bold my-3 px-0 text-uppercase text-center text-white'>" + obj.Background + "</h5>" +
 													"</div>" +
-													"<div class='col-md-2'>" +
+													"<div class='col-6 d-lg-none'>" +
+													"<h5 class='font-weight-bold my-3 px-0 text-center text-white'>TOTAL EXP:</h5>" +
+													"</div>" +
+													"<div class='col-6 col-lg-2'>" +
 													"<h5 class='font-weight-bold my-3 px-0 text-center text-white'>" + obj.TotalExp + "</h5>" +
 													"</div>" +
-													"<div class='col-md-2'>" +
+													"<div class='col-6 d-lg-none'>" +
+													"<h5 class='font-weight-bold my-3 px-0 text-center text-white'>EXP POOL:</h5>" +
+													"</div>" +
+													"<div class='col-6 col-lg-2'>" +
 													"<h5 class='font-weight-bold my-3 px-0 text-center text-white'>" + obj.AvailableExp + "</h5>" +
 													"</div>" +
-													"<div class='col-md-1'></div>"
+													"<div class='col-lg-1'></div>" +
+													"</div>" +
+													"<hr class='d-md-none'>"
 												);
 											}
 										}

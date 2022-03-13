@@ -137,6 +137,14 @@ html {
     background-repeat: no-repeat;
 }
 
+.mh-5 {
+    min-height: 5vh;
+}
+
+.mh-10 {
+    min-height: 10vh;
+}
+
 .text-black{
     color: black;
 }
