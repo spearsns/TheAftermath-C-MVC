@@ -51,15 +51,15 @@
 
                         if (user.Username == username) continue;
                         else {
-                            if (user.Play == true) css = "text-success";
-                            else if (user.Admin == true) css = "text-danger";
-                            else if (user.Tell == true) css = "text-primary";
-                            else css = "text-dark";
+                            if (user.Play == true) css = "text-success border-success";
+                            else if (user.Admin == true) css = "text-red border-red";
+                            else if (user.Tell == true) css = "text-red border-red";
+                            else css = "text-dark border-dark";
 
                             if ($("#sessionUsername").length > 0) {
-                                $("#lobbyActiveUserList").append("<button class='btn btn-block border border-dark font-weight-bold text-center mt-1 " + css + " IM-btn' data-connection='" + user.Username + "'>" + user.Username + "</button>");
+                                $("#lobbyActiveUserList").append("<button class='btn btn-block border font-weight-bold text-center mt-1 " + css + " IM-btn' data-connection='" + user.Username + "'>" + user.Username + "</button>");
                             }
-                            else $("#lobbyActiveUserList").append("<button class='btn btn-block border border-dark font-weight-bold text-center mt-1 " + css + " IM-btn' data-connection='" + user.Username + "' disabled >" + user.Username + "</button>");
+                            else $("#lobbyActiveUserList").append("<button class='btn btn-block border font-weight-bold text-center mt-1 " + css + " IM-btn' data-connection='" + user.Username + "' disabled >" + user.Username + "</button>");
                         }
                     }
                 }

@@ -657,28 +657,30 @@ namespace TheAftermath_V2.Controllers
         public JsonResult UpdateStatus(string user, string character, string game)
         {
             Guid acctID = db.Accounts.Where(a => a.Username == user).Select(a => a.ID).Single();
-            Guid gameID = db.Campaigns.Where(a => a.Name == game).Select(a => a.ID).Single();
-            var record = db.AccountStatus1.Where(a => a.AccountID == acctID).First();
+            var gameRecord = db.Campaigns.Where(a => a.Name == game).First();
+            var statusRecord = db.AccountStatus1.Where(a => a.AccountID == acctID).First();
 
             if (character != "STORYTELLER")
             {
-                record.Active = true;
-                record.Admin = false;
-                record.Play = true;
-                record.Tell = false;
-                record.CampaignID = gameID;
-                record.CharacterID = db.Characters.Where(a => a.Name == character && a.AccountID == acctID).Select(a => a.ID).Single();
-                record.Timestamp = DateTime.Now;
+                statusRecord.Active = true;
+                statusRecord.Admin = false;
+                statusRecord.Play = true;
+                statusRecord.Tell = false;
+                statusRecord.CampaignID = gameRecord.ID;
+                statusRecord.CharacterID = db.Characters.Where(a => a.Name == character && a.AccountID == acctID).Select(a => a.ID).Single();
+                statusRecord.Timestamp = DateTime.Now;
             }
             else
             {
-                record.Active = true;
-                record.Admin = false;
-                record.Play = false;
-                record.Tell = true;
-                record.CampaignID = gameID;
-                record.CharacterID = null;
-                record.Timestamp = DateTime.Now;
+                statusRecord.Active = true;
+                statusRecord.Admin = false;
+                statusRecord.Play = false;
+                statusRecord.Tell = true;
+                statusRecord.CampaignID = gameRecord.ID;
+                statusRecord.CharacterID = null;
+                statusRecord.Timestamp = DateTime.Now;
+
+                gameRecord.TellActive = true;
             }
             db.SaveChanges();
 

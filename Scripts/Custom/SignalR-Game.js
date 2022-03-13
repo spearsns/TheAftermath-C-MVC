@@ -17,7 +17,7 @@
             contentType: "application/json; charset=utf-8",
             success:
                 function (result) {
-                    console.log(result + " - Logged in as : " + username);
+                    console.log(result + " - Logged in as : " + username + " playing as ["+ charname +"]");
                     getGameActiveList();
                 }
         });
@@ -55,15 +55,16 @@
             success:
                 function (results) {
                     $('#gameActiveUserList').html('');
+                    $("#storytellerName").val("ABSENT").addClass("text-red font-weight-bold border border-red bw-thick");
 
                     for (i = 0; i < results.length; i++) {
                         var result = results[i];
 
                         if (result.Username == username && result.Tell != true) continue;
-                        else if (result.Username == username && result.Tell == true) $("#storytellerName").val(result.Username);
+                        else if (result.Username == username && result.Tell == true) $("#storytellerName").val(result.Username).removeClass("bw-thick");
                         else if (result.Tell == true) {
-                            $("#storytellerName").val(result.Username);
-                            $("#gameActiveUserList").append("<button class='btn btn-block border border-danger font-weight-bold text-danger text-center mt-1 IM-btn' data-connection='" + result.Username + "'>" + result.Username + "</button>")
+                            $("#storytellerName").val(result.Username).removeClass("bw-thick");
+                            $("#gameActiveUserList").append("<button class='btn btn-block border border-danger font-weight-bold text-danger text-center mt-1 IM-btn' data-connection='" + result.Username + "'>" + result.Username + "</button>");
                         }
                         else $("#gameActiveUserList").append("<button class='btn btn-block border border-dark font-weight-bold text-center mt-1 IM-btn' data-connection='" + result.Username + "'>" + result.Username + "</button>");
                     }
@@ -80,9 +81,10 @@
             contentType: "application/json; charset=utf-8",
             success:
                 function (results) {
+                    $('#characterList').html('');
+
                     for (i = 0; i < results.length; i++) {
                         var result = results[i];
-                        $('#characterList').html('');
                         $('#characterList').append(
                             // PLAYER BUTTON FOR IM's
                             '<div class="col-2">' +
@@ -367,7 +369,6 @@
         // -- CLIENT (RECEIVING) FUNCTIONS -- //
         // CHATROOM & PLAY
         chat.client.NotifyOnline = function (name, count) {
-            $("#gameChatLog li:last-child").focus();
             if (username != name) {
                 getGameActiveList();
                 getCharacterList();
@@ -375,7 +376,6 @@
         }
 
         chat.client.NotifyOffline = function (name, count) {
-            $("#gameChatLog li:last-child").focus();
             if (username != name) {
                 getGameActiveList();
                 getCharacterList();
