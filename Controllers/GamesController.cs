@@ -2,18 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 using TheAftermath_V2.Models;
-using WebMatrix.WebData;
 
 namespace TheAftermath_V2.Controllers
 {
     public class GamesController : Controller
     {
-        public AftermathV1Entities db = new AftermathV1Entities();
+        public AftermathDBEntities db = new AftermathDBEntities();
 
         // -- ADMIN PAGE -- //
         public ActionResult Admin()
@@ -27,7 +24,7 @@ namespace TheAftermath_V2.Controllers
                 db.SaveChanges();
 
                 // UPDATE ACCOUNT STATUS
-                var record = db.AccountStatus1.Where(a => a.AccountID == acctID).First();
+                var record = db.AccountStatus.Where(a => a.AccountID == acctID).First();
                 record.Active = true;
                 record.Admin = true;
                 record.Play = false;
@@ -91,7 +88,7 @@ namespace TheAftermath_V2.Controllers
         {
             Guid gameID = db.Campaigns.Where(a => a.Name == game).Select(a => a.ID).First();
 
-            var characterQ = from ax in db.AccountStatus1
+            var characterQ = from ax in db.AccountStatus
                              where ax.CampaignID == gameID
                              join a in db.Accounts on ax.AccountID equals a.ID
                              join c in db.Characters on ax.CharacterID equals c.ID
@@ -115,7 +112,7 @@ namespace TheAftermath_V2.Controllers
 
             var skillQuery = from cs in db.CharacterSkills
                              where cs.CharacterID == character.ID
-                             join s in db.Skills on cs.MasterID equals s.ID
+                             join s in db.Skills on cs.SkillID equals s.ID
                              select new { s.Name, s.Type, s.Class, cs.Value };
 
             List<Classes.SkillData> skillList = new List<Classes.SkillData>();
@@ -137,10 +134,6 @@ namespace TheAftermath_V2.Controllers
                 Birthdate = character.Birthdate,
                 Sex = character.Sex,
                 Ethnicity = character.Ethnicity,
-                HairColor = character.HairColor,
-                HairStyle = character.HairStyle,
-                FacialHair = character.FacialHair,
-                EyeColor = character.EyeColor,
                 Habitat = character.Habitat,
                 History = db.Histories.Where(a => a.ID == character.History).Select(a => a.Name).First(),
                 Strategy = character.Strategy,
@@ -158,9 +151,6 @@ namespace TheAftermath_V2.Controllers
                 Agility = charAttrs.Where(a => a.Name == "Agility").Select(a => a.Value).First(),
                 Speed = charAttrs.Where(a => a.Name == "Speed").Select(a => a.Value).First(),
                 Beauty = charAttrs.Where(a => a.Name == "Beauty").Select(a => a.Value).First(),
-
-                Sequence = charAttrs.Where(a => a.Name == "Sequence").Select(a => a.Value).First(),
-                Actions = charAttrs.Where(a => a.Name == "Actions").Select(a => a.Value).First(),
 
                 Skills = skillList,
                 Abilities = abilityList
@@ -184,7 +174,7 @@ namespace TheAftermath_V2.Controllers
         {
             Guid gameID = db.Campaigns.Where(a => a.Name == game).Select(a => a.ID).First();
 
-            var activeQ = from ax in db.AccountStatus1
+            var activeQ = from ax in db.AccountStatus
                           where ax.CampaignID == gameID
                           join a in db.Accounts on ax.AccountID equals a.ID
                           select new { a.Username, ax.Play, ax.Tell };
@@ -258,7 +248,7 @@ namespace TheAftermath_V2.Controllers
                 {
                     ID = x.ID,
                     Name = x.Name,
-                    Population = db.AccountStatus1.Where(a => a.CampaignID == x.ID).Count(),
+                    Population = db.AccountStatus.Where(a => a.CampaignID == x.ID).Count(),
                     TellActive = x.TellActive,
                     Locked = x.Locked
                 });
@@ -280,8 +270,10 @@ namespace TheAftermath_V2.Controllers
                           {
                               c.Sex,
                               c.Status,
-                              c.HairStyle,
-                              c.FacialHair,
+                              id.EyeColor,
+                              id.HairColor,
+                              id.HairStyle,
+                              id.FacialHair,
                               id.Head,
                               id.Face,
                               id.Neck,
@@ -409,7 +401,7 @@ namespace TheAftermath_V2.Controllers
 
                 var skillQuery = from s in db.Skills
                                  where s.Type == "Standard" && s.Disabled == false
-                                 join cs in db.CharacterSkills on s.ID equals cs.MasterID
+                                 join cs in db.CharacterSkills on s.ID equals cs.SkillID
                                  select new { s.Name, s.Description, cs.Value };
 
                 List<Classes.SkillData> skillList = new List<Classes.SkillData>();
@@ -423,6 +415,14 @@ namespace TheAftermath_V2.Controllers
                 List<Classes.AbilityData> abilityList = new List<Classes.AbilityData>();
                 foreach (var ability in abilityQuery) abilityList.Add(new Classes.AbilityData { Name = ability.Name, Description = ability.Description, Effects = ability.Effects });
 
+                Classes.IDMarks idMarks = new Classes.IDMarks
+                {
+                    EyeColor = db.IDMarks.Where(a => a.CharacterID == character.ID).Select(a => a.EyeColor).FirstOrDefault(),
+                    HairColor = db.IDMarks.Where(a => a.CharacterID == character.ID).Select(a => a.HairColor).FirstOrDefault(),
+                    HairStyle = db.IDMarks.Where(a => a.CharacterID == character.ID).Select(a => a.HairStyle).FirstOrDefault(),
+                    FacialHair = db.IDMarks.Where(a => a.CharacterID == character.ID).Select(a => a.FacialHair).FirstOrDefault()
+                };
+
                 Classes.CharacterData charData = new Classes.CharacterData
                 {
                     // DEMOGRAPHICS
@@ -431,10 +431,6 @@ namespace TheAftermath_V2.Controllers
                     Birthdate = character.Birthdate,
                     Sex = character.Sex,
                     Ethnicity = character.Ethnicity,
-                    HairColor = character.HairColor,
-                    HairStyle = character.HairStyle,
-                    FacialHair = character.FacialHair,
-                    EyeColor = character.EyeColor,
                     Habitat = character.Habitat,
                     History = db.Histories.Where(a => a.ID == character.History).Select(a => a.Name).First(),
                     Strategy = character.Strategy,
@@ -455,12 +451,9 @@ namespace TheAftermath_V2.Controllers
                     Speed = charAttrs.Where(a => a.Name == "Speed").Select(a => a.Value).First(),
                     Beauty = charAttrs.Where(a => a.Name == "Beauty").Select(a => a.Value).First(),
 
-                    Sequence = charAttrs.Where(a => a.Name == "Sequence").Select(a => a.Value).First(),
-                    Actions = charAttrs.Where(a => a.Name == "Actions").Select(a => a.Value).First(),
-
                     Skills = skillList,
                     Abilities = abilityList,
-                    IDMarks = db.IDMarks.Where(a => a.CharacterID == character.ID).ToList()
+                    IDMarks = idMarks
                 };
                 return View(charData);
             }
@@ -549,7 +542,7 @@ namespace TheAftermath_V2.Controllers
                     {
                         HttpPostedFileBase file = files[i];
                         string extension = Path.GetExtension(file.FileName);
-                        string fname = game +"-Map-" + DateTime.Now.ToString("MMddyyyy-HHmmss") + extension;
+                        string fname = game + "-Map-" + DateTime.Now.ToString("MMddyyyy-HHmmss") + extension;
                         mapLoc = fname;
 
                         string filename = Path.Combine(Server.MapPath("~/Uploads/Games/Maps/"), fname);
@@ -619,8 +612,8 @@ namespace TheAftermath_V2.Controllers
             var charRecord = db.Characters.Where(a => a.Name == charname && a.AccountID == acctID).Single();
             var idMarksRecord = db.IDMarks.Where(a => a.CharacterID == charRecord.ID).Single();
 
-            charRecord.HairStyle = idm.HairStyle;
-            charRecord.FacialHair = idm.FacialHair;
+            idMarksRecord.HairStyle = idm.HairStyle;
+            idMarksRecord.FacialHair = idm.FacialHair;
             charRecord.Status = idm.Status;
 
             idMarksRecord.Head = idm.Head;
@@ -665,7 +658,7 @@ namespace TheAftermath_V2.Controllers
         {
             Guid acctID = db.Accounts.Where(a => a.Username == user).Select(a => a.ID).Single();
             var gameRecord = db.Campaigns.Where(a => a.Name == game).First();
-            var statusRecord = db.AccountStatus1.Where(a => a.AccountID == acctID).First();
+            var statusRecord = db.AccountStatus.Where(a => a.AccountID == acctID).First();
 
             if (character != "STORYTELLER")
             {

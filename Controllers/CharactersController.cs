@@ -1,22 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web.Mvc;
 using TheAftermath_V2.Models;
-using System;
-using System.Linq.Expressions;
-using System.Data.SqlClient;
-using System.Data.Common;
-using System.Globalization;
-using Newtonsoft.Json;
-using System.Web.Script.Serialization;
 
 namespace TheAftermath_V2.Controllers
 {
     public class CharactersController : Controller
     {
         // GET: Characters
-        public AftermathV1Entities db = new AftermathV1Entities();
+        public AftermathDBEntities db = new AftermathDBEntities();
 
         /* -- INDEX (CHARACTER SELECT) -- */
         public ActionResult Index()
@@ -59,7 +53,7 @@ namespace TheAftermath_V2.Controllers
         /* -- NEW CHARACTER -- */
         public ActionResult NewCharacter()
         {
-            if (Session["Active"] != null) 
+            if (Session["Active"] != null)
             {
                 NewCharModel newChar = new NewCharModel
                 {
@@ -86,7 +80,7 @@ namespace TheAftermath_V2.Controllers
                 return View(newChar);
             }
             else return RedirectToAction("Login", "Home");
-            
+
         }
 
         [HttpGet]
@@ -217,7 +211,7 @@ namespace TheAftermath_V2.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult NewCharacter([Bind(Include = "Background, Strategy, History, Habitat, Name, Birthdate, Sex, Ethnicity, HairColor, EyeColor, HairStyle, FacialHair,"+
-                                        "Memory, Logic, Perception, Willpower, Charisma, Strength, Endurance, Agility, Speed, Beauty, Sequence, Actions")] Models.NewCharModel input)
+                                        "Memory, Logic, Perception, Willpower, Charisma, Strength, Endurance, Agility, Speed, Beauty")] NewCharModel input)
         {
             if (ModelState.IsValid)
             {
@@ -230,11 +224,6 @@ namespace TheAftermath_V2.Controllers
                     Birthdate = input.Birthdate,
                     Sex = input.Sex,
                     Ethnicity = input.Ethnicity,
-                    HairColor = input.HairColor,
-                    HairStyle = input.HairStyle,
-                    FacialHair = input.FacialHair,
-                    EyeColor = input.EyeColor,
-
                     Strategy = input.Strategy,
                     Habitat = input.Habitat,
                     History = db.Histories.Where(x => x.Name == input.History).Select(x => x.ID).Single(),
@@ -258,10 +247,7 @@ namespace TheAftermath_V2.Controllers
                     new CharacterAttribute { ID = Guid.NewGuid(), CharacterID = character.ID, AttributeID = db.Attributes.Where(x => x.Name == "Endurance").Select(x => x.ID).FirstOrDefault(), Value = (byte)input.Endurance },
                     new CharacterAttribute { ID = Guid.NewGuid(), CharacterID = character.ID, AttributeID = db.Attributes.Where(x => x.Name == "Agility").Select(x => x.ID).FirstOrDefault(), Value = (byte)input.Agility },
                     new CharacterAttribute { ID = Guid.NewGuid(), CharacterID = character.ID, AttributeID = db.Attributes.Where(x => x.Name == "Speed").Select(x => x.ID).FirstOrDefault(), Value = (byte)input.Speed },
-                    new CharacterAttribute { ID = Guid.NewGuid(), CharacterID = character.ID, AttributeID = db.Attributes.Where(x => x.Name == "Beauty").Select(x => x.ID).FirstOrDefault(), Value = (byte)input.Beauty },
-
-                    new CharacterAttribute { ID = Guid.NewGuid(), CharacterID = character.ID, AttributeID = db.Attributes.Where(x => x.Name == "Sequence").Select(x => x.ID).FirstOrDefault(), Value = (byte)input.Sequence },
-                    new CharacterAttribute { ID = Guid.NewGuid(), CharacterID = character.ID, AttributeID = db.Attributes.Where(x => x.Name == "Actions").Select(x => x.ID).FirstOrDefault(), Value = (byte)input.Actions }
+                    new CharacterAttribute { ID = Guid.NewGuid(), CharacterID = character.ID, AttributeID = db.Attributes.Where(x => x.Name == "Beauty").Select(x => x.ID).FirstOrDefault(), Value = (byte)input.Beauty }
                 };
                 foreach (var attr in charAttrs) db.CharacterAttributes.Add(attr);
                 db.SaveChanges();
@@ -277,7 +263,7 @@ namespace TheAftermath_V2.Controllers
                         {
                             ID = Guid.NewGuid(),
                             CharacterID = character.ID,
-                            MasterID = (Guid)db.Skills.Where(x => x.Name == skillName).Select(x => x.ID).First(),
+                            SkillID = (Guid)db.Skills.Where(x => x.Name == skillName).Select(x => x.ID).First(),
                             Value = Convert.ToInt16(Request.Form[key])
                         });
                     }
@@ -298,11 +284,15 @@ namespace TheAftermath_V2.Controllers
                 var charID = new IDMark
                 {
                     ID = Guid.NewGuid(),
-                    CharacterID = character.ID
+                    CharacterID = character.ID,
+                    HairColor = input.HairColor,
+                    HairStyle = input.HairStyle,
+                    FacialHair = input.FacialHair,
+                    EyeColor = input.EyeColor,
                 };
                 db.IDMarks.Add(charID);
                 db.SaveChanges();
-                                
+
                 ViewBag.ErrorMessage = "Success";
                 return RedirectToAction("Success", "Home");
             }
@@ -322,7 +312,7 @@ namespace TheAftermath_V2.Controllers
 
                 var skillQuery = from s in db.Skills
                                  where s.Type == "Standard" && s.Disabled == false
-                                 join cs in db.CharacterSkills on s.ID equals cs.MasterID
+                                 join cs in db.CharacterSkills on s.ID equals cs.SkillID
                                  select new { s.Name, s.Description, cs.Value };
 
                 List<Classes.SkillData> skillList = new List<Classes.SkillData>();
@@ -336,6 +326,14 @@ namespace TheAftermath_V2.Controllers
                 List<Classes.AbilityData> abilityList = new List<Classes.AbilityData>();
                 foreach (var ability in abilityQuery) abilityList.Add(new Classes.AbilityData { Name = ability.Name, Description = ability.Description, Effects = ability.Effects });
 
+                Classes.IDMarks idMarks = new Classes.IDMarks
+                {
+                    EyeColor = db.IDMarks.Where(a => a.CharacterID == character.ID).Select(a => a.EyeColor).FirstOrDefault(),
+                    HairColor = db.IDMarks.Where(a => a.CharacterID == character.ID).Select(a => a.HairColor).FirstOrDefault(),
+                    HairStyle = db.IDMarks.Where(a => a.CharacterID == character.ID).Select(a => a.HairStyle).FirstOrDefault(),
+                    FacialHair = db.IDMarks.Where(a => a.CharacterID == character.ID).Select(a => a.FacialHair).FirstOrDefault()
+                };
+
                 Classes.CharacterData charData = new Classes.CharacterData
                 {
                     // DEMOGRAPHICS
@@ -344,10 +342,6 @@ namespace TheAftermath_V2.Controllers
                     Birthdate = character.Birthdate,
                     Sex = character.Sex,
                     Ethnicity = character.Ethnicity,
-                    HairColor = character.HairColor,
-                    HairStyle = character.HairStyle,
-                    FacialHair = character.FacialHair,
-                    EyeColor = character.EyeColor,
                     Habitat = character.Habitat,
                     History = db.Histories.Where(a => a.ID == character.History).Select(a => a.Name).First(),
                     Strategy = character.Strategy,
@@ -368,12 +362,9 @@ namespace TheAftermath_V2.Controllers
                     Speed = charAttrs.Where(a => a.Name == "Speed").Select(a => a.Value).First(),
                     Beauty = charAttrs.Where(a => a.Name == "Beauty").Select(a => a.Value).First(),
 
-                    Sequence = charAttrs.Where(a => a.Name == "Sequence").Select(a => a.Value).First(),
-                    Actions = charAttrs.Where(a => a.Name == "Actions").Select(a => a.Value).First(),
-
                     Skills = skillList,
                     Abilities = abilityList,
-                    IDMarks = db.IDMarks.Where(a => a.CharacterID == character.ID).ToList()
+                    IDMarks = idMarks
                 };
                 return View(charData);
             }
@@ -387,7 +378,7 @@ namespace TheAftermath_V2.Controllers
             Guid charID = db.Characters.Where(a => a.Name == name && a.AccountID == acctID).Select(a => a.ID).Single();
             var skillQuery = from cs in db.CharacterSkills
                              where cs.CharacterID == charID
-                             join s in db.Skills on cs.MasterID equals s.ID
+                             join s in db.Skills on cs.SkillID equals s.ID
                              select new { s.Name, s.ShortTxt, s.LongTxt, s.Class, s.Type, s.Description, cs.Value };
 
             List<Classes.SkillData> skillList = new List<Classes.SkillData>();
@@ -410,9 +401,9 @@ namespace TheAftermath_V2.Controllers
             Guid acctID = Guid.Parse(Session["UserID"].ToString());
             Guid charID = db.Characters.Where(a => a.Name == name && a.AccountID == acctID).Select(a => a.ID).Single();
             var abilityQ = from ca in db.CharacterAbilities
-                             where ca.CharacterID == charID
-                             join a in db.Abilities on ca.AbilityID equals a.ID
-                             select new { a.Name, a.Description, a.Effects };
+                           where ca.CharacterID == charID
+                           join a in db.Abilities on ca.AbilityID equals a.ID
+                           select new { a.Name, a.Description, a.Effects };
 
             List<Classes.AbilityData> abilityList = new List<Classes.AbilityData>();
             foreach (var ability in abilityQ) abilityList.Add(new Classes.AbilityData
@@ -428,7 +419,7 @@ namespace TheAftermath_V2.Controllers
         public JsonResult GetAbilities(string target)
         {
             List<Ability> newAbilityList = new List<Ability>();
-            
+
             if (target == "Other")
             {
                 List<string> others = new List<string> { "Other", "Conditioning", "Ensure", "Quickdraw" };
@@ -439,15 +430,15 @@ namespace TheAftermath_V2.Controllers
                                         where a.Disabled == false && a.Name.Contains(abl)
                                         select new { a.Name, a.Description, a.Effects, a.Requirements, a.Cost };
 
-                    foreach (var oa in otherAblQuery) newAbilityList.Add(new Ability { 
-                                                                            Name = oa.Name,
-                                                                            Description = oa.Description,
-                                                                            Effects = oa.Effects,
-                                                                            Requirements = oa.Requirements,
-                                                                            Cost = oa.Cost
+                    foreach (var oa in otherAblQuery) newAbilityList.Add(new Ability
+                    {
+                        Name = oa.Name,
+                        Description = oa.Description,
+                        Effects = oa.Effects,
+                        Requirements = oa.Requirements,
+                        Cost = oa.Cost
                     });
                 }
-                //var abilities = db.Abilities.Where(x => others.Contains(x.Name));
             }
             else
             {
@@ -473,20 +464,20 @@ namespace TheAftermath_V2.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CharacterManagement([Bind(Include = "Name, Memory, Logic, Perception, Willpower, Charisma, Strength, Endurance, Agility, Speed, Beauty, Sequence, Actions, AvailableExp")] Classes.CharacterData input)
+        public ActionResult CharacterManagement([Bind(Include = "Name, Memory, Logic, Perception, Willpower, Charisma, Strength, Endurance, Agility, Speed, Beauty, AvailableExp")] Classes.CharacterData input)
         {
             if (ModelState.IsValid)
             {
                 Guid acctID = Guid.Parse(Session["UserID"].ToString());
                 string charName = input.Name;
-                var charID = db.Characters.Where(x => x.AccountID.Equals(acctID) && x.Name.Equals(charName)).Select(x=>x.ID).First();
+                var charID = db.Characters.Where(x => x.AccountID.Equals(acctID) && x.Name.Equals(charName)).Select(x => x.ID).First();
 
                 //UPDATE ATTRIBUTES
                 var charAttrs = (from ca in db.CharacterAttributes
                                  where ca.CharacterID == charID
                                  join a in db.Attributes on ca.AttributeID equals a.ID
                                  select new { ca.ID, a.Name, ca.AttributeID, ca.Value }).ToList();
-                
+
                 foreach (var attr in charAttrs)
                 {
                     if (attr.Name == "Memory")
@@ -534,16 +525,6 @@ namespace TheAftermath_V2.Controllers
                         var result = db.CharacterAttributes.Where(x => x.ID.Equals(attr.ID)).First();
                         result.Value = input.Speed;
                     }
-                    else if (attr.Name == "Sequence")
-                    {
-                        var result = db.CharacterAttributes.Where(x => x.ID.Equals(attr.ID)).First();
-                        result.Value = input.Sequence;
-                    }
-                    else if (attr.Name == "Actions")
-                    {
-                        var result = db.CharacterAttributes.Where(x => x.ID.Equals(attr.ID)).First();
-                        result.Value = input.Actions;
-                    }
                     db.SaveChanges();
                 }
 
@@ -551,12 +532,12 @@ namespace TheAftermath_V2.Controllers
                 // GET EXISTING SKILLS
                 var charSkills = (from cs in db.CharacterSkills
                                   where cs.CharacterID == charID
-                                  join s in db.Skills on cs.MasterID equals s.ID
-                                  select new { cs.ID, s.Name, cs.MasterID, cs.Value }).ToList();
+                                  join s in db.Skills on cs.SkillID equals s.ID
+                                  select new { cs.ID, s.Name, cs.SkillID, cs.Value }).ToList();
 
                 List<string> skillCheck = new List<string>();
                 foreach (var cs in charSkills) skillCheck.Add(cs.Name);
-                
+
                 foreach (string key in Request.Form.AllKeys)
                 {
                     // SKILL ADJUSTMENTS
@@ -580,7 +561,7 @@ namespace TheAftermath_V2.Controllers
                             {
                                 ID = Guid.NewGuid(),
                                 CharacterID = charID,
-                                MasterID = (Guid)db.Skills.Where(x => x.Name == skillName).Select(x => x.ID).First(),
+                                SkillID = (Guid)db.Skills.Where(x => x.Name == skillName).Select(x => x.ID).First(),
                                 Value = Convert.ToInt16(Request.Form[key])
                             });
                         }
@@ -595,7 +576,7 @@ namespace TheAftermath_V2.Controllers
                                              where ca.CharacterID == charID
                                              join a in db.Abilities on ca.AbilityID equals a.ID
                                              select a.Name).ToList();
-                        
+
                         if (charAbilities.Contains(abilityName)) continue;
                         else
                         {

@@ -3,19 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using System.Web;
 using System.Web.Mvc;
 using TheAftermath_V2.Models;
-using WebMatrix.WebData;
-using System.Threading.Tasks;
-using Microsoft.AspNet.SignalR;
-using TheAftermath_V2.Hubs;
 
 namespace TheAftermath_V2.Controllers
 {
     public class HomeController : Controller
     {
-        public AftermathV1Entities db = new AftermathV1Entities();
+        public AftermathDBEntities db = new AftermathDBEntities();
         // METHODS
         [HttpPost]
         public JsonResult CheckUsername(string username)
@@ -49,25 +44,30 @@ namespace TheAftermath_V2.Controllers
             if (ModelState.IsValid)
             {
                 var result = db.Accounts.Where(x => x.Username.Equals(input.Username) && x.Password.Equals(input.Password)).FirstOrDefault();
-                var acctStatus = db.AccountStatus1.Where(a => a.AccountID == result.ID).Single();
+                if (result != null)
+                {
+                    var acctStatus = db.AccountStatus.Where(a => a.AccountID == result.ID).Single();
+                    if (acctStatus != null)
+                    {
+                        if (result != null && acctStatus.Active == false)
+                        {
+                            Session["Active"] = true;
+                            Session["UserID"] = result.ID.ToString();
+                            Session["Username"] = result.Username.ToString();
 
-                if (result != null && acctStatus.Active == false)
-                {
-                    Session["Active"] = true;
-                    Session["UserID"] = result.ID.ToString();
-                    Session["Username"] = result.Username.ToString();
-
-                    return RedirectToAction("Index", "Home", new { username = result.Username.ToString() });
-                }
-                else if (result != null && acctStatus.Active == true)
-                {
-                    ViewBag.ErrorMessage = "Username currently ACTIVE - Reset Password or Create New Account - BE SELF-CENTERED, DON'T SHARE!";
-                    return View(input);
-                }
-                else
-                {
-                    ViewBag.ErrorMessage = "Invalid Username or Password";
-                    return View(input);
+                            return RedirectToAction("Index", "Home", new { username = result.Username.ToString() });
+                        }
+                        else if (result != null && acctStatus.Active == true)
+                        {
+                            ViewBag.ErrorMessage = "Username currently ACTIVE - Reset Password or Create New Account - BE SELF-CENTERED, DON'T SHARE!";
+                            return View(input);
+                        }
+                        else
+                        {
+                            ViewBag.ErrorMessage = "Invalid Username or Password";
+                            return View(input);
+                        }
+                    }
                 }
             }
             return View();
@@ -77,9 +77,9 @@ namespace TheAftermath_V2.Controllers
         public JsonResult UpdateStatus(string user)
         {
             Guid acctID = db.Accounts.Where(a => a.Username == user).Select(a => a.ID).Single();
-            if (db.AccountStatus1.Any(a=>a.AccountID == acctID))
+            if (db.AccountStatus.Any(a => a.AccountID == acctID))
             {
-                var record = db.AccountStatus1.Where(a => a.AccountID == acctID).First();
+                var record = db.AccountStatus.Where(a => a.AccountID == acctID).First();
 
                 record.Active = true;
                 record.Admin = false;
@@ -94,7 +94,7 @@ namespace TheAftermath_V2.Controllers
             }
             else
             {
-                var newRecord = new AccountStatus
+                var newRecord = new AccountStatu
                 {
                     ID = Guid.NewGuid(),
                     AccountID = acctID,
@@ -106,7 +106,7 @@ namespace TheAftermath_V2.Controllers
                     CharacterID = null,
                     Timestamp = DateTime.Now
                 };
-                db.AccountStatus1.Add(newRecord);
+                db.AccountStatus.Add(newRecord);
                 db.SaveChanges();
 
                 return Json("Success", JsonRequestBehavior.AllowGet);
@@ -115,8 +115,8 @@ namespace TheAftermath_V2.Controllers
         public ActionResult Logout()
         {
             Guid acctID = Guid.Parse(Session["UserID"].ToString());
-            var record = db.AccountStatus1.Where(a => a.AccountID == acctID).First();
-            
+            var record = db.AccountStatus.Where(a => a.AccountID == acctID).First();
+
             if (record.Tell == true)
             {
                 var campaign = db.Campaigns.Where(a => a.ID == record.CampaignID).Single();
@@ -159,6 +159,21 @@ namespace TheAftermath_V2.Controllers
                     CreateDate = DateTime.Now
                 };
 
+                var newRecord = new AccountStatu
+                {
+                    ID = Guid.NewGuid(),
+                    AccountID = accountData.ID,
+                    Active = true,
+                    Admin = false,
+                    Play = false,
+                    Tell = false,
+                    CampaignID = null,
+                    CharacterID = null,
+                    Timestamp = DateTime.Now
+                };
+                db.AccountStatus.Add(newRecord);
+                db.SaveChanges();
+
                 db.Accounts.Add(accountData);
                 db.SaveChanges();
                 ViewBag.ErrorMessage = "Registration Success";
@@ -181,7 +196,7 @@ namespace TheAftermath_V2.Controllers
             var verifyUrl = "/Home/ResetPassword/" + resetCode;
 
             var link = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, verifyUrl);
-            using (var context = new AftermathV1Entities())
+            using (var context = new AftermathDBEntities())
             {
                 var result = (from s in context.Accounts where s.Email == input select s).FirstOrDefault();
                 if (result != null)
@@ -194,7 +209,7 @@ namespace TheAftermath_V2.Controllers
                     var subject = "The Aftermath:2012 - Password Reset Request";
                     var body = "You recently requested to reset your password for your account. Click the link below to reset it. " +
                                 " <br/><br/><a href='" + link + "'>" + link + "</a> <br/><br/>";
-                         
+
                     SendEmail(result.Email, body, subject);
 
                     ViewBag.Message = "Reset password link has been sent to your Registered Email.";
@@ -240,7 +255,7 @@ namespace TheAftermath_V2.Controllers
                 return HttpNotFound();
             }
 
-            using (var context = new AftermathV1Entities())
+            using (var context = new AftermathDBEntities())
             {
                 var user = context.Accounts.Where(a => a.Password == id).FirstOrDefault();
                 if (user != null)
@@ -263,7 +278,7 @@ namespace TheAftermath_V2.Controllers
             string message = "";
             if (ModelState.IsValid)
             {
-                using (var context = new AftermathV1Entities())
+                using (var context = new AftermathDBEntities())
                 {
                     var result = context.Accounts.Where(a => a.Password == model.ResetCode).FirstOrDefault();
                     if (result != null)
@@ -286,7 +301,7 @@ namespace TheAftermath_V2.Controllers
         [HttpGet]
         public JsonResult GetActiveList()
         {
-            var userQ = from a in db.AccountStatus1
+            var userQ = from a in db.AccountStatus
                         where a.Active == true
                         join acct in db.Accounts on a.AccountID equals acct.ID
                         select new { acct.Username, acct.ID, a.Play, a.Tell, a.Admin };
