@@ -2,10 +2,11 @@
 	var urlParams = new URLSearchParams(window.location.search);
 	var charName = urlParams.get("char");
 	var userName = urlParams.get("user");
-	var gameName = urlParams.get("game");
+	var gameName = urlParams.get("campaign");
 	var charSex = $("#sex").val();
 
 	$("#campaignName").val(gameName);
+
 	if (charSex === "Female") {
 		$("#idMarksBG").css("background-image", "url('../../Content/Images/Embed/VirtruvianWoman-1200x1200-50o.png')");
 		$(".facialHairSlot").html("");

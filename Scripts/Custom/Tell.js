@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
 	var urlParams = new URLSearchParams(window.location.search);
-	var gameName = urlParams.get("game");
+	var gameName = urlParams.get("campaign");
 	$("#campaignName").val(gameName);
 
     $("#adminBtn").click(function () {
@@ -19,36 +19,7 @@
 				}
 		});
 	});
-	/*
-	$("#lockBtn").on("click", function () {
-		if ($(this).hasClass("unlock")) {
-			$.ajax({
-				type: 'POST',
-				url: 'UnlockGame',
-				data: '{Name: "' + gameName + '" }',
-				dataType: 'json',
-				contentType: 'application/json; charset=utf-8',
-				success:
-					function (result) {
-						if (result === "Success") $("#lockBtn").removeClass("btn-light border-dark").addClass("btn-secondary border-light").html("LOCK GAME");
-					}
-			});
-		}
-		else {
-			$.ajax({
-				type: 'POST',
-				url: 'LockGame',
-				data: '{Name: "' + gameName + '" }',
-				dataType: 'json',
-				contentType: 'application/json; charset=utf-8',
-				success:
-					function (result) {
-						if (result === "Success") $("#lockBtn").removeClass("btn-secondary border-light").addClass("btn-light border-dark unlock").html("UNLOCK GAME");
-					}
-			});
-        }
-	});
-	*/
+	
 	$("#dateBtn").click(function () {
 		var season = $("#season").val();
 		var year = $("#year").val();

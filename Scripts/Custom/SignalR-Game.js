@@ -4,6 +4,7 @@
     var username = urlParams.get("user");
     var gamename = urlParams.get("campaign");
     var charname;
+    $('#campaignName').val(gamename);
 
     if (url.indexOf("Tell") >= 0) charname = "STORYTELLER";
     else charname = urlParams.get("char");
