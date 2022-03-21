@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace TheAftermath_V2.Classes
+﻿namespace TheAftermath_V2.Classes
 {
     public class AbilityData
     {

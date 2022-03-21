@@ -11,7 +11,7 @@
     <Property Name="Requirements" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
     <Property Name="Cost" Type="Int16" />
     <Property Name="Disabled" Type="Boolean" Nullable="false" />
-    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
     <NavigationProperty Name="CharacterAbilities" Relationship="Self.FK_CharacterAbilities_Abilities" FromRole="Abilities" ToRole="CharacterAbilities" />
   </EntityType>
   <EntityType Name="AccountRelationship">
@@ -22,7 +22,7 @@
     <Property Name="FirstAccountID" Type="Guid" Nullable="false" />
     <Property Name="SecondAccountID" Type="Guid" Nullable="false" />
     <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
     <NavigationProperty Name="Account" Relationship="Self.FK_AccountRelationships_First" FromRole="AccountRelationships" ToRole="Accounts" />
     <NavigationProperty Name="Account1" Relationship="Self.FK_AccountRelationships_Second" FromRole="AccountRelationships" ToRole="Accounts" />
   </EntityType>
@@ -35,7 +35,7 @@
     <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="PictureLoc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
     <NavigationProperty Name="AccountRelationships" Relationship="Self.FK_AccountRelationships_First" FromRole="Accounts" ToRole="AccountRelationships" />
     <NavigationProperty Name="AccountRelationships1" Relationship="Self.FK_AccountRelationships_Second" FromRole="Accounts" ToRole="AccountRelationships" />
     <NavigationProperty Name="AccountStatus" Relationship="Self.FK_AccountStatus_Accounts" FromRole="Accounts" ToRole="AccountStatus" />
@@ -54,7 +54,7 @@
     <Property Name="Play" Type="Boolean" Nullable="false" />
     <Property Name="CampaignID" Type="Guid" />
     <Property Name="CharacterID" Type="Guid" />
-    <Property Name="Timestamp" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Timestamp" Type="DateTime" Nullable="false" Precision="3" />
     <NavigationProperty Name="Account" Relationship="Self.FK_AccountStatus_Accounts" FromRole="AccountStatus" ToRole="Accounts" />
     <NavigationProperty Name="Campaign" Relationship="Self.FK_AccountStatus_Campaigns" FromRole="AccountStatus" ToRole="Campaigns" />
     <NavigationProperty Name="Character" Relationship="Self.FK_AccountStatus_Characters" FromRole="AccountStatus" ToRole="Characters" />
@@ -67,7 +67,7 @@
     <Property Name="ID" Type="Guid" Nullable="false" />
     <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
     <NavigationProperty Name="CharacterAttributes" Relationship="Self.FK_CharacterAttributes_Attributes" FromRole="Attributes" ToRole="CharacterAttributes" />
   </EntityType>
   <EntityType Name="Background">
@@ -88,7 +88,7 @@
     <Property Name="Technology" Type="Byte" />
     <Property Name="Transportation" Type="Byte" />
     <Property Name="Disabled" Type="Boolean" Nullable="false" />
-    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
     <NavigationProperty Name="Characters" Relationship="Self.FK_Characters_Background" FromRole="Backgrounds" ToRole="Characters" />
   </EntityType>
   <EntityType Name="Campaign">
@@ -163,7 +163,7 @@
     <Property Name="Strategy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Background" Type="Guid" Nullable="false" />
     <Property Name="PictureLoc" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
     <NavigationProperty Name="Account" Relationship="Self.FK_Characters_Accounts" FromRole="Characters" ToRole="Accounts" />
     <NavigationProperty Name="AccountStatus" Relationship="Self.FK_AccountStatus_Characters" FromRole="Characters" ToRole="AccountStatus" />
     <NavigationProperty Name="Background1" Relationship="Self.FK_Characters_Background" FromRole="Characters" ToRole="Backgrounds" />
@@ -195,7 +195,7 @@
     <Property Name="Training" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="Skills" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="Disabled" Type="Boolean" Nullable="false" />
-    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
     <NavigationProperty Name="Characters" Relationship="Self.FK_Characters_History" FromRole="History" ToRole="Characters" />
   </EntityType>
   <EntityType Name="IDMark">
@@ -243,7 +243,7 @@
     <Property Name="Formula" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="Requirements" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="Disabled" Type="Boolean" Nullable="false" />
-    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
     <NavigationProperty Name="CharacterSkills" Relationship="Self.FK_CharacterSkills_Skills" FromRole="Skills" ToRole="CharacterSkills" />
   </EntityType>
   <EntityType Name="sysdiagram">
@@ -557,7 +557,7 @@
     <Property Name="AccountID" Type="Guid" Nullable="false" />
     <Property Name="CharacterID" Type="Guid" />
     <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
     <NavigationProperty Name="Account" Relationship="AftermathV1Model.FK_CampaignNotes_Accounts" FromRole="CampaignNote" ToRole="Account" />
     <NavigationProperty Name="Campaign" Relationship="AftermathV1Model.FK_CampaignNotes_Campaigns" FromRole="CampaignNote" ToRole="Campaign" />
     <NavigationProperty Name="Character" Relationship="AftermathV1Model.FK_CampaignNotes_Characters" FromRole="CampaignNote" ToRole="Character" />
@@ -606,7 +606,7 @@
     <Property Name="AccountID" Type="Guid" Nullable="false" />
     <Property Name="TotalIMs" Type="Int32" Nullable="false" />
     <Property Name="UnreadIMs" Type="Int32" Nullable="false" />
-    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
     <NavigationProperty Name="Account" Relationship="AftermathV1Model.FK_AccountIMs_Accounts" FromRole="AccountIM" ToRole="Account" />
   </EntityType>
   <Association Name="FK_AccountIMs_Accounts">

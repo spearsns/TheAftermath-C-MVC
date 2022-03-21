@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace TheAftermath_V2
 {
@@ -11,7 +8,7 @@ namespace TheAftermath_V2
 
         public static int D10()
         {
-            return random.Next(1, 11);            
+            return random.Next(1, 11);
         }
 
         public static int TwoD10()
@@ -29,7 +26,7 @@ namespace TheAftermath_V2
             var roll = ((D10() - 1) * 10) + D10();
 
             if (roll < 10) return "0" + roll.ToString();
-            else if(roll == 11) return "CRITICAL! 11";
+            else if (roll == 11) return "CRITICAL! 11";
             else if (roll == 22) return "CRITICAL! 22";
             else if (roll == 33) return "CRITICAL! 33";
             else if (roll == 44) return "CRITICAL! 44";

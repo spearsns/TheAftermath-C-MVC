@@ -25,7 +25,7 @@
             }
         });
 
-        if (gameNameErr == false) {
+        if (gameNameErr === false) {
             $("#submitBtn").prop("disabled", false);
         }
     });

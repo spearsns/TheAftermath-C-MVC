@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace TheAftermath_V2
 {
@@ -38,7 +36,7 @@ namespace TheAftermath_V2
         public List<T> GetAllConns()
         {
             var allConns = _connections.Keys.ToList();
-            
+
             return allConns;
         }
 

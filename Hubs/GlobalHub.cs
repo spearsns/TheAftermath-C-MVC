@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNet.SignalR;
+using System;
 using System.Linq;
-using System.Web;
 using System.Threading.Tasks;
-using Microsoft.AspNet.SignalR;
-using System.Diagnostics;
 using TheAftermath_V2.Models;
 
 namespace TheAftermath_V2.Hubs
 {
     public class GlobalHub : Hub
     {
-        public AftermathV1Entities db = new AftermathV1Entities();
-        
+        public AftermathDBEntities db = new AftermathDBEntities();
+
         // -- GAME FUNCTIONS -- //
         // DICE
         public void Roll2D10(string username, string charname, string game)
@@ -71,7 +68,7 @@ namespace TheAftermath_V2.Hubs
         public void SendIM(string sender, string receiver, string message)
         {
             foreach (var connectionId in _connections.GetConnections(receiver))
-            {                
+            {
                 Clients.Client(connectionId).NewIM(sender, message);
             }
         }
@@ -99,8 +96,8 @@ namespace TheAftermath_V2.Hubs
         {
             var username = Context.QueryString["username"];
 
-            Guid acctID = db.Accounts.Where(a=>a.Username == username).Select(a=>a.ID).First();
-            var record = db.AccountStatus1.Where(a => a.AccountID == acctID).First();
+            Guid acctID = db.Accounts.Where(a => a.Username == username).Select(a => a.ID).First();
+            var record = db.AccountStatus.Where(a => a.AccountID == acctID).First();
 
             if (record.Tell == true)
             {
@@ -123,7 +120,7 @@ namespace TheAftermath_V2.Hubs
 
             return base.OnDisconnected(stopCalled);
         }
-       
+
         public override Task OnReconnected()
         {
             var username = Context.QueryString["username"];

@@ -49,11 +49,11 @@
                         var user = results[i];
                         var css;
 
-                        if (user.Username == username) continue;
+                        if (user.Username === username) continue;
                         else {
-                            if (user.Play == true) css = "text-success border-success";
-                            else if (user.Admin == true) css = "text-red border-red";
-                            else if (user.Tell == true) css = "text-red border-red";
+                            if (user.Play === true) css = "text-success border-success";
+                            else if (user.Admin === true) css = "text-red border-red";
+                            else if (user.Tell === true) css = "text-red border-red";
                             else css = "text-dark border-dark";
 
                             if ($("#sessionUsername").length > 0) {
@@ -132,7 +132,7 @@
 
         // -- CLIENT (RECEIVING) FUNCTIONS -- //
         chat.client.NotifyOnline = function (name, count) {
-            if (username == name) $('#lobbyChatLog').append('<li class="text-secondary font-weight-bold"><strong>SERVER: ' + username + ' JOINED THE LOBBY</strong></li>')
+            if (username === name) $('#lobbyChatLog').append('<li class="text-secondary font-weight-bold"><strong>SERVER: ' + username + ' JOINED THE LOBBY</strong></li>')
             getActiveList();
         }
 
@@ -142,7 +142,7 @@
 
         // LOBBY CHATROOM
         chat.client.NewLobbyMessage = function (name, message) { 
-            if (name == username) $('#lobbyChatLog').append('<li class="text-info"><strong>' + htmlEncode(name) + '</strong>: ' + htmlEncode(message) + '</li>');
+            if (name === username) $('#lobbyChatLog').append('<li class="text-info"><strong>' + htmlEncode(name) + '</strong>: ' + htmlEncode(message) + '</li>');
             else $('#lobbyChatLog').append('<li><strong>' + htmlEncode(name) + '</strong>: ' + htmlEncode(message) + '</li>');
             $("#lobbyChatLog li:last-child").focus();
         };
@@ -222,7 +222,7 @@
         // -- SERVER (SENDING) FUNCTIONS -- //
             // CHATROOM
             $("#lobbyChatInput").on("keypress", function (e) {
-                if (e.which == 13) {
+                if (e.which === 13) {
                     chat.server.sendLobbyMessage(username, $('#lobbyChatInput').val());
                     $('#lobbyChatInput').val('').focus();
                 }
@@ -234,7 +234,7 @@
             });
             // IM's
             $("body").on("keypress", ".IM-input", function (e) {
-                if (e.which == 13) {
+                if (e.which === 13) {
                     var targetUser = $(this).data("connection");
                     var input = $('.IM-input[data-connection="' + targetUser + '"]').val();
                     $('.IM-log[data-connection="' + targetUser + '"]').append('<li class="text-info"><strong>' + username + '</strong>: ' + input + '</li>');

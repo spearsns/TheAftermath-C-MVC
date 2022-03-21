@@ -22,6 +22,7 @@
 	var expTransfer = 0;
 	var cost;
 
+	
 	/* -- ATTRIBUTE MANAGEMENT -- */
 	// GLOBALS
 	var memory = parseInt($("#memory").val());
@@ -44,6 +45,12 @@
 	var oendurance = endurance;
 	var oagility = agility;
 	var ospeed = speed;
+
+	actions = Math.floor(speed / 2);
+	sequence = Math.floor((perception + speed) / 2);
+
+	$("#sequence").val(sequence);
+	$("#actions").val(actions);
 
 	// GLOBAL FUNCTIONS
 	function setAttributes() {
@@ -81,15 +88,15 @@
 	$(".attributeBtn").click(function () {
 		var choice = $(this).data("attr");
 		// MOBILE VIEW ADJUSTMENTS
-		if (choice == "memory") $("#currentAttr").attr("data-shorttxt", "MEM").attr("data-longtxt", "MEMORY");
-		if (choice == "logic") $("#currentAttr").attr("data-shorttxt", "LOG").attr("data-longtxt", "LOGIC");
-		if (choice == "perception") $("#currentAttr").attr("data-shorttxt", "PER").attr("data-longtxt", "PERCEPTION");
-		if (choice == "willpower") $("#currentAttr").attr("data-shorttxt", "WILL").attr("data-longtxt", "WILLPOWER");
-		if (choice == "charisma") $("#currentAttr").attr("data-shorttxt", "CHA").attr("data-longtxt", "CHARISMA");
-		if (choice == "strength") $("#currentAttr").attr("data-shorttxt", "STR").attr("data-longtxt", "STRENGTH");
-		if (choice == "endurance") $("#currentAttr").attr("data-shorttxt", "END").attr("data-longtxt", "ENDURANCE");
-		if (choice == "agility") $("#currentAttr").attr("data-shorttxt", "AGL").attr("data-longtxt", "AGILITY");
-		if (choice == "speed") $("#currentAttr").attr("data-shorttxt", "SPD").attr("data-longtxt", "SPEED");
+		if (choice === "memory") $("#currentAttr").attr("data-shorttxt", "MEM").attr("data-longtxt", "MEMORY");
+		if (choice === "logic") $("#currentAttr").attr("data-shorttxt", "LOG").attr("data-longtxt", "LOGIC");
+		if (choice === "perception") $("#currentAttr").attr("data-shorttxt", "PER").attr("data-longtxt", "PERCEPTION");
+		if (choice === "willpower") $("#currentAttr").attr("data-shorttxt", "WILL").attr("data-longtxt", "WILLPOWER");
+		if (choice === "charisma") $("#currentAttr").attr("data-shorttxt", "CHA").attr("data-longtxt", "CHARISMA");
+		if (choice === "strength") $("#currentAttr").attr("data-shorttxt", "STR").attr("data-longtxt", "STRENGTH");
+		if (choice === "endurance") $("#currentAttr").attr("data-shorttxt", "END").attr("data-longtxt", "ENDURANCE");
+		if (choice === "agility") $("#currentAttr").attr("data-shorttxt", "AGL").attr("data-longtxt", "AGILITY");
+		if (choice === "speed") $("#currentAttr").attr("data-shorttxt", "SPD").attr("data-longtxt", "SPEED");
 
 		original = parseInt(eval("o" + choice));
 		$("#originalAttrVal").val(original);
@@ -150,12 +157,12 @@
 	});
 
 	$("#attrCancelBtn").click(function () {
-		if (expTransfer == 0) $("#attributeModal").modal("toggle");
+		if (expTransfer === 0) $("#attributeModal").modal("toggle");
 		else {
 			exp += Number(expTransfer);
 			cost = 0;
 			expTransfer = 0;
-			$(".expPool").val(exp)
+            $(".expPool").val(exp);
 			$("#attributeModal").modal("toggle");
         }
 	});
@@ -179,8 +186,8 @@
 		var skillType = $("#skillType").val();
 		var value = $("#currentSkillVal").val();
 
-		if (skillType == "Advanced") {
-			if (skill == "OffHand") {
+		if (skillType === "Advanced") {
+			if (skill === "OffHand") {
 				if (value <= -80) cost = 1500;
 				else if (value >= -79 && value <= -60) cost = 1000;
 				else if (value >= -59 && value <= -40) cost = 750;
@@ -188,7 +195,7 @@
 				else if (value >= -19 && value <= -10) cost = 1000;
 				else cost = 1500; // value 9 - 0
 			}
-			else if (skill == "Dodge") {
+			else if (skill === "Dodge") {
 				if (value <= -25) cost = 1000;
 				else if (value >= -24 && value <= -10) cost = 750;
 				else if (value >= -9 && value <= 10) cost = 500;
@@ -203,7 +210,7 @@
 				else cost = 1500; // value 125 to 150
 			}
 		}
-		else if (skillType == "General") {
+		else if (skillType === "General") {
 			if (value <= 25) cost = 250;
 			else if (value >= 26 && value <= 75) cost = 100;
 			else if (value >= 76 && value <= 100) cost = 250;
@@ -249,29 +256,29 @@
 						var skillType = results[i].Type;
 						var skillValue = results[i].Value;
 
-						if (skillType == "Standard") continue;
+						if (skillType === "Standard") continue;
 						// DETERMINE SLOT
 						var slotNum;
-						if (skillClass == "Combat") slotNum = combatSlot;
-						else if (skillClass == "Affiliation") { skillClass = "Social"; slotNum = socialSlot; }
-						else if (skillClass == "Languages") { skillClass = "Social"; slotNum = socialSlot; }
-						else if (skillClass == "Social") slotNum = socialSlot;
-						else if (skillClass == "Covert") slotNum = covertSlot;
-						else if (skillClass == "Survival") slotNum = survivalSlot;
-						else if (skillClass == "Craftsman") slotNum = craftsmanSlot;
-						else if (skillClass == "Construction") slotNum = constructionSlot;
-						else if (skillClass == "Medical") slotNum = medicalSlot;
-						else if (skillClass == "Science") slotNum = scienceSlot;
-						else if (skillClass == "Technology") slotNum = technologySlot;
-						else if (skillClass == "Transportation") slotNum = transportationSlot;
+						if (skillClass === "Combat") slotNum = combatSlot;
+						else if (skillClass === "Affiliation") { skillClass = "Social"; slotNum = socialSlot; }
+						else if (skillClass === "Languages") { skillClass = "Social"; slotNum = socialSlot; }
+						else if (skillClass === "Social") slotNum = socialSlot;
+						else if (skillClass === "Covert") slotNum = covertSlot;
+						else if (skillClass === "Survival") slotNum = survivalSlot;
+						else if (skillClass === "Craftsman") slotNum = craftsmanSlot;
+						else if (skillClass === "Construction") slotNum = constructionSlot;
+						else if (skillClass === "Medical") slotNum = medicalSlot;
+						else if (skillClass === "Science") slotNum = scienceSlot;
+						else if (skillClass === "Technology") slotNum = technologySlot;
+						else if (skillClass === "Transportation") slotNum = transportationSlot;
 						// HTML PREP
 						var border;
-						if (skillType == "General") border = "border-warning";
-						else if (skillType == "Advanced") border = "border-danger";
+						if (skillType === "General") border = "border-warning";
+						else if (skillType === "Advanced") border = "border-danger";
 						else border = "border-secondary"; // skillClass == "Focus"
 
-						var nextSlot
-						if (skillClass == "Combat") nextSlot = slotNum + 2;
+                        var nextSlot;
+						if (skillClass === "Combat") nextSlot = slotNum + 2;
 						else nextSlot = slotNum + 1;
 						// RENDER HTML FOR NEXT SKILL SLOT
 						$("#" + skillClass.toLowerCase() + "-" + slotNum).html(
@@ -294,14 +301,14 @@
 							'</div>'
 						);
 						// INCREASE COUNT ON APPROPRIATE SLOT
-						if (skillClass == "Combat") combatSlot += 1;
-						else if (skillClass == "Social") socialSlot += 1;
-						else if (skillClass == "Covert") covertSlot += 1;
-						else if (skillClass == "Survival") survivalSlot += 1;
-						else if (skillClass == "Medical") medicalSlot += 1;
-						else if (skillClass == "Science") scienceSlot += 1;
-						else if (skillClass == "Technology") technologySlot += 1;
-						else if (skillClass == "Transportation") transportationSlot += 1;
+						if (skillClass === "Combat") combatSlot += 1;
+						else if (skillClass === "Social") socialSlot += 1;
+						else if (skillClass === "Covert") covertSlot += 1;
+						else if (skillClass === "Survival") survivalSlot += 1;
+						else if (skillClass === "Medical") medicalSlot += 1;
+						else if (skillClass === "Science") scienceSlot += 1;
+						else if (skillClass === "Technology") technologySlot += 1;
+						else if (skillClass === "Transportation") transportationSlot += 1;
 					}
 				}
 		});
@@ -319,7 +326,7 @@
 		var shortTxt;
 		var longTxt;
 
-		if (newSkill == true) {
+		if (newSkill === true) {
 			skill = nsName;
 			skillType = nsType;
 			skillClass = nsClass;
@@ -387,9 +394,9 @@
 		var value = parseInt( $("#currentSkillVal").val() );
 		var type = $("#skillType").val();
 
-		if (type == "Focus") skillMax = 75;
-		else if (skill == "OffHand") skillMax = 0;
-		else if (skill == "Dodge") skillMax = 50;
+		if (type === "Focus") skillMax = 75;
+		else if (skill === "OffHand") skillMax = 0;
+		else if (skill === "Dodge") skillMax = 50;
 		else skillMax = 150;
 
 		if (exp >= cost && value < skillMax) {
@@ -407,8 +414,8 @@
 		var skill = $("#skillName").val();
 		var value = parseInt( $("#currentSkillVal").val() );
 		var type = $("#skillType").val();
-		if (type == "Advanced") {
-			if (skill == "OffHand") {
+		if (type === "Advanced") {
+			if (skill === "OffHand") {
 				if (value <= -79) cost = 1500;
 				else if (value >= -78 && value <= -59) cost = 1000;
 				else if (value >= -58 && value <= -39) cost = 750;
@@ -416,7 +423,7 @@
 				else if (value >= -18 && value <= -9) cost = 1000;
 				else cost = 1500; // value 8 - 0
 			}
-			else if (skill == "Dodge") {
+			else if (skill === "Dodge") {
 				if (value <= -26) cost = 1000;
 				else if (value >= -25 && value <= -9) cost = 750;
 				else if (value >= -8 && value <= 11) cost = 500;
@@ -431,7 +438,7 @@
 				else cost = 1500; // value 127 - 150
 			}
 		}
-		else if (type == "General") {
+		else if (type === "General") {
 			if (value <= 26) cost = 250;
 			else if (value >= 27 && value <= 76) cost = 100;
 			else if (value >= 77 && value <= 101) cost = 250;
@@ -452,7 +459,7 @@
 	});
 
 	$("#skillConfirmBtn").click(function () {
-		if (newSkill == true) {
+		if (newSkill === true) {
 			// HTML PREP FOR NEW SKILL
 			var skill = nsName;
 			var skillClass = nsClass;
@@ -463,14 +470,14 @@
 			var skillValue = $("#currentSkillVal").val();
 
 			var border;
-			if (skillType == "General") border = "border-warning";
-			else if (skillType == "Advanced") border = "border-danger";
+			if (skillType === "General") border = "border-warning";
+			else if (skillType === "Advanced") border = "border-danger";
 			else border = "border-secondary"; // skillClass == "Focus"
 
-			if (skillClass == "Affiliation" || skillClass == "Languages") skillClass = "Social";
+			if (skillClass === "Affiliation" || skillClass == "Languages") skillClass = "Social";
 
 			var nextSlot;
-			if (skillClass == "Combat") nextSlot = slotNum + 2;
+			if (skillClass === "Combat") nextSlot = slotNum + 2;
 			else nextSlot = slotNum + 1;
 
 			if (skillValue >= 1) {
@@ -519,7 +526,7 @@
 	});
 
 	$("#skillCancelBtn").click(function () {
-		if (expTransfer == 0) {
+		if (expTransfer === 0) {
 			$("#skillModal").modal("toggle");
 		}
 		else {
@@ -527,7 +534,7 @@
 			// CLEAR ADJ VARIABLES
 			expTransfer = 0;
 			cost = 0;
-			if (newSkill == true) {
+			if (newSkill === true) {
 				newSkill = false;
 				nsName = null;
 				nsClass = null;
@@ -551,7 +558,7 @@
 		var target = $(this).data("target");
 		var skillClass = target.substring(0, target.length - 6);
 		var slotID = String(skillClass).toLowerCase() + "-";
-		if (skillClass == "Social") {
+		if (skillClass === "Social") {
 			$("#NSM-begin").append(
 				"<div class='row bg-white'>" +
 				"<div class='col-6'>" +
@@ -572,7 +579,7 @@
 		for (i = 0; i < 16; i++) {
 			if ($("#" + slotID + i).children.length > 0) {
 				var skill = String($("#" + slotID + i).children().children().data("skill"));
-				if (skill != "Undefined") skillsArr.push(skill);
+				if (skill !== "Undefined") skillsArr.push(skill);
 			}
 		}
 		// GET JSON RETURN & RENDER HTML
@@ -625,7 +632,7 @@
 			if ($("#" + slotID + i).children.length > 0) {
 				var skill = String($("#" + slotID + i).children().children().data("skill"));
 				var thisSkillClass = String($("#" + slotID + i).children().children().data("skillclass"));
-				if (skill != "Undefined" && thisSkillClass == skillClass) skillsArr.push(skill);
+				if (skill !== "Undefined" && thisSkillClass === skillClass) skillsArr.push(skill);
 			}
 		}
 		// GET JSON RETURN & RENDER HTML
@@ -643,8 +650,8 @@
 						if (skillsArr.includes(obj.Name)) continue;
 						else {
 							var button;
-							if (obj.Type == "General") button = "btn-warning";
-							else if (obj.Type == "Advanced") button = "btn-danger";
+							if (obj.Type === "General") button = "btn-warning";
+							else if (obj.Type === "Advanced") button = "btn-danger";
 							else button = "btn-secondary";
 							// HTML
 							$("#SSM-begin").append(
@@ -692,7 +699,7 @@
 			var Persuasion = $("input[name='Skill-Persuasion']").val();
 			var Boating = $("input[name='Skill-Boating']").val();
 
-			if (eval(reqs) == false) {
+			if (eval(reqs) === false) {
 				alert("Minimum Requirements not met: " + reqs);
 				throw new Error("Minimum Requirements not met: " + reqs);
 			}
@@ -788,7 +795,7 @@
 		for (i = 0; i < 16; i++) {
 			if ($("#ability" + i).children.length > 0) {
 				var ability = String($("#ability" + i).children().children().data("ability"));
-				if (ability != "Undefined") abilityArr.push(ability);
+				if (ability !== "Undefined") abilityArr.push(ability);
 			}
 		}
 		// GET JSON RETURN & RENDER HTML

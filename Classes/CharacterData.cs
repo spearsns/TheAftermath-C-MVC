@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using TheAftermath_V2.Models;
 
 namespace TheAftermath_V2.Classes
@@ -21,7 +18,7 @@ namespace TheAftermath_V2.Classes
         public string History { get; set; }
         public string Strategy { get; set; }
         public string Background { get; set; }
-        
+
         // ATTRIBUTES
         public byte Memory { get; set; }
         public byte Logic { get; set; }
@@ -33,9 +30,6 @@ namespace TheAftermath_V2.Classes
         public byte Agility { get; set; }
         public byte Speed { get; set; }
         public byte Beauty { get; set; }
-        // DERIVED ATTRIBUTES
-        public byte Sequence { get; set; }
-        public byte Actions { get; set; }
 
         // EXPERIENCE
         public int TotalExp { get; set; }
@@ -44,7 +38,7 @@ namespace TheAftermath_V2.Classes
         public List<SkillData> Skills { get; set; }
         public List<AbilityData> Abilities { get; set; }
         // OTHER
-        public List<IDMark> IDMarks { get; set; }
+        public IDMarks IDMarks { get; set; }
         public string Notes { get; set; }
     }
 }

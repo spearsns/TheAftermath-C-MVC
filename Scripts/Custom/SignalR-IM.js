@@ -1,6 +1,7 @@
 ﻿$(document).ready(function () {
     var url = window.location.href;
     targetUrl = 'UpdateStatus';
+    var username;
     if (url.indexOf('Games') > 0 || url.indexOf('Characters') > 0) targetUrl = '../Home/UpdateStatus';
     
     function updateStatus() {
@@ -17,7 +18,6 @@
         });
     }
 
-    var username;
     if ($("#sessionUsername").length > 0) {
         username = $("#sessionUsername").html();
         updateStatus();
@@ -131,7 +131,7 @@
 
             // -- SERVER (SENDING) FUNCTIONS -- //
             $("body").on("keypress", ".IM-input", function (e) {
-                if (e.which == 13) {
+                if (e.which === 13) {
                     var targetUser = $(this).data("connection");
                     var input = $('.IM-input[data-connection="' + targetUser + '"]').val();
                     $('.IM-log[data-connection="' + targetUser + '"]').append('<li class="text-info"><strong>' + username + '</strong>: ' + input + '</li>');

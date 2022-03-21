@@ -6,12 +6,12 @@
     </Key>
     <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="Description" Type="text" />
-    <Property Name="Effects" Type="text" />
+    <Property Name="Description" Type="varchar(max)" />
+    <Property Name="Effects" Type="varchar(max)" />
     <Property Name="Requirements" Type="varchar" MaxLength="500" />
     <Property Name="Cost" Type="smallint" />
     <Property Name="Disabled" Type="bit" Nullable="false" />
-    <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+    <Property Name="CreateDate" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="AccountIMs">
     <Key>
@@ -21,7 +21,7 @@
     <Property Name="AccountID" Type="uniqueidentifier" Nullable="false" />
     <Property Name="TotalIMs" Type="int" Nullable="false" />
     <Property Name="UnreadIMs" Type="int" Nullable="false" />
-    <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+    <Property Name="CreateDate" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="AccountRelationships">
     <Key>
@@ -31,7 +31,7 @@
     <Property Name="FirstAccountID" Type="uniqueidentifier" Nullable="false" />
     <Property Name="SecondAccountID" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Type" Type="varchar" MaxLength="50" />
-    <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+    <Property Name="CreateDate" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="Accounts">
     <Key>
@@ -42,9 +42,9 @@
     <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="PictureLoc" Type="varchar" MaxLength="50" />
-    <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+    <Property Name="CreateDate" Type="datetime" Nullable="false" />
   </EntityType>
-  <EntityType Name="AccountStatus">
+  <EntityType Name="AccountStatus1">
     <Key>
       <PropertyRef Name="ID" />
     </Key>
@@ -53,10 +53,10 @@
     <Property Name="Active" Type="bit" Nullable="false" />
     <Property Name="Admin" Type="bit" Nullable="false" />
     <Property Name="Play" Type="bit" Nullable="false" />
-    <Property Name="Tell" Type="bit" Nullable="false" />
     <Property Name="CampaignID" Type="uniqueidentifier" />
     <Property Name="CharacterID" Type="uniqueidentifier" />
-    <Property Name="Timestamp" Type="smalldatetime" Nullable="false" />
+    <Property Name="Timestamp" Type="datetime" Nullable="false" />
+    <Property Name="Tell" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Attributes">
     <Key>
@@ -64,8 +64,8 @@
     </Key>
     <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="Description" Type="text" />
-    <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+    <Property Name="Description" Type="varchar(max)" />
+    <Property Name="CreateDate" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="Backgrounds">
     <Key>
@@ -73,8 +73,8 @@
     </Key>
     <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
-    <Property Name="Training" Type="text" />
-    <Property Name="Skills" Type="text" />
+    <Property Name="Training" Type="varchar(max)" />
+    <Property Name="Skills" Type="varchar(max)" />
     <Property Name="Combat" Type="tinyint" />
     <Property Name="Construction" Type="tinyint" />
     <Property Name="Covert" Type="tinyint" />
@@ -85,7 +85,7 @@
     <Property Name="Technology" Type="tinyint" />
     <Property Name="Transportation" Type="tinyint" />
     <Property Name="Disabled" Type="bit" Nullable="false" />
-    <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+    <Property Name="CreateDate" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="CampaignNotes">
     <Key>
@@ -95,8 +95,8 @@
     <Property Name="CampaignID" Type="uniqueidentifier" Nullable="false" />
     <Property Name="AccountID" Type="uniqueidentifier" Nullable="false" />
     <Property Name="CharacterID" Type="uniqueidentifier" />
-    <Property Name="Notes" Type="text" />
-    <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+    <Property Name="Notes" Type="varchar(max)" />
+    <Property Name="CreateDate" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="Campaigns">
     <Key>
@@ -106,15 +106,15 @@
     <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Season" Type="varchar" MaxLength="6" />
     <Property Name="Year" Type="varchar" MaxLength="4" />
-    <Property Name="Description" Type="text" Nullable="false" />
+    <Property Name="Description" Type="varchar(max)" Nullable="false" />
     <Property Name="AdminPassword" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="PlayerPassword" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="TellActive" Type="bit" Nullable="false" />
     <Property Name="Locked" Type="bit" Nullable="false" />
     <Property Name="Closed" Type="bit" Nullable="false" />
     <Property Name="ConferenceLink" Type="varchar" MaxLength="50" />
     <Property Name="MapLoc" Type="varchar" MaxLength="50" />
     <Property Name="PictureLoc" Type="varchar" MaxLength="50" />
+    <Property Name="TellActive" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="CharacterAbilities">
     <Key>
@@ -163,7 +163,7 @@
     <Property Name="Strategy" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Background" Type="uniqueidentifier" Nullable="false" />
     <Property Name="PictureLoc" Type="varchar" MaxLength="100" />
-    <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+    <Property Name="CreateDate" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="CharacterSkills">
     <Key>
@@ -174,16 +174,16 @@
     <Property Name="MasterID" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Value" Type="smallint" Nullable="false" />
   </EntityType>
-  <EntityType Name="History">
+  <EntityType Name="Histories">
     <Key>
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="Training" Type="text" />
-    <Property Name="Skills" Type="text" />
+    <Property Name="Training" Type="varchar(max)" />
+    <Property Name="Skills" Type="varchar(max)" />
     <Property Name="Disabled" Type="bit" Nullable="false" />
-    <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+    <Property Name="CreateDate" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="IDMarks">
     <Key>
@@ -191,29 +191,29 @@
     </Key>
     <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
     <Property Name="CharacterID" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="Head" Type="text" />
-    <Property Name="Face" Type="text" />
-    <Property Name="Neck" Type="text" />
-    <Property Name="LeftShoulder" Type="text" />
-    <Property Name="RightShoulder" Type="text" />
-    <Property Name="LeftRibs" Type="text" />
-    <Property Name="RightRibs" Type="text" />
-    <Property Name="LeftBicep" Type="text" />
-    <Property Name="RightBicep" Type="text" />
-    <Property Name="LowerBack" Type="text" />
-    <Property Name="Stomach" Type="text" />
-    <Property Name="LeftForearm" Type="text" />
-    <Property Name="RightForearm" Type="text" />
-    <Property Name="Rear" Type="text" />
-    <Property Name="Groin" Type="text" />
-    <Property Name="LeftHand" Type="text" />
-    <Property Name="RightHand" Type="text" />
-    <Property Name="LeftThigh" Type="text" />
-    <Property Name="RightThigh" Type="text" />
-    <Property Name="LeftCalf" Type="text" />
-    <Property Name="RightCalf" Type="text" />
-    <Property Name="LeftFoot" Type="text" />
-    <Property Name="RightFoot" Type="text" />
+    <Property Name="Head" Type="varchar(max)" />
+    <Property Name="Face" Type="varchar(max)" />
+    <Property Name="Neck" Type="varchar(max)" />
+    <Property Name="LeftShoulder" Type="varchar(max)" />
+    <Property Name="RightShoulder" Type="varchar(max)" />
+    <Property Name="LeftRibs" Type="varchar(max)" />
+    <Property Name="RightRibs" Type="varchar(max)" />
+    <Property Name="LeftBicep" Type="varchar(max)" />
+    <Property Name="RightBicep" Type="varchar(max)" />
+    <Property Name="LowerBack" Type="varchar(max)" />
+    <Property Name="Stomach" Type="varchar(max)" />
+    <Property Name="LeftForearm" Type="varchar(max)" />
+    <Property Name="RightForearm" Type="varchar(max)" />
+    <Property Name="Rear" Type="varchar(max)" />
+    <Property Name="Groin" Type="varchar(max)" />
+    <Property Name="LeftHand" Type="varchar(max)" />
+    <Property Name="RightHand" Type="varchar(max)" />
+    <Property Name="LeftThigh" Type="varchar(max)" />
+    <Property Name="RightThigh" Type="varchar(max)" />
+    <Property Name="LeftCalf" Type="varchar(max)" />
+    <Property Name="RightCalf" Type="varchar(max)" />
+    <Property Name="LeftFoot" Type="varchar(max)" />
+    <Property Name="RightFoot" Type="varchar(max)" />
   </EntityType>
   <EntityType Name="Skills">
     <Key>
@@ -225,11 +225,11 @@
     <Property Name="LongTxt" Type="varchar" MaxLength="50" />
     <Property Name="Class" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Type" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="Description" Type="text" />
+    <Property Name="Description" Type="varchar(max)" />
     <Property Name="Formula" Type="varchar" MaxLength="50" />
     <Property Name="Requirements" Type="varchar" MaxLength="50" />
     <Property Name="Disabled" Type="bit" Nullable="false" />
-    <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+    <Property Name="CreateDate" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="sysdiagrams">
     <Key>
@@ -279,36 +279,36 @@
   </Association>
   <Association Name="FK_AccountStatus_Accounts">
     <End Role="Accounts" Type="Self.Accounts" Multiplicity="1" />
-    <End Role="AccountStatus" Type="Self.AccountStatus" Multiplicity="*" />
+    <End Role="AccountStatus1" Type="Self.AccountStatus1" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Accounts">
         <PropertyRef Name="ID" />
       </Principal>
-      <Dependent Role="AccountStatus">
+      <Dependent Role="AccountStatus1">
         <PropertyRef Name="AccountID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_AccountStatus_Campaigns">
     <End Role="Campaigns" Type="Self.Campaigns" Multiplicity="0..1" />
-    <End Role="AccountStatus" Type="Self.AccountStatus" Multiplicity="*" />
+    <End Role="AccountStatus1" Type="Self.AccountStatus1" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Campaigns">
         <PropertyRef Name="ID" />
       </Principal>
-      <Dependent Role="AccountStatus">
+      <Dependent Role="AccountStatus1">
         <PropertyRef Name="CampaignID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_AccountStatus_Characters">
     <End Role="Characters" Type="Self.Characters" Multiplicity="0..1" />
-    <End Role="AccountStatus" Type="Self.AccountStatus" Multiplicity="*" />
+    <End Role="AccountStatus1" Type="Self.AccountStatus1" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Characters">
         <PropertyRef Name="ID" />
       </Principal>
-      <Dependent Role="AccountStatus">
+      <Dependent Role="AccountStatus1">
         <PropertyRef Name="CharacterID" />
       </Dependent>
     </ReferentialConstraint>
@@ -434,10 +434,10 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Characters_History">
-    <End Role="History" Type="Self.History" Multiplicity="1" />
+    <End Role="Histories" Type="Self.Histories" Multiplicity="1" />
     <End Role="Characters" Type="Self.Characters" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="History">
+      <Principal Role="Histories">
         <PropertyRef Name="ID" />
       </Principal>
       <Dependent Role="Characters">
@@ -486,7 +486,7 @@
     <EntitySet Name="AccountIMs" EntityType="Self.AccountIMs" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AccountRelationships" EntityType="Self.AccountRelationships" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Accounts" EntityType="Self.Accounts" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="AccountStatus" EntityType="Self.AccountStatus" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AccountStatus1" EntityType="Self.AccountStatus1" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Attributes" EntityType="Self.Attributes" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Backgrounds" EntityType="Self.Backgrounds" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CampaignNotes" EntityType="Self.CampaignNotes" Schema="dbo" store:Type="Tables" />
@@ -496,7 +496,7 @@
     <EntitySet Name="CharacterExps" EntityType="Self.CharacterExps" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Characters" EntityType="Self.Characters" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CharacterSkills" EntityType="Self.CharacterSkills" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="History" EntityType="Self.History" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Histories" EntityType="Self.Histories" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="IDMarks" EntityType="Self.IDMarks" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Skills" EntityType="Self.Skills" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
@@ -514,15 +514,15 @@
     </AssociationSet>
     <AssociationSet Name="FK_AccountStatus_Accounts" Association="Self.FK_AccountStatus_Accounts">
       <End Role="Accounts" EntitySet="Accounts" />
-      <End Role="AccountStatus" EntitySet="AccountStatus" />
+      <End Role="AccountStatus1" EntitySet="AccountStatus1" />
     </AssociationSet>
     <AssociationSet Name="FK_AccountStatus_Campaigns" Association="Self.FK_AccountStatus_Campaigns">
       <End Role="Campaigns" EntitySet="Campaigns" />
-      <End Role="AccountStatus" EntitySet="AccountStatus" />
+      <End Role="AccountStatus1" EntitySet="AccountStatus1" />
     </AssociationSet>
     <AssociationSet Name="FK_AccountStatus_Characters" Association="Self.FK_AccountStatus_Characters">
       <End Role="Characters" EntitySet="Characters" />
-      <End Role="AccountStatus" EntitySet="AccountStatus" />
+      <End Role="AccountStatus1" EntitySet="AccountStatus1" />
     </AssociationSet>
     <AssociationSet Name="FK_CampaignNotes_Accounts" Association="Self.FK_CampaignNotes_Accounts">
       <End Role="Accounts" EntitySet="Accounts" />
@@ -565,7 +565,7 @@
       <End Role="Characters" EntitySet="Characters" />
     </AssociationSet>
     <AssociationSet Name="FK_Characters_History" Association="Self.FK_Characters_History">
-      <End Role="History" EntitySet="History" />
+      <End Role="Histories" EntitySet="Histories" />
       <End Role="Characters" EntitySet="Characters" />
     </AssociationSet>
     <AssociationSet Name="FK_CharacterSkills_Characters" Association="Self.FK_CharacterSkills_Characters">

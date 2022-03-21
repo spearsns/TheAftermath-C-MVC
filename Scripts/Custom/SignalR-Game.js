@@ -60,9 +60,9 @@
                     for (i = 0; i < results.length; i++) {
                         var result = results[i];
 
-                        if (result.Username == username && result.Tell != true) continue;
-                        else if (result.Username == username && result.Tell == true) $("#storytellerName").val(result.Username).removeClass("bw-thick");
-                        else if (result.Tell == true) {
+                        if (result.Username === username && result.Tell !== true) continue;
+                        else if (result.Username === username && result.Tell === true) $("#storytellerName").val(result.Username).removeClass("bw-thick");
+                        else if (result.Tell === true) {
                             $("#storytellerName").val(result.Username).removeClass("bw-thick");
                             $("#gameActiveUserList").append("<button class='btn btn-block border border-danger font-weight-bold text-danger text-center mt-1 IM-btn' data-connection='" + result.Username + "'>" + result.Username + "</button>");
                         }
@@ -133,7 +133,7 @@
     // -- ID MARKS BUTTONS (STORYTELLER) -- //
     $("body").on("click", ".IDMarksBtn", function () {
         var charSex = $(this).data("sex");
-        if (charSex == "Female") {
+        if (charSex === "Female") {
             $("#idMarksBG").css("background-image", "url('../../Content/Images/Embed/VirtruvianWoman-1200x1200-50o.png')");
             $(".facialHairSlot").html("");
         }
@@ -209,7 +209,9 @@
             contentType: "application/json; charset=utf-8",
             success:
                 function (results) {
-                    //console.log(results);
+                    var acts = Number(results.Speed) / 2;
+                    var seq = (Number(results.Perception) + Number(results.Speed)) / 2;
+
                     $('#background').val(results.Background);
                     $('#strategy').val(results.Strategy);
                     $('#history').val(results.History);
@@ -226,14 +228,16 @@
                     $('#ethnicity').val(results.Ethnicity);
                     $('#perception').val(results.Perception);
                     $('#speed').val(results.Speed);
-                    $('#hairColor').val(results.HairColor);
+                    $('#hairColor').val(results.IDMarks.HairColor);
                     $('#charisma').val(results.Charisma);
                     $('#beauty').val(results.Beauty);
-                    $('#eyeColor').val(results.EyeColor);
-                    $('#hairStyle').val(results.HairStyle);
-                    $('#sequence').val(results.Sequence);
-                    $('#actions').val(results.Actions);
-                    $('#facialHair').val(results.FacialHair);
+                    $('#eyeColor').val(results.IDMarks.EyeColor);
+                    $('#hairStyle').val(results.IDMarks.HairStyle);
+                    $('#sequence').val(seq);
+                    $('#actions').val(acts);
+
+                    if (results.Sex === 'Female') $('.facialHairSlot').html('');
+                    else $('#facialHair').val(results.IDMarks.FacialHair);
 
                     // -- SKILLS -- //
                     for (i = 0; i < results.Skills.length; i++) {
@@ -243,25 +247,25 @@
                         var skillClass = results.Skills[i].Class;
                         var skillValue = results.Skills[i].Value;
 
-                        if (skillType == "Standard") $('input[name="Skill-' + skillName + '"]').val(skillValue);
+                        if (skillType === "Standard") $('input[name="Skill-' + skillName + '"]').val(skillValue);
                         else {
                             // DETERMINE SLOT
                             var slotNum;
-                            if (skillClass == "Combat") slotNum = combatSlot;
-                            else if (skillClass == "Affiliation") { skillClass = "Social"; slotNum = socialSlot; }
-                            else if (skillClass == "Languages") { skillClass = "Social"; slotNum = socialSlot; }
-                            else if (skillClass == "Social") slotNum = socialSlot;
-                            else if (skillClass == "Covert") slotNum = covertSlot;
-                            else if (skillClass == "Survival") slotNum = survivalSlot;
-                            else if (skillClass == "Craftsman") slotNum = craftsmanSlot;
-                            else if (skillClass == "Construction") slotNum = constructionSlot;
-                            else if (skillClass == "Medical") slotNum = medicalSlot;
-                            else if (skillClass == "Science") slotNum = scienceSlot;
-                            else if (skillClass == "Technology") slotNum = technologySlot;
-                            else if (skillClass == "Transportation") slotNum = transportationSlot;
+                            if (skillClass === "Combat") slotNum = combatSlot;
+                            else if (skillClass === "Affiliation") { skillClass = "Social"; slotNum = socialSlot; }
+                            else if (skillClass === "Languages") { skillClass = "Social"; slotNum = socialSlot; }
+                            else if (skillClass === "Social") slotNum = socialSlot;
+                            else if (skillClass === "Covert") slotNum = covertSlot;
+                            else if (skillClass === "Survival") slotNum = survivalSlot;
+                            else if (skillClass === "Craftsman") slotNum = craftsmanSlot;
+                            else if (skillClass === "Construction") slotNum = constructionSlot;
+                            else if (skillClass === "Medical") slotNum = medicalSlot;
+                            else if (skillClass === "Science") slotNum = scienceSlot;
+                            else if (skillClass === "Technology") slotNum = technologySlot;
+                            else if (skillClass === "Transportation") slotNum = transportationSlot;
 
                             var nextSlot;
-                            if (skillClass == "Combat") nextSlot = slotNum + 2;
+                            if (skillClass === "Combat") nextSlot = slotNum + 2;
                             else nextSlot = slotNum + 1;
                             // RENDER HTML FOR NEXT SKILL SLOT
                             $("#" + skillClass.toLowerCase() + "-" + slotNum).html(
@@ -273,14 +277,14 @@
                                 '</div>'
                             );
                             // INCREASE COUNT ON APPROPRIATE SLOT
-                            if (skillClass == "Combat") combatSlot += 1;
-                            else if (skillClass == "Social") socialSlot += 1;
-                            else if (skillClass == "Covert") covertSlot += 1;
-                            else if (skillClass == "Survival") survivalSlot += 1;
-                            else if (skillClass == "Medical") medicalSlot += 1;
-                            else if (skillClass == "Science") scienceSlot += 1;
-                            else if (skillClass == "Technology") technologySlot += 1;
-                            else if (skillClass == "Transportation") transportationSlot += 1;
+                            if (skillClass === "Combat") combatSlot += 1;
+                            else if (skillClass === "Social") socialSlot += 1;
+                            else if (skillClass === "Covert") covertSlot += 1;
+                            else if (skillClass === "Survival") survivalSlot += 1;
+                            else if (skillClass === "Medical") medicalSlot += 1;
+                            else if (skillClass === "Science") scienceSlot += 1;
+                            else if (skillClass === "Technology") technologySlot += 1;
+                            else if (skillClass === "Transportation") transportationSlot += 1;
                         }
                     }
 
@@ -369,42 +373,44 @@
         // -- CLIENT (RECEIVING) FUNCTIONS -- //
         // CHATROOM & PLAY
         chat.client.NotifyOnline = function (name, count) {
-            if (username != name) {
+            if (username !== name) {
                 getGameActiveList();
+                console.log('getGameActiveList() fired');
                 getCharacterList();
+                console.log('getCharacterList() fired');
             }
             else $('#gameChatLog').append('<li class="font-weight-bold text-secondary"><strong>SERVER: [' + name + '] JOINED ['+ gamename +'] AS [' + charname + ']</strong></li>');
         }
 
         chat.client.NotifyOffline = function (name, count) {
-            if (username != name) {
+            if (username !== name) {
                 getGameActiveList();
                 getCharacterList();
             }
         }
 
         chat.client.NotifyGameUpdate = function (game, target) {
-            if (gamename == game) {
+            if (gamename === game) {
                 getGameLinks(target);
-                if (target == 'map') $('#gameChatLog').append('<li class="text-secondary font-weight-bold"><strong>SERVER: GAME MAP UPDATED</strong></li>');
-                else if (target == 'pic') $('#gameChatLog').append('<li class="text-secondary font-weight-bold"><strong>SERVER: GAME PIC UPDATED</strong></li>');
-                else if (target == 'link') $('#gameChatLog').append('<li class="text-secondary font-weight-bold"><strong>SERVER: GAME CONFERENCE LINK UPDATED</strong></li>');
+                if (target === 'map') $('#gameChatLog').append('<li class="text-secondary font-weight-bold"><strong>SERVER: GAME MAP UPDATED</strong></li>');
+                else if (target === 'pic') $('#gameChatLog').append('<li class="text-secondary font-weight-bold"><strong>SERVER: GAME PIC UPDATED</strong></li>');
+                else if (target === 'link') $('#gameChatLog').append('<li class="text-secondary font-weight-bold"><strong>SERVER: GAME CONFERENCE LINK UPDATED</strong></li>');
                 else $('#gameChatLog').append('<li class="text-secondary font-weight-bold"><strong>SERVER: ['+ target +'] ID MARKS UPDATED</strong></li>');
             }
         }
 
         chat.client.NewGameMessage = function (name, charname, game, message, dice) {
-            if (gamename == game) {
-                if (charname == "STORYTELLER") $('#gameChatLog').append('<li class="text-red"><strong>' + htmlEncode(name) + ' [' + htmlEncode(charname) + ']</strong>: ' + htmlEncode(message) + '</li>');
-                else if (dice == true) $('#gameChatLog').append('<li class="text-secondary"><strong>' + htmlEncode(name) + ' [' + htmlEncode(charname) + ']</strong>: ' + htmlEncode(message) + '</li>');
-                else if (username == name && dice == false) $('#gameChatLog').append('<li class="text-info"><strong>' + htmlEncode(name) + ' ['+ htmlEncode(charname) +']</strong>: ' + htmlEncode(message) + '</li>');
+            if (gamename === game) {
+                if (charname === "STORYTELLER") $('#gameChatLog').append('<li class="text-red"><strong>' + htmlEncode(name) + ' [' + htmlEncode(charname) + ']</strong>: ' + htmlEncode(message) + '</li>');
+                else if (dice === true) $('#gameChatLog').append('<li class="text-secondary"><strong>' + htmlEncode(name) + ' [' + htmlEncode(charname) + ']</strong>: ' + htmlEncode(message) + '</li>');
+                else if (username === name && dice === false) $('#gameChatLog').append('<li class="text-info"><strong>' + htmlEncode(name) + ' ['+ htmlEncode(charname) +']</strong>: ' + htmlEncode(message) + '</li>');
                 else $('#gameChatLog').append('<li><strong>' + htmlEncode(name) + ' [' + htmlEncode(charname) +']</strong>: ' + htmlEncode(message) + '</li>');
                 $("#gameChatLog li:last-child").focus();
             }
         };
 
         chat.client.NotifyExpGain = function (name) {
-            if (name == username) getExperience();
+            if (name === username) getExperience();
         }
 
         // USER TO USER IM
@@ -482,7 +488,7 @@
             // -- SERVER (SENDING) FUNCTIONS -- //
             // CHATROOM
             $("#gameChatInput").on("keypress", function (e) {
-                if (e.which == 13) {
+                if (e.which === 13) {
                     //console.log('sendMessage called');
                     chat.server.sendGameMessage(username, charname, gamename, $('#gameChatInput').val());
                     $('#gameChatInput').val('').focus();
@@ -496,7 +502,7 @@
             });
             // IM's
             $("body").on("keypress", ".IM-input", function (e) {
-                if (e.which == 13) {
+                if (e.which === 13) {
                     var targetUser = $(this).data("connection");
                     var input = $('.IM-input[data-connection="' + targetUser + '"]').val();
                     $('.IM-log[data-connection="' + targetUser + '"]').append('<li class="text-info"><strong>' + username + '</strong>: ' + input + '</li>');
@@ -533,7 +539,7 @@
             });
 
             $('body').on('keypress', '.expInput', function (e) {
-                if (e.which == 13) {
+                if (e.which === 13) {
                     var userName = $(this).data('username');
                     var charName = $(this).data('charname');
                     var exp = $('.expInput[data-charname="' + charName + '"]').val();

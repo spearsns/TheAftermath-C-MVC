@@ -123,6 +123,14 @@ namespace TheAftermath_V2.Controllers
                                join a in db.Abilities on ca.AbilityID equals a.ID
                                select new { a.Name, a.Description };
 
+            Classes.IDMarks idMarks = new Classes.IDMarks
+            {
+                EyeColor = db.IDMarks.Where(a => a.CharacterID == character.ID).Select(a=>a.EyeColor).SingleOrDefault(),
+                HairColor = db.IDMarks.Where(a => a.CharacterID == character.ID).Select(a => a.HairColor).SingleOrDefault(),
+                HairStyle = db.IDMarks.Where(a => a.CharacterID == character.ID).Select(a => a.HairStyle).SingleOrDefault(),
+                FacialHair = db.IDMarks.Where(a => a.CharacterID == character.ID).Select(a => a.FacialHair).SingleOrDefault()
+            };
+
             List<Classes.AbilityData> abilityList = new List<Classes.AbilityData>();
             foreach (var ability in abilityQuery) abilityList.Add(new Classes.AbilityData { Name = ability.Name, Description = ability.Description });
 
@@ -153,7 +161,8 @@ namespace TheAftermath_V2.Controllers
                 Beauty = charAttrs.Where(a => a.Name == "Beauty").Select(a => a.Value).First(),
 
                 Skills = skillList,
-                Abilities = abilityList
+                Abilities = abilityList,
+                IDMarks = idMarks
             };
 
             return Json(charData, JsonRequestBehavior.AllowGet);

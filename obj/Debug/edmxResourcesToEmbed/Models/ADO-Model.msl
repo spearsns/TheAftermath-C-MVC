@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="AftermathV1ModelStoreContainer" CdmEntityContainer="AftermathV1Entities">
+  <EntityContainerMapping StorageEntityContainer="AftermathDBModelStoreContainer" CdmEntityContainer="AftermathDBEntities">
     <EntitySetMapping Name="Abilities">
-      <EntityTypeMapping TypeName="AftermathV1Model.Ability">
+      <EntityTypeMapping TypeName="AftermathDBModel.Ability">
         <MappingFragment StoreEntitySet="Abilities">
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Name" ColumnName="Name" />
@@ -15,19 +15,8 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="AccountRelationships">
-      <EntityTypeMapping TypeName="AftermathV1Model.AccountRelationship">
-        <MappingFragment StoreEntitySet="AccountRelationships">
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="FirstAccountID" ColumnName="FirstAccountID" />
-          <ScalarProperty Name="SecondAccountID" ColumnName="SecondAccountID" />
-          <ScalarProperty Name="Type" ColumnName="Type" />
-          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Accounts">
-      <EntityTypeMapping TypeName="AftermathV1Model.Account">
+      <EntityTypeMapping TypeName="AftermathDBModel.Account">
         <MappingFragment StoreEntitySet="Accounts">
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Username" ColumnName="Username" />
@@ -38,8 +27,23 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="AccountStatus">
+      <EntityTypeMapping TypeName="AftermathDBModel.AccountStatu">
+        <MappingFragment StoreEntitySet="AccountStatus">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+          <ScalarProperty Name="Active" ColumnName="Active" />
+          <ScalarProperty Name="Admin" ColumnName="Admin" />
+          <ScalarProperty Name="Play" ColumnName="Play" />
+          <ScalarProperty Name="Tell" ColumnName="Tell" />
+          <ScalarProperty Name="CampaignID" ColumnName="CampaignID" />
+          <ScalarProperty Name="CharacterID" ColumnName="CharacterID" />
+          <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Attributes">
-      <EntityTypeMapping TypeName="AftermathV1Model.Attribute">
+      <EntityTypeMapping TypeName="AftermathDBModel.Attribute">
         <MappingFragment StoreEntitySet="Attributes">
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Name" ColumnName="Name" />
@@ -49,9 +53,8 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Backgrounds">
-      <EntityTypeMapping TypeName="AftermathV1Model.Background">
-        <MappingFragment StoreEntitySet="Background">
-          <ScalarProperty Name="Science" ColumnName="Science" />
+      <EntityTypeMapping TypeName="AftermathDBModel.Background">
+        <MappingFragment StoreEntitySet="Backgrounds">
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Training" ColumnName="Training" />
@@ -61,6 +64,7 @@
           <ScalarProperty Name="Covert" ColumnName="Covert" />
           <ScalarProperty Name="Craftsman" ColumnName="Craftsman" />
           <ScalarProperty Name="Social" ColumnName="Social" />
+          <ScalarProperty Name="Science" ColumnName="Science" />
           <ScalarProperty Name="Survival" ColumnName="Survival" />
           <ScalarProperty Name="Technology" ColumnName="Technology" />
           <ScalarProperty Name="Transportation" ColumnName="Transportation" />
@@ -70,31 +74,35 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Campaigns">
-      <EntityTypeMapping TypeName="AftermathV1Model.Campaign">
+      <EntityTypeMapping TypeName="AftermathDBModel.Campaign">
         <MappingFragment StoreEntitySet="Campaigns">
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Season" ColumnName="Season" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="AdminPassword" ColumnName="AdminPassword" />
           <ScalarProperty Name="PlayerPassword" ColumnName="PlayerPassword" />
-          <ScalarProperty Name="Storyteller" ColumnName="Storyteller" />
+          <ScalarProperty Name="TellActive" ColumnName="TellActive" />
           <ScalarProperty Name="Locked" ColumnName="Locked" />
           <ScalarProperty Name="Closed" ColumnName="Closed" />
+          <ScalarProperty Name="ConferenceLink" ColumnName="ConferenceLink" />
+          <ScalarProperty Name="MapLoc" ColumnName="MapLoc" />
+          <ScalarProperty Name="PictureLoc" ColumnName="PictureLoc" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="CharacterAbilities">
-      <EntityTypeMapping TypeName="AftermathV1Model.CharacterAbility">
+      <EntityTypeMapping TypeName="AftermathDBModel.CharacterAbility">
         <MappingFragment StoreEntitySet="CharacterAbilities">
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="CharacterID" ColumnName="CharacterID" />
           <ScalarProperty Name="AbilityID" ColumnName="AbilityID" />
-          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="CharacterAttributes">
-      <EntityTypeMapping TypeName="AftermathV1Model.CharacterAttribute">
+      <EntityTypeMapping TypeName="AftermathDBModel.CharacterAttribute">
         <MappingFragment StoreEntitySet="CharacterAttributes">
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="CharacterID" ColumnName="CharacterID" />
@@ -104,7 +112,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="CharacterExps">
-      <EntityTypeMapping TypeName="AftermathV1Model.CharacterExp">
+      <EntityTypeMapping TypeName="AftermathDBModel.CharacterExp">
         <MappingFragment StoreEntitySet="CharacterExps">
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="CharacterID" ColumnName="CharacterID" />
@@ -113,34 +121,20 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="CharacterNotes">
-      <EntityTypeMapping TypeName="AftermathV1Model.CharacterNote">
-        <MappingFragment StoreEntitySet="CharacterNotes">
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="CharacterID" ColumnName="CharacterID" />
-          <ScalarProperty Name="Notes" ColumnName="Notes" />
-          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Characters">
-      <EntityTypeMapping TypeName="AftermathV1Model.Character">
+      <EntityTypeMapping TypeName="AftermathDBModel.Character">
         <MappingFragment StoreEntitySet="Characters">
-          <ScalarProperty Name="Status" ColumnName="Status" />
-          <ScalarProperty Name="Strategy" ColumnName="Strategy" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="AccountID" ColumnName="AccountID" />
           <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="Birthdate" ColumnName="Birthdate" />
           <ScalarProperty Name="Sex" ColumnName="Sex" />
           <ScalarProperty Name="Height" ColumnName="Height" />
           <ScalarProperty Name="Ethnicity" ColumnName="Ethnicity" />
-          <ScalarProperty Name="HairColor" ColumnName="HairColor" />
-          <ScalarProperty Name="HairStyle" ColumnName="HairStyle" />
-          <ScalarProperty Name="FacialHair" ColumnName="FacialHair" />
-          <ScalarProperty Name="EyeColor" ColumnName="EyeColor" />
           <ScalarProperty Name="Habitat" ColumnName="Habitat" />
           <ScalarProperty Name="History" ColumnName="History" />
+          <ScalarProperty Name="Strategy" ColumnName="Strategy" />
           <ScalarProperty Name="Background" ColumnName="Background" />
           <ScalarProperty Name="PictureLoc" ColumnName="PictureLoc" />
           <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
@@ -148,17 +142,17 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="CharacterSkills">
-      <EntityTypeMapping TypeName="AftermathV1Model.CharacterSkill">
+      <EntityTypeMapping TypeName="AftermathDBModel.CharacterSkill">
         <MappingFragment StoreEntitySet="CharacterSkills">
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="CharacterID" ColumnName="CharacterID" />
-          <ScalarProperty Name="MasterID" ColumnName="MasterID" />
+          <ScalarProperty Name="SkillID" ColumnName="SkillID" />
           <ScalarProperty Name="Value" ColumnName="Value" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Histories">
-      <EntityTypeMapping TypeName="AftermathV1Model.History">
+      <EntityTypeMapping TypeName="AftermathDBModel.History">
         <MappingFragment StoreEntitySet="History">
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Name" ColumnName="Name" />
@@ -170,10 +164,14 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="IDMarks">
-      <EntityTypeMapping TypeName="AftermathV1Model.IDMark">
+      <EntityTypeMapping TypeName="AftermathDBModel.IDMark">
         <MappingFragment StoreEntitySet="IDMarks">
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="CharacterID" ColumnName="CharacterID" />
+          <ScalarProperty Name="EyeColor" ColumnName="EyeColor" />
+          <ScalarProperty Name="HairColor" ColumnName="HairColor" />
+          <ScalarProperty Name="HairStyle" ColumnName="HairStyle" />
+          <ScalarProperty Name="FacialHair" ColumnName="FacialHair" />
           <ScalarProperty Name="Head" ColumnName="Head" />
           <ScalarProperty Name="Face" ColumnName="Face" />
           <ScalarProperty Name="Neck" ColumnName="Neck" />
@@ -201,12 +199,12 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Skills">
-      <EntityTypeMapping TypeName="AftermathV1Model.Skill">
+      <EntityTypeMapping TypeName="AftermathDBModel.Skill">
         <MappingFragment StoreEntitySet="Skills">
-          <ScalarProperty Name="LongTxt" ColumnName="LongTxt" />
-          <ScalarProperty Name="ShortTxt" ColumnName="ShortTxt" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ShortTxt" ColumnName="ShortTxt" />
+          <ScalarProperty Name="LongTxt" ColumnName="LongTxt" />
           <ScalarProperty Name="Class" ColumnName="Class" />
           <ScalarProperty Name="Type" ColumnName="Type" />
           <ScalarProperty Name="Description" ColumnName="Description" />
@@ -218,7 +216,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="sysdiagrams">
-      <EntityTypeMapping TypeName="AftermathV1Model.sysdiagram">
+      <EntityTypeMapping TypeName="AftermathDBModel.sysdiagram">
         <MappingFragment StoreEntitySet="sysdiagrams">
           <ScalarProperty Name="name" ColumnName="name" />
           <ScalarProperty Name="principal_id" ColumnName="principal_id" />

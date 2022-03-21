@@ -6,10 +6,16 @@
 	var charSex = $("#sex").val();
 
 	$("#campaignName").val(gameName);
-	if (charSex == "Female") {
+	if (charSex === "Female") {
 		$("#idMarksBG").css("background-image", "url('../../Content/Images/Embed/VirtruvianWoman-1200x1200-50o.png')");
 		$(".facialHairSlot").html("");
 	}
+
+	actions = Math.floor($('#speed').val() / 2);
+	sequence = Math.floor((Number($('#perception').val()) + Number($('#speed').val())) / 2);
+
+	$("#sequence").val(sequence);
+	$("#actions").val(actions);
 
 	// BUTTONS
 	$("#IDMarksBtn").click(function () {
@@ -86,24 +92,24 @@
 						var skillType = results[i].Type;
 						var skillValue = results[i].Value;
 
-						if (skillType == "Standard") continue;
+						if (skillType === "Standard") continue;
 						// DETERMINE SLOT
 						var slotNum;
-						if (skillClass == "Combat") slotNum = combatSlot;
-						else if (skillClass == "Affiliation") { skillClass = "Social"; slotNum = socialSlot; }
-						else if (skillClass == "Languages") { skillClass = "Social"; slotNum = socialSlot; }
-						else if (skillClass == "Social") slotNum = socialSlot;
-						else if (skillClass == "Covert") slotNum = covertSlot;
-						else if (skillClass == "Survival") slotNum = survivalSlot;
-						else if (skillClass == "Craftsman") slotNum = craftsmanSlot;
-						else if (skillClass == "Construction") slotNum = constructionSlot;
-						else if (skillClass == "Medical") slotNum = medicalSlot;
-						else if (skillClass == "Science") slotNum = scienceSlot;
-						else if (skillClass == "Technology") slotNum = technologySlot;
-						else if (skillClass == "Transportation") slotNum = transportationSlot;
-						
-						var nextSlot
-						if (skillClass == "Combat") nextSlot = slotNum + 2;
+						if (skillClass === "Combat") slotNum = combatSlot;
+						else if (skillClass === "Affiliation") { skillClass = "Social"; slotNum = socialSlot; }
+						else if (skillClass === "Languages") { skillClass = "Social"; slotNum = socialSlot; }
+						else if (skillClass === "Social") slotNum = socialSlot;
+						else if (skillClass === "Covert") slotNum = covertSlot;
+						else if (skillClass === "Survival") slotNum = survivalSlot;
+						else if (skillClass === "Craftsman") slotNum = craftsmanSlot;
+						else if (skillClass === "Construction") slotNum = constructionSlot;
+						else if (skillClass === "Medical") slotNum = medicalSlot;
+						else if (skillClass === "Science") slotNum = scienceSlot;
+						else if (skillClass === "Technology") slotNum = technologySlot;
+						else if (skillClass === "Transportation") slotNum = transportationSlot;
+
+                        var nextSlot;
+						if (skillClass === "Combat") nextSlot = slotNum + 2;
 						else nextSlot = slotNum + 1;
 						// RENDER HTML FOR NEXT SKILL SLOT
 						$("#" + skillClass.toLowerCase() + "-" + slotNum).html(
@@ -115,14 +121,14 @@
 							'</div>'
 						);
 						// INCREASE COUNT ON APPROPRIATE SLOT
-						if (skillClass == "Combat") combatSlot += 1;
-						else if (skillClass == "Social") socialSlot += 1;
-						else if (skillClass == "Covert") covertSlot += 1;
-						else if (skillClass == "Survival") survivalSlot += 1;
-						else if (skillClass == "Medical") medicalSlot += 1;
-						else if (skillClass == "Science") scienceSlot += 1;
-						else if (skillClass == "Technology") technologySlot += 1;
-						else if (skillClass == "Transportation") transportationSlot += 1;
+						if (skillClass === "Combat") combatSlot += 1;
+						else if (skillClass === "Social") socialSlot += 1;
+						else if (skillClass === "Covert") covertSlot += 1;
+						else if (skillClass === "Survival") survivalSlot += 1;
+						else if (skillClass === "Medical") medicalSlot += 1;
+						else if (skillClass === "Science") scienceSlot += 1;
+						else if (skillClass === "Technology") technologySlot += 1;
+						else if (skillClass === "Transportation") transportationSlot += 1;
 					}
 				}
 		});

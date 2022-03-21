@@ -47,7 +47,7 @@
 			}
 		});
 
-		if (charNameErr == false) {
+		if (charNameErr === false) {
 			$("#submitBtn").prop("disabled", false);
 		}
 	});
@@ -90,20 +90,20 @@
 	/* -- DEMOGRAPHIC INFORMATION -- */
 	function rollBG() {
 		var bgRoll = (roll(0, 9) * 10) + roll(1, 10);
-		if (strategy == "Order") {
+		if (strategy === "Order") {
 			if (bgRoll <= 20) return "Soldier";
 			else if (bgRoll >= 21 && bgRoll <= 40) return "Cop";
 			else if (bgRoll >= 41 && bgRoll <= 60) return "Militia";
 			else return "Guard"; 
 		}
-		else if (strategy == "Exchange") {
+		else if (strategy === "Exchange") {
 			if (bgRoll <= 10) return "Medic";
 			else if (bgRoll >= 11 && bgRoll <= 25) return "Technician";
 			else if (bgRoll >= 26 && bgRoll <= 45) return "Craftsman";
 			else if (bgRoll >= 46 && bgRoll <= 70) return "Courier";
 			else return "Trader";
 		}
-		else if (strategy == "Independence") {
+		else if (strategy === "Independence") {
 			if (bgRoll <= 20) return "Outdoorsman";
 			else if (bgRoll >= 21 && bgRoll <= 40) return "Handyman";
 			else if (bgRoll >= 41 && bgRoll <= 80) return "Scavenger";
@@ -119,7 +119,7 @@
 
 	function rollHC() {
 		var hairRoll = (roll(0, 9) * 10) + roll(1, 10);
-		if (ethnicity == "Caucasian") {
+		if (ethnicity === "Caucasian") {
 			if (hairRoll <= 25) return "Black";
 			else if (hairRoll >= 26 && hairRoll <= 40) return "Dark Brown";
 			else if (hairRoll >= 41 && hairRoll <= 65) return "Brown";
@@ -127,24 +127,24 @@
 			else if (hairRoll >= 91 && hairRoll <= 99) return "Blonde";
 			else return "Red";
 		}
-		else if (ethnicity == "Middle-Eastern") {
+		else if (ethnicity === "Middle-Eastern") {
 			if (hairRoll <= 80) return "Black";
 			else if (hairRoll >= 81 && hairRoll <= 90) return "Dark Brown";
 			else if (hairRoll >= 91 && hairRoll <= 99) return "Brown";
 			else return "Red";
 		}
-		else if (ethnicity == "Hispanic") {
+		else if (ethnicity === "Hispanic") {
 			if (hairRoll <= 70) return "Black";
 			else if (hairRoll >= 71 && hairRoll <= 90) return "Dark Brown";
 			else if (hairRoll >= 91 && hairRoll <= 99) return "Brown";
 			else return "Red";
 		}
-		else if (ethnicity == "Asian") {
+		else if (ethnicity === "Asian") {
 			if (hairRoll <= 75) return "Black";
 			else if (hairRoll >= 76 && hairRoll <= 90) return "Dark Brown";
 			else return "Brown";
 		}
-		else if (ethnicity == "African-American") {
+		else if (ethnicity === "African-American") {
 			if (hairRoll <= 92) return "Black";
 			else if (hairRoll >= 93 && hairRoll <= 99) return "Brown";
 			else return "Red";
@@ -170,7 +170,7 @@
 	}
 	// CHECKS
 	function checkAttrPts() {
-		if (attrPts == 0) {
+		if (attrPts === 0) {
 			$(".attrPtsLbl").addClass("d-none");
 			$(".attrPtsVal").addClass("d-none");
 			$("#attrPtsRow").addClass("d-none");
@@ -189,20 +189,20 @@
 	}
 
 	function checkChoices() {
-		if (combatChoices == 0) $("#combatChoiceLbl, #combatChoiceVal").addClass("d-none");
-		if (covertChoices == 0) $("#covertChoiceLbl, #covertChoiceVal").addClass("d-none");
-		if (socialChoices == 0) $("#socialChoiceLbl, #socialChoiceVal").addClass("d-none");
-		if (survivalChoices == 0) $("#survivalChoiceLbl, #survivalChoiceVal").addClass("d-none");
-		if (medicalChoices == 0) $("#medicalChoiceLbl, #medicalChoiceVal").addClass("d-none");
-		if (scienceChoices == 0) $("#scienceChoiceLbl, #scienceChoiceVal").addClass("d-none");
-		if (craftsmanChoices == 0) $("#craftsmanChoiceLbl, #craftsmanChoiceVal").addClass("d-none");
-		if (constructionChoices == 0) $("#constructionChoiceLbl, #constructionChoiceVal").addClass("d-none");
-		if (technologyChoices == 0) $("#technologyChoiceLbl, #technologyChoiceVal").addClass("d-none");
-		if (transportationChoices == 0) $("#transportationChoiceLbl, #transportationChoiceVal").addClass("d-none");
+		if (combatChoices === 0) $("#combatChoiceLbl, #combatChoiceVal").addClass("d-none");
+		if (covertChoices === 0) $("#covertChoiceLbl, #covertChoiceVal").addClass("d-none");
+		if (socialChoices === 0) $("#socialChoiceLbl, #socialChoiceVal").addClass("d-none");
+		if (survivalChoices === 0) $("#survivalChoiceLbl, #survivalChoiceVal").addClass("d-none");
+		if (medicalChoices === 0) $("#medicalChoiceLbl, #medicalChoiceVal").addClass("d-none");
+		if (scienceChoices === 0) $("#scienceChoiceLbl, #scienceChoiceVal").addClass("d-none");
+		if (craftsmanChoices === 0) $("#craftsmanChoiceLbl, #craftsmanChoiceVal").addClass("d-none");
+		if (constructionChoices === 0) $("#constructionChoiceLbl, #constructionChoiceVal").addClass("d-none");
+		if (technologyChoices === 0) $("#technologyChoiceLbl, #technologyChoiceVal").addClass("d-none");
+		if (transportationChoices === 0) $("#transportationChoiceLbl, #transportationChoiceVal").addClass("d-none");
 	}
 
 	function checkSkillPts() {
-		if (skillPts == 0) {
+		if (skillPts === 0) {
 			$("#skillPtsLbl").addClass("d-none");
 			$("#skillPtsVal").addClass("d-none");
 			$("button").prop("disabled", true);
@@ -216,12 +216,12 @@
 	$("#sexBtn").click(function () {
 		var sex = $("#sex").val();
 		$("#sexBtn").prop("disabled", true);
-		if (sex == "Male") {
+		if (sex === "Male") {
 			$("#sex").val("Female");
 			attrPts -= 1;
 			checkAttrPts();
 		}
-		else if (sex == "Female"){
+		else if (sex === "Female"){
 			$("#sex").val("Male");
 			attrPts -= 1;
 			checkAttrPts();
@@ -231,118 +231,30 @@
 	$("#strategyBtn").click(function () { $("#strategyModal").modal("toggle"); });
 
 	$(".strategyChoice").click(function () {
-		var obackground = $("#background").val();
 		strategy = $(this).data("choice");
 		background = rollBG();
 		attrPts -= 1;
-		function resetChoices() {
-			combatChoices = 0;
-			$("#combatChoices").val(combatChoices);
-			$("#combatChoiceLbl").addClass("d-none");
-			$("#combatChoiceVal").addClass("d-none");
-			covertChoices = 0;
-			$("#covertChoices").val(covertChoices);
-			$("#covertChoiceLbl").addClass("d-none");
-			$("#covertChoiceVal").addClass("d-none");
-			craftsmanChoices = 0;
-			$("#craftsmanChoices").val(craftsmanChoices);
-			$("#craftsmanChoiceLbl").addClass("d-none");
-			$("#craftsmanChoiceVal").addClass("d-none");
-			constructionChoices = 0;
-			$("#constructionChoices").val(constructionChoices);
-			$("#constructionChoiceLbl").addClass("d-none");
-			$("#constructionChoiceVal").addClass("d-none");
-			socialChoices = 0;
-			$("#socialChoices").val(socialChoices);
-			$("#socialChoiceLbl").addClass("d-none");
-			$("#socialChoiceVal").addClass("d-none");
-			survivalChoices = 0;
-			$("#survivalChoices").val(survivalChoices);
-			$("#survivalChoiceLbl").addClass("d-none");
-			$("#survivalChoiceVal").addClass("d-none");
-			medicalChoices = 0;
-			$("#medicalChoices").val(medicalChoices);
-			$("#medicalChoiceLbl").addClass("d-none");
-			$("#medicalChoiceVal").addClass("d-none");
-			scienceChoices = 0;
-			$("#scienceChoices").val(scienceChoices);
-			$("#scienceChoiceLbl").addClass("d-none");
-			$("#scienceChoiceVal").addClass("d-none");
-			technologyChoices = 0;
-			$("#technologyChoices").val(technologyChoices);
-			$("#technologyChoiceLbl").addClass("d-none");
-			$("#technologyChoiceVal").addClass("d-none");
-			transportationChoices = 0;
-			$("#transportationChoices").val(transportationChoices);
-			$("#transportationChoiceLbl").addClass("d-none");
-			$("#transportationChoiceVal").addClass("d-none");
-        }
-		resetChoices();
-		resetBG(obackground);
+		
 		$("#strategy").val(strategy);
 		$("#background").val(background);
 		checkAttrPts();
 		$("#strategyModal").modal("toggle");
 	});
-	// RESET BACKGROUND
-	function resetBG(obackground) {
-		$.ajax({
-			type: 'POST',
-			url: '/Characters/GetBackgroundSkills',
-			data: '{Background: "' + obackground + '" }',
-			dataType: 'json',
-			contentType: "application/json; charset=utf-8",
-			success:
-				function (result) {
-					var skillsArr = result.Skills.split(", ");
-					for (i = 0; i < skillsArr.length; i++) {
-						var skillName = skillsArr[i];
-						$.ajax({
-							type: 'POST',
-							url: 'GetSkillData',
-							data: '{Name: "' + skillName + '" }',
-							dataType: 'json',
-							contentType: "application/json; charset=utf-8",
-							success:
-								function (results) {
-									var skill = results.Name;
-									var parentID = String($("input[name = '" + skill + "'").parent().parent().attr("id"));
-									var skillClass = results.Class;
-									if (skillClass == "Affiliation" || skillClass == "Languages") skillClass = "Social";
-									var slotNum = parseInt(parentID.split("-")[1]);
-									var nextSlot = parseInt(slotNum + 1);
-									$("*[data-skill='" + skill + "']").parent().parent().html(
-										'<button class="btn btn-block btn-info border border-dark text-center font-weight-bold addSkillBtn my-2 mx-auto bgAdd" data-target="' + skillClass + "Skills" + '" type="button" disabled>ADD</button>'
-									);
-									$("input[name = '" + skill + "'").parent().parent().html(
-										'<div class="input-group my-2">' +
-										'<input class="form-control text-center px-0 py-0" name="" value="" readonly />' +
-										'</div>'
-									);
-									$("#" + skillClass.toLowerCase() + "-" + nextSlot).html("&nbsp;");
-									$("#" + skillClass.toLowerCase() + "Val-" + nextSlot).html("&nbsp;");
-								}
-						});
-					}
-				}
-
-		});
-	}
 
 	// -- ATTRIBUTES --
 	var original;
 	// POPULATE MODAL
 	$(".attributeBtn").click(function () {
 		var choice = $(this).data("attr");
-		if (choice == "memory") $("#currentAttr").attr("data-shorttxt", "MEM").attr("data-longtxt", "MEMORY");
-		if (choice == "logic") $("#currentAttr").attr("data-shorttxt", "LOG").attr("data-longtxt", "LOGIC");
-		if (choice == "perception") $("#currentAttr").attr("data-shorttxt", "PER").attr("data-longtxt", "PERCEPTION");
-		if (choice == "willpower") $("#currentAttr").attr("data-shorttxt", "WILL").attr("data-longtxt", "WILLPOWER");
-		if (choice == "charisma") $("#currentAttr").attr("data-shorttxt", "CHA").attr("data-longtxt", "CHARISMA");
-		if (choice == "strength") $("#currentAttr").attr("data-shorttxt", "STR").attr("data-longtxt", "STRENGTH");
-		if (choice == "endurance") $("#currentAttr").attr("data-shorttxt", "END").attr("data-longtxt", "ENDURANCE");
-		if (choice == "agility") $("#currentAttr").attr("data-shorttxt", "AGL").attr("data-longtxt", "AGILITY");
-		if (choice == "speed") $("#currentAttr").attr("data-shorttxt", "SPD").attr("data-longtxt", "SPEED");
+		if (choice === "memory") $("#currentAttr").attr("data-shorttxt", "MEM").attr("data-longtxt", "MEMORY");
+		if (choice === "logic") $("#currentAttr").attr("data-shorttxt", "LOG").attr("data-longtxt", "LOGIC");
+		if (choice === "perception") $("#currentAttr").attr("data-shorttxt", "PER").attr("data-longtxt", "PERCEPTION");
+		if (choice === "willpower") $("#currentAttr").attr("data-shorttxt", "WILL").attr("data-longtxt", "WILLPOWER");
+		if (choice === "charisma") $("#currentAttr").attr("data-shorttxt", "CHA").attr("data-longtxt", "CHARISMA");
+		if (choice === "strength") $("#currentAttr").attr("data-shorttxt", "STR").attr("data-longtxt", "STRENGTH");
+		if (choice === "endurance") $("#currentAttr").attr("data-shorttxt", "END").attr("data-longtxt", "ENDURANCE");
+		if (choice === "agility") $("#currentAttr").attr("data-shorttxt", "AGL").attr("data-longtxt", "AGILITY");
+		if (choice === "speed") $("#currentAttr").attr("data-shorttxt", "SPD").attr("data-longtxt", "SPEED");
 		original = parseInt(eval("o" + choice));
 		$("#originalAttrVal").val(original);
 		$("#currentAttr").html(String(choice) + ":");
@@ -430,14 +342,14 @@
 						var obj = results[i];
 						var value = parseInt(eval(obj.Formula) + roll(1, 10));
 						$(".standardSkill").each(function () {
-							if ($(this).attr("name") == "Skill-" + obj.Name) $(this).val(value);
+							if ($(this).attr("name") === "Skill-" + obj.Name) $(this).val(value);
 						});
 					}
 				}
 		});
 		d.resolve();
-		return d.promise()
-	}
+        return d.promise();
+    }
 
 	// BACKGROUND SKILL VARIABLES
 	var combatChoices;
@@ -476,55 +388,55 @@
 			contentType: "application/json; charset=utf-8",
 			success:
 				function (results) {
-					if (results.Combat != 0) {
+					if (results.Combat !== 0) {
 						combatChoices = results.Combat;
 						$("#combatChoices").val(combatChoices);
 						$("#combatChoiceLbl").removeClass("d-none");
 						$("#combatChoiceVal").removeClass("d-none");
 					}
-					if (results.Covert != 0) {
+					if (results.Covert !== 0) {
 						covertChoices = results.Covert;
 						$("#covertChoices").val(covertChoices);
 						$("#covertChoiceLbl").removeClass("d-none");
 						$("#covertChoiceVal").removeClass("d-none");
 					}
-					if (results.Construction != 0) {
+					if (results.Construction !== 0) {
 						constructionChoices = results.Construction;
 						$("#constructionChoices").val(constructionChoices);
 						$("#constructionChoiceLbl").removeClass("d-none");
 						$("#constructionChoiceVal").removeClass("d-none");
 					}
-					if (results.Craftsman != 0) {
+					if (results.Craftsman !== 0) {
 						craftsmanChoices = results.Craftsman;
 						$("#craftsmanChoices").val(craftsmanChoices);
 						$("#craftsmanChoiceLbl").removeClass("d-none");
 						$("#craftsmanChoiceVal").removeClass("d-none");
 					}
-					if (results.Social != 0) {
+					if (results.Social !== 0) {
 						socialChoices = results.Social;
 						$("#socialChoices").val(socialChoices);
 						$("#socialChoiceLbl").removeClass("d-none");
 						$("#socialChoiceVal").removeClass("d-none");
 					}
-					if (results.Survival != 0) {
+					if (results.Survival !== 0) {
 						survivalChoices = results.Survival;
 						$("#survivalChoices").val(survivalChoices);
 						$("#survivalChoiceLbl").removeClass("d-none");
 						$("#survivalChoiceVal").removeClass("d-none");
 					}
-					if (results.Technology != 0) {
+					if (results.Technology !== 0) {
 						technologyChoices = results.Technology;
 						$("#technologyChoices").val(technologyChoices);
 						$("#technologyChoiceLbl").removeClass("d-none");
 						$("#technologyChoiceVal").removeClass("d-none");
 					}
-					if (results.Science != 0) {
+					if (results.Science !== 0) {
 						scienceChoices = results.Science;
 						$("#scienceChoices").val(scienceChoices);
 						$("#scienceChoiceLbl").removeClass("d-none");
 						$("#scienceChoiceVal").removeClass("d-none");
 					}
-					if (results.Transportation != 0) {
+					if (results.Transportation !== 0) {
 						transportationChoices = results.Transportation;
 						$("#transportChoices").val(transportationChoices);
 						$("#transportChoiceLbl").removeClass("d-none");
@@ -543,7 +455,6 @@
 					}
 					// BACKGROUND SKILLS
 					if (results.Skills != null) {
-						console.log(results.Skills);
 						for (i = 0; i < results.Skills.length; i++) {
 							var skillName = results.Skills[i].Name;
 							var skillType = results.Skills[i].Type;
@@ -553,27 +464,27 @@
 							var skillFormula = results.Skills[i].Formula;
 
 							var slotNum;
-							if (skillClass == "Combat") slotNum = combatSlot;
-							else if (skillClass == "Affiliation") { skillClass = "Social"; slotNum = socialSlot; }
-							else if (skillClass == "Languages") { skillClass = "Social"; slotNum = socialSlot; }
-							else if (skillClass == "Social") slotNum = socialSlot;
-							else if (skillClass == "Covert") slotNum = covertSlot;
-							else if (skillClass == "Survival") slotNum = survivalSlot;
-							else if (skillClass == "Craftsman") slotNum = craftsmanSlot;
-							else if (skillClass == "Construction") slotNum = constructionSlot;
-							else if (skillClass == "Medical") slotNum = medicalSlot;
-							else if (skillClass == "Science") slotNum = scienceSlot;
-							else if (skillClass == "Technology") slotNum = technologySlot;
-							else if (skillClass == "Transportation") slotNum = transportationSlot;
+							if (skillClass === "Combat") slotNum = combatSlot;
+							else if (skillClass === "Affiliation") { skillClass = "Social"; slotNum = socialSlot; }
+							else if (skillClass === "Languages") { skillClass = "Social"; slotNum = socialSlot; }
+							else if (skillClass === "Social") slotNum = socialSlot;
+							else if (skillClass === "Covert") slotNum = covertSlot;
+							else if (skillClass === "Survival") slotNum = survivalSlot;
+							else if (skillClass === "Craftsman") slotNum = craftsmanSlot;
+							else if (skillClass === "Construction") slotNum = constructionSlot;
+							else if (skillClass === "Medical") slotNum = medicalSlot;
+							else if (skillClass === "Science") slotNum = scienceSlot;
+							else if (skillClass === "Technology") slotNum = technologySlot;
+							else if (skillClass === "Transportation") slotNum = transportationSlot;
 
 							var border;
 							var training;
-							if (skillType == "General") { border = "border-warning"; training = "trainGenBtn"; }
-							else if (skillType == "Advanced") { border = "border-danger"; training = "trainAdvBtn"; }
+							if (skillType === "General") { border = "border-warning"; training = "trainGenBtn"; }
+							else if (skillType === "Advanced") { border = "border-danger"; training = "trainAdvBtn"; }
 							else { border = "border-secondary"; training = "trainGenBtn"; } // skillClass == "Focus"
 
-							var nextSlot
-							if (skillClass == "Combat") nextSlot = slotNum + 2;
+                            var nextSlot;
+							if (skillClass === "Combat") nextSlot = slotNum + 2;
 							else nextSlot = slotNum + 1;
 
 							var skillValue = eval(skillFormula) + roll(1, 10);
@@ -600,22 +511,22 @@
 								'</div>'
 							);
 							// INCREASE COUNT ON APPROPRIATE SLOT
-							if (skillClass == "Combat") combatSlot += 1;
-							else if (skillClass == "Social") socialSlot += 1;
-							else if (skillClass == "Covert") covertSlot += 1;
-							else if (skillClass == "Survival") survivalSlot += 1;
-							else if (skillClass == "Medical") medicalSlot += 1;
-							else if (skillClass == "Science") scienceSlot += 1;
-							else if (skillClass == "Technology") technologySlot += 1;
-							else if (skillClass == "Transportation") transportationSlot += 1;
+							if (skillClass === "Combat") combatSlot += 1;
+							else if (skillClass === "Social") socialSlot += 1;
+							else if (skillClass === "Covert") covertSlot += 1;
+							else if (skillClass === "Survival") survivalSlot += 1;
+							else if (skillClass === "Medical") medicalSlot += 1;
+							else if (skillClass === "Science") scienceSlot += 1;
+							else if (skillClass === "Technology") technologySlot += 1;
+							else if (skillClass === "Transportation") transportationSlot += 1;
 						}
 					}
 				}
 		});
 		altText(lg);
 		d.resolve();
-		return d.promise()
-	}
+        return d.promise();
+    }
 	
 	// CLIENT SIDE SKILL SELECTIONS
 	// TRAIN GEN BUTTONS
@@ -628,17 +539,17 @@
 		if ($(this).hasClass("border-secondary")) skillType = "Focus";
 		else skillType = "General";
 
-		if (value < 150 && skillType == "General") {
-			if (skillClass == "Combat" && combatChoices > 0) { combatChoices -= 1; $("#combatChoices").val(combatChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Social" && socialChoices > 0) { socialChoices -= 1; $("#socialChoices").val(socialChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Covert" && covertChoices > 0) { covertChoices -= 1; $("#covertChoices").val(covertChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Survival" && survivalChoices > 0) { survivalChoices -= 1; $("#survivalChoices").val(survivalChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Medical" && medicalChoices > 0) { medicalChoices -= 1; $("#medicalChoices").val(medicalChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Science" && scienceChoices > 0) { scienceChoices -= 1; $("#scienceChoices").val(scienceChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Craftsman" && craftsmanChoices > 0) { craftsmanChoices -= 1; $("#craftsmanChoices").val(craftsmanChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Construction" && constructionChoices > 0) { constructionChoices -= 1; $("#constructionChoices").val(constructionChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Technology" && technologyChoices > 0) { technologyChoices -= 1; $("#technologyChoices").val(technologyChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Transportation" && transportationChoices > 0) { transportationChoices -= 1; $("#transportationChoices").val(transportationChoices); checkChoices(); checkSkillPts(); }
+		if (value < 150 && skillType === "General") {
+			if (skillClass === "Combat" && combatChoices > 0) { combatChoices -= 1; $("#combatChoices").val(combatChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Social" && socialChoices > 0) { socialChoices -= 1; $("#socialChoices").val(socialChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Covert" && covertChoices > 0) { covertChoices -= 1; $("#covertChoices").val(covertChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Survival" && survivalChoices > 0) { survivalChoices -= 1; $("#survivalChoices").val(survivalChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Medical" && medicalChoices > 0) { medicalChoices -= 1; $("#medicalChoices").val(medicalChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Science" && scienceChoices > 0) { scienceChoices -= 1; $("#scienceChoices").val(scienceChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Craftsman" && craftsmanChoices > 0) { craftsmanChoices -= 1; $("#craftsmanChoices").val(craftsmanChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Construction" && constructionChoices > 0) { constructionChoices -= 1; $("#constructionChoices").val(constructionChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Technology" && technologyChoices > 0) { technologyChoices -= 1; $("#technologyChoices").val(technologyChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Transportation" && transportationChoices > 0) { transportationChoices -= 1; $("#transportationChoices").val(transportationChoices); checkChoices(); checkSkillPts(); }
 			else if (skillPts > 0) { skillPts -= 1; $('#skillPts').val(skillPts); checkSkillPts(); }
 			else { throw new Error("Cannot Increase this skill further"); }
 
@@ -646,17 +557,17 @@
 			if (value > 150) value = 150;
 			$("input[name='Skill-"+ skill +"']").val(value);
 		}
-		else if (value < 50 && skillType == "Focus") {
-			if (skillClass == "Combat" && combatChoices > 0) { combatChoices -= 1; $("#combatChoices").val(combatChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Social" && socialChoices > 0) { socialChoices -= 1; $("#socialChoices").val(socialChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Covert" && covertChoices > 0) { covertChoices -= 1; $("#covertChoices").val(covertChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Survival" && survivalChoices > 0) { survivalChoices -= 1; $("#survivalChoices").val(survivalChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Medical" && medicalChoices > 0) { medicalChoices -= 1; $("#medicalChoices").val(medicalChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Science" && scienceChoices > 0) { scienceChoices -= 1; $("#scienceChoices").val(scienceChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Craftsman" && craftsmanChoices > 0) { craftsmanChoices -= 1; $("#craftsmanChoices").val(craftsmanChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Construction" && constructionChoices > 0) { constructionChoices -= 1; $("#constructionChoices").val(constructionChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Technology" && technologyChoices > 0) { technologyChoices -= 1; $("#technologyChoices").val(technologyChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Transportation" && transportationChoices > 0) { transportationChoices -= 1; $("#transportationChoices").val(transportationChoices); checkChoices(); checkSkillPts(); }
+		else if (value < 50 && skillType === "Focus") {
+			if (skillClass === "Combat" && combatChoices > 0) { combatChoices -= 1; $("#combatChoices").val(combatChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Social" && socialChoices > 0) { socialChoices -= 1; $("#socialChoices").val(socialChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Covert" && covertChoices > 0) { covertChoices -= 1; $("#covertChoices").val(covertChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Survival" && survivalChoices > 0) { survivalChoices -= 1; $("#survivalChoices").val(survivalChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Medical" && medicalChoices > 0) { medicalChoices -= 1; $("#medicalChoices").val(medicalChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Science" && scienceChoices > 0) { scienceChoices -= 1; $("#scienceChoices").val(scienceChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Craftsman" && craftsmanChoices > 0) { craftsmanChoices -= 1; $("#craftsmanChoices").val(craftsmanChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Construction" && constructionChoices > 0) { constructionChoices -= 1; $("#constructionChoices").val(constructionChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Technology" && technologyChoices > 0) { technologyChoices -= 1; $("#technologyChoices").val(technologyChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Transportation" && transportationChoices > 0) { transportationChoices -= 1; $("#transportationChoices").val(transportationChoices); checkChoices(); checkSkillPts(); }
 			else if (skillPts > 0) { skillPts -= 1; $('#skillPts').val(skillPts); checkSkillPts(); }
 			else { throw new Error("Cannot Increase this skill further"); }
 
@@ -672,10 +583,10 @@
 		var skillClass = $(this).data("skillclass");
 		var value = parseInt($("input[name='Skill-" + skill + "']").val());
 
-		if (skill == "OffHand") {
+		if (skill === "OffHand") {
 			if (value < 0) {
 				if (combatChoices >= 2) { combatChoices -= 2; $("#combatChoices").val(combatChoices); checkChoices(); checkSkillPts(); }
-				else if (combatChoices == 1) { combatChoices -= 1; $("#combatChoices").val(combatChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
+				else if (combatChoices === 1) { combatChoices -= 1; $("#combatChoices").val(combatChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
 				else if (skillPts > 1) { skillPts -= 2; $('#skillPts').val(skillPts); checkSkillPts(); }
 				else { throw new Error("Cannot Increase this skill further"); }
 				value = value + roll(1, 10);
@@ -684,10 +595,10 @@
 			}
 			else alert("Cannot Increase this skill further");
 		}
-		if (skill == "Dodge") {
+		if (skill === "Dodge") {
 			if (value < 50) {
 				if (combatChoices >= 2) { combatChoices -= 2; $("#combatChoices").val(combatChoices); checkChoices(); checkSkillPts(); }
-				else if (combatChoices == 1) { combatChoices -= 1; $("#combatChoices").val(combatChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
+				else if (combatChoices === 1) { combatChoices -= 1; $("#combatChoices").val(combatChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
 				else if (skillPts > 1) { skillPts -= 2; $('#skillPts').val(skillPts); checkSkillPts(); }
 				else { throw new Error("Cannot Increase this skill further"); }
 				value = value + roll(1, 10);
@@ -697,26 +608,26 @@
 			else alert("Cannot Increase this skill further");
 		}
 		else if (value < 150) {
-			if (skillClass == "Combat" && combatChoices >= 2) { combatChoices -= 2; $("#combatChoices").val(combatChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Combat" && combatChoices == 1) { combatChoices -= 1; $("#combatChoices").val(combatChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Social" && socialChoices >= 2) { socialChoices -= 2; $("#socialChoices").val(socialChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Social" && socialChoices == 1) { socialChoices -= 1; $("#socialChoices").val(socialChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Covert" && covertChoices >= 2) { covertChoices -= 2; $("#covertChoices").val(covertChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Covert" && covertChoices == 1) { covertChoices -= 1; $("#covertChoices").val(covertChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Survival" && survivalChoices >= 2) { survivalChoices -= 2; $("#survivalChoices").val(survivalChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Survival" && survivalChoices == 1) { survivalChoices -= 1; $("#survivalChoices").val(survivalChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Medical" && medicalChoices >= 2) { medicalChoices -= 2; $("#medicalChoices").val(medicalChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Medical" && medicalChoices == 1) { medicalChoices -= 1; $("#medicalChoices").val(medicalChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Science" && scienceChoices >= 2) { scienceChoices -= 2; $("#scienceChoices").val(scienceChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Science" && scienceChoices == 1) { scienceChoices -= 1; $("#scienceChoices").val(scienceChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Craftsman" && craftsmanChoices >= 2) { craftsmanChoices -= 2; $("#craftsmanChoices").val(craftsmanChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Craftsman" && craftsmanChoices == 1) { craftsmanChoices -= 1; $("#craftsmanChoices").val(craftsmanChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Construction" && constructionChoices >= 2) { constructionChoices -= 2; $("#constructionChoices").val(constructionChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Construction" && constructionChoices == 1) { constructionChoices -= 1; $("#constructionChoices").val(constructionChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Technology" && technologyChoices >= 2) { technologyChoices -= 2; $("#technologyChoices").val(technologyChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Technology" && technologyChoices == 1) { technologyChoices -= 1; $("#technologyChoices").val(technologyChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Transportation" && transportationChoices >= 2) { transportationChoices -= 2; $("#transportationChoices").val(transportationChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Transportation" && transportationChoices == 1) { transportationChoices -= 1; $("#transportationChoices").val(transportationChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
+			if (skillClass === "Combat" && combatChoices >= 2) { combatChoices -= 2; $("#combatChoices").val(combatChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Combat" && combatChoices === 1) { combatChoices -= 1; $("#combatChoices").val(combatChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Social" && socialChoices >= 2) { socialChoices -= 2; $("#socialChoices").val(socialChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Social" && socialChoices === 1) { socialChoices -= 1; $("#socialChoices").val(socialChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Covert" && covertChoices >= 2) { covertChoices -= 2; $("#covertChoices").val(covertChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Covert" && covertChoices === 1) { covertChoices -= 1; $("#covertChoices").val(covertChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Survival" && survivalChoices >= 2) { survivalChoices -= 2; $("#survivalChoices").val(survivalChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Survival" && survivalChoices === 1) { survivalChoices -= 1; $("#survivalChoices").val(survivalChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Medical" && medicalChoices >= 2) { medicalChoices -= 2; $("#medicalChoices").val(medicalChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Medical" && medicalChoices === 1) { medicalChoices -= 1; $("#medicalChoices").val(medicalChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Science" && scienceChoices >= 2) { scienceChoices -= 2; $("#scienceChoices").val(scienceChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Science" && scienceChoices === 1) { scienceChoices -= 1; $("#scienceChoices").val(scienceChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Craftsman" && craftsmanChoices >= 2) { craftsmanChoices -= 2; $("#craftsmanChoices").val(craftsmanChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Craftsman" && craftsmanChoices === 1) { craftsmanChoices -= 1; $("#craftsmanChoices").val(craftsmanChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Construction" && constructionChoices >= 2) { constructionChoices -= 2; $("#constructionChoices").val(constructionChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Construction" && constructionChoices === 1) { constructionChoices -= 1; $("#constructionChoices").val(constructionChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Technology" && technologyChoices >= 2) { technologyChoices -= 2; $("#technologyChoices").val(technologyChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Technology" && technologyChoices === 1) { technologyChoices -= 1; $("#technologyChoices").val(technologyChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Transportation" && transportationChoices >= 2) { transportationChoices -= 2; $("#transportationChoices").val(transportationChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Transportation" && transportationChoices === 1) { transportationChoices -= 1; $("#transportationChoices").val(transportationChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
 			else if (skillPts > 1) { skillPts -= 2; $('#skillPts').val(skillPts); checkSkillPts(); }
 			else { throw new Error("Cannot Increase this skill further"); }
 			value = value + roll(1, 10);
@@ -734,7 +645,7 @@
 		var skillClass = target.substring(0, target.length - 6);
 		var slotID = String(skillClass).toLowerCase() + "-";
 
-		if (skillClass == "Social") {
+		if (skillClass === "Social") {
 			$("#NSM-begin").append(
 				"<div class='row bg-white'>" +
 					"<div class='col-6'>" +
@@ -756,7 +667,7 @@
 		for (i = 0; i < 16; i++) {
 			if ($("#" + slotID + i).children.length > 0) {
 				var skill = String( $("#" + slotID + i).children().children().data("skill") );
-				if (skill != "Undefined") skillsArr.push(skill);
+				if (skill !== "Undefined") skillsArr.push(skill);
 			}
 		}
 		// GET JSON RETURN & RENDER HTML
@@ -775,8 +686,8 @@
 						if (skillsArr.includes(obj.Name)) continue;
 						else {
 							var button;
-							if (obj.Type == "General") button = "btn-warning";
-							else if (obj.Type == "Advanced") button = "btn-danger";
+							if (obj.Type === "General") button = "btn-warning";
+							else if (obj.Type === "Advanced") button = "btn-danger";
 							else button = "btn-secondary";
 
 							// HTML
@@ -831,8 +742,8 @@
 						if (skillsArr.includes(obj.Name)) continue;
 						else {
 							var button;
-							if (obj.Type == "General") button = "btn-warning";
-							else if (obj.Type == "Advanced") button = "btn-danger";
+							if (obj.Type === "General") button = "btn-warning";
+							else if (obj.Type === "Advanced") button = "btn-danger";
 							else button = "btn-secondary";
 
 							// HTML
@@ -883,7 +794,7 @@
 			var Persuasion = $("input[name='Skill-Persuasion']").val();
 			var Boating = $("input[name='Skill-Boating']").val();
 
-			if (eval(reqs) == false) {
+			if (eval(reqs) === false) {
 				alert("Minimum Requirements not met: " + reqs);
 				throw new Error("Minimum Requirements not met: " + reqs);
 			}
@@ -891,53 +802,53 @@
 
 		var border;
 		var training;
-		if (skillType == "General") { border = "border-warning"; training = "trainGenBtn"; }
-		else if (skillType == "Advanced") { border = "border-danger"; training = "trainAdvBtn"; }
+		if (skillType === "General") { border = "border-warning"; training = "trainGenBtn"; }
+		else if (skillType === "Advanced") { border = "border-danger"; training = "trainAdvBtn"; }
 		else { border = "border-secondary"; training = "trainGenBtn"; } // skillClass == "Focus"
 
-		if (skillClass == "Affiliation" || skillClass == "Languages") skillClass = "Social";
+		if (skillClass === "Affiliation" || skillClass === "Languages") skillClass = "Social";
 
-		var nextSlot
-		if (skillClass == "Combat") nextSlot = slotNum + 2;
+        var nextSlot;
+		if (skillClass === "Combat") nextSlot = slotNum + 2;
 		else nextSlot = slotNum + 1;
 
 		var skillValue = eval(skillFormula) + roll(1, 10);
 
-		if (skillType == "Focus" || skillType == "General") {
-			if (skillClass == "Combat" && combatChoices > 0) { combatChoices -= 1; $("#combatChoices").val(combatChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Social" && socialChoices > 0) { socialChoices -= 1; $("#socialChoices").val(socialChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Covert" && covertChoices > 0) { covertChoices -= 1; $("#covertChoices").val(covertChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Survival" && survivalChoices > 0) { survivalChoices -= 1; $("#survivalChoices").val(survivalChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Medical" && medicalChoices > 0) { medicalChoices -= 1; $("#medicalChoices").val(medicalChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Science" && scienceChoices > 0) { scienceChoices -= 1; $("#scienceChoices").val(scienceChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Craftsman" && craftsmanChoices > 0) { craftsmanChoices -= 1; $("#craftsmanChoices").val(craftsmanChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Construction" && constructionChoices > 0) { constructionChoices -= 1; $("#constructionChoices").val(constructionChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Technology" && technologyChoices > 0) { technologyChoices -= 1; $("#technologyChoices").val(technologyChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Transportation" && transportationChoices > 0) { transportationChoices -= 1; $("#transportationChoices").val(transportationChoices); checkChoices(); checkSkillPts(); }
+		if (skillType === "Focus" || skillType === "General") {
+			if (skillClass === "Combat" && combatChoices > 0) { combatChoices -= 1; $("#combatChoices").val(combatChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Social" && socialChoices > 0) { socialChoices -= 1; $("#socialChoices").val(socialChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Covert" && covertChoices > 0) { covertChoices -= 1; $("#covertChoices").val(covertChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Survival" && survivalChoices > 0) { survivalChoices -= 1; $("#survivalChoices").val(survivalChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Medical" && medicalChoices > 0) { medicalChoices -= 1; $("#medicalChoices").val(medicalChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Science" && scienceChoices > 0) { scienceChoices -= 1; $("#scienceChoices").val(scienceChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Craftsman" && craftsmanChoices > 0) { craftsmanChoices -= 1; $("#craftsmanChoices").val(craftsmanChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Construction" && constructionChoices > 0) { constructionChoices -= 1; $("#constructionChoices").val(constructionChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Technology" && technologyChoices > 0) { technologyChoices -= 1; $("#technologyChoices").val(technologyChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Transportation" && transportationChoices > 0) { transportationChoices -= 1; $("#transportationChoices").val(transportationChoices); checkChoices(); checkSkillPts(); }
 			else if (skillPts > 0) { skillPts -= 1; $('#skillPts').val(skillPts); checkSkillPts(); }
 			else { throw new Error("Cannot Increase this skill further"); }
 		}
-		else if (skillType == "Advanced"){
-			if (skillClass == "Combat" && combatChoices >= 2) { combatChoices -= 2; $("#combatChoices").val(combatChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Combat" && combatChoices == 1) { combatChoices -= 1; $("#combatChoices").val(combatChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Social" && socialChoices >= 2) { socialChoices -= 2; $("#socialChoices").val(socialChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Social" && socialChoices == 1) { socialChoices -= 1; $("#socialChoices").val(socialChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Covert" && covertChoices >= 2) { covertChoices -= 2; $("#covertChoices").val(covertChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Covert" && covertChoices == 1) { covertChoices -= 1; $("#covertChoices").val(covertChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Survival" && survivalChoices >= 2) { survivalChoices -= 2; $("#survivalChoices").val(survivalChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Survival" && survivalChoices == 1) { survivalChoices -= 1; $("#survivalChoices").val(survivalChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Medical" && medicalChoices >= 2) { medicalChoices -= 2; $("#medicalChoices").val(medicalChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Medical" && medicalChoices == 1) { medicalChoices -= 1; $("#medicalChoices").val(medicalChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Science" && scienceChoices >= 2) { scienceChoices -= 2; $("#scienceChoices").val(scienceChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Science" && scienceChoices == 1) { scienceChoices -= 1; $("#scienceChoices").val(scienceChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Craftsman" && craftsmanChoices >= 2) { craftsmanChoices -= 2; $("#craftsmanChoices").val(craftsmanChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Craftsman" && craftsmanChoices == 1) { craftsmanChoices -= 1; $("#craftsmanChoices").val(craftsmanChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Construction" && constructionChoices >= 2) { constructionChoices -= 2; $("#constructionChoices").val(constructionChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Construction" && constructionChoices == 1) { constructionChoices -= 1; $("#constructionChoices").val(constructionChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Technology" && technologyChoices >= 2) { technologyChoices -= 2; $("#technologyChoices").val(technologyChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Technology" && technologyChoices == 1) { technologyChoices -= 1; $("#technologyChoices").val(technologyChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Transportation" && transportationChoices >= 2) { transportationChoices -= 2; $("#transportationChoices").val(transportationChoices); checkChoices(); checkSkillPts(); }
-			else if (skillClass == "Transportation" && transportationChoices == 1) { transportationChoices -= 1; $("#transportationChoices").val(transportationChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
+		else if (skillType === "Advanced"){
+			if (skillClass === "Combat" && combatChoices >= 2) { combatChoices -= 2; $("#combatChoices").val(combatChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Combat" && combatChoices === 1) { combatChoices -= 1; $("#combatChoices").val(combatChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Social" && socialChoices >= 2) { socialChoices -= 2; $("#socialChoices").val(socialChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Social" && socialChoices === 1) { socialChoices -= 1; $("#socialChoices").val(socialChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Covert" && covertChoices >= 2) { covertChoices -= 2; $("#covertChoices").val(covertChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Covert" && covertChoices === 1) { covertChoices -= 1; $("#covertChoices").val(covertChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Survival" && survivalChoices >= 2) { survivalChoices -= 2; $("#survivalChoices").val(survivalChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Survival" && survivalChoices === 1) { survivalChoices -= 1; $("#survivalChoices").val(survivalChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Medical" && medicalChoices >= 2) { medicalChoices -= 2; $("#medicalChoices").val(medicalChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Medical" && medicalChoices === 1) { medicalChoices -= 1; $("#medicalChoices").val(medicalChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Science" && scienceChoices >= 2) { scienceChoices -= 2; $("#scienceChoices").val(scienceChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Science" && scienceChoices === 1) { scienceChoices -= 1; $("#scienceChoices").val(scienceChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Craftsman" && craftsmanChoices >= 2) { craftsmanChoices -= 2; $("#craftsmanChoices").val(craftsmanChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Craftsman" && craftsmanChoices === 1) { craftsmanChoices -= 1; $("#craftsmanChoices").val(craftsmanChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Construction" && constructionChoices >= 2) { constructionChoices -= 2; $("#constructionChoices").val(constructionChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Construction" && constructionChoices === 1) { constructionChoices -= 1; $("#constructionChoices").val(constructionChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Technology" && technologyChoices >= 2) { technologyChoices -= 2; $("#technologyChoices").val(technologyChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Technology" && technologyChoices === 1) { technologyChoices -= 1; $("#technologyChoices").val(technologyChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Transportation" && transportationChoices >= 2) { transportationChoices -= 2; $("#transportationChoices").val(transportationChoices); checkChoices(); checkSkillPts(); }
+			else if (skillClass === "Transportation" && transportationChoices === 1) { transportationChoices -= 1; $("#transportationChoices").val(transportationChoices); skillPts -= 1; $('#skillPts').val(skillPts); checkChoices(); checkSkillPts(); }
 			else if (skillPts > 1) { skillPts -= 2; $('#skillPts').val(skillPts); checkSkillPts(); }
 			else { throw new Error("Cannot Increase this skill further"); }
 		}

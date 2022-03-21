@@ -23,7 +23,7 @@
                     message.html("ON RECORD");
                     emailErr = false;
                     validate();
-                    if (emailErr == false && emailValidErr == false) {
+                    if (emailErr === false && emailValidErr === false) {
                         $("#submitBtn").prop("disabled", false);
                     }
                 }

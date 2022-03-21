@@ -17,13 +17,12 @@ namespace TheAftermath_V2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Character()
         {
-            this.AccountStatus = new HashSet<AccountStatus>();
+            this.AccountStatus = new HashSet<AccountStatu>();
             this.CharacterAbilities = new HashSet<CharacterAbility>();
             this.CharacterAttributes = new HashSet<CharacterAttribute>();
             this.CharacterExps = new HashSet<CharacterExp>();
             this.CharacterSkills = new HashSet<CharacterSkill>();
             this.IDMarks = new HashSet<IDMark>();
-            this.CampaignNotes = new HashSet<CampaignNote>();
         }
     
         public System.Guid ID { get; set; }
@@ -34,10 +33,6 @@ namespace TheAftermath_V2.Models
         public string Sex { get; set; }
         public string Height { get; set; }
         public string Ethnicity { get; set; }
-        public string HairColor { get; set; }
-        public string HairStyle { get; set; }
-        public string FacialHair { get; set; }
-        public string EyeColor { get; set; }
         public string Habitat { get; set; }
         public System.Guid History { get; set; }
         public string Strategy { get; set; }
@@ -47,7 +42,7 @@ namespace TheAftermath_V2.Models
     
         public virtual Account Account { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AccountStatus> AccountStatus { get; set; }
+        public virtual ICollection<AccountStatu> AccountStatus { get; set; }
         public virtual Background Background1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CharacterAbility> CharacterAbilities { get; set; }
@@ -60,7 +55,5 @@ namespace TheAftermath_V2.Models
         public virtual ICollection<CharacterSkill> CharacterSkills { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<IDMark> IDMarks { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CampaignNote> CampaignNotes { get; set; }
     }
 }

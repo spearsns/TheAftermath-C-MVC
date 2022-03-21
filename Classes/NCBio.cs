@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace TheAftermath_V2
+﻿namespace TheAftermath_V2
 {
     public class NCBio
     {
@@ -145,5 +140,5 @@ namespace TheAftermath_V2
             else return "Female";
         }
 
-	}
+    }
 }

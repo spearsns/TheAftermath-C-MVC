@@ -9,12 +9,13 @@
 			dataType: 'json',
 			success:
 				function (results) {
-					if (results.length == 0) $("#gameList").html("<h2 class='text-red text-center font-weight-bold'>NO RECORDS FOUND! RALLY SOME SURVIVORS AND TELL YOUR TALE!</div>")
+					if (results.length === 0) $("#gameList").html("<h2 class='text-red text-center font-weight-bold'>NO RECORDS FOUND! RALLY SOME SURVIVORS AND TELL YOUR TALE!</div>");
 
+                    console.log(results);
 					for (var i = 0; i < results.length; i++) {
 						var obj = results[i];
 
-						if (obj.TellActive == 0 && obj.Locked == 0) {
+						if (obj.TellActive === false && obj.Locked === false) {
 							$("#gameList").append(
 								"<div class='row'>" +
 								"<div class='col-12 order-4 col-md-2 order-md-1'>" +
@@ -42,7 +43,7 @@
 								"<hr class='d-md-none'>"
 							);
 						}
-						else if (obj.Locked == 1) {
+						else if (obj.Locked === true) {
 							$("#gameList").append(
 								"<div class='row'>" +
 								"<div class='col-12 order-4 col-md-2 order-md-1'>" +
@@ -70,7 +71,7 @@
 								"<hr class='d-md-none'>"
 							);
 						}
-						else if (obj.TellActive == 1) {
+						else if (obj.TellActive === true) {
 							$("#gameList").append(
 								"<div class='row'>" +
 								"<div class='col-12 order-4 col-md-2 order-md-1'>" +
@@ -177,12 +178,12 @@
 								success:
 									function (results) {
 
-										if (results.length == 0) $("#characterList").html("<h2 class='text-red text-center font-weight-bold'>NO RECORDS FOUND! BUILD A CHARACTER ALREADY!</div>")
+										if (results.length === 0) $("#characterList").html("<h2 class='text-red text-center font-weight-bold'>NO RECORDS FOUND! BUILD A CHARACTER ALREADY!</div>");
 
 										for (var i = 0; i < results.length; i++) {
 
 											var obj = results[i];
-											if (obj.Status != "DECEASED") {
+											if (obj.Status !== "DECEASED") {
 												$("#characterList").append(
 													"<div class='row'>" +
 													"<div class='col-lg-1'></div>" +

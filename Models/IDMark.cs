@@ -16,6 +16,10 @@ namespace TheAftermath_V2.Models
     {
         public System.Guid ID { get; set; }
         public System.Guid CharacterID { get; set; }
+        public string EyeColor { get; set; }
+        public string HairColor { get; set; }
+        public string HairStyle { get; set; }
+        public string FacialHair { get; set; }
         public string Head { get; set; }
         public string Face { get; set; }
         public string Neck { get; set; }

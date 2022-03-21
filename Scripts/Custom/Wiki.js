@@ -11,20 +11,20 @@
         d = new $.Deferred();
         $("div.show").removeClass("show");
         d.resolve();
-        return d.promise()
+        return d.promise();
     }
     
     function second() {
         d = new $.Deferred();
         $(target).children().click();
         d.resolve();
-        return d.promise()
+        return d.promise();
     }
 
     function third() {
         d = new $.Deferred();
         $([document.documentElement, document.body]).animate({ scrollTop: $(target).children().offset().top }, 600);
         d.resolve();
-        return d.promise()
+        return d.promise();
     }
 });

@@ -2,7 +2,7 @@
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="AftermathV1ModelStoreContainer" CdmEntityContainer="AftermathV1Entities">
     <EntitySetMapping Name="Abilities">
-      <EntityTypeMapping TypeName="AftermathV1Model.Ability">
+      <EntityTypeMapping TypeName="IsTypeOf(AftermathV1Model.Ability)">
         <MappingFragment StoreEntitySet="Abilities">
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Name" ColumnName="Name" />
@@ -16,7 +16,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="AccountRelationships">
-      <EntityTypeMapping TypeName="AftermathV1Model.AccountRelationship">
+      <EntityTypeMapping TypeName="IsTypeOf(AftermathV1Model.AccountRelationship)">
         <MappingFragment StoreEntitySet="AccountRelationships">
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="FirstAccountID" ColumnName="FirstAccountID" />
@@ -27,7 +27,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Accounts">
-      <EntityTypeMapping TypeName="AftermathV1Model.Account">
+      <EntityTypeMapping TypeName="IsTypeOf(AftermathV1Model.Account)">
         <MappingFragment StoreEntitySet="Accounts">
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Username" ColumnName="Username" />
@@ -39,9 +39,8 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="AccountStatus1">
-      <EntityTypeMapping TypeName="AftermathV1Model.AccountStatus">
-        <MappingFragment StoreEntitySet="AccountStatus">
-          <ScalarProperty Name="Tell" ColumnName="Tell" />
+      <EntityTypeMapping TypeName="IsTypeOf(AftermathV1Model.AccountStatus)">
+        <MappingFragment StoreEntitySet="AccountStatus1">
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="AccountID" ColumnName="AccountID" />
           <ScalarProperty Name="Active" ColumnName="Active" />
@@ -50,11 +49,12 @@
           <ScalarProperty Name="CampaignID" ColumnName="CampaignID" />
           <ScalarProperty Name="CharacterID" ColumnName="CharacterID" />
           <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+          <ScalarProperty Name="Tell" ColumnName="Tell" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Attributes">
-      <EntityTypeMapping TypeName="AftermathV1Model.Attribute">
+      <EntityTypeMapping TypeName="IsTypeOf(AftermathV1Model.Attribute)">
         <MappingFragment StoreEntitySet="Attributes">
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Name" ColumnName="Name" />
@@ -64,7 +64,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Backgrounds">
-      <EntityTypeMapping TypeName="AftermathV1Model.Background">
+      <EntityTypeMapping TypeName="IsTypeOf(AftermathV1Model.Background)">
         <MappingFragment StoreEntitySet="Backgrounds">
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Name" ColumnName="Name" />
@@ -85,9 +85,8 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Campaigns">
-      <EntityTypeMapping TypeName="AftermathV1Model.Campaign">
+      <EntityTypeMapping TypeName="IsTypeOf(AftermathV1Model.Campaign)">
         <MappingFragment StoreEntitySet="Campaigns">
-          <ScalarProperty Name="TellActive" ColumnName="TellActive" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Season" ColumnName="Season" />
@@ -100,11 +99,12 @@
           <ScalarProperty Name="ConferenceLink" ColumnName="ConferenceLink" />
           <ScalarProperty Name="MapLoc" ColumnName="MapLoc" />
           <ScalarProperty Name="PictureLoc" ColumnName="PictureLoc" />
+          <ScalarProperty Name="TellActive" ColumnName="TellActive" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="CharacterAbilities">
-      <EntityTypeMapping TypeName="AftermathV1Model.CharacterAbility">
+      <EntityTypeMapping TypeName="IsTypeOf(AftermathV1Model.CharacterAbility)">
         <MappingFragment StoreEntitySet="CharacterAbilities">
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="CharacterID" ColumnName="CharacterID" />
@@ -113,7 +113,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="CharacterAttributes">
-      <EntityTypeMapping TypeName="AftermathV1Model.CharacterAttribute">
+      <EntityTypeMapping TypeName="IsTypeOf(AftermathV1Model.CharacterAttribute)">
         <MappingFragment StoreEntitySet="CharacterAttributes">
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="CharacterID" ColumnName="CharacterID" />
@@ -123,7 +123,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="CharacterExps">
-      <EntityTypeMapping TypeName="AftermathV1Model.CharacterExp">
+      <EntityTypeMapping TypeName="IsTypeOf(AftermathV1Model.CharacterExp)">
         <MappingFragment StoreEntitySet="CharacterExps">
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="CharacterID" ColumnName="CharacterID" />
@@ -133,7 +133,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Characters">
-      <EntityTypeMapping TypeName="AftermathV1Model.Character">
+      <EntityTypeMapping TypeName="IsTypeOf(AftermathV1Model.Character)">
         <MappingFragment StoreEntitySet="Characters">
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="AccountID" ColumnName="AccountID" />
@@ -157,7 +157,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="CharacterSkills">
-      <EntityTypeMapping TypeName="AftermathV1Model.CharacterSkill">
+      <EntityTypeMapping TypeName="IsTypeOf(AftermathV1Model.CharacterSkill)">
         <MappingFragment StoreEntitySet="CharacterSkills">
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="CharacterID" ColumnName="CharacterID" />
@@ -167,8 +167,8 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Histories">
-      <EntityTypeMapping TypeName="AftermathV1Model.History">
-        <MappingFragment StoreEntitySet="History">
+      <EntityTypeMapping TypeName="IsTypeOf(AftermathV1Model.History)">
+        <MappingFragment StoreEntitySet="Histories">
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Training" ColumnName="Training" />
@@ -179,7 +179,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="IDMarks">
-      <EntityTypeMapping TypeName="AftermathV1Model.IDMark">
+      <EntityTypeMapping TypeName="IsTypeOf(AftermathV1Model.IDMark)">
         <MappingFragment StoreEntitySet="IDMarks">
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="CharacterID" ColumnName="CharacterID" />
@@ -210,7 +210,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Skills">
-      <EntityTypeMapping TypeName="AftermathV1Model.Skill">
+      <EntityTypeMapping TypeName="IsTypeOf(AftermathV1Model.Skill)">
         <MappingFragment StoreEntitySet="Skills">
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Name" ColumnName="Name" />
@@ -227,36 +227,36 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="sysdiagrams">
-      <EntityTypeMapping TypeName="AftermathV1Model.sysdiagram">
+      <EntityTypeMapping TypeName="IsTypeOf(AftermathV1Model.sysdiagram)">
         <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
           <ScalarProperty Name="name" ColumnName="name" />
           <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
           <ScalarProperty Name="version" ColumnName="version" />
           <ScalarProperty Name="definition" ColumnName="definition" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="CampaignNotes">
-      <EntityTypeMapping TypeName="AftermathV1Model.CampaignNote">
+      <EntityTypeMapping TypeName="IsTypeOf(AftermathV1Model.CampaignNote)">
         <MappingFragment StoreEntitySet="CampaignNotes">
-          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-          <ScalarProperty Name="Notes" ColumnName="Notes" />
-          <ScalarProperty Name="CharacterID" ColumnName="CharacterID" />
-          <ScalarProperty Name="AccountID" ColumnName="AccountID" />
-          <ScalarProperty Name="CampaignID" ColumnName="CampaignID" />
           <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="CampaignID" ColumnName="CampaignID" />
+          <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+          <ScalarProperty Name="CharacterID" ColumnName="CharacterID" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="AccountIMs">
-      <EntityTypeMapping TypeName="AftermathV1Model.AccountIM">
+      <EntityTypeMapping TypeName="IsTypeOf(AftermathV1Model.AccountIM)">
         <MappingFragment StoreEntitySet="AccountIMs">
-          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-          <ScalarProperty Name="UnreadIMs" ColumnName="UnreadIMs" />
-          <ScalarProperty Name="TotalIMs" ColumnName="TotalIMs" />
-          <ScalarProperty Name="AccountID" ColumnName="AccountID" />
           <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+          <ScalarProperty Name="TotalIMs" ColumnName="TotalIMs" />
+          <ScalarProperty Name="UnreadIMs" ColumnName="UnreadIMs" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

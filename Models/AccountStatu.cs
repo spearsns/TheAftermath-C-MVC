@@ -12,14 +12,20 @@ namespace TheAftermath_V2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class CharacterSkill
+    public partial class AccountStatu
     {
         public System.Guid ID { get; set; }
-        public System.Guid CharacterID { get; set; }
-        public System.Guid SkillID { get; set; }
-        public short Value { get; set; }
+        public System.Guid AccountID { get; set; }
+        public bool Active { get; set; }
+        public bool Admin { get; set; }
+        public bool Play { get; set; }
+        public bool Tell { get; set; }
+        public Nullable<System.Guid> CampaignID { get; set; }
+        public Nullable<System.Guid> CharacterID { get; set; }
+        public System.DateTime Timestamp { get; set; }
     
+        public virtual Account Account { get; set; }
+        public virtual Campaign Campaign { get; set; }
         public virtual Character Character { get; set; }
-        public virtual Skill Skill { get; set; }
     }
 }

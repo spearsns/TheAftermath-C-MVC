@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace TheAftermath_V2.Classes
+﻿namespace TheAftermath_V2.Classes
 {
     public class IDMarks
     {
-        public string UserName { get; set; } 
+        public string UserName { get; set; }
         public string CharacterName { get; set; }
         public string Sex { get; set; }
         public string Status { get; set; }
+        public string EyeColor { get; set; }
+        public string HairColor { get; set; }
         public string HairStyle { get; set; }
         public string FacialHair { get; set; }
         public string Head { get; set; }

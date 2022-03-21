@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c83347f5dc39447ea3665daa93b8098c" Name="Diagram1" ZoomLevel="64">
+        <EntityTypeShape EntityType="AftermathDBModel.Ability" Width="1.5" PointX="6" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="AftermathDBModel.Account" Width="1.5" PointX="0.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AftermathDBModel.AccountStatu" Width="1.5" PointX="3" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AftermathDBModel.Attribute" Width="1.5" PointX="9" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="AftermathDBModel.Background" Width="1.5" PointX="3.75" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AftermathDBModel.Campaign" Width="1.5" PointX="0.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AftermathDBModel.CharacterAbility" Width="1.5" PointX="8.25" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="AftermathDBModel.CharacterAttribute" Width="1.5" PointX="11.25" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AftermathDBModel.CharacterExp" Width="1.5" PointX="8.25" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AftermathDBModel.Character" Width="1.5" PointX="6" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AftermathDBModel.CharacterSkill" Width="1.5" PointX="11.25" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AftermathDBModel.History" Width="1.5" PointX="3.75" PointY="16.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AftermathDBModel.IDMark" Width="1.5" PointX="8.25" PointY="16.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AftermathDBModel.Skill" Width="1.5" PointX="9" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AftermathDBModel.sysdiagram" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="AftermathDBModel.FK_CharacterAbilities_Abilities" ManuallyRouted="false" />
+        <AssociationConnector Association="AftermathDBModel.FK_AccountStatus_Accounts" ManuallyRouted="false" />
+        <AssociationConnector Association="AftermathDBModel.FK_Characters_Accounts" ManuallyRouted="false" />
+        <AssociationConnector Association="AftermathDBModel.FK_AccountStatus_Campaigns" ManuallyRouted="false" />
+        <AssociationConnector Association="AftermathDBModel.FK_AccountStatus_Characters" ManuallyRouted="false" />
+        <AssociationConnector Association="AftermathDBModel.FK_CharacterAttributes_Attributes" ManuallyRouted="false" />
+        <AssociationConnector Association="AftermathDBModel.FK_Characters_Background" ManuallyRouted="false" />
+        <AssociationConnector Association="AftermathDBModel.FK_CharacterAbilities_Characters" ManuallyRouted="false" />
+        <AssociationConnector Association="AftermathDBModel.FK_CharacterAttributes_Characters" ManuallyRouted="false" />
+        <AssociationConnector Association="AftermathDBModel.FK_CharacterExps_Characters" ManuallyRouted="false" />
+        <AssociationConnector Association="AftermathDBModel.FK_Characters_History" ManuallyRouted="false" />
+        <AssociationConnector Association="AftermathDBModel.FK_CharacterSkills_Characters" ManuallyRouted="false" />
+        <AssociationConnector Association="AftermathDBModel.FK_IDMarks_Characters" ManuallyRouted="false" />
+        <AssociationConnector Association="AftermathDBModel.FK_CharacterSkills_Skills" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

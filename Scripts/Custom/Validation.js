@@ -29,14 +29,14 @@
             }
         });
 
-        if (usernameErr == false && emailErr == false && emailValidErr == false && emailMatchErr == false && passwordMatchErr == false) {
+        if (usernameErr === false && emailErr === false && emailValidErr === false && emailMatchErr === false && passwordMatchErr === false) {
             $("#submitBtn").prop("disabled", false);
         }
     });
 
     $('#password').on('change', function () {
         var message = $("#confirmPWMsg");
-        if ($('#password').val() != $('#confirmPassword').val()) {
+        if ($('#password').val() !== $('#confirmPassword').val()) {
             message.css("color", "red");
             message.html("DON'T MATCH");
             passwordMatchErr = true;
@@ -48,14 +48,14 @@
             passwordMatchErr = false;
         }
 
-        if (usernameErr == false && emailErr == false && emailValidErr == false && emailMatchErr == false && passwordMatchErr == false) {
+        if (usernameErr === false && emailErr === false && emailValidErr === false && emailMatchErr === false && passwordMatchErr === false) {
             $("#submitBtn").prop("disabled", false);
         }
     });
 
     $('#confirmPassword').on('change', function () {
         var message = $("#confirmPWMsg");
-        if ($('#password').val() != $('#confirmPassword').val()) {
+        if ($('#password').val() !== $('#confirmPassword').val()) {
             message.css("color", "red");
             message.html("DON'T MATCH");
             passwordMatchErr = true;
@@ -67,7 +67,7 @@
             passwordMatchErr = false;
         }
 
-        if (usernameErr == false && emailErr == false && emailValidErr == false && emailMatchErr == false && passwordMatchErr == false) {
+        if (usernameErr === false && emailErr === false && emailValidErr === false && emailMatchErr === false && passwordMatchErr === false) {
             $("#submitBtn").prop("disabled", false);
         }
     });
@@ -119,7 +119,7 @@
             return false;
         }
 
-        if ($('#email').val() != $('#confirmEmail').val()) {
+        if ($('#email').val() !== $('#confirmEmail').val()) {
             $("#confirmEmailMsg").css("color", "red");
             $("#confirmEmailMsg").html("DON'T MATCH");
             emailMatchErr = true;
@@ -131,14 +131,14 @@
             emailMatchErr = false;
         }
 
-        if (usernameErr == false && emailErr == false && emailValidErr == false && emailMatchErr == false && passwordMatchErr == false) {
+        if (usernameErr === false && emailErr === false && emailValidErr === false && emailMatchErr === false && passwordMatchErr === false) {
             $("#submitBtn").prop("disabled", false);
         }
     });
 
     $('#confirmEmail').on('change', function () {
         var message = $("#confirmEmailMsg");
-        if ($('#email').val() != $('#confirmEmail').val()) {
+        if ($('#email').val() !== $('#confirmEmail').val()) {
             message.css("color", "red");
             message.html("DON'T MATCH");
             emailMatchErr = true;
@@ -150,7 +150,7 @@
             emailMatchErr = false;
         }
 
-        if (usernameErr == false && emailErr == false && emailValidErr == false && emailMatchErr == false && passwordMatchErr == false) {
+        if (usernameErr === false && emailErr === false && emailValidErr === false && emailMatchErr === false && passwordMatchErr === false) {
             $("#submitBtn").prop("disabled", false);
         }
     });

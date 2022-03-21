@@ -30,7 +30,7 @@
 				contentType: 'application/json; charset=utf-8',
 				success:
 					function (result) {
-						if (result == "Success") $("#lockBtn").removeClass("btn-light border-dark").addClass("btn-secondary border-light").html("LOCK GAME");
+						if (result === "Success") $("#lockBtn").removeClass("btn-light border-dark").addClass("btn-secondary border-light").html("LOCK GAME");
 					}
 			});
 		}
@@ -43,7 +43,7 @@
 				contentType: 'application/json; charset=utf-8',
 				success:
 					function (result) {
-						if (result == "Success") $("#lockBtn").removeClass("btn-secondary border-light").addClass("btn-light border-dark unlock").html("UNLOCK GAME");
+						if (result === "Success") $("#lockBtn").removeClass("btn-secondary border-light").addClass("btn-light border-dark unlock").html("UNLOCK GAME");
 					}
 			});
         }
@@ -61,7 +61,7 @@
 			contentType: 'application/json; charset=utf-8',
 			success:
 				function (result) {
-					if (result == "Success") {
+					if (result === "Success") {
 						$("#adminMsg").html("DATE UPDATED");
 						$("#adminAlert").removeClass("d-none");
 					}
@@ -80,7 +80,7 @@
 			contentType: 'application/json; charset=utf-8',
 			success:
 				function (result) {
-					if (result == "Success") {
+					if (result === "Success") {
 						$("#adminMsg").html("DESCRIPTION UPDATED");
 						$("#adminAlert").removeClass("d-none");
                     }

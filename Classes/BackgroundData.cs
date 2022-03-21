@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 
 namespace TheAftermath_V2.Classes
 {
     public class BackgroundData
-    {       
+    {
         public string Name { get; set; }
         public string Training { get; set; }
         public List<SkillData> Skills { get; set; }
