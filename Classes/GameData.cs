@@ -14,6 +14,7 @@ namespace TheAftermath_V2.Classes
         public string AdminPassword { get; set; }
         public bool TellActive { get; set; }
         public bool Locked { get; set; }
+        public bool Closed { get; set; }
 
     }
 }

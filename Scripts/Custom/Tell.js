@@ -19,7 +19,7 @@
 				}
 		});
 	});
-
+	/*
 	$("#lockBtn").on("click", function () {
 		if ($(this).hasClass("unlock")) {
 			$.ajax({
@@ -48,7 +48,7 @@
 			});
         }
 	});
-
+	*/
 	$("#dateBtn").click(function () {
 		var season = $("#season").val();
 		var year = $("#year").val();

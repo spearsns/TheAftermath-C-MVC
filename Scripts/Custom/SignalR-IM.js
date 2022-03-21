@@ -1,27 +1,63 @@
 ﻿$(document).ready(function () {
     var url = window.location.href;
-    targetUrl = 'UpdateStatus';
-    var username;
-    if (url.indexOf('Games') > 0 || url.indexOf('Characters') > 0) targetUrl = '../Home/UpdateStatus';
+    var urlParams = new URLSearchParams(window.location.search);
     
-    function updateStatus() {
-        $.ajax({
-            type: 'POST',
-            url: targetUrl,
-            dataType: 'json',
-            data: JSON.stringify({ User: username }),
-            contentType: 'application/json; charset=utf-8',
-            success:
-                function (result) {
-                    console.log(result + " - Logged in as : " + username);
-                }
-        });
-    }
-
+    var username;
     if ($("#sessionUsername").length > 0) {
         username = $("#sessionUsername").html();
-        updateStatus();
     }
+
+    function updateStatus() {
+        if (url.indexOf('Characters') > 0 || url.substring(url.length - 5) === 'Games') {
+            var targetUrl = '../Home/UpdateStatus';
+            //console.log('updateStatus fired at [' + targetUrl + '] with [' + username + ']');
+            
+            $.ajax({
+                type: 'POST',
+                url: targetUrl,
+                dataType: 'json',
+                data: JSON.stringify({ User: username }),
+                contentType: 'application/json; charset=utf-8',
+                success:
+                    function (result) {
+                        console.log(result + " - Logged in as : " + username);
+                    }
+            });
+        } else if (url.indexOf('Admin') > 0) {
+            var targetUrl = '../Games/UpdateStatus';
+            var gamename = urlParams.get("game");
+            var charname = "ADMIN";
+
+            //console.log('updateStatus fired at ['+ targetUrl +'] with ['+ username +'] ['+ charname +'] ['+ gamename +']');
+            $.ajax({
+                type: 'POST',
+                url: targetUrl,
+                dataType: 'json',
+                data: JSON.stringify({ User: username, Character: charname, Game: gamename }),
+                contentType: 'application/json; charset=utf-8',
+                success:
+                    function(result) {
+                        console.log(result + " - Logged in as : " + username);
+                    }
+            });
+        } else {
+            targetUrl = 'UpdateStatus';
+            console.log('updateStatus fired at [' + targetUrl + '] with [' + username + ']');
+
+            $.ajax({
+                type: 'POST',
+                url: targetUrl,
+                dataType: 'json',
+                data: JSON.stringify({ User: username }),
+                contentType: 'application/json; charset=utf-8',
+                success:
+                    function (result) {
+                        console.log(result + " - Logged in as : " + username);
+                    }
+            });
+        }
+    }
+    updateStatus();
     
     var transferCount = 0;
     var messageCount = 0;
@@ -51,12 +87,123 @@
         transferCount = 0;
     });
 
+    // MONITOR GAME ACCESSIBILITY
+    function getGames() {
+        $("#gameList").html("");
+
+        $.ajax({
+            type: 'GET',
+            url: 'Games/GetGames',
+            dataType: 'json',
+            success:
+                function (results) {
+                    if (results.length === 0) $("#gameList").html("<h2 class='text-red text-center font-weight-bold'>NO RECORDS FOUND! RALLY SOME SURVIVORS AND TELL YOUR TALE!</div>");
+
+                    //console.log(results);
+                    for (var i = 0; i < results.length; i++) {
+                        var obj = results[i];
+
+                        if (obj.TellActive === false && obj.Locked === false) {
+                            $("#gameList").append(
+                                "<div class='row'>" +
+                                "<div class='col-12 order-4 col-md-2 order-md-1'>" +
+                                "<button class='btn btn-block btn-success font-weight-bold my-2 px-0 playBtn' data-id='" + obj.ID + "' data-name='" + obj.Name + "'>PLAY</button>" +
+                                "</div>" +
+                                "<div class='col-12 order-1 col-md-2 order-md-2'>" +
+                                "<h5 class='font-weight-bold my-3 px-0 text-uppercase text-center text-white'>" + obj.Name + "</h5>" +
+                                "</div>" +
+                                "<div class='col-6 order-2 d-md-none'>" +
+                                "<h5 class='font-weight-bold text-white text-center my-3'>POPULATION:</h4>" +
+                                "</div>" +
+                                "<div class='col-6 order-3 col-md-2 order-md-3'>" +
+                                "<h5 class='font-weight-bold my-3 px-0 text-center text-white'>" + obj.Population + "</h5>" +
+                                "</div>" +
+                                "<div class='col-12 order-5 col-md-2 order-md-4'>" +
+                                "<button class='btn btn-block btn-light font-weight-bold my-2 px-0 descriptionBtn' data-id='" + obj.ID + "' data-name='" + obj.Name + "'>INFO</button>" +
+                                "</div>" +
+                                "<div class='col-12 order-6 col-md-2 order-md-5'>" +
+                                "<button class='btn btn-block btn-primary font-weight-bold my-2 px-0 tellBtn' data-id='" + obj.ID + "' data-name='" + obj.Name + "'>TELL</button>" +
+                                "</div>" +
+                                "<div class='col-12 order-7 col-md-2 order-md-6'>" +
+                                "<button class='btn btn-block btn-secondary font-weight-bold my-2 px-0 adminBtn' data-id='" + obj.ID + "' data-name='" + obj.Name + "'>ADMIN</button>" +
+                                "</div>" +
+                                "</div>" +
+                                "<hr class='d-md-none'>"
+                            );
+                        }
+                        else if (obj.Locked === true) {
+                            $("#gameList").append(
+                                "<div class='row'>" +
+                                "<div class='col-12 order-4 col-md-2 order-md-1'>" +
+                                "<img src='Content/Images/Icons/LockIcon-white-50x50.png' class='d-block mx-auto my-1' />" +
+                                "</div>" +
+                                "<div class='col-12 order-1 col-md-2 order-md-2'>" +
+                                "<h5 class='font-weight-bold my-3 px-0 text-uppercase text-center text-white'>" + obj.Name + "</h5>" +
+                                "</div>" +
+                                "<div class='col-6 order-2 d-md-none'>" +
+                                "<h5 class='font-weight-bold text-white text-center my-3'>POPULATION:</h4>" +
+                                "</div>" +
+                                "<div class='col-6 order-3 col-md-2 order-md-3'>" +
+                                "<h5 class='font-weight-bold my-3 px-0 text-center text-white'>" + obj.Population + "</h5>" +
+                                "</div>" +
+                                "<div class='col-12 order-5 col-md-2 order-md-4'>" +
+                                "<button class='btn btn-block btn-light font-weight-bold my-2 px-0 descriptionBtn' data-id='" + obj.ID + "' data-name='" + obj.Name + "'>INFO</button>" +
+                                "</div>" +
+                                "<div class='col-12 order-6 col-md-2 order-md-5'>" +
+                                "<img src='Content/Images/Icons/LockIcon-white-50x50.png' class='d-block mx-auto my-1' />" +
+                                "</div>" +
+                                "<div class='col-12 order-7 col-md-2 order-md-6'>" +
+                                "<img src='Content/Images/Icons/LockIcon-white-50x50.png' class='d-block mx-auto my-1' />" +
+                                "</div>" +
+                                "</div>" +
+                                "<hr class='d-md-none'>"
+                            );
+                        }
+                        else if (obj.TellActive === true) {
+                            $("#gameList").append(
+                                "<div class='row'>" +
+                                "<div class='col-12 order-4 col-md-2 order-md-1'>" +
+                                "<button class='btn btn-block btn-success font-weight-bold my-2 px-0 playBtn' data-id='" + obj.ID + "' data-name='" + obj.Name + "'>PLAY</button>" +
+                                "</div>" +
+                                "<div class='col-12 order-1 col-md-2 order-md-2'>" +
+                                "<h5 class='font-weight-bold my-3 px-0 text-uppercase text-center text-white'>" + obj.Name + "</h5>" +
+                                "</div>" +
+                                "<div class='col-6 order-2 d-md-none'>" +
+                                "<h5 class='font-weight-bold text-white text-center my-3'>POPULATION:</h4>" +
+                                "</div>" +
+                                "<div class='col-6 order-3 col-md-2 order-md-3'>" +
+                                "<h5 class='font-weight-bold my-3 px-0 text-center text-white'>" + obj.Population + "</h5>" +
+                                "</div>" +
+                                "<div class='col-12 order-5 col-md-2 order-md-4'>" +
+                                "<button class='btn btn-block btn-light font-weight-bold my-2 px-0 descriptionBtn' data-id='" + obj.ID + "' data-name='" + obj.Name + "'>INFO</button>" +
+                                "</div>" +
+                                "<div class='col-12 order-6 col-md-2 order-md-5'>" +
+                                '<img src="Content/Images/Icons/LockIcon-white-50x50.png" class="d-block mx-auto my-1" />' +
+                                "</div>" +
+                                "<div class='col-12 order-7 col-md-2 order-md-6'>" +
+                                '<img src="Content/Images/Icons/LockIcon-white-50x50.png" class="d-block mx-auto my-1" />' +
+                                "</div>" +
+                                "</div>" +
+                                "<hr class='d-md-none'>"
+                            );
+                        }
+                    }
+                }
+        });
+    }
+
     // -- SIGNALR -- //
     $(function () {
         var chat = $.connection.globalHub;
 
         chat.client.NotifyOnline = function (name, count) {
-            if (url.toLowerCase().indexOf("games/index") >= 0) getGames();
+            if (url.toLowerCase().indexOf("games") > 0) getGames();
+        }
+        chat.client.NotifyOffline = function (name, count) {
+            if (url.toLowerCase().indexOf("games") > 0) getGames();
+        }
+        chat.client.NotifyLock = function() {
+            if (url.toLowerCase().indexOf("games") > 0) getGames();
         }
 
         chat.client.NewIM = function (sender, message) {

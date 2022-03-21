@@ -18,20 +18,9 @@ namespace TheAftermath_V2.Controllers
             if (Session["Active"] != null)
             {
                 Guid acctID = Guid.Parse(Session["UserID"].ToString());
-                string gameName = HttpContext.Request.QueryString["game"];
-                var game = db.Campaigns.Where(a => a.Name == gameName).First();
-                game.Locked = true;
-                db.SaveChanges();
-
-                // UPDATE ACCOUNT STATUS
-                var record = db.AccountStatus.Where(a => a.AccountID == acctID).First();
-                record.Active = true;
-                record.Admin = true;
-                record.Play = false;
-                record.Tell = false;
-                record.CampaignID = game.ID;
-                record.CharacterID = null;
-                record.Timestamp = DateTime.Now;
+                string gamename = HttpContext.Request.QueryString["game"];
+                var game = db.Campaigns.Where(a => a.Name == gamename).First();
+                //game.Locked = true;
                 db.SaveChanges();
 
                 // GET CURRENT VALUES
@@ -53,27 +42,25 @@ namespace TheAftermath_V2.Controllers
         // -- ADMIN SUBMIT -- //
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Admin([Bind(Include = "Name, Season, Year, Description, PlayerPW, AdminPW")] Classes.GameData input)
+        public ActionResult Admin([Bind(Include = "Name, Season, Year, Description, PlayerPassword, AdminPassword, Closed")] Classes.GameData input)
         {
             if (ModelState.IsValid)
             {
-                string gameName = HttpContext.Request.QueryString["game"];
-                var game = db.Campaigns.Where(a => a.Name == gameName).FirstOrDefault();
+                var game = db.Campaigns.Where(a => a.Name == input.Name).FirstOrDefault();
                 game.Name = input.Name;
                 game.Season = input.Season;
                 game.Year = input.Year;
                 game.Description = input.Description;
+                game.Locked = false;
                 game.PlayerPassword = input.PlayerPassword;
                 game.AdminPassword = input.AdminPassword;
+                game.Closed = input.Closed;
                 db.SaveChanges();
 
                 ViewBag.ErrorMessage = "Success";
                 return RedirectToAction("Success", "Home");
             }
-            else
-            {
-                return View(input);
-            }
+            else return View(input); 
         }
 
         [HttpPost]
@@ -474,13 +461,14 @@ namespace TheAftermath_V2.Controllers
         {
             if (Session["Active"] != null)
             {
+                /*
                 Guid acctID = Guid.Parse(Session["UserID"].ToString());
                 string gameName = HttpContext.Request.QueryString["game"];
                 Session["GameName"] = gameName;
                 var gameRecord = db.Campaigns.Where(a => a.Name == gameName).First();
                 gameRecord.TellActive = true;
                 db.SaveChanges();
-
+                */
                 return View();
             }
             else return RedirectToAction("Login", "Home");
@@ -668,18 +656,8 @@ namespace TheAftermath_V2.Controllers
             Guid acctID = db.Accounts.Where(a => a.Username == user).Select(a => a.ID).Single();
             var gameRecord = db.Campaigns.Where(a => a.Name == game).First();
             var statusRecord = db.AccountStatus.Where(a => a.AccountID == acctID).First();
-
-            if (character != "STORYTELLER")
-            {
-                statusRecord.Active = true;
-                statusRecord.Admin = false;
-                statusRecord.Play = true;
-                statusRecord.Tell = false;
-                statusRecord.CampaignID = gameRecord.ID;
-                statusRecord.CharacterID = db.Characters.Where(a => a.Name == character && a.AccountID == acctID).Select(a => a.ID).Single();
-                statusRecord.Timestamp = DateTime.Now;
-            }
-            else
+            
+            if (character == "STORYTELLER")
             {
                 statusRecord.Active = true;
                 statusRecord.Admin = false;
@@ -690,6 +668,28 @@ namespace TheAftermath_V2.Controllers
                 statusRecord.Timestamp = DateTime.Now;
 
                 gameRecord.TellActive = true;
+            }
+            else if (character == "ADMIN")
+            {
+                statusRecord.Active = true;
+                statusRecord.Admin = true;
+                statusRecord.Play = false;
+                statusRecord.Tell = false;
+                statusRecord.CampaignID = gameRecord.ID;
+                statusRecord.CharacterID = null;
+                statusRecord.Timestamp = DateTime.Now;
+                
+                gameRecord.Locked = true;
+            }
+            else // PLAYER
+            {
+                statusRecord.Active = true;
+                statusRecord.Admin = false;
+                statusRecord.Play = true;
+                statusRecord.Tell = false;
+                statusRecord.CampaignID = gameRecord.ID;
+                statusRecord.CharacterID = db.Characters.Where(a => a.Name == character && a.AccountID == acctID).Select(a => a.ID).Single();
+                statusRecord.Timestamp = DateTime.Now;
             }
             db.SaveChanges();
 

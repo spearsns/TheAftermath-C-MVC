@@ -387,7 +387,6 @@
     <Content Include="Content\Images\Graffiti\description-white-500x150.png" />
     <Content Include="Content\Images\Graffiti\emailGreen-500x150.png" />
     <Content Include="Content\Images\Graffiti\exp-red-500x150.png" />
-    <Content Include="Content\Images\Graffiti\graveyard-detailed-900x150.png" />
     <Content Include="Content\Images\Graffiti\graveyard-detailed-trans-900x150.png" />
     <Content Include="Content\Images\Graffiti\IDMarks-black-500x150.png" />
     <Content Include="Content\Images\Graffiti\name-black-500x150.png" />

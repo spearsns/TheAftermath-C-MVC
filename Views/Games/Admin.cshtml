@@ -13,16 +13,14 @@
 <!-- MODALS -->
 <!-- CONFIRM MODAL -->
 <div class="modal fade" id="confirmModal" data-backdrop="static" tabindex="-2" aria-labelledby="confirmModalLabel" aria-hidden="false">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-header bg-black">
-
-        </div>
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
-
+                <h5 class="text-center font-weight-bold">ARE YOU CERTAIN YOU WANT TO CLOSE THIS CAMPAIGN?</h5>
             </div>
             <div class="modal-footer">
-
+                <button type="button" id="submitConfirmBtn" class="btn btn-lg btn-success border border-dark mx-auto">CONFIRM</button>
+                <button type="button" id="cancelConfirmBtn" class="btn btn-lg btn-danger border border-dark mx-auto">CANCEL</button>
             </div>
         </div>
     </div>
@@ -44,7 +42,7 @@
         </div>
         <div class="col-6 col-md-3">
             <div class="input-group my-2 text-center">
-                <input id="gameName" class="form-control text-center px-0 py-0 my-2 w-100" type="text" value="@Model.Name" />
+                <input name="Name" id="gameName" class="form-control text-center px-0 py-0 my-2 w-100" type="text" value="@Model.Name" />
             </div>
         </div>
         <div class="col-md-3"></div>
@@ -109,7 +107,7 @@
             <img src="~/Content/Images/Graffiti/description-white-500x150.png" class="img-fluid mx-auto d-block">
         </div>
         <div class="col-6 col-md-3">
-            <textarea id="description" name="Description" rows="4" cols="50" class="rounded w-100">@Model.Description</textarea>
+            <textarea name="Description" id="description" rows="4" cols="50" class="rounded w-100">@Model.Description</textarea>
         </div>
         <div class="col-md-3"></div>
         <hr />
@@ -122,7 +120,7 @@
         </div>
         <div class="col-6 col-md-3">
             <div class="input-group my-2 text-center">
-                <input id="playerPW" class="form-control text-center px-0 py-0 my-2 w-100" type="text" value="@Model.PlayerPassword" placeholder="Grants Access to PLAY" />
+                <input name="PlayerPassword" id="playerPW" class="form-control text-center px-0 py-0 my-2 w-100" type="text" value="@Model.PlayerPassword" placeholder="Grants Access to PLAY" />
             </div>
         </div>
         <div class="col-md-3"></div>
@@ -149,7 +147,7 @@
         </div>
         <div class="col-6 col-md-3">
             <div class="input-group my-2 text-center">
-                <input id="storytellerPW" class="form-control text-center px-0 py-0 my-2 w-100" type="text" value="@Model.AdminPassword" placeholder="Grants Access to TELL / ADMIN" />
+                <input name="AdminPassword" id="storytellerPW" class="form-control text-center px-0 py-0 my-2 w-100" type="text" value="@Model.AdminPassword" placeholder="Grants Access to TELL / ADMIN" />
             </div>
         </div>
         <div class="col-md-3"></div>
@@ -172,15 +170,10 @@
     <div class="row bg-black pt-3">
         <div class="col-4"></div>
         <div class="col-4">
-            <button id="endGameBtn" class="btn btn-lg btn-secondary border border-light mx-auto btn-block mb-3">END GAME</button>
-        </div>
-        <div class="col-4"></div>
-    </div>
-    <!--CANCEL-->
-    <div class="row bg-black">
-        <div class="col-4"></div>
-        <div class="col-4">
-            <a href="@Url.Action("Index", "Games")" id="cancelBtn" class="btn btn-lg btn-red border border-light mx-auto btn-block mb-3" type="button">CANCEL</a>
+            <select name="Closed" id="gateway" class="custom-select custom-select-lg my-2 text-center w-100" value="@Model.Closed">
+                <option value="False" selected="selected">OPEN</option>
+                <option value="True">CLOSED</option>
+            </select>
         </div>
         <div class="col-4"></div>
     </div>

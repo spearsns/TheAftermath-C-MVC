@@ -92,25 +92,7 @@ namespace TheAftermath_V2.Controllers
 
                 return Json("Success", JsonRequestBehavior.AllowGet);
             }
-            else
-            {
-                var newRecord = new AccountStatu
-                {
-                    ID = Guid.NewGuid(),
-                    AccountID = acctID,
-                    Active = true,
-                    Admin = false,
-                    Play = false,
-                    Tell = false,
-                    CampaignID = null,
-                    CharacterID = null,
-                    Timestamp = DateTime.Now
-                };
-                db.AccountStatus.Add(newRecord);
-                db.SaveChanges();
-
-                return Json("Success", JsonRequestBehavior.AllowGet);
-            }
+            else return Json("Something went horribly wrong...", JsonRequestBehavior.AllowGet);
         }
         public ActionResult Logout()
         {

@@ -47,9 +47,9 @@ namespace TheAftermath_V2.Hubs
             Clients.All.NewGameMessage(username, "STORYTELLER", game, majorFxResult, true);
         }
 
-        public void SendExpGain(string name)
+        public void SendExpGain(string name, int exp)
         {
-            Clients.All.NotifyExpGain(name);
+            Clients.All.NotifyExpGain(name, exp);
         }
 
         public void SendGameMessage(string username, string charname, string game, string message)
@@ -79,9 +79,21 @@ namespace TheAftermath_V2.Hubs
             Clients.All.NotifyGameUpdate(game, target);
         }
 
+        // BOOT USER
+        public void SendBootUser(string game, string name)
+        {
+            Clients.All.NotifyBoot(game, name);
+        }
+
+        // TOGGLE GAME LOCK
+        public void ToggleLock()
+        {
+            Clients.All.NotifyLock();
+        }
+
         // CONNECTION MAPPING -- RELIES ON = ConnectionMapping.cs
         private readonly static ConnectionMapping<string> _connections = new ConnectionMapping<string>();
-
+        
         public override Task OnConnected()
         {
             string username = Context.QueryString["username"];
@@ -99,13 +111,13 @@ namespace TheAftermath_V2.Hubs
             Guid acctID = db.Accounts.Where(a => a.Username == username).Select(a => a.ID).First();
             var record = db.AccountStatus.Where(a => a.AccountID == acctID).First();
 
-            if (record.Tell == true)
+            if (record.Tell == true || record.Admin == true)
             {
                 var campaign = db.Campaigns.Where(a => a.ID == record.CampaignID).Single();
                 campaign.TellActive = false;
                 campaign.Locked = false;
             }
-
+            
             record.Active = false;
             record.Admin = false;
             record.Play = false;

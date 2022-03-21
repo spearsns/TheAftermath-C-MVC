@@ -9,6 +9,8 @@
     else charname = urlParams.get("char");
 
     function updateStatus() {
+        if (url.indexOf("Tell") >= 0) charname = "STORYTELLER";
+        //console.log('updateStatus fired with [' + username + '] [' + charname + '] [' + gamename + ']');
         $.ajax({
             type: 'POST',
             url: 'UpdateStatus',
@@ -17,7 +19,7 @@
             contentType: "application/json; charset=utf-8",
             success:
                 function (result) {
-                    console.log(result + " - Logged in as : " + username + " playing as ["+ charname +"]");
+                    //console.log(result + " - Logged in as : " + username + " playing as ["+ charname +"]");
                     getGameActiveList();
                 }
         });
@@ -82,6 +84,7 @@
             success:
                 function (results) {
                     $('#characterList').html('');
+                    $('#bootList').html('');
 
                     for (i = 0; i < results.length; i++) {
                         var result = results[i];
@@ -109,6 +112,7 @@
                             '<button class="btn btn-block btn-success border border-light font-weight-bold text-center mt-1 awardExpBtn" data-username="' + result.Username + '" data-charname="' + result.CharacterName + '">AWARD</button>' +
                             '</div>'
                         );
+                        $('#bootList').append('<option value="'+ result.Username  +'">"'+ result.Username +'"</option>');
                     }
                 }
         });
@@ -375,9 +379,7 @@
         chat.client.NotifyOnline = function (name, count) {
             if (username !== name) {
                 getGameActiveList();
-                console.log('getGameActiveList() fired');
                 getCharacterList();
-                console.log('getCharacterList() fired');
             }
             else $('#gameChatLog').append('<li class="font-weight-bold text-secondary"><strong>SERVER: [' + name + '] JOINED ['+ gamename +'] AS [' + charname + ']</strong></li>');
         }
@@ -409,13 +411,18 @@
             }
         };
 
-        chat.client.NotifyExpGain = function (name) {
+        chat.client.NotifyExpGain = function (name, exp) {
             if (name === username) getExperience();
+            $('#gameChatLog').append('<li class="font-weight-bold text-secondary"><strong>SERVER: ' + name + ' AWARDED ' + exp + ' EXPERIENCE </strong></li>');
         }
 
+        chat.client.NotifyBoot = function(name) {
+            if (name === username) window.location.href = '/Home/Index.cshtml' + id;
+            $('#gameChatLog').append('<li class="font-weight-bold text-secondary"><strong>SERVER: ' + name + ' BOOTED FROM GAME</strong></li>');
+        }
         // USER TO USER IM
         chat.client.NewIM = function (sender, message) {
-            console.log("IM Recieved from [" + sender + "]");
+            // console.log("IM Recieved from [" + sender + "]");
             // HANDLE COUNT
             if ($(".IM-dropdown-btn[data-connection='" + sender + "']").length > 0) {
                 if ($('.IM-modal[data-connection="' + sender + '"]').hasClass("show")) {
@@ -572,7 +579,7 @@
                     contentType: "application/json; charset=utf-8",
                     success:
                         function (result) {
-                            chat.server.sendExpGain(userName);
+                            chat.server.sendExpGain(userName, exp);
                             $('.expInput[data-charname="' + charName + '"]').val('');
                         }
                 });
@@ -680,8 +687,46 @@
                         }
                 });
             });
-        });
 
+            // BOOT USER BUTTON
+            $('#bootUserBtn').click(function() {
+                var targetUser = $('#bootList').val();
+                chat.server.sendBootUser(gamename, targetUser);
+                $("#lockBtn").trigger("click");
+            });
+
+            // LOCK GAME BUTTON
+            $("#lockBtn").on("click", function () {
+                if ($(this).hasClass("unlock")) {
+                    $.ajax({
+                        type: 'POST',
+                        url: 'UnlockGame',
+                        data: '{Name: "' + gamename + '" }',
+                        dataType: 'json',
+                        contentType: 'application/json; charset=utf-8',
+                        success:
+                            function (result) {
+                                if (result === "Success") $("#lockBtn").removeClass("btn-light border-dark").addClass("btn-secondary border-light").html("LOCK GAME");
+                                chat.server.toggleLock();
+                            }
+                    });
+                }
+                else {
+                    $.ajax({
+                        type: 'POST',
+                        url: 'LockGame',
+                        data: '{Name: "' + gamename + '" }',
+                        dataType: 'json',
+                        contentType: 'application/json; charset=utf-8',
+                        success:
+                            function (result) {
+                                if (result === "Success") $("#lockBtn").removeClass("btn-secondary border-light").addClass("btn-light border-dark unlock").html("UNLOCK GAME");
+                                chat.server.toggleLock();
+                            }
+                    });
+                }
+            });
+        });
     });
     // This optional function html-encodes messages for display in the page.
     function htmlEncode(value) {
