@@ -1,8 +1,11 @@
 ﻿$(document).ready(function () {
-	var urlParams = new URLSearchParams(window.location.search);
-	var gameName = urlParams.get("campaign");
-	$("#campaignName").val(gameName);
+    var thisUrl = window.location.search;
+	var urlData = thisUrl.substr(thisUrl.indexOf('?'), thisUrl.length);
+    var targetParams = new URLSearchParams(urlData);
+	var gameName = targetParams.get('campaign');
 
+	$("#campaignName").val(gameName);
+	
     $("#adminBtn").click(function () {
 		$.ajax({
 			type: 'POST',
