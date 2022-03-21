@@ -2,7 +2,7 @@
     var url = window.location.href;
     var urlParams = new URLSearchParams(window.location.search);
     var username = urlParams.get("user");
-    var gamename = urlParams.get("game");
+    var gamename = urlParams.get("campaign");
     var charname;
 
     if (url.indexOf("Tell") >= 0) charname = "STORYTELLER";
@@ -376,16 +376,32 @@
 
         // -- CLIENT (RECEIVING) FUNCTIONS -- //
         // CHATROOM & PLAY
-        chat.client.NotifyOnline = function (name, count) {
-            if (username !== name) {
+        chat.client.NotifyOnline = function (name, location) {
+            var urlData = location.substr(location.indexOf('?'), location.length);
+            var targetParams = new URLSearchParams(urlData);
+            var game = targetParams.get('campaign');
+            var char = targetParams.get('char');
+            if (targetParams.get('char') === null) char = 'Storyteller';
+
+            if (game === gamename && username === name) {
+                $('#gameChatLog').append('<li class="font-weight-bold text-info"><strong>SERVER: ' + name + ' joined as ' + char + '</strong></li>');
                 getGameActiveList();
                 getCharacterList();
             }
-            else $('#gameChatLog').append('<li class="font-weight-bold text-secondary"><strong>SERVER: [' + name + '] JOINED ['+ gamename +'] AS [' + charname + ']</strong></li>');
+            else if (game === gamename && username !== name) {
+                $('#gameChatLog').append('<li class="font-weight-bold text-secondary"><strong>SERVER: ' + name + ' joined as ' + char + '</strong></li>');
+                getGameActiveList();
+                getCharacterList();
+            }
         }
 
-        chat.client.NotifyOffline = function (name, count) {
-            if (username !== name) {
+        chat.client.NotifyOffline = function (name, location) {
+            var urlData = location.substr(location.indexOf('?'), location.length);
+            var targetParams = new URLSearchParams(urlData);
+            var game = targetParams.get('campaign');
+
+            if (gamename === game) {
+                $('#gameChatLog').append('<li class="font-weight-bold text-secondary"><strong>SERVER: ' + name + ' left the game</strong></li>');
                 getGameActiveList();
                 getCharacterList();
             }
@@ -404,8 +420,8 @@
         chat.client.NewGameMessage = function (name, charname, game, message, dice) {
             if (gamename === game) {
                 if (charname === "STORYTELLER") $('#gameChatLog').append('<li class="text-red"><strong>' + htmlEncode(name) + ' [' + htmlEncode(charname) + ']</strong>: ' + htmlEncode(message) + '</li>');
-                else if (dice === true) $('#gameChatLog').append('<li class="text-secondary"><strong>' + htmlEncode(name) + ' [' + htmlEncode(charname) + ']</strong>: ' + htmlEncode(message) + '</li>');
-                else if (username === name && dice === false) $('#gameChatLog').append('<li class="text-info"><strong>' + htmlEncode(name) + ' ['+ htmlEncode(charname) +']</strong>: ' + htmlEncode(message) + '</li>');
+                else if (username === name) $('#gameChatLog').append('<li class="text-info"><strong>' + htmlEncode(name) + ' [' + htmlEncode(charname) + ']</strong>: ' + htmlEncode(message) + '</li>');
+                else if (username !== name && dice === true) $('#gameChatLog').append('<li class="text-secondary"><strong>' + htmlEncode(name) + ' ['+ htmlEncode(charname) +']</strong>: ' + htmlEncode(message) + '</li>');
                 else $('#gameChatLog').append('<li><strong>' + htmlEncode(name) + ' [' + htmlEncode(charname) +']</strong>: ' + htmlEncode(message) + '</li>');
                 $("#gameChatLog li:last-child").focus();
             }
@@ -489,7 +505,7 @@
         chat.client.void = function () { };
         $.connection.hub.logging = true;
 
-        $.connection.hub.qs = { "username": username };
+        $.connection.hub.qs = { "username": username, "location": url };
         $.connection.hub.start().done(function () {
 
             // -- SERVER (SENDING) FUNCTIONS -- //

@@ -1,4 +1,5 @@
 ﻿$(document).ready(function () {
+    var url = window.location.href;
         
     var username;
     var d = new Date();
@@ -8,6 +9,12 @@
     if (m < 10) m = "0" + m;
     var s = d.getSeconds();
     if (s < 10) s = "0" + s;
+
+    if ($("#sessionUsername").length > 0) {
+        username = $("#sessionUsername").html();
+        updateStatus();
+    }
+    else username = "Visitor [" + h + ":" + m + ":" + s + "]";
 
     function updateStatus() {
         $.ajax({
@@ -22,13 +29,7 @@
                 }
         });
     }
-
-    if ($("#sessionUsername").length > 0) {
-        username = $("#sessionUsername").html();
-        updateStatus();
-    }
-    else username = "Visitor [" + h + ":" + m + ":" + s + "]";
-
+    
     $('#indexChatLogArea').attr('overflow', 'auto');
 
     var transferCount = 0;
@@ -131,12 +132,32 @@
         var chat = $.connection.globalHub;
 
         // -- CLIENT (RECEIVING) FUNCTIONS -- //
-        chat.client.NotifyOnline = function (name, count) {
-            if (username === name) $('#lobbyChatLog').append('<li class="text-secondary font-weight-bold"><strong>SERVER: ' + username + ' JOINED THE LOBBY</strong></li>')
+        chat.client.NotifyOnline = function (name, location) {
+            var urlData = location.substr(location.indexOf('?'), location.length);
+            var targetParams = new URLSearchParams(urlData);
+            var game = targetParams.get('campaign');
+            var char = targetParams.get('char');
+            
+            if (location.toLowerCase().indexOf("play") > 0) {
+                $('#lobbyChatLog').append('<li class="text-secondary font-weight-bold"><strong>SERVER: ' + name + ' joined '+ game +' as '+ char +'</strong></li>');
+            }
+            else if (location.toLowerCase().indexOf("tell") > 0) {
+                $('#lobbyChatLog').append('<li class="text-secondary font-weight-bold"><strong>SERVER: ' + name + ' joined ' + game + ' as the Storyteller</strong></li>');
+            }
+            else if (username === name && location === url) $('#lobbyChatLog').append('<li class="text-info font-weight-bold"><strong>SERVER: ' + name + ' joined Lobby</strong></li>');
+            else if (username !== name && location === url) $('#lobbyChatLog').append('<li class="text-secondary font-weight-bold"><strong>SERVER: ' + name + ' joined Lobby</strong></li>');
             getActiveList();
         }
 
-        chat.client.NotifyOffline = function (name, count) {
+        chat.client.NotifyOffline = function (name, location) {
+            var urlData = location.substr(location.indexOf('?'), location.length);
+            var urlParams = new URLSearchParams(urlData);
+            var game = urlParams.get('campaign');
+
+            if (location.toLowerCase().indexOf("play") > 0 || location.toLowerCase().indexOf("tell") > 0) {
+                $('#lobbyChatLog').append('<li class="text-secondary font-weight-bold"><strong>SERVER: ' + name + ' left ' + game + '</strong></li>');
+            }
+            else if (location === url) $('#lobbyChatLog').append('<li class="text-info font-weight-bold"><strong>SERVER: ' + name + ' left Lobby</strong></li>');
             getActiveList();
         }
 
@@ -216,7 +237,7 @@
         chat.client.void = function () { };
         $.connection.hub.logging = true;
 
-        $.connection.hub.qs = { "username": username };
+        $.connection.hub.qs = { "username": username, "location": url };
         $.connection.hub.start().done(function () {
 
         // -- SERVER (SENDING) FUNCTIONS -- //

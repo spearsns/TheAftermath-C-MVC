@@ -273,7 +273,7 @@
         chat.client.void = function () { };
         $.connection.hub.logging = true;
 
-        $.connection.hub.qs = { "username": username };
+        $.connection.hub.qs = { "username": username, "location": url };
         $.connection.hub.start().done(function () {
 
             // -- SERVER (SENDING) FUNCTIONS -- //

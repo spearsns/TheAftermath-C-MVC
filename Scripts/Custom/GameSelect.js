@@ -85,7 +85,7 @@
 													"<div class='row'>" +
 													"<div class='col-lg-1'></div>" +
 													"<div class='col-12 col-lg-2'>" +
-													"<a href='Games/Play?game="+ gameName +"&char="+ obj.Name +"&user="+ username +"' class='btn btn-block btn-warning font-weight-bold my-2 px-0 charSelectBtn' data-name='" + obj.Name + "' type='button' >" + obj.Name + "</a>" +
+													"<a href='Games/Play?campaign="+ gameName +"&char="+ obj.Name +"&user="+ username +"' class='btn btn-block btn-warning font-weight-bold my-2 px-0 charSelectBtn' data-name='" + obj.Name + "' type='button' >" + obj.Name + "</a>" +
 													"</div>" +
 													"<div class='col-12 col-lg-2'>" +
 													"<h5 class='font-weight-bold my-3 px-0 text-uppercase text-center text-white'>" + obj.Status + "</h5>" +
@@ -125,7 +125,7 @@
 					}
 					else if (header.indexOf("TELL") >= 0) {
 						if (enteredPW === result.AdminPassword) {
-							location.href = "Games/Tell?game=" + gameName + "&user=" + username;
+							location.href = "Games/Tell?campaign=" + gameName + "&user=" + username;
 						}
 						else {
 							$("#errorMsg").html("INVALID PASSWORD").removeClass("d-none");
@@ -135,7 +135,7 @@
 					}
 					else { // ADMIN
 						if (enteredPW === result.AdminPassword) {
-							location.href = "Games/Admin?game=" + gameName + "&user=" + username;
+							location.href = "Games/Admin?campaign=" + gameName + "&user=" + username;
 						}
 						else {
 							$("#errorMsg").html("INVALID PASSWORD").removeClass("d-none");

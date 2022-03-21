@@ -97,9 +97,10 @@ namespace TheAftermath_V2.Hubs
         public override Task OnConnected()
         {
             string username = Context.QueryString["username"];
+            string location = Context.QueryString["location"];
 
             _connections.Add(username, Context.ConnectionId);
-            Clients.All.NotifyOnline(username, _connections.Count);
+            Clients.All.NotifyOnline(username, location);
 
             return base.OnConnected();
         }
@@ -107,6 +108,7 @@ namespace TheAftermath_V2.Hubs
         public override Task OnDisconnected(bool stopCalled)
         {
             var username = Context.QueryString["username"];
+            var location = Context.QueryString["location"];
 
             Guid acctID = db.Accounts.Where(a => a.Username == username).Select(a => a.ID).First();
             var record = db.AccountStatus.Where(a => a.AccountID == acctID).First();
@@ -128,7 +130,7 @@ namespace TheAftermath_V2.Hubs
 
             db.SaveChanges();
             _connections.Remove(username, Context.ConnectionId);
-            Clients.All.NotifyOffline(username, _connections.Count);
+            Clients.All.NotifyOffline(username, location);
 
             return base.OnDisconnected(stopCalled);
         }

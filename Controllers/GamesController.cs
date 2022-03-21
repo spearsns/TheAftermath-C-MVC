@@ -18,7 +18,7 @@ namespace TheAftermath_V2.Controllers
             if (Session["Active"] != null)
             {
                 Guid acctID = Guid.Parse(Session["UserID"].ToString());
-                string gamename = HttpContext.Request.QueryString["game"];
+                string gamename = HttpContext.Request.QueryString["campaign"];
                 var game = db.Campaigns.Where(a => a.Name == gamename).First();
                 //game.Locked = true;
                 db.SaveChanges();
@@ -386,7 +386,7 @@ namespace TheAftermath_V2.Controllers
             if (Session["Active"] != null)
             {
                 string charName = HttpContext.Request.QueryString["char"];
-                string gameName = HttpContext.Request.QueryString["game"];
+                string gameName = HttpContext.Request.QueryString["campaign"];
                 Session["GameName"] = gameName;
 
                 Guid gameID = db.Campaigns.Where(a => a.Name == gameName).Select(a => a.ID).SingleOrDefault();

@@ -55,7 +55,7 @@ namespace TheAftermath_V2.Controllers
                             Session["UserID"] = result.ID.ToString();
                             Session["Username"] = result.Username.ToString();
 
-                            return RedirectToAction("Index", "Home", new { username = result.Username.ToString() });
+                            return RedirectToAction("Index", "Home");
                         }
                         else if (result != null && acctStatus.Active == true)
                         {
