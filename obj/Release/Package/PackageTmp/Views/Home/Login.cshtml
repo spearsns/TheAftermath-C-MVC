@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "Login";
+}
+
+@model TheAftermath_V2.Models.Account
+
+@using (Html.BeginForm("Login", "Home", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <div class="row bg-black my-5 border border-light rounded">
+            <div class="col-md-3"></div>
+            <div class="col-6 col-md-3">
+                <img src="~/Content/Images/Graffiti/usernameBlue-500x150.png" class="img-fluid mx-auto d-block inputLabel mh-10" />
+            </div>
+            <div class='col-6 col-md-3 my-3'>
+                <div class="input-group input-group-lg">
+                    @Html.TextBoxFor(m => m.Username, new { @class = "form-control mx-auto text-center", @placeholder = "Enter Username", @required = "required" })
+                </div>
+            </div>
+            <div class='col-md-3'></div>
+
+            <div class="col-md-3"></div>
+            <div class="col-6 col-md-3">
+                <img src="~/Content/Images/Graffiti/passwordWhite-500x150.png" class="img-fluid mx-auto d-block inputLabel mh-10" />
+            </div>
+            <div class='col-6 col-md-3 my-3'>
+                <div class="input-group input-group-lg">
+                    @Html.TextBoxFor(m => m.Password, new { @class = "form-control mx-auto text-center", @type = "password", @placeholder = "Enter Password", @required = "required" })
+                </div>
+            </div>
+            <div class='col-md-3'></div>
+
+            <div class="col-md-4"></div>
+            <div class='col-12 col-md-4 text-center my-2'>
+                <a href="@Url.Action("ForgotPassword", "Home")">FORGOT PASSWORD?</a>
+            </div>
+            <div class='col-md-4'></div>
+
+            <div class="col-md-4"></div>
+            <div class='col-12 col-md-4 text-center my-2'>
+                <a href="@Url.Action("Registration", "Home")">REGISTER NEW USER</a>
+            </div>
+            <div class='col-md-4'></div>
+
+            <div class="col-3"></div>
+            <div class="col-6">
+                <h6 class="text-red text-center text-uppercase font-weight-bold" id="errorMsg">@ViewBag.ErrorMessage</h6>
+            </div>
+            <div class="col-3"></div>
+
+            <div class="col-md-4"></div>
+            <div class="col-12 col-md-4 my-3">
+                <input id="submitBtn" class="btn btn-lg btn-success mx-auto btn-block" type="submit" value="SUBMIT" />
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+    </fieldset>
+}

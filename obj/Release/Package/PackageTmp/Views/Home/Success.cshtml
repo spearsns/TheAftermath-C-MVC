@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "Success";
+}
+
+<div id="IM-Modals"></div>
+
+<div class="row">
+    <div class="col">
+        <img src="~/Content/Images/Graffiti/successGreen-900x150.png" class="img-fluid mx-auto d-block" />
+    </div>
+</div>
+
+<div class="row bg-black my-5 border border-light rounded">
+    <div class="col-md-3"></div>
+    <div class="col-12 col-md-6 my-3">
+        <p class="text-white text-center">!!! DO NOT HIT BACK OR REFRESH BUTTONS !!!</p>
+        <p class="text-white text-center">!!! IT COULD FEED THE GREMLINS OF DATA CORRUPTION !!!</p>
+    </div>
+    <div class='col-md-3'></div>
+
+    <div class="col-md-3"></div>
+    <div class="col-12 col-md-6">
+        <h4 id="successMsg" class="text-center text-success font-weight-bold my-4">@ViewBag.Message</h4>
+    </div>
+    <div class="col-md-3"></div>
+
+    <div class="col-md-4"></div>
+    <div class="col-12 col-md-4 my-3">
+        <a href="@Url.Action("Index", "Home")" class="btn btn-lg btn-success mx-auto btn-block">HOME</a>
+    </div>
+    <div class="col-md-4"></div>
+</div>
+
+@section Scripts
+{
+    <script src="@Url.Content("~/Scripts/jquery.signalR-2.4.2.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Custom/SignalR-IM.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/signalr/hubs")" type="text/javascript"></script>
+}

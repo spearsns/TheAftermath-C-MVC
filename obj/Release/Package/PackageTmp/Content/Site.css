@@ -1,0 +1,194 @@
+﻿.bg-black{
+    background-color: black;
+}
+
+body {
+    font-family: 'Times New Roman', Times, serif;
+    background-image: url("Images/Textures/lightRust.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    /* Margin bottom by footer height */
+    margin-bottom: 50px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.btn-red {
+    background-color: darkred;
+    color: white;
+}
+
+.border-red {
+    border-color: darkred !important;
+}
+
+.bw-thick {
+    border-width: thick !important;
+}
+
+#charPicSlot {
+    min-height: 60vh;
+}
+
+.contentList{
+    background-color: ghostwhite;
+}
+
+.contentText{
+    background-color: white;
+}
+
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+.dropdown-menu {
+    min-width: 100% !important;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+#gameChatLogArea {
+    height: 60vh;
+    background-color: white;
+}
+
+#gameMapSlot {
+    min-height: 60vh;
+}
+
+#gamePicSlot {
+    min-height: 60vh;
+}
+
+#gameUserListArea {
+    min-height: 60vh;
+    background-color: ghostwhite;
+}
+
+.h-10 {
+    height: 10vh;
+}
+
+.h-15 {
+    height: 15vh;
+}
+
+.h-20 {
+    height: 20vh;
+}
+
+.h-25 {
+    height: 25vh;
+}
+
+.h-30 {
+    height: 30vh;
+}
+
+.h-33 {
+    height: 33vh;
+}
+
+.h-40 {
+    min-height: 40vh;
+    height: 40vh;
+}
+
+hr {
+    width: 100%;
+    height: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+    border: 0 none;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+.IM-log {
+    height: 30vh;
+}
+
+#indexChatLogArea {
+    height: 60vh;
+    background-color: white;
+}
+
+#indexUserListArea {
+    min-height: 60vh;
+    background-color: ghostwhite;
+}
+
+#messageDiv {
+    z-index: 0;
+    background-image: url("Images/Icons/messageIcon-50x50.png");
+    background-repeat: no-repeat;
+}
+
+.mh-5 {
+    min-height: 5vh;
+}
+
+.mh-10 {
+    min-height: 10vh;
+}
+
+.text-black{
+    color: black;
+}
+
+.text-red {
+    color: red;
+}
+
+ul.no-bullets {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.w-50 {
+    width: 50%;
+}
+
+.w-75 {
+    width: 75%;
+}
+
+/* BREAKPOINT SM */
+@media (min-width: 576px) {
+    
+}
+
+/* BREAKPOINT MD */
+@media (min-width: 768px) {
+
+}
+
+/* BREAKPOINT LG */
+@media (min-width: 992px) {
+    .addSkillBtn {
+        max-width: 75%;
+    }
+
+}
+
+/* BREAKPOINT XL */
+@media (min-width: 1200px) {
+    .editBtn {
+        margin-right: 25%;
+    }
+
+}

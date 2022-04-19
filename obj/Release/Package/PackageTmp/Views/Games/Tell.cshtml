@@ -1,0 +1,1786 @@
+﻿@{
+    ViewBag.Title = "Tell";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('body').css('background-image', 'url("../Content/Images/Textures/darkScratch.jpg")');
+        $('#bodyContainer').removeClass("container").addClass("container-fluid");
+    });
+</script>
+
+<!-- MODALS -->
+<!-- ADMIN MODAL -->
+<div class="modal fade" id="adminModal" data-backdrop="static" tabindex="-2" aria-labelledby="adminModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-header bg-black">
+
+        </div>
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="container-fluid bg-black">
+                    <!-- LOCK GAME -->
+                    <div class="row">
+                        <div class="col-3"></div>
+                        <div class="col-6">
+                            <button id="lockBtn" class="btn btn-lg btn-secondary border border-light mx-auto btn-block mt-3 mx-auto">LOCK GAME</button>
+                        </div>
+                        <div class="col-3"></div>
+                    </div>
+                    <hr />
+                    <!-- BOOT USER -->
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-8 col-md-4">
+                            <select id="bootList" class="custom-select custom-select-lg mt-2 text-center w-100"></select>
+                        </div>
+                        <div class="col-4">
+                            <button id="bootUserBtn" class="btn btn-lg btn-red border border-light mx-auto btn-block my-2 mx-auto">BOOT</button>
+                        </div>
+                        <div class="col-md-2"></div>
+                    </div>
+                    <hr />
+                    <!-- CHANGE SEASON -->
+                    <div class="row">
+                        <div class="col-md-3"></div>
+                        <div class="col-6 col-md-3">
+                            <img src="~/Content/Images/Graffiti/Season-black-500x150.png" class="img-fluid mx-auto d-block" />
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <select name="Season" id="season" class="custom-select custom-select-lg mt-2 text-center w-100" value="">
+                                <option value="Spring">Spring</option>
+                                <option value="Summer">Summer</option>
+                                <option value="Fall">Fall</option>
+                                <option value="Winter">Winter</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+                    <!-- CHANGE YEAR -->
+                    <div class="row">
+                        <div class="col-md-3"></div>
+                        <div class="col-6 col-md-3">
+                            <img src="~/Content/Images/Graffiti/Year-black-500x150.png" class="img-fluid mx-auto d-block" />
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <select name="Year" id="year" class="custom-select custom-select-lg mt-2 text-center w-100" value="">
+                                <option disabled>[Pre-Apocalypse]</option>
+                                <option value="2012">2012</option>
+                                <option disabled>[The Apocalypse]</option>
+                                <option value="2013">2013</option>
+                                <option value="2014">2014</option>
+                                <option value="2015">2015</option>
+                                <option value="2016">2016</option>
+                                <option value="2017">2017</option>
+                                <option disabled>[The Aftermath]</option>
+                                <option value="2018">2018</option>
+                                <option value="2019">2019</option>
+                                <option value="2020">2020</option>
+                                <option value="2021">2021</option>
+                                <option disabled>[Present Day]</option>
+                                <option value="2022">2022</option>
+                                <option value="2023">2023</option>
+                                <option value="2024">2024</option>
+                                <option value="2025">2025</option>
+                                <option value="2026">2026</option>
+                                <option value="2027">2027</option>
+                                <option value="2028">2028</option>
+                                <option value="2029">2029</option>
+                                <option value="2030">2030</option>
+                                <option value="2031">2031</option>
+                                <option value="2032">2032</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+                    <!-- CONFIRM DATE CHANGE -->
+                    <div class="row">
+                        <div class="col-4"></div>
+                        <div class="col-4">
+                            <button id="dateBtn" class="btn btn-lg btn-success border border-light mx-auto btn-block my-2 mx-auto">UPDATE</button>
+                        </div>
+                        <div class="col-4"></div>
+                    </div>
+                    <hr />
+                    <!-- CHANGE DESCRIPTION -->
+                    <div class="row">
+                        <div class="col-3 d-md-none"></div>
+                        <div class="col-6 col-md-4">
+                            <img src="~/Content/Images/Graffiti/description-white-500x150.png" class="img-fluid mx-auto d-block">
+                        </div>
+                        <div class="col-3 d-md-none"></div>
+                        <div class="col-12 col-md-8">
+                            <textarea id="description" name="Description" rows="4" cols="50" class="rounded w-100"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4"></div>
+                        <div class="col-4">
+                            <button id="descriptionBtn" class="btn btn-lg btn-success border border-light mx-auto btn-block mt-2 mb-3 mx-auto">UPDATE</button>
+                        </div>
+                        <div class="col-4"></div>
+                    </div>
+                    <!-- MESSAGE SLOT-->
+                    <div class="row">
+                        <div class="col-4"></div>
+                        <div id="adminAlert" class="col-4 d-none">
+                            <h4 id="adminMsg" class="text-center text-success font-weight-bold"></h4>
+                        </div>
+                        <div class="col-4"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="adminCancelBtn" class="btn btn-lg btn-danger border border-dark mx-auto my-2 mx-auto" data-dismiss="modal">CLOSE</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- CHARACTER SHEET MODAL -->
+<div class="modal fade" id="charSheetModal" tabindex="-3" aria-labelledby="charSheetModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-header bg-black">
+            <h4 id="charSheetHeader" class="font-weight-bold text-white text-center mx-auto"></h4>
+        </div>
+        <div class="modal-content">
+            <div class="modal-body">
+
+                <!-- CHARACTER SHEET -->
+                <div class="row bg-black">
+                    <div class="col-12">
+                        <h4 id="charSheetLbl" class="text-white font-weight-bold my-2 text-center">CHARACTER SHEET</h4>
+                    </div>
+                </div>
+
+                <!-- BACKGROUND || STRATEGY -->
+                <div class="row bg-white">
+                    <div class="col-3 px-0">
+                        <h6 id="backgroundLbl" class="font-weight-bold my-3 text-center">BACKGROUND:</h6>
+                    </div>
+                    <div class="col-3 px-0">
+                        <div class="input-group my-2 text-center">
+                            <input class="form-control text-center px-0 py-0" type="text" id="background" name="Background" value="" readonly />
+                        </div>
+                    </div>
+                    <div class="col-3 px-0">
+                        <h6 id="strategyLbl" class="font-weight-bold my-3 text-center" data-shortTxt="STRATEGY:" data-longTxt="SURVIVAL STRATEGY:">STRATEGY:</h6>
+                    </div>
+                    <div class="col-3 px-0">
+                        <div class="input-group my-2 text-center">
+                            <input class="form-control text-center px-0 py-0" type="text" id="strategy" name="Strategy" value="" readonly />
+                        </div>
+                    </div>
+                </div>
+                <!-- HISTORY || HABITAT -->
+                <div class="row bg-white">
+                    <div class="col-3 px-0">
+                        <h6 id="historyLbl" class="font-weight-bold my-3 text-center">HISTORY:</h6>
+                    </div>
+                    <div class="col-3 px-0">
+                        <div class="input-group my-2 text-center">
+                            <input class="form-control text-center px-0 py-0" type="text" id="history" name="History" value="" readonly />
+                        </div>
+                    </div>
+                    <div class="col-3 px-0">
+                        <h6 id="habitatLbl" class="font-weight-bold my-3 text-center" data-shortTxt="HABITAT:" data-longTxt="ORIGINAL HABITAT:">HABITAT:</h6>
+                    </div>
+                    <div class="col-3 px-0">
+                        <div class="input-group my-2 text-center">
+                            <input class="form-control text-center px-0 py-0" type="text" id="habitat" name="Habitat" value="" readonly />
+                        </div>
+                    </div>
+                </div>
+                <!-- DEMOGRAPHICS || ATTRIBUTES -->
+                <div class="row bg-black border-top border-dark">
+                    <div class="col-6">
+                        <h4 id="demographicsLbl" class="text-white font-weight-bold my-2 text-center">DEMOGRAPHICS</h4>
+                    </div>
+                    <div class="col-6">
+                        <h4 id="attributeLbl" class="text-white font-weight-bold my-2 text-center">ATTRIBUTES</h4>
+                    </div>
+                </div>
+                <!-- NAME || WILL / END -->
+                <div class="row bg-white">
+                    <div class="col-3 px-0">
+                        <h6 id="nameLbl" class="font-weight-bold my-3 text-center">NAME:</h6>
+                    </div>
+                    <div class="col-3 border-right border-dark px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0" type="text" id="characterName" name="Name" value="" readonly />
+                        </div>
+                    </div>
+
+                    <div class="col-2 px-0 bg-danger border-bottom border-dark">
+                        <h6 id="willpowerLbl" class="font-weight-bold my-3 text-center">WILL</h6>
+                    </div>
+                    <div class="col-1 px-0 bg-danger border-bottom border-dark">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0" type="number" id="willpower" name="Willpower" value="" readonly />
+                        </div>
+                    </div>
+                    <div class="col-2 px-0 bg-danger border-bottom border-dark">
+                        <h6 id="enduranceLbl" class="font-weight-bold my-3 text-center">END</h6>
+                    </div>
+                    <div class="col-1 px-0 bg-danger border-bottom border-dark">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0" type="number" id="endurance" name="Endurance" value="" readonly />
+                        </div>
+                    </div>
+                </div>
+                <!-- DOB || MEM / STR -->
+                <div class="row bg-white">
+                    <div class="col-3 px-0">
+                        <h6 id="birthdateLbl" class="font-weight-bold my-3 text-center" data-shortTxt="D.O.B:" data-longTxt="BIRTHDATE">BIRTHDATE:</h6>
+                    </div>
+                    <div class="col-3 border-right border-dark px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0" type="text" id="birthdate" name="Birthdate" value="" readonly />
+                        </div>
+                    </div>
+
+                    <div class="col-2 px-0">
+                        <h6 id="memoryLbl" class="font-weight-bold my-3 text-center">MEM</h6>
+                    </div>
+                    <div class="col-1 px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0" type="number" id="memory" name="Memory" value="" readonly />
+                        </div>
+                    </div>
+                    <div class="col-2 px-0">
+                        <h6 id="strengthLbl" class="font-weight-bold my-3 text-center">STR</h6>
+                    </div>
+                    <div class="col-1 px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0" type="number" id="strength" name="Strength" value="" readonly />
+                        </div>
+                    </div>
+                </div>
+                <!-- SEX || LOG / AGL -->
+                <div class="row bg-white">
+                    <div class="col-3 px-0">
+                        <h6 id="sexLbl" class="font-weight-bold my-3 text-center">SEX:</h6>
+                    </div>
+                    <div class="col-3 border-right border-dark px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0" type="text" id="sex" name="Sex" value="" readonly />
+                        </div>
+                    </div>
+
+                    <div class="col-2 px-0">
+                        <h6 id="logicLbl" class="font-weight-bold my-3 text-center">LOG</h6>
+                    </div>
+                    <div class="col-1 px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0" type="number" id="logic" name="Logic" value="" readonly />
+                        </div>
+                    </div>
+                    <div class="col-2 px-0">
+                        <h6 id="agilityLbl" class="font-weight-bold my-3 text-center">AGL</h6>
+                    </div>
+                    <div class="col-1 px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0" type="number" id="agility" name="Agility" value="" readonly />
+                        </div>
+                    </div>
+                </div>
+                <!-- ETHNIC || PER / SPD -->
+                <div class="row bg-white">
+                    <div class="col-3 px-0">
+                        <h6 id="ethnicityLbl" class="font-weight-bold my-3 text-center" data-shortTxt="ETHNIC:" data-longTxt="ETHNICITY:">ETHNIC:</h6>
+                    </div>
+                    <div class="col-3 border-right border-dark px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0" type="text" id="ethnicity" name="Ethnicity" value="" readonly />
+                        </div>
+                    </div>
+
+                    <div class="col-2 px-0">
+                        <h6 id="perceptionLbl" class="font-weight-bold my-3 text-center">PER</h6>
+                    </div>
+                    <div class="col-1 px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0" type="number" id="perception" name="Perception" value="" readonly />
+                        </div>
+                    </div>
+                    <div class="col-2 px-0">
+                        <h6 id="speedLbl" class="font-weight-bold my-3 text-center">SPD</h6>
+                    </div>
+                    <div class="col-1 px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0" type="number" id="speed" name="Speed" value="" readonly />
+                        </div>
+                    </div>
+                </div>
+                <!-- HAIR || CHA / BTY -->
+                <div class="row bg-white">
+                    <div class="col-3 px-0">
+                        <h6 id="hairColorLbl" class="font-weight-bold my-3 text-center" data-shortTxt="HAIR:" data-longTxt="HAIR COLOR:">HAIR:</h6>
+                    </div>
+                    <div class="col-3 border-right border-dark px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0" type="text" id="hairColor" name="HairColor" value="" readonly />
+                        </div>
+                    </div>
+
+                    <div class="col-2 px-0">
+                        <h6 id="charismaLbl" class="font-weight-bold my-3 text-center">CHA</h6>
+                    </div>
+                    <div class="col-1 px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0" type="number" id="charisma" name="Charisma" value="" readonly />
+                        </div>
+                    </div>
+                    <div class="col-2 px-0">
+                        <h6 id="beautyLbl" class="font-weight-bold my-3 text-center" data-shortTxt="BTY" data-longTxt="BEAUTY">BTY</h6>
+                    </div>
+                    <div class="col-1 px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0" type="number" id="beauty" name="Beauty" value="" readonly />
+                        </div>
+                    </div>
+                </div>
+                <!-- EYE -->
+                <div class="row bg-white">
+                    <div class="col-3 px-0">
+                        <h6 id="eyeColorLbl" class="font-weight-bold my-3 text-center" data-shortTxt="EYES:" data-longTxt="EYE COLOR:">EYES:</h6>
+                    </div>
+                    <div class="col-3 border-right border-dark px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0" type="text" id="eyeColor" name="EyeColor" value="" readonly />
+                        </div>
+                    </div>
+
+                    <div class="col-6 bg-secondary px-0">
+                        <h4 id="derivedAttrLbl" class="font-weight-bold my-2 text-center" data-shortTxt="DERIVED" data-longTxt="DERIVED TRAITS">DERIVED</h4>
+                    </div>
+                </div>
+                <!-- HAIRSTYLE || SEQ / ACT -->
+                <div class="row bg-white">
+                    <div class="col-3 px-0">
+                        <h6 id="hairstyleLbl" class="font-weight-bold my-3 text-center">HAIRSTYLE:</h6>
+                    </div>
+                    <div class="col-3 border-right border-dark px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0" type="text" id="hairStyle" name="Hairstyle" value="" readonly />
+                        </div>
+                    </div>
+
+                    <div class="col-2 bg-secondary px-0">
+                        <h6 id="sequenceLbl" class="font-weight-bold my-3 text-center text-white" data-shortTxt="SEQ" data-longTxt="SEQUENCE">SEQ</h6>
+                    </div>
+                    <div class="col-1 bg-secondary px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0" type="number" id="sequence" name="Sequence" value="" readonly />
+                        </div>
+                    </div>
+                    <div class="col-2 bg-secondary px-0">
+                        <h6 id="actionsLbl" class="font-weight-bold my-3 text-center text-white" data-shortTxt="ACTS" data-longTxt="ACTIONS">ACTS</h6>
+                    </div>
+                    <div class="col-1 bg-secondary px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0" type="number" id="actions" name="Actions" value="" readonly />
+                        </div>
+                    </div>
+                </div>
+                <!-- FACIAL || OFF / DOD -->
+                <div class="row bg-white">
+                    <div class="col-3 px-0 facialHairSlot">
+                        <h6 id="facialHairLbl" class="font-weight-bold my-3 text-center">FACIAL HAIR:</h6>
+                    </div>
+                    <div class="col-3 border-right border-dark px-0 facialHairSlot">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0" type="text" id="facialHair" name="FacialHair" value="" readonly />
+                        </div>
+                    </div>
+
+                    <div class="col-2 bg-secondary px-0">
+                        <h6 id="offHandLbl" class="font-weight-bold my-3 text-center">OFF</h6>
+                    </div>
+                    <div class="col-1 bg-secondary px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-OffHand" value="" readonly />
+                        </div>
+                    </div>
+                    <div class="col-2 bg-secondary px-0">
+                        <h6 id="dodgeLbl" class="font-weight-bold my-3 text-center">DODGE</h6>
+                    </div>
+                    <div class="col-1 bg-secondary px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Dodge" value="" readonly />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CHARACTER SKILLSET -->
+                <div class="row bg-black">
+                    <div class="col-12">
+                        <h4 id="outlineLbl" class="font-weight-bold my-2 text-center text-white">CHARACTER SKILLSET</h4>
+                    </div>
+                </div>
+                <!-- COMBAT || SOCIAL -->
+                <div class="row bg-white">
+                    <div class="col-6 border-right border-dark">
+                        <h4 id="combatSkillsLbl" class="font-weight-bold my-2 text-center" data-longTxt="COMBAT SKILLS" data-shortTxt="COMBAT">COMBAT</h4>
+                    </div>
+                    <div class="col-6">
+                        <h4 id="socialSkillsLbl" class="font-weight-bold my-2 text-center" data-longTxt="SOCIAL SKILLS" data-shortTxt="SOCIAL">SOCIAL</h4>
+                    </div>
+                </div>
+                <!-- UNARM / THROW || PERSUADE / DECIEVE -->
+                <div class="row bg-white">
+                    <div id="combat-1" class="col-2 px-0">
+                        <h6 id="unarmedLbl" class="font-weight-bold my-3 text-center">UNARM</h6>
+                    </div>
+                    <div id="combatVal-1" class="col-1 px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Unarmed" value="" readonly />
+                        </div>
+                    </div>
+                    <div id="combat-2" class="col-2 px-0">
+                        <h6 id="thrownLbl" class="font-weight-bold my-3 text-center">THROWN</h6>
+                    </div>
+                    <div id="combatVal-2" class="col-1 px-0 border-right border-dark">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Thrown" value="" readonly />
+                        </div>
+                    </div>
+
+                    <div id="social-1" class="col-2 px-0">
+                        <h6 id="persuadeLbl" class="font-weight-bold my-3 text-center">PERSUADE</h6>
+                    </div>
+                    <div id="socialVal-1" class="col-1 px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Persuasion" value="" readonly />
+                        </div>
+                    </div>
+                    <div id="social-2" class="col-2 px-0">
+                        <h6 id="deceiveLbl" class="font-weight-bold my-3 text-center">DECEIVE</h6>
+                    </div>
+                    <div id="socialVal-2" class="col-1 px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Deception" value="" readonly />
+                        </div>
+                    </div>
+                </div>
+                <!-- GRAPPLE / ARCHERY || GAMES / ANIMALS -->
+                <div class="row bg-white">
+                    <div id="combat-3" class="col-2 px-0">
+                        <h6 id="grappleLbl" class="font-weight-bold my-3 text-center">GRAPPLE</h6>
+                    </div>
+                    <div id="combatVal-3" class="col-1 px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Grapple" value="" readonly />
+                        </div>
+                    </div>
+                    <div id="combat-4" class="col-2 px-0">
+                        <h6 id="archeryLbl" class="font-weight-bold my-3 text-center">ARCHERY</h6>
+                    </div>
+                    <div id="combatVal-4" class="col-1 px-0 border-right border-dark">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Archery" value="" readonly />
+                        </div>
+                    </div>
+
+                    <div id="social-3" class="col-2 px-0">
+                        <h6 id="gamesLbl" class="font-weight-bold my-3 text-center">GAMES</h6>
+                    </div>
+                    <div id="socialVal-3" class="col-1 px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Games" value="" readonly />
+                        </div>
+                    </div>
+                    <div id="social-4" class="col-2 px-0">
+                        <h6 id="animalsLbl" class="font-weight-bold my-3 text-center">ANIMALS</h6>
+                    </div>
+                    <div id="socialVal-4" class="col-1 px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-AnimalHandling" value="" readonly />
+                        </div>
+                    </div>
+                </div>
+                <!-- SHORT / PISTOLS || ADD -->
+                <div class="row bg-white">
+                    <div id="combat-5" class="col-2 px-0">
+                        <h6 id="shortLbl" class="font-weight-bold my-3 text-center">SHORT</h6>
+                    </div>
+                    <div id="combatVal-5" class="col-1 px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Short" value="" readonly />
+                        </div>
+                    </div>
+                    <div id="combat-6" class="col-2 px-0">
+                        <h6 id="pistolsLbl" class="font-weight-bold my-3 text-center">PISTOLS</h6>
+                    </div>
+                    <div id="combatVal-6" class="col-1 px-0 border-right border-dark">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Pistols" value="" readonly />
+                        </div>
+                    </div>
+
+                    <div id="social-5" class="col-2 px-0"></div>
+                    <div id="socialVal-5" class="col-1 px-0"></div>
+                    <div id="social-6" class="col-2 px-0"></div>
+                    <div id="socialVal-6" class="col-1 px-0"></div>
+                </div>
+                <!-- LONG / RIFLES || EMPTY -->
+                <div class="row bg-white">
+                    <div id="combat-7" class="col-2 px-0">
+                        <h6 id="longLbl" class="font-weight-bold my-3 text-center">LONG</h6>
+                    </div>
+                    <div id="combatVal-7" class="col-1 px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Long" value="" readonly />
+                        </div>
+                    </div>
+                    <div id="combat-8" class="col-2 px-0">
+                        <h6 id="riflesLbl" class="font-weight-bold my-3 text-center">RIFLES</h6>
+                    </div>
+                    <div id="combatVal-8" class="col-1 px-0 border-right border-dark">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Rifles" value="" readonly />
+                        </div>
+                    </div>
+
+                    <div id="social-7" class="col-2 px-0"></div>
+                    <div id="socialVal-7" class="col-1 px-0"></div>
+                    <div id="social-8" class="col-2 px-0"></div>
+                    <div id="socialVal-8" class="col-1 px-0"></div>
+                </div>
+                <!-- TWO / BURST || EMPTY-->
+                <div class="row bg-white">
+                    <div id="combat-9" class="col-2 px-0">
+                        <h6 id="twoHandLbl" class="font-weight-bold my-3 text-center">2 HAND</h6>
+                    </div>
+                    <div id="combatVal-9" class="col-1 px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-TwoHand" value="" readonly />
+                        </div>
+                    </div>
+                    <div id="combat-10" class="col-2 px-0">
+                        <h6 id="burstFireLbl" class="font-weight-bold my-3 text-center">BURST</h6>
+                    </div>
+                    <div id="combatVal-10" class="col-1 px-0 border-right border-dark">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-BurstFire" value="" readonly />
+                        </div>
+                    </div>
+
+                    <div id="social-9" class="col-2 px-0"></div>
+                    <div id="socialVal-9" class="col-1 px-0"></div>
+                    <div id="social-10" class="col-2 px-0"></div>
+                    <div id="socialVal-10" class="col-1 px-0"></div>
+                </div>
+                <!-- CHAIN / ADD || EMPTY -->
+                <div class="row bg-white">
+                    <div id="combat-11" class="col-2 px-0">
+                        <h6 id="chainLbl" class="font-weight-bold my-3 text-center">CHAIN</h6>
+                    </div>
+                    <div id="combatVal-11" class="col-1 px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Chain" value="" readonly />
+                        </div>
+                    </div>
+                    <div id="combat-12" class="col-2 px-0"></div>
+                    <div id="combatVal-12" class="col-1 px-0 border-right border-dark"></div>
+
+                    <div id="social-11" class="col-2 px-0"></div>
+                    <div id="socialVal-11" class="col-1 px-0"></div>
+                    <div id="social-12" class="col-2 px-0"></div>
+                    <div id="socialVal-12" class="col-1 px-0"></div>
+                </div>
+                <!-- SHIELDS || EMPTY -->
+                <div class="row bg-white">
+                    <div id="combat-13" class="col-2 px-0">
+                        <h6 id="shieldsLbl" class="font-weight-bold my-3 text-center">SHIELDS</h6>
+                    </div>
+                    <div id="combatVal-13" class="col-1 px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Shield" value="" readonly />
+                        </div>
+                    </div>
+                    <div id="combat-14" class="col-2 px-0"></div>
+                    <div id="combatVal-14" class="col-1 px-0 border-right border-dark"></div>
+
+                    <div id="social-13" class="col-2 px-0"></div>
+                    <div id="socialVal-13" class="col-1 px-0"></div>
+                    <div id="social-14" class="col-2 px-0"></div>
+                    <div id="socialVal-14" class="col-1 px-0"></div>
+                </div>
+
+                <div class="row bg-white">
+                    <div id="combat-15" class="col-2 px-0"></div>
+                    <div id="combatVal-15" class="col-1 px-0"></div>
+                    <div id="combat-16" class="col-2 px-0"></div>
+                    <div id="combatVal-16" class="col-1 px-0 border-right border-dark"></div>
+
+                    <div id="social-15" class="col-2 px-0"></div>
+                    <div id="socialVal-15" class="col-1 px-0"></div>
+                    <div id="social-16" class="col-2 px-0"></div>
+                    <div id="socialVal-16" class="col-1 px-0"></div>
+                </div>
+
+                <!-- COVERT || SURVIVAL -->
+                <div class="row bg-white border-top border-dark">
+                    <div class="col-6 border-right border-dark">
+                        <h4 id="covertSkillsLbl" class="font-weight-bold my-2 text-center" data-longTxt="COVERT SKILLS" data-shortTxt="COVERT">COVERT</h4>
+                    </div>
+                    <div class="col-6">
+                        <h4 id="survivalSkillsLbl" class="font-weight-bold my-2 text-center" data-longTxt="SURVIVAL SKILLS" data-shortTxt="SURVIVAL">SURVIVAL</h4>
+                    </div>
+                </div>
+                <!-- SNEAK / CONCEAL || SCAVENGE / FORAGE -->
+                <div class="row bg-white">
+                    <div id="covert-1" class="col-2 px-0">
+                        <h6 id="sneakLbl" class="font-weight-bold my-3 text-center">SNEAK</h6>
+                    </div>
+                    <div id="covertVal-1" class="col-1 px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Sneak" value="" readonly />
+                        </div>
+                    </div>
+                    <div id="covert-2" class="col-2 px-0">
+                        <h6 id="concealLbl" class="font-weight-bold my-3 text-center">CONCEAL</h6>
+                    </div>
+                    <div id="covertVal-2" class="col-1 px-0 border-right border-dark">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Conceal" value="" readonly />
+                        </div>
+                    </div>
+
+                    <div id="survival-1" class="col-2 px-0">
+                        <h6 id="scavengeLbl" class="font-weight-bold my-3 text-center">SCAVENGE</h6>
+                    </div>
+                    <div id="survivalVal-1" class="col-1 px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Scavenge" value="" readonly />
+                        </div>
+                    </div>
+                    <div id="survival-2" class="col-2 px-0">
+                        <h6 id="forageLbl" class="font-weight-bold my-3 text-center">FORAGE</h6>
+                    </div>
+                    <div id="survivalVal-2" class="col-1 px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Forage" value="" readonly />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row bg-white">
+                    <div id="covert-3" class="col-2 px-0">
+                        <h6 id="sleightLbl" class="font-weight-bold my-3 text-center">SLEIGHT</h6>
+                    </div>
+                    <div id="covertVal-3" class="col-1 px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Sleight" value="" readonly />
+                        </div>
+                    </div>
+                    <div id="covert-4" class="col-2 px-0"></div>
+                    <div id="covertVal-4" class="col-1 px-0 border-right border-dark"></div>
+
+                    <div id="survival-3" class="col-2 px-0">
+                        <h6 id="navigationLbl" class="font-weight-bold my-3 text-center">NAVIG</h6>
+                    </div>
+                    <div id="survivalVal-3" class="col-1 px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Navigation" value="" readonly />
+                        </div>
+                    </div>
+                    <div id="survival-4" class="col-2 px-0"></div>
+                    <div id="survivalVal-4" class="col-1 px-0"></div>
+                </div>
+
+                <div class="row bg-white">
+                    <div id="covert-5" class="col-2 px-0"></div>
+                    <div id="covertVal-5" class="col-1 px-0"></div>
+                    <div id="covert-6" class="col-2 px-0"></div>
+                    <div id="covertVal-6" class="col-1 px-0 border-right border-dark"></div>
+
+                    <div id="survival-5" class="col-2 px-0"></div>
+                    <div id="survivalVal-5" class="col-1 px-0"></div>
+                    <div id="survival-6" class="col-2 px-0"></div>
+                    <div id="survivalVal-6" class="col-1 px-0"></div>
+                </div>
+
+                <div class="row bg-white">
+                    <div id="covert-7" class="col-2 px-0"></div>
+                    <div id="covertVal-7" class="col-1 px-0"></div>
+                    <div id="covert-8" class="col-2 px-0"></div>
+                    <div id="covertVal-8" class="col-1 px-0 border-right border-dark"></div>
+
+                    <div id="survival-7" class="col-2 px-0"></div>
+                    <div id="survivalVal-7" class="col-1 px-0"></div>
+                    <div id="survival-8" class="col-2 px-0"></div>
+                    <div id="survivalVal-8" class="col-1 px-0"></div>
+                </div>
+
+                <div class="row bg-white">
+                    <div id="covert-9" class="col-2 px-0"></div>
+                    <div id="covertVal-9" class="col-1 px-0"></div>
+                    <div id="covert-10" class="col-2 px-0"></div>
+                    <div id="covertVal-10" class="col-1 px-0 border-right border-dark"></div>
+
+                    <div id="survival-9" class="col-2 px-0"></div>
+                    <div id="survivalVal-9" class="col-1 px-0"></div>
+                    <div id="survival-10" class="col-2 px-0"></div>
+                    <div id="survivalVal-10" class="col-1 px-0"></div>
+                </div>
+
+                <div class="row bg-white">
+                    <div id="covert-11" class="col-2 px-0"></div>
+                    <div id="covertVal-11" class="col-1 px-0"></div>
+                    <div id="covert-12" class="col-2 px-0"></div>
+                    <div id="covertVal-12" class="col-1 px-0 border-right border-dark"></div>
+
+                    <div id="survival-11" class="col-2 px-0"></div>
+                    <div id="survivalVal-11" class="col-1 px-0"></div>
+                    <div id="survival-12" class="col-2 px-0"></div>
+                    <div id="survivalVal-12" class="col-1 px-0"></div>
+                </div>
+
+                <div class="row bg-white">
+                    <div id="covert-13" class="col-2 px-0"></div>
+                    <div id="covertVal-13" class="col-1 px-0"></div>
+                    <div id="covert-14" class="col-2 px-0"></div>
+                    <div id="covertVal-14" class="col-1 px-0 border-right border-dark"></div>
+
+                    <div id="survival-13" class="col-2 px-0"></div>
+                    <div id="survivalVal-13" class="col-1 px-0"></div>
+                    <div id="survival-14" class="col-2 px-0"></div>
+                    <div id="survivalVal-14" class="col-1 px-0"></div>
+                </div>
+
+                <div class="row bg-white">
+                    <div id="covert-15" class="col-2 px-0"></div>
+                    <div id="covertVal-15" class="col-1 px-0"></div>
+                    <div id="covert-16" class="col-2 px-0"></div>
+                    <div id="covertVal-16" class="col-1 px-0 border-right border-dark"></div>
+
+                    <div id="survival-15" class="col-2 px-0"></div>
+                    <div id="survivalVal-15" class="col-1 px-0"></div>
+                    <div id="survival-16" class="col-2 px-0"></div>
+                    <div id="survivalVal-16" class="col-1 px-0"></div>
+                </div>
+
+                <!-- MEDICAL || SCIENCE -->
+                <div class="row bg-white border-top border-dark">
+                    <div class="col-6 border-right border-dark">
+                        <h4 id="medicalSkillsLbl" class="font-weight-bold my-2 text-center" data-longTxt="MEDICAL SKILLS" data-shortTxt="MEDICAL">MEDICAL</h4>
+                    </div>
+                    <div class="col-6">
+                        <h4 id="scienceSkillsLbl" class="font-weight-bold my-2 text-center" data-longTxt="SCIENCE SKILLS" data-shortTxt="SCIENCE">SCIENCE</h4>
+                    </div>
+                </div>
+                <!-- INJURY / ILLNESS || SCIENCE -->
+                <div class="row bg-white">
+                    <div id="medical-1" class="col-2 px-0">
+                        <h6 id="injuryLbl" class="font-weight-bold my-3 text-center">INJURY</h6>
+                    </div>
+                    <div id="medicalVal-1" class="col-1 px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Injury" value="" readonly />
+                        </div>
+                    </div>
+                    <div id="medical-2" class="col-2 px-0">
+                        <h6 id="illnessLbl" class="font-weight-bold my-3 text-center">ILLNESS</h6>
+                    </div>
+                    <div id="medicalVal-2" class="col-1 px-0 border-right border-dark">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Illness" value="" readonly />
+                        </div>
+                    </div>
+
+                    <div id="science-1" class="col-2 px-0"></div>
+                    <div id="scienceVal-1" class="col-1 px-0"></div>
+                    <div id="science-2" class="col-2 px-0"></div>
+                    <div id="scienceVal-2" class="col-1 px-0"></div>
+                </div>
+
+                <div class="row bg-white">
+                    <div id="medical-3" class="col-2 px-0"></div>
+                    <div id="medicalVal-3" class="col-1 px-0"></div>
+                    <div id="medical-4" class="col-2 px-0"></div>
+                    <div id="medicalVal-4" class="col-1 px-0 border-right border-dark"></div>
+
+                    <div id="science-3" class="col-2 px-0"></div>
+                    <div id="scienceVal-3" class="col-1 px-0"></div>
+                    <div id="science-4" class="col-2 px-0"></div>
+                    <div id="scienceVal-4" class="col-1 px-0"></div>
+                </div>
+
+                <div class="row bg-white">
+                    <div id="medical-5" class="col-2 px-0"></div>
+                    <div id="medicalVal-5" class="col-1 px-0"></div>
+                    <div id="medical-6" class="col-2 px-0"></div>
+                    <div id="medicalVal-6" class="col-1 px-0 border-right border-dark"></div>
+
+                    <div id="science-5" class="col-2 px-0"></div>
+                    <div id="scienceVal-5" class="col-1 px-0"></div>
+                    <div id="science-6" class="col-2 px-0"></div>
+                    <div id="scienceVal-6" class="col-1 px-0"></div>
+                </div>
+
+                <div class="row bg-white">
+                    <div id="medical-7" class="col-2 px-0"></div>
+                    <div id="medicalVal-7" class="col-1 px-0"></div>
+                    <div id="medical-8" class="col-2 px-0"></div>
+                    <div id="medicalVal-8" class="col-1 px-0 border-right border-dark"></div>
+
+                    <div id="science-7" class="col-2 px-0"></div>
+                    <div id="scienceVal-7" class="col-1 px-0"></div>
+                    <div id="science-8" class="col-2 px-0"></div>
+                    <div id="scienceVal-8" class="col-1 px-0"></div>
+                </div>
+
+                <div class="row bg-white">
+                    <div id="medical-9" class="col-2 px-0"></div>
+                    <div id="medicalVal-9" class="col-1 px-0"></div>
+                    <div id="medical-10" class="col-2 px-0"></div>
+                    <div id="medicalVal-10" class="col-1 px-0 border-right border-dark"></div>
+
+                    <div id="science-9" class="col-2 px-0"></div>
+                    <div id="scienceVal-9" class="col-1 px-0"></div>
+                    <div id="science-10" class="col-2 px-0"></div>
+                    <div id="scienceVal-10" class="col-1 px-0"></div>
+                </div>
+
+                <div class="row bg-white">
+                    <div id="medical-11" class="col-2 px-0"></div>
+                    <div id="medicalVal-11" class="col-1 px-0"></div>
+                    <div id="medical-12" class="col-2 px-0"></div>
+                    <div id="medicalVal-12" class="col-1 px-0 border-right border-dark"></div>
+
+                    <div id="science-11" class="col-2 px-0"></div>
+                    <div id="scienceVal-11" class="col-1 px-0"></div>
+                    <div id="science-12" class="col-2 px-0"></div>
+                    <div id="scienceVal-12" class="col-1 px-0"></div>
+                </div>
+
+                <div class="row bg-white">
+                    <div id="medical-13" class="col-2 px-0"></div>
+                    <div id="medicalVal-13" class="col-1 px-0"></div>
+                    <div id="medical-14" class="col-2 px-0"></div>
+                    <div id="medicalVal-14" class="col-1 px-0 border-right border-dark"></div>
+
+                    <div id="science-13" class="col-2 px-0"></div>
+                    <div id="scienceVal-13" class="col-1 px-0"></div>
+                    <div id="science-14" class="col-2 px-0"></div>
+                    <div id="scienceVal-14" class="col-1 px-0"></div>
+                </div>
+
+                <div class="row bg-white">
+                    <div id="medical-15" class="col-2 px-0"></div>
+                    <div id="medicalVal-15" class="col-1 px-0"></div>
+                    <div id="medical-16" class="col-2 px-0"></div>
+                    <div id="medicalVal-16" class="col-1 px-0 border-right border-dark"></div>
+
+                    <div id="science-15" class="col-2 px-0"></div>
+                    <div id="scienceVal-15" class="col-1 px-0"></div>
+                    <div id="science-16" class="col-2 px-0"></div>
+                    <div id="scienceVal-16" class="col-1 px-0"></div>
+                </div>
+
+                <!-- CRAFTSMAN || CONSTRUCTION -->
+                <div class="row bg-white border-top border-dark">
+                    <div class="col-6 border-right border-dark">
+                        <h4 id="craftsmanSkillsLbl" class="font-weight-bold my-2 text-center" data-longTxt="CRAFTSMAN SKILLS" data-shortTxt="CRAFTSMAN">CRAFTSMAN</h4>
+                    </div>
+                    <div class="col-6">
+                        <h4 id="constructionSkillsLbl" class="font-weight-bold my-2 text-center" data-longTxt="CONSTRUCTION SKILLS" data-shortTxt="CONSTRUCTION">CONSTRUCTION</h4>
+                    </div>
+                </div>
+
+                <div class="row bg-white">
+                    <div id="craftsman-1" class="col-2 px-0">
+                        <h6 id="craftsmanLbl" class="font-weight-bold my-3 text-center">CRAFT</h6>
+                    </div>
+                    <div id="craftsmanVal-1" class="col-1 px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Craftsman" value="" readonly />
+                        </div>
+                    </div>
+                    <div id="craftsman-2" class="col-2 px-0"></div>
+                    <div id="craftsmanVal-2" class="col-1 px-0 border-right border-dark"></div>
+
+                    <div id="construction-1" class="col-2 px-0">
+                        <h6 id="constructionLbl" class="font-weight-bold my-3 text-center">CONSTRCT</h6>
+                    </div>
+                    <div id="constructionVal-1" class="col-1 px-0">
+                        <div class="input-group my-2">
+                            <input class="form-control text-center px-0 py-0 standardSkill" type="number" name="Skill-Construction" value="" readonly />
+                        </div>
+                    </div>
+                    <div id="construction-2" class="col-2 px-0"></div>
+                    <div id="constructionVal-2" class="col-1 px-0"></div>
+                </div>
+
+                <div class="row bg-white">
+                    <div id="craftsman-3" class="col-2 px-0"></div>
+                    <div id="craftsmanVal-3" class="col-1 px-0"></div>
+                    <div id="craftsman-4" class="col-2 px-0"></div>
+                    <div id="craftsmanVal-4" class="col-1 px-0 border-right border-dark"></div>
+
+                    <div id="construction-3" class="col-2 px-0"></div>
+                    <div id="constructionVal-3" class="col-1 px-0"></div>
+                    <div id="construction-4" class="col-2 px-0"></div>
+                    <div id="constrValuction-4" class="col-1 px-0"></div>
+                </div>
+
+                <div class="row bg-white">
+                    <div id="craftsman-5" class="col-2 px-0"></div>
+                    <div id="craftsmanVal-5" class="col-1 px-0"></div>
+                    <div id="craftsman-6" class="col-2 px-0"></div>
+                    <div id="craftsmanVal-6" class="col-1 px-0 border-right border-dark"></div>
+
+                    <div id="construction-5" class="col-2 px-0"></div>
+                    <div id="constructionVal-5" class="col-1 px-0"></div>
+                    <div id="construction-6" class="col-2 px-0"></div>
+                    <div id="constructionVal-6" class="col-1 px-0"></div>
+                </div>
+
+                <div class="row bg-white">
+                    <div id="craftsman-7" class="col-2 px-0"></div>
+                    <div id="craftsmanVal-7" class="col-1 px-0"></div>
+                    <div id="craftsman-8" class="col-2 px-0"></div>
+                    <div id="craftsmanVal-8" class="col-1 px-0 border-right border-dark"></div>
+
+                    <div id="construction-7" class="col-2 px-0"></div>
+                    <div id="constructionVal-7" class="col-1 px-0"></div>
+                    <div id="construction-8" class="col-2 px-0"></div>
+                    <div id="constructionVal-8" class="col-1 px-0"></div>
+                </div>
+
+                <div class="row bg-white">
+                    <div id="craftsman-9" class="col-2 px-0"></div>
+                    <div id="craftsmanVal-9" class="col-1 px-0"></div>
+                    <div id="craftsman-10" class="col-2 px-0"></div>
+                    <div id="craftsmanVal-10" class="col-1 px-0 border-right border-dark"></div>
+
+                    <div id="construction-9" class="col-2 px-0"></div>
+                    <div id="constructionVal-9" class="col-1 px-0"></div>
+                    <div id="construction-10" class="col-2 px-0"></div>
+                    <div id="constructionVal-10" class="col-1 px-0"></div>
+                </div>
+
+                <div class="row bg-white">
+                    <div id="craftsman-11" class="col-2 px-0"></div>
+                    <div id="craftsmanVal-11" class="col-1 px-0"></div>
+                    <div id="craftsman-12" class="col-2 px-0"></div>
+                    <div id="craftsmanVal-12" class="col-1 px-0 border-right border-dark"></div>
+
+                    <div id="construction-11" class="col-2 px-0"></div>
+                    <div id="constructionVal-11" class="col-1 px-0"></div>
+                    <div id="construction-12" class="col-2 px-0"></div>
+                    <div id="constructionVal-12" class="col-1 px-0"></div>
+                </div>
+
+                <div class="row bg-white">
+                    <div id="craftsman-13" class="col-2 px-0"></div>
+                    <div id="craftsmanVal-13" class="col-1 px-0"></div>
+                    <div id="craftsman-14" class="col-2 px-0"></div>
+                    <div id="craftsmanVal-14" class="col-1 px-0 border-right border-dark"></div>
+
+                    <div id="construction-13" class="col-2 px-0"></div>
+                    <div id="constructionVal-13" class="col-1 px-0"></div>
+                    <div id="construction-14" class="col-2 px-0"></div>
+                    <div id="constructionVal-14" class="col-1 px-0"></div>
+                </div>
+
+                <div class="row bg-white">
+                    <div id="craftsman-15" class="col-2 px-0"></div>
+                    <div id="craftsmanVal-15" class="col-1 px-0"></div>
+                    <div id="craftsman-16" class="col-2 px-0"></div>
+                    <div id="craftsmanVal-16" class="col-1 px-0 border-right border-dark"></div>
+
+                    <div id="construction-15" class="col-2 px-0"></div>
+                    <div id="constructionVal-15" class="col-1 px-0"></div>
+                    <div id="construction-16" class="col-2 px-0"></div>
+                    <div id="constructionVal-16" class="col-1 px-0"></div>
+                </div>
+
+                <!-- TECHNOLOGY || TRANSPORTATION -->
+                <div class="row bg-white border-top border-dark">
+                    <div class="col-6 border-right border-dark">
+                        <h4 id="technologySkillsLbl" class="font-weight-bold my-2 text-center" data-longTxt="TECHNOLOGY SKILLS" data-shortTxt="TECHNOLOGY">TECHNOLOGY</h4>
+                    </div>
+                    <div class="col-6">
+                        <h4 id="transportationSkillsLbl" class="font-weight-bold my-2 text-center" data-longTxt="TRANSPORTATION SKILLS" data-shortTxt="TRANSPORTATION">TRANSPORTATION</h4>
+                    </div>
+                </div>
+
+                <div class="row bg-white">
+                    <div id="technology-1" class="col-2 px-0"></div>
+                    <div id="technologyVal-1" class="col-1 px-0"></div>
+                    <div id="technology-2" class="col-2 px-0"></div>
+                    <div id="technologyVal-2" class="col-1 px-0 border-right border-dark"></div>
+
+                    <div id="transportation-1" class="col-2 px-0"></div>
+                    <div id="transportationVal-1" class="col-1 px-0"></div>
+                    <div id="transportation-2" class="col-2 px-0"></div>
+                    <div id="transportationVal-2" class="col-1 px-0"></div>
+                </div>
+
+                <div class="row bg-white">
+                    <div id="technology-3" class="col-2 px-0"></div>
+                    <div id="technologyVal-3" class="col-1 px-0"></div>
+                    <div id="technology-4" class="col-2 px-0"></div>
+                    <div id="technologyVal-4" class="col-1 px-0 border-right border-dark"></div>
+
+                    <div id="transportation-3" class="col-2 px-0"></div>
+                    <div id="transportationVal-3" class="col-1 px-0"></div>
+                    <div id="transportation-4" class="col-2 px-0"></div>
+                    <div id="transportationVal-4" class="col-1 px-0"></div>
+                </div>
+
+                <div class="row bg-white">
+                    <div id="technology-5" class="col-2 px-0"></div>
+                    <div id="technologyVal-5" class="col-1 px-0"></div>
+                    <div id="technology-6" class="col-2 px-0"></div>
+                    <div id="technologyVal-6" class="col-1 px-0 border-right border-dark"></div>
+
+                    <div id="transportation-5" class="col-2 px-0"></div>
+                    <div id="transportationVal-5" class="col-1 px-0"></div>
+                    <div id="transportation-6" class="col-2 px-0"></div>
+                    <div id="transportationVal-6" class="col-1 px-0"></div>
+                </div>
+
+                <div class="row bg-white">
+                    <div id="technology-7" class="col-2 px-0"></div>
+                    <div id="technologyVal-7" class="col-1 px-0"></div>
+                    <div id="technology-8" class="col-2 px-0"></div>
+                    <div id="technologyVal-8" class="col-1 px-0 border-right border-dark"></div>
+
+                    <div id="transportation-7" class="col-2 px-0"></div>
+                    <div id="transportationVal-7" class="col-1 px-0"></div>
+                    <div id="transportation-8" class="col-2 px-0"></div>
+                    <div id="transportationVal-8" class="col-1 px-0"></div>
+                </div>
+
+                <div class="row bg-white">
+                    <div id="technology-9" class="col-2 px-0"></div>
+                    <div id="technologyVal-9" class="col-1 px-0"></div>
+                    <div id="technology-10" class="col-2 px-0"></div>
+                    <div id="technologyVal-10" class="col-1 px-0 border-right border-dark"></div>
+
+                    <div id="transportation-9" class="col-2 px-0"></div>
+                    <div id="transportationVal-9" class="col-1 px-0"></div>
+                    <div id="transportation-10" class="col-2 px-0"></div>
+                    <div id="transportationVal-10" class="col-1 px-0"></div>
+                </div>
+
+                <div class="row bg-white">
+                    <div id="technology-11" class="col-2 px-0"></div>
+                    <div id="technologyVal-11" class="col-1 px-0"></div>
+                    <div id="technology-12" class="col-2 px-0"></div>
+                    <div id="technologyVal-12" class="col-1 px-0 border-right border-dark"></div>
+
+                    <div id="transportation-11" class="col-2 px-0"></div>
+                    <div id="transportationVal-11" class="col-1 px-0"></div>
+                    <div id="transportation-12" class="col-2 px-0"></div>
+                    <div id="transportationVal-12" class="col-1 px-0"></div>
+                </div>
+
+                <div class="row bg-white">
+                    <div id="technology-13" class="col-2 px-0"></div>
+                    <div id="technologyVal-13" class="col-1 px-0"></div>
+                    <div id="technology-14" class="col-2 px-0"></div>
+                    <div id="technologyVal-14" class="col-1 px-0 border-right border-dark"></div>
+
+                    <div id="transportation-13" class="col-2 px-0"></div>
+                    <div id="transportationVal-13" class="col-1 px-0"></div>
+                    <div id="transportation-14" class="col-2 px-0"></div>
+                    <div id="transportationVal-14" class="col-1 px-0"></div>
+                </div>
+
+                <div class="row bg-white">
+                    <div id="technology-15" class="col-2 px-0"></div>
+                    <div id="technologyVal-15" class="col-1 px-0"></div>
+                    <div id="technology-16" class="col-2 px-0"></div>
+                    <div id="technologyVal-16" class="col-1 px-0 border-right border-dark"></div>
+
+                    <div id="transportation-15" class="col-2 px-0"></div>
+                    <div id="transportationVal-15" class="col-1 px-0"></div>
+                    <div id="transportation-16" class="col-2 px-0"></div>
+                    <div id="transportationVal-16" class="col-1 px-0"></div>
+                </div>
+
+                <!-- ABILITIES -->
+                <div class="row bg-black">
+                    <div class="col-12">
+                        <h4 id="abilitiesLbl" class="font-weight-bold my-2 text-center text-white">CHARACTER ABILITIES</h4>
+                    </div>
+                </div>
+                <div class="row bg-white">
+                    <div id="ability-1" class="col-3 px-0">
+                    </div>
+                    <div id="ability-2" class="col-3 px-0"></div>
+                    <div id="ability-3" class="col-3 px-0"></div>
+                    <div id="ability-4" class="col-3 px-0"></div>
+                </div>
+
+                <div class="row bg-white">
+                    <div id="ability-5" class="col-3 px-0"></div>
+                    <div id="ability-6" class="col-3 px-0"></div>
+                    <div id="ability-7" class="col-3 px-0"></div>
+                    <div id="ability-8" class="col-3 px-0"></div>
+                </div>
+
+                <div class="row bg-white">
+                    <div id="ability-9" class="col-3 px-0"></div>
+                    <div id="ability-10" class="col-3 px-0"></div>
+                    <div id="ability-11" class="col-3 px-0"></div>
+                    <div id="ability-12" class="col-3 px-0"></div>
+                </div>
+
+                <div class="row bg-white">
+                    <div id="ability-13" class="col-3 px-0"></div>
+                    <div id="ability-14" class="col-3 px-0"></div>
+                    <div id="ability-15" class="col-3 px-0"></div>
+                    <div id="ability-16" class="col-3 px-0"></div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ID MARKS MODAL -->
+<div class="modal fade" id="idMarksModal" tabindex="-4" aria-labelledby="idMarksModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form id="idMarksForm">
+                    <div id="idMarksBG" class="container-fluid bg-black text-white" style="background-image: url('../../Content/Images/Embed/VirtruvianMan-1200x1200-50o.png'); background-size: 100% 100%; background-repeat: no-repeat;">
+                        <div class="row bg-black">
+                            <div class="col-6">
+                                <h3 class="text-center text-white font-weight-bold my-3">STATUS:</h3>
+                            </div>
+                            <div class="col-6">
+                                <select name="Status" id="charStatus" class="custom-select custom-select-lg mt-2 text-center w-100">
+                                    <option value="HEALTHY">HEALTHY</option>
+                                    <option value="INJURED">INJURED</option>
+                                    <option value="RECOVERING">RECOVERING</option>
+                                    <option value="SICK">SICK</option>
+                                    <option value="DECEASED">DECEASED</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- HEAD / HAIR-->
+                        <div class="row">
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">HEAD</h5>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">HAIRSTYLE</h5>
+                            </div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="Head" id="head" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="HairStyle" id="hairStyle-ID" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- FACE / FACIAL HAIR -->
+                        <div class="row">
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">FACE</h5>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5 facialHairSlot">
+                                <h5 class="font-weight-bold text-center mt-1">FACIAL HAIR</h5>
+                            </div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="Face" id="face" class="form-control text-center px-0 py-0 facialHair" type="text" value="" />
+                                </div>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5 facialHairSlot">
+                                <div class="input-group text-center">
+                                    <input name="FacialHair" id="facialHair-ID" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- NECK / EMPTY -->
+                        <div class="row">
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">NECK</h5>
+                            </div>
+                            <div class="col-7"></div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="Neck" id="neck" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                            <div class="col-7"></div>
+                        </div>
+                        <hr />
+                        <!-- L SHOULDER / R SHOULDER -->
+                        <div class="row">
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center">LEFT SHOULDER</h5>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center">RIGHT SHOULDER</h5>
+                            </div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="LeftShoulder" id="leftShoulder" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="RightShoulder" id="rightShoulder" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- L RIBS / R RIBS -->
+                        <div class="row">
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">LEFT RIBS</h5>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">RIGHT RIBS</h5>
+                            </div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="LeftRibs" id="leftRibs" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="RightRibs" id="rightRibs" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- STOMACH / LOWER BACK -->
+                        <div class="row">
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">STOMACH</h5>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">LOWER BACK</h5>
+                            </div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="Stomach" id="stomach" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="LowerBack" id="lowerBack" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- GROIN / REAR -->
+                        <div class="row">
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">GROIN</h5>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">REAR</h5>
+                            </div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="Groin" id="groin" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="Rear" id="rear" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <!-- L BICEP / R BICEP -->
+                        <div class="row">
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">LEFT BICEP</h5>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">RIGHT BICEP</h5>
+                            </div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="LeftBicep" id="leftBicep" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="RightBicep" id="rightBicep" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- LEFT FOREARM / RIGHT FOREARM -->
+                        <div class="row">
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">LEFT FOREARM</h5>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">RIGHT FOREARM</h5>
+                            </div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="LeftForearm" id="leftForearm" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="RightForearm" id="rightForearm" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- L HAND / R HAND -->
+                        <div class="row">
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">LEFT HAND</h5>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">RIGHT HAND</h5>
+                            </div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="LeftHand" id="leftHand" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="RightHand" id="rightHand" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <!-- L THIGH / R THIGH -->
+                        <div class="row">
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center">LEFT THIGH</h5>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center">RIGHT THIGH</h5>
+                            </div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="LeftThigh" id="leftThigh" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="RightThigh" id="rightThigh" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- L CALF / R CALF -->
+                        <div class="row">
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">LEFT CALF</h5>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">RIGHT CALF</h5>
+                            </div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="LeftCalf" id="leftCalf" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="RightCalf" id="rightCalf" class="form-control text-center px-0 py-0" type="text" value="" />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- L FOOT / R FOOT -->
+                        <div class="row">
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">LEFT FOOT</h5>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <h5 class="font-weight-bold text-center mt-1">RIGHT FOOT</h5>
+                            </div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="LeftFoot" id="leftFoot" class="form-control text-center px-0 py-0 mb-2" type="text" value="" />
+                                </div>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-5">
+                                <div class="input-group text-center">
+                                    <input name="RightFoot" id="rightFoot" class="form-control text-center px-0 py-0 mb-2" type="text" value="" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- SHORTHAND LIST -->
+                <div class="container-fluid text-center">
+                    <div class="row bg-black text-white text-center">
+                        <div class="col-12">
+                            <h4 class="my-2">SHORTHAND LIST</h4>
+                        </div>
+                    </div>
+                    <!-- PUNCTURE WOUNDS -->
+                    <div class="row pt-2">
+                        <div class="col-3">
+                            <h6>GSW = GUNSHOT WOUND</h6>
+                        </div>
+                        <div class="col-3">
+                            <h6>PW = PUNCTURE WOUND</h6>
+                        </div>
+                        <div class="col-3">
+                            <h6>REND = AVULSION</h6>
+                        </div>
+                        <div class="col-3">
+                            <h6>FRAG = FRAGMENTS</h6>
+                        </div>
+                    </div>
+                    <!-- CUTS & SCRAPES -->
+                    <div class="row pt-2">
+                        <div class="col-3">
+                            <h6>CUT = CUT</h6>
+                        </div>
+                        <div class="col-3">
+                            <h6>LOST = SEVERED</h6>
+                        </div>
+                        <div class="col-3">
+                            <h6>ABR = ABRASION</h6>
+                        </div>
+                        <div class="col-3">
+                            <h6>INT = INTERNAL / ORGAN</h6>
+                        </div>
+                    </div>
+                    <!-- BLUNT INJURY -->
+                    <div class="row pt-2">
+                        <div class="col-3">
+                            <h6>BRZ = BRUISE</h6>
+                        </div>
+                        <div class="col-3">
+                            <h6>FRX = FRACTURE</h6>
+                        </div>
+                        <div class="col-3">
+                            <h6>BRK = BROKEN</h6>
+                        </div>
+                        <div class="col-3">
+                            <h6>KNOT = KNOT</h6>
+                        </div>
+                    </div>
+                    <!-- MISC INJURY -->
+                    <div class="row pt-2">
+                        <div class="col-3">
+                            <h6>OUT = DISLOCATED</h6>
+                        </div>
+                        <div class="col-3">
+                            <h6>SWL = SWOLLEN</h6>
+                        </div>
+                        <div class="col-3">
+                            <h6>LIMP = LIMP / SPRAIN</h6>
+                        </div>
+                        <div class="col-3">
+                            <h6>BURN = BURN</h6>
+                        </div>
+                    </div>
+                    <!-- BLOOD LOSS -->
+                    <div class="row bg-danger pt-2">
+                        <div class="col-3">
+                            <h6>(EXT) = EXTREME BL [10s]</h6>
+                        </div>
+                        <div class="col-3">
+                            <h6>(SVR) = SEVERE BL [30s]</h6>
+                        </div>
+                        <div class="col-3">
+                            <h6>(HVY) = HEAVY BL [60s]</h6>
+                        </div>
+                        <div class="col-3">
+                            <h6>(MOD) = MODERATE BL [10m]</h6>
+                        </div>
+                    </div>
+                    <div class="row bg-danger pt-2">
+                        <div class="col-3">
+                            <h6>(LITE) = LIGHT BL [30m]</h6>
+                        </div>
+                        <div class="col-3">
+                            <h6>(MIN) = MINIMAL BL [60m]</h6>
+                        </div>
+                        <div class="col-3">
+                            <h6>(SLO) = SLOW BL [3h]</h6>
+                        </div>
+                        <div class="col-3">
+                            <h6>(PSV) = PASSIVE BL [6h]</h6>
+                        </div>
+                    </div>
+                    <!-- WOUND STATUS -->
+                    <div class="row bg-warning pt-2">
+                        <div class="col-4">
+                            <h6>BAND = BANDAGED</h6>
+                        </div>
+                        <div class="col-4">
+                            <h6>RISK = RISK TO RE-OPEN</h6>
+                        </div>
+                        <div class="col-4">
+                            <h6>CAST = CAST / SPLINT</h6>
+                        </div>
+                    </div>
+                    <!-- OLD WOUNDS -->
+                    <div class="row bg-secondary pt-2">
+                        <div class="col-4">
+                            <h6>SCAR = SCAR</h6>
+                        </div>
+                        <div class="col-4">
+                            <h6>OLD = STILL HURTS SOMETIMES</h6>
+                        </div>
+                        <div class="col-4">
+                            <h6>BAD = NEVER HEALED RIGHT</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="updateIDMarksBtn" type="button" class="btn btn-lg btn-success border border-dark mx-auto" data-charname="" data-username="">UPDATE</button>
+                <button type="button" class="btn btn-lg btn-danger border border-dark mx-auto" data-dismiss="modal">CLOSE</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- NOTES MODAL -->
+<div class="modal fade" id="notesModal" tabindex="-5" aria-labelledby="notesModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-header bg-black">
+            <h4 class="font-weight-bold text-white text-center mx-auto">NOTES:</h4>
+        </div>
+        <div class="modal-content">
+            <div class="modal-body">
+                <textarea id="tellNotes" class="w-100" name="charNotes" rows="16" cols="80"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-lg btn-danger border border-dark mx-auto" data-dismiss="modal">CLOSE</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- MAPS MODAL -->
+<div class="modal fade" id="gameMapModal" tabindex="-6" aria-labelledby="gameMapsModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div id="gameMapSlot" class="col-12 bg-secondary">
+                            <img src="~/Content/Images/Embed/MapGrid-8x8-1000x1000.png" id="gameMap" class="img-fluid mx-auto d-block my-5" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4"></div>
+                        <div class="col-4">
+                            <form id="mapUpload" enctype="multipart/form-data" method="post">
+                                <div class="form-group">
+                                    <input type="file" accept=".jpg, .jpeg, .png" class="form-control-file form-control-lg" id="gameMapInput">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-4"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4"></div>
+                        <div class="col-4">
+                            <h4 id="mapResponse" class="text-red text-center font-weight-bold"></h4>
+                        </div>
+                        <div class="col-4"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="mapSubmitBtn" class="btn btn-lg btn-success border border-dark mx-auto">SUBMIT</button>
+                <button type="button" class="btn btn-lg btn-danger border border-dark mx-auto" data-dismiss="modal">CANCEL</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- PICS MODAL -->
+<div class="modal fade" id="gamePicModal" tabindex="-7" aria-labelledby="picsModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div id="gamePicSlot" class="col-12 bg-secondary">
+                            <img src="" id="gamePic" class="img-fluid mx-auto d-block" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4"></div>
+                        <div class="col-4">
+                            <form id="picUpload" enctype="multipart/form-data" method="post">
+                                <div class="form-group">
+                                    <input type="file" accept=".jpg, .jpeg, .png" class="form-control-file form-control-lg" id="gamePicInput">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-4"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4"></div>
+                        <div class="col-4">
+                            <h4 id="picResponse" class="text-red text-center font-weight-bold"></h4>
+                        </div>
+                        <div class="col-4"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="picSubmitBtn" class="btn btn-lg btn-success border border-dark mx-auto">SUBMIT</button>
+                <button type="button" class="btn btn-lg btn-danger border border-dark mx-auto" data-dismiss="modal">CANCEL</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- IM MODALS -->
+<div id="IM-Modals"></div>
+
+<!-- TASKBAR -->
+<div class="row bg-black sticky-top justify-content-around border border-white">
+    <!-- DICE -->
+    <div class="col-4 px-0">
+        <button id="twoD10Btn" class="btn btn-block btn-dark border border-white text-center font-weight-bold my-2 mx-auto w-75" type="button">2D10</button>
+    </div>
+    <div class="col-4 px-0">
+        <button id="randomHitBtn" class="btn btn-block btn-light border border-white text-center font-weight-bold my-2 mx-auto w-75" type="button">RANDOM HIT</button>
+    </div>
+    <div class="col-4 px-0">
+        <button id="D100Btn" class="btn btn-block btn-dark border border-white text-center font-weight-bold my-2 mx-auto w-75" type="button">D100</button>
+    </div>
+    <!-- LIKELIHOOD OF SUCCESS -->
+    <div class="col-4 px-0">
+        <h5 class="font-weight-bold text-white text-center my-3">LIKELIHOOD CALC:</h5>
+    </div>
+    <div class="col-4 px-0">
+        <div class="input-group my-2 text-center mx-auto w-75">
+            <input id="LoSValue" class="form-control text-center px-0 py-0" type="number" value="" placeholder="Enter LoS" />
+        </div>
+    </div>
+    <div class="col-4 px-0">
+        <button id="LoSBtn" class="btn btn-block btn-success border border-white text-center font-weight-bold my-2 mx-auto w-75" type="button">SHOW</button>
+    </div>
+    <!-- ADMIN BUTTON -->
+    <div class="col-4"></div>
+    <div class="col-4 px-0">
+        <button id="adminBtn" class="btn btn-block btn-red border border-white text-center font-weight-bold my-2 mx-auto w-75" type="button">ADMIN</button>
+    </div>
+    <div class="col-4"></div>
+</div>
+
+<!-- GAME INFO -->
+<div class="row">
+    <!-- CAMPAIGN NAME -->
+    <div class="col-6 col-md-2">
+        <img src="~/Content/Images/Graffiti/Campaign-Red-500x150.png" class="img-fluid mx-auto d-block mh-10" />
+    </div>
+    <div class="col-6 col-md-2">
+        <div class="input-group my-2 text-center">
+            <input id="campaignName" class="form-control text-center px-0 py-0 my-3" type="text" value="" readonly />
+        </div>
+    </div>
+    <!-- CONFERENCE LINK -->
+    <div class="col-6 col-md-2">
+        <img src="~/Content/Images/Graffiti/Conference-white-500x150.png" class="img-fluid mx-auto d-block mh-10" />
+    </div>
+    <div class="col-6 col-md-2">
+        <div class="input-group my-2 text-center">
+            <input id="conferenceLink" class="form-control text-center px-0 py-0 my-3 border border-primary" type="text" value="" />
+        </div>
+    </div>
+    <div class="col-6 order-md-10"></div>
+    <div class="col-6 col-md-2 order-md-11">
+        <button type="button" id="linkSubmitBtn" class="btn btn-block btn-primary border border-white text-center font-weight-bold mx-auto" data-dismiss="modal">UPDATE</button>
+    </div>
+    <div class="col-md-4 order-md-12"></div>
+    <!-- STORYTELLER -->
+    <div class="col-6 col-md-2">
+        <img src="~/Content/Images/Graffiti/Storyteller-red-500x150.png" class="img-fluid mx-auto d-block mh-10" />
+    </div>
+    <div class="col-6 col-md-2">
+        <div class="input-group my-2 text-center">
+            <input id="storytellerName" class="form-control text-center px-0 py-0 my-3" type="text" value="" readonly />
+        </div>
+    </div>
+</div>
+
+<!-- MAPS, NOTES IMAGES -->
+<div class="row justify-content-around">
+    <div class="col-3">
+        <button id="mapBtn" class="btn btn-block btn-info border border-white text-center font-weight-bold my-2 mx-auto" data-toggle="modal" data-target="#gameMapModal" type="button">MAP</button>
+    </div>
+    <div class="col-3">
+        <button id="notesBtn" class="btn btn-block btn-light border border-dark text-center font-weight-bold my-2 mx-auto" data-toggle="modal" data-target="#notesModal" type="button">NOTES</button>
+    </div>
+    <div class="col-3">
+        <button id="pictureBtn" class="btn btn-block btn-info border border-white text-center font-weight-bold my-2 mx-auto" data-toggle="modal" data-target="#gamePicModal" type="button">PIC</button>
+    </div>
+</div>
+
+<!-- CHAT AREA -->
+<div class="row border border-dark rounded">
+    <div class="col-12 border border-dark overflow-auto" id="gameChatLogArea">
+        <ul id="gameChatLog"></ul>
+    </div>
+</div>
+
+<div class="row mt-2">
+    <div class="col-9 col-lg-10">
+        <div class="input-group my-2">
+            <input id="gameChatInput" class="form-control px-2 py-0" type="text" />
+        </div>
+    </div>
+    <div class="col-3 col-lg-2 my-2">
+        <button id="sendGameMsgBtn" class="btn btn-block btn-success font-weight-bold">SEND</button>
+    </div>
+</div>
+
+<!-- PLAYER AREA -->
+<div class="row justify-content-around">
+    <div class="d-none d-md-block col-md-2">
+        <img src="~/Content/Images/Graffiti/Player-white-500x150.png" class="img-fluid mx-auto d-block mh-5" />
+    </div>
+    <div class="d-none d-md-block col-md-2">
+        <img src="~/Content/Images/Graffiti/character-red-500x150.png" class="img-fluid mx-auto d-block mh-5" />
+    </div>
+    <div class="d-none d-md-block col-md-2">
+        <img src="~/Content/Images/Graffiti/IDMarks-black-500x150.png" class="img-fluid mx-auto d-block mh-5" />
+    </div>
+    <div class="d-none d-md-block col-md-2">
+        <img src="~/Content/Images/Graffiti/exp-red-500x150.png" class="img-fluid mx-auto d-block mh-5" />
+    </div>
+    <div class="d-none d-md-block col-md-2"></div>
+</div>
+
+<div id="characterList" class="row bg-black justify-content-around h-40"></div>
+
+@section Scripts
+{
+    <script src="@Url.Content("~/Scripts/jquery.signalR-2.4.2.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Custom/SignalR-Game.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/signalr/hubs")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Custom/Tell.js")" type="text/javascript"></script>
+}

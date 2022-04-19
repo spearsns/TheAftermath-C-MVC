@@ -1,0 +1,482 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AftermathDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Ability">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Guid" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Effects" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Requirements" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Cost" Type="Int16" />
+    <Property Name="Disabled" Type="Boolean" Nullable="false" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="CharacterAbilities" Relationship="Self.FK_CharacterAbilities_Abilities" FromRole="Abilities" ToRole="CharacterAbilities" />
+  </EntityType>
+  <EntityType Name="Account">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Guid" Nullable="false" />
+    <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PictureLoc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="AccountStatus" Relationship="Self.FK_AccountStatus_Accounts" FromRole="Accounts" ToRole="AccountStatus" />
+    <NavigationProperty Name="Characters" Relationship="Self.FK_Characters_Accounts" FromRole="Accounts" ToRole="Characters" />
+  </EntityType>
+  <EntityType Name="AccountStatu">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Guid" Nullable="false" />
+    <Property Name="AccountID" Type="Guid" Nullable="false" />
+    <Property Name="Active" Type="Boolean" Nullable="false" />
+    <Property Name="Admin" Type="Boolean" Nullable="false" />
+    <Property Name="Play" Type="Boolean" Nullable="false" />
+    <Property Name="Tell" Type="Boolean" Nullable="false" />
+    <Property Name="CampaignID" Type="Guid" />
+    <Property Name="CharacterID" Type="Guid" />
+    <Property Name="Timestamp" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="Account" Relationship="Self.FK_AccountStatus_Accounts" FromRole="AccountStatus" ToRole="Accounts" />
+    <NavigationProperty Name="Campaign" Relationship="Self.FK_AccountStatus_Campaigns" FromRole="AccountStatus" ToRole="Campaigns" />
+    <NavigationProperty Name="Character" Relationship="Self.FK_AccountStatus_Characters" FromRole="AccountStatus" ToRole="Characters" />
+  </EntityType>
+  <EntityType Name="Attribute">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Guid" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="CharacterAttributes" Relationship="Self.FK_CharacterAttributes_Attributes" FromRole="Attributes" ToRole="CharacterAttributes" />
+  </EntityType>
+  <EntityType Name="Background">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Guid" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Training" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Skills" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Combat" Type="Byte" />
+    <Property Name="Construction" Type="Byte" />
+    <Property Name="Covert" Type="Byte" />
+    <Property Name="Craftsman" Type="Byte" />
+    <Property Name="Social" Type="Byte" />
+    <Property Name="Science" Type="Byte" />
+    <Property Name="Survival" Type="Byte" />
+    <Property Name="Technology" Type="Byte" />
+    <Property Name="Transportation" Type="Byte" />
+    <Property Name="Disabled" Type="Boolean" Nullable="false" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="Characters" Relationship="Self.FK_Characters_Background" FromRole="Backgrounds" ToRole="Characters" />
+  </EntityType>
+  <EntityType Name="Campaign">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Guid" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Season" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+    <Property Name="Year" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="AdminPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PlayerPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="TellActive" Type="Boolean" Nullable="false" />
+    <Property Name="Locked" Type="Boolean" Nullable="false" />
+    <Property Name="Closed" Type="Boolean" Nullable="false" />
+    <Property Name="ConferenceLink" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="MapLoc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="PictureLoc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="AccountStatus" Relationship="Self.FK_AccountStatus_Campaigns" FromRole="Campaigns" ToRole="AccountStatus" />
+  </EntityType>
+  <EntityType Name="CharacterAbility">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Guid" Nullable="false" />
+    <Property Name="CharacterID" Type="Guid" Nullable="false" />
+    <Property Name="AbilityID" Type="Guid" Nullable="false" />
+    <NavigationProperty Name="Ability" Relationship="Self.FK_CharacterAbilities_Abilities" FromRole="CharacterAbilities" ToRole="Abilities" />
+    <NavigationProperty Name="Character" Relationship="Self.FK_CharacterAbilities_Characters" FromRole="CharacterAbilities" ToRole="Characters" />
+  </EntityType>
+  <EntityType Name="CharacterAttribute">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Guid" Nullable="false" />
+    <Property Name="CharacterID" Type="Guid" Nullable="false" />
+    <Property Name="AttributeID" Type="Guid" Nullable="false" />
+    <Property Name="Value" Type="Byte" Nullable="false" />
+    <NavigationProperty Name="Attribute" Relationship="Self.FK_CharacterAttributes_Attributes" FromRole="CharacterAttributes" ToRole="Attributes" />
+    <NavigationProperty Name="Character" Relationship="Self.FK_CharacterAttributes_Characters" FromRole="CharacterAttributes" ToRole="Characters" />
+  </EntityType>
+  <EntityType Name="CharacterExp">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Guid" Nullable="false" />
+    <Property Name="CharacterID" Type="Guid" Nullable="false" />
+    <Property Name="TotalExp" Type="Int32" Nullable="false" />
+    <Property Name="AvailableExp" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Character" Relationship="Self.FK_CharacterExps_Characters" FromRole="CharacterExps" ToRole="Characters" />
+  </EntityType>
+  <EntityType Name="Character">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Guid" Nullable="false" />
+    <Property Name="AccountID" Type="Guid" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Birthdate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Sex" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Height" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Ethnicity" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Habitat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="History" Type="Guid" Nullable="false" />
+    <Property Name="Strategy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Background" Type="Guid" Nullable="false" />
+    <Property Name="PictureLoc" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="Account" Relationship="Self.FK_Characters_Accounts" FromRole="Characters" ToRole="Accounts" />
+    <NavigationProperty Name="AccountStatus" Relationship="Self.FK_AccountStatus_Characters" FromRole="Characters" ToRole="AccountStatus" />
+    <NavigationProperty Name="Background1" Relationship="Self.FK_Characters_Background" FromRole="Characters" ToRole="Backgrounds" />
+    <NavigationProperty Name="CharacterAbilities" Relationship="Self.FK_CharacterAbilities_Characters" FromRole="Characters" ToRole="CharacterAbilities" />
+    <NavigationProperty Name="CharacterAttributes" Relationship="Self.FK_CharacterAttributes_Characters" FromRole="Characters" ToRole="CharacterAttributes" />
+    <NavigationProperty Name="CharacterExps" Relationship="Self.FK_CharacterExps_Characters" FromRole="Characters" ToRole="CharacterExps" />
+    <NavigationProperty Name="History1" Relationship="Self.FK_Characters_History" FromRole="Characters" ToRole="History" />
+    <NavigationProperty Name="CharacterSkills" Relationship="Self.FK_CharacterSkills_Characters" FromRole="Characters" ToRole="CharacterSkills" />
+    <NavigationProperty Name="IDMarks" Relationship="Self.FK_IDMarks_Characters" FromRole="Characters" ToRole="IDMarks" />
+  </EntityType>
+  <EntityType Name="CharacterSkill">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Guid" Nullable="false" />
+    <Property Name="CharacterID" Type="Guid" Nullable="false" />
+    <Property Name="SkillID" Type="Guid" Nullable="false" />
+    <Property Name="Value" Type="Int16" Nullable="false" />
+    <NavigationProperty Name="Character" Relationship="Self.FK_CharacterSkills_Characters" FromRole="CharacterSkills" ToRole="Characters" />
+    <NavigationProperty Name="Skill" Relationship="Self.FK_CharacterSkills_Skills" FromRole="CharacterSkills" ToRole="Skills" />
+  </EntityType>
+  <EntityType Name="History">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Guid" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Training" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Skills" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Disabled" Type="Boolean" Nullable="false" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="Characters" Relationship="Self.FK_Characters_History" FromRole="History" ToRole="Characters" />
+  </EntityType>
+  <EntityType Name="IDMark">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Guid" Nullable="false" />
+    <Property Name="CharacterID" Type="Guid" Nullable="false" />
+    <Property Name="EyeColor" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+    <Property Name="HairColor" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="HairStyle" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="FacialHair" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Head" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Face" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Neck" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="LeftShoulder" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="RightShoulder" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="LeftRibs" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="RightRibs" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="LeftBicep" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="RightBicep" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="LowerBack" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Stomach" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="LeftForearm" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="RightForearm" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Rear" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Groin" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="LeftHand" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="RightHand" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="LeftThigh" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="RightThigh" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="LeftCalf" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="RightCalf" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="LeftFoot" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="RightFoot" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Character" Relationship="Self.FK_IDMarks_Characters" FromRole="IDMarks" ToRole="Characters" />
+  </EntityType>
+  <EntityType Name="Skill">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Guid" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ShortTxt" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="LongTxt" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Class" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Formula" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Requirements" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Disabled" Type="Boolean" Nullable="false" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="CharacterSkills" Relationship="Self.FK_CharacterSkills_Skills" FromRole="Skills" ToRole="CharacterSkills" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_CharacterAbilities_Abilities">
+    <End Role="Abilities" Type="Self.Ability" Multiplicity="1" />
+    <End Role="CharacterAbilities" Type="Self.CharacterAbility" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Abilities">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="CharacterAbilities">
+        <PropertyRef Name="AbilityID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AccountStatus_Accounts">
+    <End Role="Accounts" Type="Self.Account" Multiplicity="1" />
+    <End Role="AccountStatus" Type="Self.AccountStatu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Accounts">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="AccountStatus">
+        <PropertyRef Name="AccountID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Characters_Accounts">
+    <End Role="Accounts" Type="Self.Account" Multiplicity="1" />
+    <End Role="Characters" Type="Self.Character" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Accounts">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Characters">
+        <PropertyRef Name="AccountID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AccountStatus_Campaigns">
+    <End Role="Campaigns" Type="Self.Campaign" Multiplicity="0..1" />
+    <End Role="AccountStatus" Type="Self.AccountStatu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Campaigns">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="AccountStatus">
+        <PropertyRef Name="CampaignID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AccountStatus_Characters">
+    <End Role="Characters" Type="Self.Character" Multiplicity="0..1" />
+    <End Role="AccountStatus" Type="Self.AccountStatu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Characters">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="AccountStatus">
+        <PropertyRef Name="CharacterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CharacterAttributes_Attributes">
+    <End Role="Attributes" Type="Self.Attribute" Multiplicity="1" />
+    <End Role="CharacterAttributes" Type="Self.CharacterAttribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Attributes">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="CharacterAttributes">
+        <PropertyRef Name="AttributeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Characters_Background">
+    <End Role="Backgrounds" Type="Self.Background" Multiplicity="1" />
+    <End Role="Characters" Type="Self.Character" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Backgrounds">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Characters">
+        <PropertyRef Name="Background" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CharacterAbilities_Characters">
+    <End Role="Characters" Type="Self.Character" Multiplicity="1" />
+    <End Role="CharacterAbilities" Type="Self.CharacterAbility" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Characters">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="CharacterAbilities">
+        <PropertyRef Name="CharacterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CharacterAttributes_Characters">
+    <End Role="Characters" Type="Self.Character" Multiplicity="1" />
+    <End Role="CharacterAttributes" Type="Self.CharacterAttribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Characters">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="CharacterAttributes">
+        <PropertyRef Name="CharacterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CharacterExps_Characters">
+    <End Role="Characters" Type="Self.Character" Multiplicity="1" />
+    <End Role="CharacterExps" Type="Self.CharacterExp" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Characters">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="CharacterExps">
+        <PropertyRef Name="CharacterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Characters_History">
+    <End Role="History" Type="Self.History" Multiplicity="1" />
+    <End Role="Characters" Type="Self.Character" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="History">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Characters">
+        <PropertyRef Name="History" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CharacterSkills_Characters">
+    <End Role="Characters" Type="Self.Character" Multiplicity="1" />
+    <End Role="CharacterSkills" Type="Self.CharacterSkill" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Characters">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="CharacterSkills">
+        <PropertyRef Name="CharacterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_IDMarks_Characters">
+    <End Role="Characters" Type="Self.Character" Multiplicity="1" />
+    <End Role="IDMarks" Type="Self.IDMark" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Characters">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="IDMarks">
+        <PropertyRef Name="CharacterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CharacterSkills_Skills">
+    <End Role="Skills" Type="Self.Skill" Multiplicity="1" />
+    <End Role="CharacterSkills" Type="Self.CharacterSkill" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Skills">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="CharacterSkills">
+        <PropertyRef Name="SkillID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="AftermathDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Abilities" EntityType="Self.Ability" />
+    <EntitySet Name="Accounts" EntityType="Self.Account" />
+    <EntitySet Name="AccountStatus" EntityType="Self.AccountStatu" />
+    <EntitySet Name="Attributes" EntityType="Self.Attribute" />
+    <EntitySet Name="Backgrounds" EntityType="Self.Background" />
+    <EntitySet Name="Campaigns" EntityType="Self.Campaign" />
+    <EntitySet Name="CharacterAbilities" EntityType="Self.CharacterAbility" />
+    <EntitySet Name="CharacterAttributes" EntityType="Self.CharacterAttribute" />
+    <EntitySet Name="CharacterExps" EntityType="Self.CharacterExp" />
+    <EntitySet Name="Characters" EntityType="Self.Character" />
+    <EntitySet Name="CharacterSkills" EntityType="Self.CharacterSkill" />
+    <EntitySet Name="Histories" EntityType="Self.History" />
+    <EntitySet Name="IDMarks" EntityType="Self.IDMark" />
+    <EntitySet Name="Skills" EntityType="Self.Skill" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <AssociationSet Name="FK_CharacterAbilities_Abilities" Association="Self.FK_CharacterAbilities_Abilities">
+      <End Role="Abilities" EntitySet="Abilities" />
+      <End Role="CharacterAbilities" EntitySet="CharacterAbilities" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AccountStatus_Accounts" Association="Self.FK_AccountStatus_Accounts">
+      <End Role="Accounts" EntitySet="Accounts" />
+      <End Role="AccountStatus" EntitySet="AccountStatus" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Characters_Accounts" Association="Self.FK_Characters_Accounts">
+      <End Role="Accounts" EntitySet="Accounts" />
+      <End Role="Characters" EntitySet="Characters" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AccountStatus_Campaigns" Association="Self.FK_AccountStatus_Campaigns">
+      <End Role="Campaigns" EntitySet="Campaigns" />
+      <End Role="AccountStatus" EntitySet="AccountStatus" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AccountStatus_Characters" Association="Self.FK_AccountStatus_Characters">
+      <End Role="Characters" EntitySet="Characters" />
+      <End Role="AccountStatus" EntitySet="AccountStatus" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CharacterAttributes_Attributes" Association="Self.FK_CharacterAttributes_Attributes">
+      <End Role="Attributes" EntitySet="Attributes" />
+      <End Role="CharacterAttributes" EntitySet="CharacterAttributes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Characters_Background" Association="Self.FK_Characters_Background">
+      <End Role="Backgrounds" EntitySet="Backgrounds" />
+      <End Role="Characters" EntitySet="Characters" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CharacterAbilities_Characters" Association="Self.FK_CharacterAbilities_Characters">
+      <End Role="Characters" EntitySet="Characters" />
+      <End Role="CharacterAbilities" EntitySet="CharacterAbilities" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CharacterAttributes_Characters" Association="Self.FK_CharacterAttributes_Characters">
+      <End Role="Characters" EntitySet="Characters" />
+      <End Role="CharacterAttributes" EntitySet="CharacterAttributes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CharacterExps_Characters" Association="Self.FK_CharacterExps_Characters">
+      <End Role="Characters" EntitySet="Characters" />
+      <End Role="CharacterExps" EntitySet="CharacterExps" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Characters_History" Association="Self.FK_Characters_History">
+      <End Role="History" EntitySet="Histories" />
+      <End Role="Characters" EntitySet="Characters" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CharacterSkills_Characters" Association="Self.FK_CharacterSkills_Characters">
+      <End Role="Characters" EntitySet="Characters" />
+      <End Role="CharacterSkills" EntitySet="CharacterSkills" />
+    </AssociationSet>
+    <AssociationSet Name="FK_IDMarks_Characters" Association="Self.FK_IDMarks_Characters">
+      <End Role="Characters" EntitySet="Characters" />
+      <End Role="IDMarks" EntitySet="IDMarks" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CharacterSkills_Skills" Association="Self.FK_CharacterSkills_Skills">
+      <End Role="Skills" EntitySet="Skills" />
+      <End Role="CharacterSkills" EntitySet="CharacterSkills" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
