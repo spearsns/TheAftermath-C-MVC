@@ -417,6 +417,7 @@
     <Content Include="Content\Images\Textures\darkScratch.jpg" />
     <Content Include="Content\Images\Textures\lightRust.jpg" />
     <Content Include="Content\Images\Textures\lightPatch.png" />
+    <Content Include="Content\AftermathIntro.mp4" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />

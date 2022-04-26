@@ -1,5 +1,9 @@
 ﻿$(document).ready(function () {
     var url = window.location.href;
+    $("#introModal").modal("show");
+    $("#introModal").on("hidden.bs.modal", function () {
+        $("#aftermathIntro")[0].pause();
+    });
         
     var username;
     var d = new Date();
@@ -34,7 +38,7 @@
 
     var transferCount = 0;
     var messageCount = 0;
-    var messageModals = 0;
+    var messageModals = 1;
     
     function getActiveList() {
         $.ajax({
