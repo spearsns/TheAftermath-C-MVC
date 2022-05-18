@@ -140,12 +140,13 @@ namespace TheAftermath_V2.Controllers
                     Password = input.Password,
                     CreateDate = DateTime.Now
                 };
+                db.SaveChanges();
 
                 var newRecord = new AccountStatu
                 {
                     ID = Guid.NewGuid(),
                     AccountID = accountData.ID,
-                    Active = true,
+                    Active = false,
                     Admin = false,
                     Play = false,
                     Tell = false,
@@ -153,10 +154,9 @@ namespace TheAftermath_V2.Controllers
                     CharacterID = null,
                     Timestamp = DateTime.Now
                 };
-                db.AccountStatus.Add(newRecord);
-                db.SaveChanges();
-
                 db.Accounts.Add(accountData);
+                db.AccountStatus.Add(newRecord);
+
                 db.SaveChanges();
                 ViewBag.ErrorMessage = "Registration Success";
                 return RedirectToAction("Login", "Home");

@@ -14,8 +14,13 @@
         username = $("#sessionUsername").html();
         updateStatus();
     }
-    else username = "Visitor [" + h + ":" + m + ":" + s + "]";
-
+    else {
+        username = "Visitor [" + h + ":" + m + ":" + s + "]";
+        $("#introModal").modal("show");
+        $("#introModal").on("hidden.bs.modal", function () {
+            $("#aftermathIntro")[0].pause();
+        });
+    }
     function updateStatus() {
         $.ajax({
             type: 'POST',
@@ -34,7 +39,7 @@
 
     var transferCount = 0;
     var messageCount = 0;
-    var messageModals = 0;
+    var messageModals = 1;
     
     function getActiveList() {
         $.ajax({

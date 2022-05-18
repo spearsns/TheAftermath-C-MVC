@@ -1,9 +1,5 @@
 ﻿$(document).ready(function () {
     var url = window.location.href;
-    $("#introModal").modal("show");
-    $("#introModal").on("hidden.bs.modal", function () {
-        $("#aftermathIntro")[0].pause();
-    });
         
     var username;
     var d = new Date();
@@ -18,8 +14,13 @@
         username = $("#sessionUsername").html();
         updateStatus();
     }
-    else username = "Visitor [" + h + ":" + m + ":" + s + "]";
-
+    else {
+        username = "Visitor [" + h + ":" + m + ":" + s + "]";
+        $("#introModal").modal("show");
+        $("#introModal").on("hidden.bs.modal", function () {
+            $("#aftermathIntro")[0].pause();
+        });
+    }
     function updateStatus() {
         $.ajax({
             type: 'POST',
