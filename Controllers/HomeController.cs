@@ -209,7 +209,7 @@ namespace TheAftermath_V2.Controllers
         // IMPORTANT -- CHANGE CREDENTIALS BEFORE LAUNCH !!!
         private void SendEmail(string emailAddress, string body, string subject)
         {
-            using (MailMessage mm = new MailMessage("spears.ns@gmail.com", emailAddress))
+            using (MailMessage mm = new MailMessage("****", emailAddress))
             {
                 mm.Subject = subject;
                 mm.Body = body;
@@ -218,7 +218,7 @@ namespace TheAftermath_V2.Controllers
                 SmtpClient smtp = new SmtpClient();
                 smtp.Host = "smtp.gmail.com";
                 smtp.EnableSsl = true;
-                NetworkCredential NetworkCred = new NetworkCredential("spears.ns@gmail.com", "C0ll3ct1v3!nt3l@G00gl3");
+                NetworkCredential NetworkCred = new NetworkCredential("****", "****");
                 smtp.UseDefaultCredentials = true;
                 smtp.Credentials = NetworkCred;
                 smtp.Port = 587;
