@@ -297,6 +297,10 @@ namespace TheAftermath_V2.Controllers
         {
             return View();
         }
+        public ActionResult Plotlines()
+        {
+            return View();
+        }
         public ActionResult Backstory()
         {
             return View();
